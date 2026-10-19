@@ -5,10 +5,6 @@ import { getStudioSaveErrorMessage } from "./studioSaveDiagnostics";
 
 vi.mock("../components/editor/manualEditingAvailability", () => ({
   STUDIO_SDK_CUTOVER_ENABLED: true,
-  STUDIO_SDK_RESOLVER_SHADOW_ENABLED: false,
-}));
-vi.mock("./studioTelemetry", () => ({
-  trackStudioEvent: vi.fn(),
 }));
 
 const OFFSET_LINKED_HTML = `

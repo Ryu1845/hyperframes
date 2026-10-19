@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, vi } from "vitest";
+import { describe, it, expect, beforeEach } from "vitest";
 import type { GsapAnimation } from "@hyperframes/core/gsap-parser";
 import { usePlayerStore, type KeyframeCacheEntry } from "../player/store/playerStore";
 import {
@@ -8,9 +8,6 @@ import {
   replaceKeyframeCacheForFile,
   updateKeyframeCacheFromParsed,
 } from "./gsapKeyframeCacheHelpers";
-import { trackStudioEvent } from "../utils/studioTelemetry";
-
-vi.mock("../utils/studioTelemetry", () => ({ trackStudioEvent: vi.fn() }));
 
 const entry = (): KeyframeCacheEntry => ({
   format: "percentage",
@@ -34,7 +31,6 @@ const animWithKeyframes = (id: string): GsapAnimation => ({
 
 beforeEach(() => {
   usePlayerStore.setState({ keyframeCache: new Map(), gsapAnimations: new Map(), elements: [] });
-  vi.mocked(trackStudioEvent).mockClear();
 });
 
 describe("non-string cache keys", () => {
@@ -46,25 +42,6 @@ describe("non-string cache keys", () => {
 
   it("keeps every written key a string", () => {
     expect(elementCacheKeys("comp.html", badId).every((k) => typeof k === "string")).toBe(true);
-  });
-
-  it("reports the offending value instead of swallowing it", () => {
-    elementCacheKeys("comp.html", badId);
-
-    expect(trackStudioEvent).toHaveBeenCalledWith(
-      "cache_key_non_string",
-      expect.objectContaining({
-        value_type: "number",
-        constructor_name: "Number",
-        source_file: "comp.html",
-      }),
-    );
-  });
-
-  it("stays silent on the normal string path", () => {
-    elementCacheKeys("comp.html", "box");
-
-    expect(trackStudioEvent).not.toHaveBeenCalled();
   });
 
   it("survives a prune after a write with a non-string id", () => {

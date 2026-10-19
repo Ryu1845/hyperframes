@@ -130,8 +130,8 @@ describe("resolveMediaPreviewUrl", () => {
   });
 
   it("percent-encodes parentheses in filenames", () => {
-    expect(resolveMediaPreviewUrl("assets/heygen-symbol-blue-logo (2).svg", "proj-1")).toBe(
-      "/api/projects/proj-1/preview/assets/heygen-symbol-blue-logo%20(2).svg",
+    expect(resolveMediaPreviewUrl("assets/brand-symbol-blue-logo (2).svg", "proj-1")).toBe(
+      "/api/projects/proj-1/preview/assets/brand-symbol-blue-logo%20(2).svg",
     );
   });
 

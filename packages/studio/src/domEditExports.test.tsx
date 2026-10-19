@@ -107,11 +107,6 @@ describe("DOM editing package exports", () => {
     await act(async () => {
       expect(zOrder?.apply(sel, toFront)).toBe(true);
     });
-    expect(trackStudioEvent).toHaveBeenCalledWith("feature_used", {
-      feature: "z_order",
-      surface: "preview",
-      method: "button",
-    });
     expect(commitZ).toHaveBeenCalledTimes(1);
     expect(commitZ).toHaveBeenCalledWith(
       expect.arrayContaining([expect.objectContaining({ element: back, id: "back" })]),
@@ -164,6 +159,3 @@ describe("DOM editing package exports", () => {
     await act(async () => root.unmount());
   });
 });
-
-vi.mock("./utils/studioTelemetry", () => ({ trackStudioEvent: vi.fn() }));
-import { trackStudioEvent } from "./utils/studioTelemetry";

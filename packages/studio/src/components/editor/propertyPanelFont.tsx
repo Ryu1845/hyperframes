@@ -18,7 +18,6 @@ import {
   type FontOption,
   type LocalFontData,
 } from "./propertyPanelHelpers";
-import { useTrackDesignInput } from "../../contexts/DesignPanelInputContext";
 import { runWhenInputIdle } from "./overlayFrameLoop";
 import { studioApiFetch } from "../../utils/studioApiFetch";
 
@@ -194,7 +193,6 @@ export function FontFamilyField({
   onImportFonts?: (files: FileList | File[]) => Promise<ImportedFontAsset[]>;
   onCommit: (nextValue: string) => void;
 }) {
-  const track = useTrackDesignInput();
   const currentFamily = primaryFontFamily(value);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -211,7 +209,6 @@ export function FontFamilyField({
   const canQueryLocalFonts =
     typeof window !== "undefined" && typeof window.queryLocalFonts === "function";
   const commitFontFamily = (nextValue: string) => {
-    if (nextValue !== value) track("select", "Font family");
     onCommit(nextValue);
   };
 

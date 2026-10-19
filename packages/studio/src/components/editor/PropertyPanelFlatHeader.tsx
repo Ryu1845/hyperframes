@@ -1,5 +1,4 @@
 import { HiddenToggleIcon, hiddenToggleVerb } from "../../player/components/hiddenToggle";
-import { useTrackDesignInput } from "../../contexts/DesignPanelInputContext";
 import { ClipboardList, Film, Square, Type, X } from "../../icons/SystemIcons";
 
 const ICON_BY_KIND = { text: Type, media: Film, other: Square } as const;
@@ -34,7 +33,6 @@ export function PropertyPanelFlatHeader({
   onUngroup?: () => void;
   showUngroup: boolean;
 }) {
-  const track = useTrackDesignInput();
   const Icon = ICON_BY_KIND[elementKind];
   const visibilityLabel = `${hiddenToggleVerb(asMute, hidden)} element`;
 
@@ -56,7 +54,6 @@ export function PropertyPanelFlatHeader({
             aria-label="Ungroup"
             title="Ungroup (⌘⇧G)"
             onClick={() => {
-              track("button", "Ungroup");
               onUngroup?.();
             }}
           >
@@ -79,7 +76,6 @@ export function PropertyPanelFlatHeader({
             aria-label={visibilityLabel}
             title={visibilityLabel}
             onClick={() => {
-              track("toggle", "Element visibility");
               onToggleHidden();
             }}
           >
@@ -91,7 +87,6 @@ export function PropertyPanelFlatHeader({
           aria-label="Copy element info to clipboard"
           title={copied ? "Copied!" : "Copy element info for any AI agent"}
           onClick={() => {
-            track("button", "Copy element info");
             onCopy();
           }}
           className={copied ? "text-accent-ink" : undefined}
@@ -102,7 +97,6 @@ export function PropertyPanelFlatHeader({
           type="button"
           aria-label="Clear selection"
           onClick={() => {
-            track("button", "Clear selection");
             onClear();
           }}
         >

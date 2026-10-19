@@ -1,6 +1,5 @@
 import type { PropertyPanelProps } from "./propertyPanelTypes";
 import { useEffect, useState } from "react";
-import { useTrackDesignInput } from "../../contexts/DesignPanelInputContext";
 import { Plus, X } from "../../icons/SystemIcons";
 import { isTextEditableSelection, type DomEditSelection } from "./domEditing";
 import type { ImportedFontAsset } from "./fontAssets";
@@ -60,7 +59,6 @@ function FlatTextFieldEditor({
   onPreviewTextFieldStyle?: (fieldKey: string, property: string, value: string) => void;
   autoFocus?: boolean;
 }) {
-  const track = useTrackDesignInput();
   const weight = getTextStyleValue(field, styles, "font-weight", "400");
   const weightOptions = detectAvailableWeights(
     field.computedStyles["font-family"] || styles["font-family"] || "",
@@ -119,7 +117,6 @@ function FlatTextFieldEditor({
           <select
             value={weight}
             onChange={(e) => {
-              track("select", "Weight");
               onSetTextFieldStyle(field.key, "font-weight", e.target.value);
             }}
             className={`appearance-none bg-transparent text-right font-mono text-[11px] outline-hidden ${
@@ -256,7 +253,6 @@ export function FlatTextSection({
   | "onAddTextField"
   | "onRemoveTextField"
 >) {
-  const track = useTrackDesignInput();
   const [activeFieldKey, setActiveFieldKey] = useState<string | null>(
     element.textFields[0]?.key ?? null,
   );
@@ -331,7 +327,6 @@ export function FlatTextSection({
       <button
         type="button"
         onClick={() => {
-          track("button", "Add text field");
           void Promise.resolve(onAddTextField(activeField.key)).then((nextKey) => {
             if (!nextKey) return;
             setAutoFocusFieldKey(nextKey);
@@ -370,7 +365,6 @@ export function FlatTextLayerList({
   onAdd: () => void;
   onRemove: (fieldKey: string) => void;
 }) {
-  const track = useTrackDesignInput();
   return (
     <div className="mb-2 border-l-2 border-panel-border-input py-0.5 pl-[10px]">
       <div className="mb-1.5 text-[9px] font-semibold uppercase tracking-[0.12em] text-panel-text-5">
@@ -406,7 +400,6 @@ export function FlatTextLayerList({
                   aria-label="Remove text field"
                   onClick={(e) => {
                     e.stopPropagation();
-                    track("button", "Remove text field");
                     onRemove(field.key);
                   }}
                   className="shrink-0 text-panel-text-4 hover:text-panel-text-1"
@@ -422,7 +415,6 @@ export function FlatTextLayerList({
         type="button"
         data-flat-text-layer-add="true"
         onClick={() => {
-          track("button", "Add text field");
           onAdd();
         }}
         className="mt-1 flex items-center gap-[5px] text-[10px] text-panel-text-4 hover:text-panel-text-2"

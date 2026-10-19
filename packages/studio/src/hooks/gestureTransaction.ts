@@ -3,7 +3,6 @@ import type {
   CommitMutationCall,
   CommitMutationOptions,
 } from "./gsapScriptCommitTypes";
-import { trackStudioEvent } from "../utils/studioTelemetry";
 import { makeStudioDebugLogger } from "../utils/studioDebug";
 
 type PixelRect = Pick<DOMRect, "x" | "y" | "width" | "height">;
@@ -62,10 +61,6 @@ function exceedsPixelTolerance(delta: PixelRect): boolean {
   return Object.values(delta).some((value) => Math.abs(value) > 1);
 }
 
-function roundToOneDecimal(value: number): number {
-  return Math.round(value * 10) / 10;
-}
-
 type BufferedCommit = CommitMutationCall & { dispatch: CommitMutation };
 
 function mergeTransactionOptions(calls: BufferedCommit[]): CommitMutationOptions {
@@ -76,22 +71,13 @@ function mergeTransactionOptions(calls: BufferedCommit[]): CommitMutationOptions
   return reloadCall ? { ...options, softReload: true } : { ...options, skipReload: true };
 }
 
-/**
- * Dispatch a transaction's buffered commits and return the number of preview
- * reloads that ACTUALLY happened — a batch collapses every buffered softReload
- * into one reload, so reload telemetry reflects the real cost, not the count of
- * softReload requests.
- */
-function reloadsRequested(calls: BufferedCommit[]): number {
-  return calls.filter(({ options }) => options.softReload).length;
-}
-
-async function dispatchBufferedCommits(calls: BufferedCommit[]): Promise<number> {
+/** Dispatch a transaction's buffered commits, as one batch when they share a writer and file. */
+async function dispatchBufferedCommits(calls: BufferedCommit[]): Promise<void> {
   const first = calls[0];
-  if (!first) return 0;
+  if (!first) return;
   if (calls.length === 1) {
     await first.dispatch(first.selection, first.mutation, first.options);
-    return reloadsRequested(calls);
+    return;
   }
   const canBatch = calls.every(
     ({ dispatch, selection }) =>
@@ -102,13 +88,11 @@ async function dispatchBufferedCommits(calls: BufferedCommit[]): Promise<number>
       calls.map(({ selection, mutation, options }) => ({ selection, mutation, options })),
       mergeTransactionOptions(calls),
     );
-    // One server write, one reload — the reload count collapses with the batch.
-    return reloadsRequested(calls) > 0 ? 1 : 0;
+    return;
   }
   for (const { dispatch, selection, mutation, options } of calls) {
     await dispatch(selection, mutation, options);
   }
-  return reloadsRequested(calls);
 }
 
 const logCommit = makeStudioDebugLogger("commit");
@@ -118,10 +102,7 @@ const logCommit = makeStudioDebugLogger("commit");
  * `settle` deliberately runs before the first promise is created or awaited.
  */
 export function runGestureTransaction(tx: GestureTransaction): Promise<void> {
-  const startedAt = performance.now();
   const coalesceKey = `tx:${tx.label}:${++transactionCounter}`;
-  let mutationCount = 0;
-  let reloadCount = 0;
   const bufferedCommits: BufferedCommit[] = [];
   logCommit("start", { label: tx.label, coalesceKey });
   tx.settle();
@@ -132,7 +113,6 @@ export function runGestureTransaction(tx: GestureTransaction): Promise<void> {
   const before = !tx.skipPixelAssert ? measure() : null;
   const commit: TxCommit = (commitMutation) => {
     const wrapped: CommitMutation = (selection, mutation, options) => {
-      mutationCount += 1;
       bufferedCommits.push({
         dispatch: commitMutation,
         selection,
@@ -148,43 +128,19 @@ export function runGestureTransaction(tx: GestureTransaction): Promise<void> {
   return tx
     .persist(commit, coalesceKey)
     .then(async () => {
-      reloadCount = await dispatchBufferedCommits(bufferedCommits);
+      await dispatchBufferedCommits(bufferedCommits);
       await tx.afterBufferedCommitsSaved?.();
-      const durationMs = Math.round(performance.now() - startedAt);
       logCommit("persisted", { label: tx.label, coalesceKey });
       if (before) {
         const after = measure();
         const delta = pixelDelta(before, after);
         if (exceedsPixelTolerance(delta)) {
           logCommit("persist-changed-pixels", { label: tx.label, before, after, delta });
-          trackStudioEvent("commit_invariant_violation", {
-            label: tx.label,
-            delta_x: roundToOneDecimal(delta.x),
-            delta_y: roundToOneDecimal(delta.y),
-            delta_w: roundToOneDecimal(delta.width),
-            delta_h: roundToOneDecimal(delta.height),
-            mutation_count: mutationCount,
-            reload_count: reloadCount,
-            duration_ms: durationMs,
-          });
         }
       }
-      trackStudioEvent("commit_transaction", {
-        label: tx.label,
-        mutation_count: mutationCount,
-        reload_count: reloadCount,
-        duration_ms: durationMs,
-        pixel_asserted: before !== null,
-      });
     })
     .catch((error: unknown) => {
       tx.restore();
-      trackStudioEvent("commit_transaction_failed", {
-        label: tx.label,
-        mutation_count: mutationCount,
-        error_name: error instanceof Error ? error.name : "unknown",
-        restore_ran: true,
-      });
       logCommit("restore", { label: tx.label, coalesceKey });
       throw error;
     });

@@ -10,8 +10,6 @@ import {
   settleNestedReads,
 } from "../utils/gsapSoftReload";
 import type { SoftReloadResult } from "../utils/gsapSoftReload";
-import { trackStudioEvent } from "../utils/studioTelemetry";
-import { trackKeyframeCommit } from "../utils/keyframeUsage";
 import { serializeStudioFileMutation } from "../utils/studioFileMutationCoordinator";
 import { trackedStudioEdit } from "../utils/studioPendingEdits";
 import {
@@ -40,10 +38,7 @@ import { useGsapAnimationOps } from "./useGsapAnimationOps";
 import { useGsapArcPathOps } from "./useGsapArcPathOps";
 import { useGsapKeyframeOps } from "./useGsapKeyframeOps";
 import { useGsapPropertyDebounce } from "./useGsapPropertyDebounce";
-import {
-  useGsapSaveFailureTelemetry,
-  useSafeGsapCommitMutation,
-} from "./useSafeGsapCommitMutation";
+import { useSafeGsapCommitMutation } from "./useSafeGsapCommitMutation";
 import { requestGsapMutation } from "./gsapMutationClient";
 import { whileScriptWrites } from "../player/previewReloading";
 
@@ -196,8 +191,7 @@ function syncCommittedGsapMutation({
 
 /**
  * Apply a soft reload and enforce the U4 invariant via the richer
- * `SoftReloadResult`, with telemetry on every non-success path so the invariant
- * is observable in production, not just asserted in tests:
+ * `SoftReloadResult`:
  *
  * - `"cannot-soft-reload"` (PERMANENT/STRUCTURAL: no gsap runtime, no rebind
  *   hook, no scopable key, no script element, or the sync re-run threw) →
@@ -212,7 +206,6 @@ function softReloadOrEscalate(
   iframe: HTMLIFrameElement | null,
   scriptText: string,
   reloadPreview: () => void,
-  origin: "preview_sync" | "sdk_refresh",
   authoredHtml?: string,
   nestedFiles?: Map<string, string> | null,
 ): void {
@@ -225,12 +218,6 @@ function softReloadOrEscalate(
     currentTimeOverride: currentTime,
     authoredHtml,
     nestedFiles,
-  });
-  if (result === "applied") return;
-  trackStudioEvent("gsap_soft_reload_outcome", {
-    origin,
-    result,
-    escalated: result === "cannot-soft-reload",
   });
   // PERMANENT failure: the preview can't be soft-updated → full reload. TRANSIENT
   // "verify-failed" is suppressed (live state is correct).
@@ -266,12 +253,8 @@ export function applyPreviewSync(
           deferSeek || index < patches.length - 1,
         ),
     );
-    if (missed) {
-      // The instant path couldn't patch in place — record the fallback so we can
-      // track how often the fast path misses before the soft/full reload below.
-      trackStudioEvent("gsap_instant_patch_fallback", { selector: missed.selector });
-      needsFallback = true;
-    }
+    // The instant path couldn't patch in place — fall back to the soft/full reload below.
+    if (missed) needsFallback = true;
     // Patched in place — elements are already correct on screen; no reload needed
     // unless an earlier deferred batch left one member unpatched.
     if (!needsFallback) return;
@@ -294,7 +277,6 @@ export function applyPreviewSync(
       iframe,
       result.scriptText,
       reloadPreview,
-      "preview_sync",
       result.after ?? undefined,
       nestedFiles,
     );
@@ -379,7 +361,6 @@ export function useGsapScriptCommits({ projectIdRef, activeCompPath, previewIfra
       mutateGsapScript(pid, "gsap-mutations", targetPath, mutation),
     );
     if (!result) return;
-    trackKeyframeCommit([mutation], result, options);
     options.onResult?.(result);
     await finalizeSuccessfulMutation(pid, compositionPath, selection, mutation, targetPath, result, options);
   }), [showToast, finalizeSuccessfulMutation]);
@@ -393,7 +374,6 @@ export function useGsapScriptCommits({ projectIdRef, activeCompPath, previewIfra
       mutateGsapScript(pid, "gsap-mutations-batch", targetPath, { mutations }),
     );
     if (!result) return;
-    trackKeyframeCommit(mutations, result, options, calls.map((call) => call.options));
     options.onResult?.(result);
     // The batch wrote every call, so patch in place only when every call brought a patch; one
     // without (a resize's size write) needs the reload, or the preview keeps the old value.
@@ -444,20 +424,13 @@ export function useGsapScriptCommits({ projectIdRef, activeCompPath, previewIfra
     });
     return commit;
   }, [runCommit, runBatchCommit, activeCompPath, activeProjectId, writeProjectFile]);
-  const trackGsapSaveFailure = useGsapSaveFailureTelemetry(activeCompPath);
   const handleGsapSaveFailure = useCallback(
-    (
-      error: unknown,
-      selection: DomEditSelection,
-      mutation: Record<string, unknown>,
-      label?: string,
-    ) => {
-      trackGsapSaveFailure(error, selection, mutation, label);
+    (error: unknown) => {
       if (!isStudioSaveErrorAlreadyToasted(error)) {
         showToast?.(`Couldn't save animation: ${getStudioSaveErrorMessage(error)}`, "error");
       }
     },
-    [showToast, trackGsapSaveFailure],
+    [showToast],
   );
   const commitMutationSafely = useSafeGsapCommitMutation(commitMutation, handleGsapSaveFailure);
 
@@ -479,7 +452,7 @@ export function useGsapScriptCommits({ projectIdRef, activeCompPath, previewIfra
         // plugin-CDN load error genuinely breaks the iframe → full reload. Per U4, a
         // synchronous "verify-failed" (transient empty __timelines) does NOT escalate,
         // but a "cannot-soft-reload" (structural failure) does.
-        softReloadOrEscalate(previewIframeRef.current, script, reloadPreview, "sdk_refresh", after);
+        softReloadOrEscalate(previewIframeRef.current, script, reloadPreview, after);
       } else {
         reloadPreview();
       }
@@ -541,7 +514,7 @@ export function useGsapScriptCommits({ projectIdRef, activeCompPath, previewIfra
     activeCompPath,
     commitMutation,
     commitMutationSafely,
-    trackGsapSaveFailure: handleGsapSaveFailure,
+    onGsapSaveFailure: handleGsapSaveFailure,
     sdkSession,
     sdkDeps,
   });

@@ -1,5 +1,5 @@
 {
-  "total": 226,
+  "total": 225,
   "files": {
     "packages/studio/src/captions/components/CaptionOverlay.tsx": 5,
     "packages/studio/src/captions/components/CaptionTimeline.tsx": 11,
@@ -46,7 +46,6 @@
     "packages/studio/src/player/components/PlayerControls.tsx": 1,
     "packages/studio/src/player/components/SpeedMenu.tsx": 2,
     "packages/studio/src/styles/components.css": 48,
-    "packages/studio/src/telemetry/client.ts": 1,
     "packages/studio/src/webmcp/webmcpTestUtils.ts": 1
   }
 }

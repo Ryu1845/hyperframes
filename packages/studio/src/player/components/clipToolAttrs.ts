@@ -81,7 +81,7 @@ export function chainWithVoicePreset(
       !node.fromPreset || !VOICE_MENU_IDS.has(node.fromPreset) || node.fromPreset === presetId,
   );
   const kept: HfAudioFxChain = { ...chain, nodes: others };
-  const next = presetId ? (applyPresetToChain(kept, presetId, undefined) ?? kept) : kept;
+  const next = presetId ? (applyPresetToChain(kept, presetId) ?? kept) : kept;
   return next.nodes.length > 0 ? serializeAudioFxChain(next) : null;
 }
 

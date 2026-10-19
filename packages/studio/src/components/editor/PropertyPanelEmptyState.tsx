@@ -1,7 +1,6 @@
 import { Eye, Layers } from "../../icons/SystemIcons";
 import type { DomEditSelection } from "./domEditingTypes";
 import { canHideSelections } from "../../utils/timelineInspector";
-import { useTrackDesignInput } from "../../contexts/DesignPanelInputContext";
 
 function FlatEmptyState() {
   return (
@@ -72,7 +71,6 @@ function FlatMultiSelectState({
   // One predicate for both actions and for the handler's own refusal, so the
   // button and the refusal cannot disagree about what audio is.
   const hasAudio = !canHideSelections(multiSelectedElements);
-  const trackInput = useTrackDesignInput();
   return (
     <div className="flex flex-col gap-3 px-4 py-3">
       <div className="flex items-center gap-3 rounded-xl border border-panel-border bg-panel-surface p-3">
@@ -144,7 +142,6 @@ function FlatMultiSelectState({
             onClick={() => {
               if (!onGroupSelection) return;
               onGroupSelection();
-              trackInput("button", "group-selection");
             }}
             className="flex h-[34px] flex-1 items-center justify-center gap-2 rounded-lg bg-panel-hover text-[11px] font-semibold text-panel-text-0"
           >
@@ -157,7 +154,6 @@ function FlatMultiSelectState({
             onClick={() => {
               if (!onHideAllSelected) return;
               onHideAllSelected();
-              trackInput("button", "hide-all");
             }}
             className="flex h-[34px] items-center gap-1.5 rounded-lg border border-panel-border-input bg-panel-input px-3 text-[11px] font-medium text-panel-text-2"
           >

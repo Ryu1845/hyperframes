@@ -1,6 +1,6 @@
 // @vitest-environment happy-dom
 // Imports the clip-content thumbnail primitives the way a host app does: by package name.
-// Desktop's timeline lane draws audio waveforms and image thumbnails without a deep import.
+// A host's own timeline lane draws audio waveforms and image thumbnails without a deep import.
 import { act } from "react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { installReactActEnvironment, mountReactHarness } from "./hooks/domSelectionTestHarness";

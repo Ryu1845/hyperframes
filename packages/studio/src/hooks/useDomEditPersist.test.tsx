@@ -15,11 +15,7 @@ import type { PersistDomEditOperations } from "./domEditCommitTypes";
 import { jsonResponse, requestUrl } from "./fetchStubTestUtils";
 import { useDomEditPersist, type UseDomEditPersistParams } from "./useDomEditPersist";
 
-const trackStudioEvent = vi.fn();
 const reseekPreviewRuntime = vi.fn();
-vi.mock("../utils/studioTelemetry", () => ({
-  trackStudioEvent: (...args: unknown[]) => trackStudioEvent(...args),
-}));
 vi.mock("./timelineTrackVisibility", () => ({
   reseekPreviewRuntime: (...args: unknown[]) => reseekPreviewRuntime(...args),
 }));
@@ -85,7 +81,6 @@ function renderPersist(over: Partial<UseDomEditPersistParams> = {}) {
 
 describe("useDomEditPersist", () => {
   beforeEach(() => {
-    trackStudioEvent.mockReset();
     reseekPreviewRuntime.mockReset();
   });
   afterEach(() => {
@@ -160,12 +155,6 @@ describe("useDomEditPersist", () => {
     );
     await expect(persist(selection, OPERATIONS)).rejects.toBeInstanceOf(
       DomEditPersistUnresolvableError,
-    );
-
-    expect(trackStudioEvent).toHaveBeenCalledTimes(1);
-    expect(trackStudioEvent).toHaveBeenCalledWith(
-      "save_skipped_unresolvable",
-      expect.objectContaining({ target_selector: '[data-hf-id="hf-card"]' }),
     );
   });
 

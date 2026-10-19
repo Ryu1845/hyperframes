@@ -1,4 +1,3 @@
-import { useTrackDesignInput } from "../../contexts/DesignPanelInputContext";
 /**
  * An open effect's knobs, with whatever automation surface applies to them.
  *
@@ -15,7 +14,6 @@ import {
   type HfAudioFxParamValues,
 } from "@hyperframes/core/audio-fx";
 import { fxAutomationTarget } from "@hyperframes/core/audio-automation";
-import { trackParamCommitted } from "./audioFxTelemetry.js";
 import { FxParams } from "./propertyPanelFxControls.js";
 
 /**
@@ -49,7 +47,6 @@ export interface FxNodeControlHandlers {
   onPreview(index: number, params: HfAudioFxParamValues): void;
   onAutomateParam?(nodeId: string, paramKey: string): void;
   onRemoveParamAutomation?(nodeId: string, paramKey: string): void;
-  trackKind?: string;
 }
 
 export function FxNodeParams({
@@ -63,14 +60,12 @@ export function FxNodeParams({
   onPreview,
   onAutomateParam,
   onRemoveParamAutomation,
-  trackKind,
 }: FxNodeControlHandlers & {
   node: HfAudioFxNode;
   def: HfAudioFxDef;
   index: number;
   disabled: boolean;
 }) {
-  const trackInput = useTrackDesignInput();
   const nodeId = node.id;
   // Lanes address a node by id; the controls know their own parameter keys. This
   // is the one place that translation belongs.
@@ -98,8 +93,6 @@ export function FxNodeParams({
         for (const [key, value] of Object.entries(next)) {
           if (before[key] === value) continue;
           if (typeof value !== "number" && typeof value !== "string") continue;
-          trackParamCommitted(node.type, key, value, "details", { trackKind });
-          trackInput(typeof value === "number" ? "slider" : "select", key);
         }
         onUpdate(index, { params: next });
       }}
@@ -108,7 +101,6 @@ export function FxNodeParams({
         nodeId && onAutomateParam
           ? (key) => {
               onAutomateParam(nodeId, key);
-              trackInput("button", "automate-param");
             }
           : undefined
       }
@@ -116,7 +108,6 @@ export function FxNodeParams({
         nodeId && onRemoveParamAutomation
           ? (key) => {
               onRemoveParamAutomation(nodeId, key);
-              trackInput("button", "remove-param-automation");
             }
           : undefined
       }

@@ -175,7 +175,6 @@ export function StyleSections({
         <Section title="Flex" icon={<Layers size={15} />} defaultCollapsed>
           <div className="space-y-4">
             <SegmentedControl
-              trackName="Flex direction"
               disabled={styleEditingDisabled}
               value={styles["flex-direction"] || "row"}
               onChange={(next) => onSetStyle("flex-direction", next)}
@@ -320,7 +319,7 @@ export function StyleSections({
             <div className="grid min-w-0 gap-1.5">
               <span className={LABEL}>Layer blur</span>
               <SliderControl
-                trackName="Layer blur"
+                ariaLabel="Layer blur"
                 value={filterBlurValue}
                 min={0}
                 max={Math.max(40, Math.ceil(filterBlurValue))}
@@ -336,7 +335,7 @@ export function StyleSections({
             <div className="grid min-w-0 gap-1.5">
               <span className={LABEL}>Backdrop</span>
               <SliderControl
-                trackName="Backdrop blur"
+                ariaLabel="Backdrop blur"
                 value={backdropBlurValue}
                 min={0}
                 max={Math.max(60, Math.ceil(backdropBlurValue))}
@@ -387,7 +386,7 @@ export function StyleSections({
           <div className="grid min-w-0 gap-1.5">
             <span className={LABEL}>Mask inset</span>
             <SliderControl
-              trackName="Mask inset"
+              ariaLabel="Mask inset"
               value={clipInsetValue}
               min={0}
               max={Math.max(120, Math.ceil(clipInsetValue))}
@@ -436,7 +435,7 @@ export function StyleSections({
       <Section title="Transparency" icon={<Eye size={15} />} defaultCollapsed>
         <div className="space-y-4">
           <SliderControl
-            trackName="Opacity"
+            ariaLabel="Opacity"
             value={opacityValue}
             min={0}
             max={100}
@@ -459,7 +458,6 @@ export function StyleSections({
       <Section title="Fill" icon={<Palette size={15} />}>
         <div className="space-y-4">
           <SegmentedControl
-            trackName="Fill type"
             disabled={styleEditingDisabled}
             value={preferredFillMode}
             onChange={handleFillModeChange}

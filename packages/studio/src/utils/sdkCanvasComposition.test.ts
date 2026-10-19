@@ -11,13 +11,8 @@ import { openComposition } from "@hyperframes/sdk";
  * resolves the require statically, so the catch never fires in the browser
  * build and `createCanvas` lands undefined. Parsing any `<canvas>` tag then
  * throws, `openComposition` rejects, and Studio silently loses its SDK session
- * for the whole composition (no cutover, and the resolver shadow does not run
- * either).
- *
- * Production telemetry, 72h after the v0.8.47 flip: 1065 of 1544
- * `studio:sdk_session_unavailable` events were this crash, spread across a
- * large share of 197 users. Canvas is common in compositions — Three.js,
- * shaders, particle effects, charts.
+ * for the whole composition (no cutover). Canvas is common in compositions —
+ * Three.js, shaders, particle effects, charts.
  *
  * The fix is a `resolve.alias` in the studio's vite config pointing `canvas` at
  * linkedom's own shim. This test pins the behaviour the alias has to preserve.
@@ -54,7 +49,7 @@ describe("canvas browser-stub alias", () => {
   // here. Only the bundled build breaks. Nothing else in this suite can observe
   // the bundler, so the alias itself is what has to be pinned — without this,
   // deleting the alias reintroduces a crash that is invisible until it reaches
-  // production telemetry.
+  // a user's browser.
   it("is configured, so the browser build never resolves the Node canvas package", () => {
     const config = readFileSync(resolve(import.meta.dirname, "../../vite.config.ts"), "utf8");
     expect(config).toMatch(

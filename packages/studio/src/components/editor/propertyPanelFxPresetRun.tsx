@@ -1,4 +1,3 @@
-import { useTrackDesignInput } from "../../contexts/DesignPanelInputContext";
 /**
  * One preset's bracket in the rack: its own header, on/off switch, amount lane
  * and the rows it wraps — or, for a run with no preset, just the rows.
@@ -54,8 +53,6 @@ export interface FxPresetRunProps {
   onMoveNode(index: number, delta: number): void;
   onRemoveNode(index: number): void;
   onPreviewNode(index: number, params: HfAudioFxParamValues): void;
-  /** What the track reads as, carried onto each row's own telemetry events. */
-  trackKind?: string;
   /** Whether this run's card is folded shut. Meaningless when there is no preset. */
   collapsed: boolean;
   onToggleCollapse(): void;
@@ -84,7 +81,6 @@ export function FxPresetRun({
   onMoveNode,
   onRemoveNode,
   onPreviewNode,
-  trackKind,
   collapsed,
   onToggleCollapse,
   amount,
@@ -94,7 +90,6 @@ export function FxPresetRun({
   onAutomate,
   onRemoveAutomation,
 }: FxPresetRunProps) {
-  const trackInput = useTrackDesignInput();
   const rows = run.items.map(({ node, i }) => (
     <FxNodeRow
       // Keyed by id, as the carve module's list above already is. On
@@ -118,7 +113,6 @@ export function FxPresetRun({
       onMove={onMoveNode}
       onRemove={onRemoveNode}
       onPreview={onPreviewNode}
-      trackKind={trackKind}
     />
   ));
 
@@ -187,7 +181,6 @@ export function FxPresetRun({
           disabled={disabled}
           onClick={() => {
             onSetAmount(runOn ? 0 : 1);
-            trackInput("toggle", "preset-amount");
           }}
         >
           {runOn ? "On" : "Off"}
@@ -212,7 +205,6 @@ export function FxPresetRun({
         onChange={(_k, v) => onSetAmount(Number(v), false)}
         onCommit={(_k, v) => {
           onSetAmount(Number(v));
-          trackInput("slider", "preset-amount");
         }}
         onAutomate={onAutomate}
         onRemoveAutomation={onRemoveAutomation}

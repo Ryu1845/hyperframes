@@ -3,7 +3,7 @@ import { memo, useEffect, useRef, useState, type RefObject } from "react";
 import type { DomEditSelection } from "./domEditing";
 import { useDomEditContext } from "../../contexts/DomEditContext";
 import { useStudioShellContextOptional } from "../../contexts/StudioContext";
-import { useGsapInteractionFailureTelemetry } from "../../hooks/useGsapInteractionFailureTelemetry";
+import { useGsapInteractionFailureToast } from "../../hooks/useGsapInteractionFailureToast";
 import { usePlayerStore } from "../../player/store/playerStore";
 import { useLivePreviewIframe } from "../../player/store/previewIframeStore";
 import { parkPlayheadOnKeyframe } from "../../hooks/gsapDragCommit";
@@ -24,7 +24,6 @@ import {
   commitCreatePath,
   commitNodeDrop,
   commitRemoveWaypoint,
-  nodeDropLabel,
 } from "./motionPathCommit";
 import { elementHome } from "./motionPathHome";
 import { hasMotionPathPlugin, transformWDivisor, useMotionPathData } from "./useMotionPathData";
@@ -93,10 +92,7 @@ export const MotionPathOverlay = memo(function MotionPathOverlay({
     handleGsapMoveKeyframeToPlayhead,
   } = useDomEditContext();
   const shell = useStudioShellContextOptional();
-  const reportFailure = useGsapInteractionFailureTelemetry(
-    shell?.activeCompPath ?? null,
-    shell?.showToast ?? noToast,
-  );
+  const reportFailure = useGsapInteractionFailureToast(shell?.showToast ?? noToast);
   const { rect, geometry, geometryResolved, visibleInPreview, home, pScale } = useMotionPathData(
     iframeRef,
     selectorFor(selection),
@@ -381,7 +377,6 @@ export const MotionPathOverlay = memo(function MotionPathOverlay({
     if (x === Math.round(d.initX) && y === Math.round(d.initY)) return;
     const anim =
       d.ref.type === "keyframe" ? selectedGsapAnimations?.find((a) => a.id === animId) : undefined;
-    const label = nodeDropLabel(d.ref);
     commitNodeDrop({
       ref: d.ref,
       at: { x, y },
@@ -390,7 +385,7 @@ export const MotionPathOverlay = memo(function MotionPathOverlay({
       selection,
       iframe: iframeRef.current,
       commitMutation,
-    }).catch((error: unknown) => reportFailure(error, selection, "drag", label));
+    }).catch((error: unknown) => reportFailure(error));
     // Park on the edited keyframe, or a playhead before the tween hides the edit.
     if (d.ref.type === "keyframe" && anim) {
       parkPlayheadOnKeyframe(anim, d.ref.pct);

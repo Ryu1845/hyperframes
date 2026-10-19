@@ -8,12 +8,8 @@ import { usePlayerStore } from "../player/store/playerStore";
 import { useAnimatedPropertyCommit } from "./useAnimatedPropertyCommit";
 import { mountReactHarness, withInlineLayoutBox } from "./domSelectionTestHarness";
 import { writeSizeWithCrop } from "../components/editor/cropResize";
-import { trackStudioEvent } from "../utils/studioTelemetry";
-import { trackKeyframeCommit } from "../utils/keyframeUsage";
 import { xAtTime } from "./gsapPlaybackTestHarness";
 import type { CommitMutationOptions, CommitMutation } from "./gsapScriptCommitTypes";
-
-vi.mock("../utils/studioTelemetry", () => ({ trackStudioEvent: vi.fn() }));
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -169,7 +165,7 @@ describe("useAnimatedPropertyCommit — ownership and rejection propagation", ()
     act(() => root.unmount());
   });
 
-  it("rethrows a persistence failure to the telemetry wrapper", async () => {
+  it("rethrows a persistence failure to the failure toast wrapper", async () => {
     const failure = new Error("save failed");
     const bumpGsapCache = vi.fn();
     let commit!: Commit;
@@ -444,7 +440,7 @@ describe("useAnimatedPropertyCommit — a size write and its crop are one undo s
   });
 });
 
-it("counts one add when an inspector edit first converts a flat animation", async () => {
+it("converts a flat animation before adding the inspector edit's keyframe", async () => {
   usePlayerStore.setState({ autoKeyframeEnabled: true, currentTime: 1 });
   const flat = parseGsapScript(
     'const tl = gsap.timeline(); tl.to("#box", { rotationX: 0, duration: 2 }, 0);',
@@ -453,9 +449,8 @@ it("counts one add when an inspector edit first converts a flat animation", asyn
   let commit!: Commit;
   const root = renderHookWith(
     [flat, keyframedAnim],
-    (mutation, _label, options) => {
+    (mutation) => {
       mutations.push(mutation);
-      trackKeyframeCommit([mutation], { ok: true, changed: true }, options);
     },
     (value) => {
       commit = value;
@@ -469,8 +464,6 @@ it("counts one add when an inspector edit first converts a flat animation", asyn
       "convert-to-keyframes",
       "add-keyframe",
     ]);
-    expect(trackStudioEvent).toHaveBeenCalledTimes(1);
-    expect(trackStudioEvent).toHaveBeenCalledWith("keyframe", { action: "add" });
   } finally {
     act(() => root.unmount());
   }

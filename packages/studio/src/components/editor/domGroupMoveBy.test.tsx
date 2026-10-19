@@ -23,13 +23,7 @@ vi.mock("../../hooks/useAnimatedPropertyCommit", () => ({
   }),
 }));
 vi.mock("../../hooks/useSafeGsapCommitMutation", () => ({
-  useGsapSaveFailureTelemetry: () => vi.fn(),
   useSafeGsapCommitMutation: (commit: unknown) => commit,
-}));
-vi.mock("../../utils/studioSaveDiagnostics", async (importOriginal) => ({
-  ...(await importOriginal<typeof import("../../utils/studioSaveDiagnostics")>()),
-  trackStudioEditBlocked: vi.fn(),
-  trackStudioSaveFailure: vi.fn(),
 }));
 
 import { mountGsapAwareEditing } from "../../hooks/useGsapAwareEditing.testHelpers";

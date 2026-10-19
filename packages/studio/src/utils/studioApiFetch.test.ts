@@ -30,7 +30,7 @@ describe("studioApiFetch", () => {
 
   it.each([
     ["the CLI or Studio dev server", "http://localhost:5190/"],
-    ["Desktop's own server", "http://127.0.0.1:43117/"],
+    ["an embedding host's own server", "http://127.0.0.1:43117/"],
     ["IPv6 loopback", "http://[::1]:8080/"],
   ])("leaves cookies out when Studio is served from %s", async (_, page) => {
     const fetchMock = vi.fn(async () => new Response("ok"));

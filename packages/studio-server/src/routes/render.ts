@@ -97,13 +97,6 @@ export function registerRenderRoutes(api: Hono, adapter: StudioApiAdapter): void
       format?: string;
       resolution?: string;
       composition?: string;
-      // Browser telemetry id, so the server-emitted render outcome is
-      // attributed to the user who triggered the render (joinable funnel).
-      telemetryDistinctId?: string;
-      // Explicit "this browser profile opted out" flag. Distinct from simply
-      // omitting the id: an OLD client omits it too, and that case falls back
-      // to the install anonymousId. Only an explicit `true` suppresses.
-      telemetryOptOut?: boolean;
       // Composition-variable overrides ({variableId: value}), injected as
       // window.__hfVariables — same channel as `hyperframes render --variables`.
       variables?: Record<string, unknown>;
@@ -169,9 +162,6 @@ export function registerRenderRoutes(api: Hono, adapter: StudioApiAdapter): void
       variables,
       ...encoder.options,
       useGpu: body.gpu === true && format === "mp4",
-      distinctId:
-        typeof body.telemetryDistinctId === "string" ? body.telemetryDistinctId : undefined,
-      telemetryOptOut: body.telemetryOptOut === true,
     });
     (jobState as RenderJobState & { createdAt: number }).createdAt = Date.now();
     renderJobs.set(jobId, jobState as RenderJobState & { createdAt: number });

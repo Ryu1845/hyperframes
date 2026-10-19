@@ -12,7 +12,6 @@ import {
 import { useDomEditCommits } from "./useDomEditCommits";
 
 Reflect.set(globalThis, "IS_REACT_ACT_ENVIRONMENT", true);
-vi.mock("../utils/studioTelemetry", () => ({ trackStudioEvent: vi.fn() }));
 vi.mock("../utils/gsapSoftReload", async (importOriginal) => ({
   ...(await importOriginal<typeof import("../utils/gsapSoftReload")>()),
   ensureMotionPathPluginLoaded: vi.fn(),

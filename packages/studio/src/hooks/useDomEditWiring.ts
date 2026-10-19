@@ -13,7 +13,7 @@ import { usePlayerStore } from "../player";
 import { useDomEditPreviewSync } from "./useDomEditPreviewSync";
 import { useGsapAnimationsForElement, usePopulateKeyframeCacheForFile } from "./useGsapTweenCache";
 import { useGsapAnimationFetchFallback } from "./useGsapAnimationFetchFallback";
-import { useGsapInteractionFailureTelemetry } from "./useGsapInteractionFailureTelemetry";
+import { useGsapInteractionFailureToast } from "./useGsapInteractionFailureToast";
 import { useGsapSelectionHandlers } from "./useGsapSelectionHandlers";
 import type { PatchTarget } from "../utils/sourcePatcher";
 import { useDockLayoutStore } from "../components/dock/dockLayoutStore";
@@ -216,9 +216,9 @@ export function useDomEditWiring(params: UseDomEditWiringParams) {
     previewIframeRef,
   );
 
-  // ── Telemetry & fallback ──
+  // ── Failure toast & fallback ──
 
-  const trackGsapInteractionFailure = useGsapInteractionFailureTelemetry(activeCompPath, showToast);
+  const toastGsapInteractionFailure = useGsapInteractionFailureToast(showToast);
   const makeFetchFallback = useGsapAnimationFetchFallback(projectId);
 
   // ── GSAP selection handlers ──
@@ -271,7 +271,7 @@ export function useDomEditWiring(params: UseDomEditWiringParams) {
     selectedGsapAnimations,
     gsapMultipleTimelines,
     gsapUnsupportedTimelinePattern,
-    trackGsapInteractionFailure,
+    toastGsapInteractionFailure,
     makeFetchFallback,
     ...gsapSelectionHandlers,
   };

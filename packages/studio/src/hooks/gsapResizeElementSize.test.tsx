@@ -75,7 +75,7 @@ function mount(animations: GsapAnimation[]) {
       showToast: vi.fn(),
       bumpGsapCache: vi.fn(),
       makeFetchFallback: () => async () => animations,
-      trackGsapInteractionFailure: vi.fn(),
+      toastGsapInteractionFailure: vi.fn(),
       stageElementPositionOffset,
       handleDomBoxSizeCommit,
       handleDomRotationCommit: vi.fn(),

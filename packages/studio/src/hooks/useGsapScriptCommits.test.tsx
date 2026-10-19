@@ -9,7 +9,6 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 // module and used elsewhere in the hook — keep it a harmless stub.
 const patchRuntimeTweenInPlace = vi.fn<(...args: unknown[]) => boolean>();
 const applySoftReload = vi.fn<(...args: unknown[]) => string>();
-const trackStudioEvent = vi.fn();
 const readNestedFiles = vi.fn<(...args: unknown[]) => unknown>(() => null);
 
 vi.mock("./gsapRuntimePatch", () => ({
@@ -20,9 +19,6 @@ vi.mock("../utils/gsapSoftReload", async (importOriginal) => ({
   applySoftReload: (...args: unknown[]) => applySoftReload(...args),
   extractGsapScriptText: () => "",
   readNestedFiles: (...args: unknown[]) => readNestedFiles(...args),
-}));
-vi.mock("../utils/studioTelemetry", () => ({
-  trackStudioEvent: (...args: unknown[]) => trackStudioEvent(...args),
 }));
 
 // Tell React this is an act-capable environment so act(...) flushes effects
@@ -78,7 +74,6 @@ describe("applyPreviewSync", () => {
   beforeEach(() => {
     patchRuntimeTweenInPlace.mockReset();
     applySoftReload.mockReset();
-    trackStudioEvent.mockReset();
   });
 
   it("instantPatch + patch succeeds: skips both soft reload and full reload", () => {
@@ -178,9 +173,6 @@ describe("applyPreviewSync", () => {
     // A half-patched preview is worse than a reloaded one: "#a" landed, "#b" did
     // not, so the reload repaints both from the written source.
     expect(applySoftReload).toHaveBeenCalled();
-    expect(trackStudioEvent).toHaveBeenCalledWith("gsap_instant_patch_fallback", {
-      selector: "#b",
-    });
   });
 
   it("carries a deferred patch miss into the final batch render", () => {
@@ -280,10 +272,6 @@ describe("applyPreviewSync", () => {
     expectSoftReloadedWith(reloadPreview, undefined);
     expect(reloadPreview).not.toHaveBeenCalled();
     // A successful instant patch is the fast path; here it missed → fallback event.
-    expect(trackStudioEvent).toHaveBeenCalledWith(
-      "gsap_instant_patch_fallback",
-      expect.objectContaining({ selector: "#a" }),
-    );
   });
 
   it('instantPatch + patch fails + soft reload "verify-failed": transient, does NOT escalate (U4)', () => {
@@ -297,15 +285,6 @@ describe("applyPreviewSync", () => {
     // is correct, so we must NOT escalate to a full reload.
     expectSoftReloadedWith(reloadPreview, undefined);
     expect(reloadPreview).not.toHaveBeenCalled();
-    // Telemetry records the suppressed transient (escalated: false).
-    expect(trackStudioEvent).toHaveBeenCalledWith(
-      "gsap_soft_reload_outcome",
-      expect.objectContaining({
-        origin: "preview_sync",
-        result: "verify-failed",
-        escalated: false,
-      }),
-    );
   });
 
   it('instantPatch + patch fails + soft reload "cannot-soft-reload": escalates to full reload', () => {
@@ -318,14 +297,6 @@ describe("applyPreviewSync", () => {
     // Structural failure: the preview is genuinely stale/broken → full reload.
     expectSoftReloadedWith(reloadPreview, undefined);
     expect(reloadPreview).toHaveBeenCalledTimes(1);
-    expect(trackStudioEvent).toHaveBeenCalledWith(
-      "gsap_soft_reload_outcome",
-      expect.objectContaining({
-        origin: "preview_sync",
-        result: "cannot-soft-reload",
-        escalated: true,
-      }),
-    );
   });
 
   it("no instantPatch + softReload + scriptText: soft reloads, passing onAsyncFailure", () => {
@@ -342,8 +313,6 @@ describe("applyPreviewSync", () => {
     expect(patchRuntimeTweenInPlace).not.toHaveBeenCalled();
     expectSoftReloadedWith(reloadPreview, undefined);
     expect(reloadPreview).not.toHaveBeenCalled();
-    // "applied" emits no telemetry (only the failure paths do).
-    expect(trackStudioEvent).not.toHaveBeenCalled();
   });
 
   it('no instantPatch + softReload "verify-failed": transient, does NOT escalate (U4)', () => {
@@ -360,10 +329,6 @@ describe("applyPreviewSync", () => {
     // onAsyncFailure is wired, but the transient result does not trigger it.
     expectSoftReloadedWith(reloadPreview, undefined);
     expect(reloadPreview).not.toHaveBeenCalled();
-    expect(trackStudioEvent).toHaveBeenCalledWith(
-      "gsap_soft_reload_outcome",
-      expect.objectContaining({ result: "verify-failed", escalated: false }),
-    );
   });
 
   it('no instantPatch + softReload "cannot-soft-reload": escalates to full reload', () => {
@@ -379,10 +344,6 @@ describe("applyPreviewSync", () => {
 
     expectSoftReloadedWith(reloadPreview, undefined);
     expect(reloadPreview).toHaveBeenCalledTimes(1);
-    expect(trackStudioEvent).toHaveBeenCalledWith(
-      "gsap_soft_reload_outcome",
-      expect.objectContaining({ result: "cannot-soft-reload", escalated: true }),
-    );
   });
 
   it("no instantPatch + no softReload: full reload (today's behavior)", () => {
@@ -691,70 +652,12 @@ describe("runCommit — instantPatch wiring", () => {
   beforeEach(() => {
     patchRuntimeTweenInPlace.mockReset();
     applySoftReload.mockReset();
-    trackStudioEvent.mockReset();
     readNestedFiles.mockReset().mockReturnValue(null);
   });
   afterEach(() => {
     cleanup?.();
     cleanup = null;
     vi.unstubAllGlobals();
-  });
-
-  it.each([
-    ["add-keyframe", "add"],
-    ["add-with-keyframes", "add"],
-    ["convert-to-keyframes", "convert"],
-    ["remove-all-keyframes", "remove_all"],
-  ])("counts %s only after a changed durable write", async (type, action) => {
-    mockFetchResult();
-    const deps = renderCommitHook();
-    await deps.api.commitMutation(
-      selection,
-      { type, properties: { text: "private-content" } },
-      { label: "Edit" },
-    );
-    expect(trackStudioEvent.mock.calls.filter(([event]) => event === "keyframe")).toEqual([
-      ["keyframe", { action }],
-    ]);
-  });
-
-  it("counts reset with its explicit action and suppresses intermediate writes", async () => {
-    mockFetchResult();
-    const deps = renderCommitHook();
-    await deps.api.commitMutation(
-      selection,
-      { type: "convert-to-keyframes" },
-      { label: "Convert", keyframeTelemetry: false },
-    );
-    await deps.api.commitMutation(
-      selection,
-      { type: "remove-all-keyframes" },
-      { label: "Reset", keyframeAction: "reset" },
-    );
-    expect(trackStudioEvent.mock.calls.filter(([event]) => event === "keyframe")).toEqual([
-      ["keyframe", { action: "reset" }],
-    ]);
-  });
-
-  it("does not count a successful unchanged keyframe write", async () => {
-    mockFetchResult({ changed: false });
-    const deps = renderCommitHook();
-    await deps.api.commitMutation(selection, { type: "add-keyframe" }, { label: "Add" });
-    expect(trackStudioEvent.mock.calls.filter(([event]) => event === "keyframe")).toEqual([]);
-  });
-
-  it("does not count a failed write that skipReload suppresses", async () => {
-    vi.stubGlobal(
-      "fetch",
-      vi.fn(async () => ({ ok: false, status: 500 })),
-    );
-    const deps = renderCommitHook();
-    await deps.api.commitMutation(
-      selection,
-      { type: "add-keyframe" },
-      { label: "Add", skipReload: true },
-    );
-    expect(trackStudioEvent.mock.calls.filter(([event]) => event === "keyframe")).toEqual([]);
   });
 
   it("rejects a refused write with the server's reason in a toast", async () => {

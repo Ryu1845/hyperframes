@@ -22,7 +22,6 @@ import {
   withLane,
   withoutLane,
 } from "./propertyPanelAutomation";
-import { trackLeveller } from "./audioFxTelemetry.js";
 import type { DomEditSelection } from "./domEditingTypes";
 import { clipSourceWindow, readClipClock } from "./clipAudioClock.js";
 import { useAuditionTransport } from "./useAuditionTransport.js";
@@ -95,7 +94,6 @@ export function useFxLevelling(
       if (!audio) return;
       const result = measureLevelling(audio);
       if (!result) return;
-      trackLeveller("run");
       await onSetAttributeQuiet(HF_AUDIO_FX_ATTR, serializeAudioFxChain(result.chain));
       // Merged by target, never written wholesale: the script describes its own
       // lane only, and replacing the attribute would take the carve's lanes and
@@ -179,7 +177,6 @@ export function useFxLevelling(
   };
 
   const removeLeveller = (): void => {
-    trackLeveller("removed");
     const { chain: next, removedTarget } = removeLevelling(chain);
     void onSetAttributeQuiet(HF_AUDIO_FX_ATTR, serializeAudioFxChain(next));
     // The lane goes with the node. An orphan keeps driving a parameter that is

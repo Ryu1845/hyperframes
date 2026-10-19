@@ -3,7 +3,7 @@ import { useCallback } from "react";
 import { findUnsafeDomPatchValues } from "@hyperframes/core/studio-api/finite-mutation";
 import { FONT_EXT } from "../utils/mediaTypes";
 import { primaryFontFamilyValue } from "../utils/studioFontHelpers";
-import { StudioSaveHttpError, trackStudioSaveFailure } from "../utils/studioSaveDiagnostics";
+import { StudioSaveHttpError } from "../utils/studioSaveDiagnostics";
 import type { DomEditSelection } from "../components/editor/domEditing";
 import { fontFamilyFromAssetPath, type ImportedFontAsset } from "../components/editor/fontAssets";
 import type { CommitDomEditPatchBatches } from "./domEditCommitTypes";
@@ -68,8 +68,6 @@ export interface UseDomEditCommitsParams {
     originalContent: string,
     targetPath: string,
   ) => Promise<CutoverResult>;
-  /** Resolver-shadow tripwire for z-index reorder targets (telemetry-only, decoupled from cutover). */
-  onReorderShadow?: (targets: string[]) => void;
   readOnlyPreview: boolean;
 }
 
@@ -93,7 +91,6 @@ export function useDomEditCommits({
   forceReloadSdkSession,
   onTrySdkPersist,
   onTrySdkDelete,
-  onReorderShadow,
   readOnlyPreview,
 }: UseDomEditCommitsParams) {
   const resolveImportedFontAsset = useCallback(
@@ -222,13 +219,6 @@ export function useDomEditCommits({
         if (!alreadyToasted) {
           showToast(error instanceof Error ? error.message : "Failed to reorder layers", "error");
         }
-        trackStudioSaveFailure({
-          source: "dom_edit",
-          error,
-          filePath: batches.map((batch) => batch.sourceFile).join(","),
-          mutationType: "z-reorder",
-          label: options.label,
-        });
         throw error;
       });
     },
@@ -277,7 +267,6 @@ export function useDomEditCommits({
   // ── Position patch helper (shared by geometry + lifecycle hooks) ──
 
   const commitPositionPatchToHtml = useDomEditPositionPatchCommit({
-    activeCompPath,
     persistDomEditOperations,
     showToast,
   });
@@ -306,7 +295,6 @@ export function useDomEditCommits({
     reloadPreview,
     clearDomSelection,
     onTrySdkDelete,
-    onReorderShadow,
     forceReloadSdkSession,
     commitDomEditPatchBatches,
   });

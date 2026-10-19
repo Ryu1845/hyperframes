@@ -12,7 +12,7 @@ import { freezeDragStamp } from "./draggedGsapPosition";
 import { assertGsapEditPersisted } from "./gsapEditOutcome";
 import { firstPreflightFailure } from "./gsapGroupPreflight";
 import { whileScriptWrites } from "../player/previewReloading";
-import type { GeometryCommitResult } from "../utils/previewFeatureUsage";
+import type { GeometryCommitResult } from "./gsapGestureOutcome";
 
 // A distinct key keeps consecutive group drags in separate undo entries.
 let groupDragCommitCounter = 0;
@@ -22,7 +22,7 @@ export function useGsapAwareGroupMove({
   activeCompPath,
   previewIframeRef,
   makeFetchFallback,
-  trackGsapInteractionFailure,
+  toastGsapInteractionFailure,
   stageElementPositionOffset,
   showToast,
 }: Pick<
@@ -31,7 +31,7 @@ export function useGsapAwareGroupMove({
   | "activeCompPath"
   | "previewIframeRef"
   | "makeFetchFallback"
-  | "trackGsapInteractionFailure"
+  | "toastGsapInteractionFailure"
   | "stageElementPositionOffset"
   | "showToast"
 >) {
@@ -118,13 +118,7 @@ export function useGsapAwareGroupMove({
           activeCompPath,
         );
         if (preflightFailure) {
-          trackGsapInteractionFailure(
-            preflightFailure.error,
-            preflightFailure.selection,
-            "drag",
-            "Move animated layer (group)",
-            toastRefusal,
-          );
+          toastGsapInteractionFailure(preflightFailure.error, toastRefusal);
           throw preflightFailure.error;
         }
         const lastScriptWrite = updates.findLastIndex(
@@ -159,7 +153,7 @@ export function useGsapAwareGroupMove({
             );
             assertGsapEditPersisted(outcome);
           } catch (error) {
-            trackGsapInteractionFailure(error, selection, "drag", "Move animated layer (group)");
+            toastGsapInteractionFailure(error);
             throw error;
           }
         }
@@ -167,9 +161,7 @@ export function useGsapAwareGroupMove({
           await flushQueued();
           return writes.finish();
         } catch (error) {
-          // The aggregate write has no uniquely failing member; do not misattribute
-          // its telemetry to whichever member happened to be last in the array.
-          trackGsapInteractionFailure(error, null, "drag", "Move animated layer (group)");
+          toastGsapInteractionFailure(error);
           throw error;
         }
       };
@@ -180,7 +172,7 @@ export function useGsapAwareGroupMove({
       activeCompPath,
       previewIframeRef,
       makeFetchFallback,
-      trackGsapInteractionFailure,
+      toastGsapInteractionFailure,
       stageElementPositionOffset,
       showToast,
     ],

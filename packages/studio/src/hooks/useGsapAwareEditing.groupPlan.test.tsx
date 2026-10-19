@@ -10,15 +10,8 @@ import {
   beginStudioPendingEdit,
   paintBackNewestStudioPendingEdit,
 } from "../utils/studioPendingEdits";
-import { trackStudioEditBlocked } from "../utils/studioSaveDiagnostics";
 import { GSAP_EDIT_BLOCK_COPY } from "./gsapEditOutcome";
 import { mountGsapAwareEditing } from "./useGsapAwareEditing.testHelpers";
-
-vi.mock("../utils/studioSaveDiagnostics", async (importOriginal) => ({
-  ...(await importOriginal<typeof import("../utils/studioSaveDiagnostics")>()),
-  trackStudioEditBlocked: vi.fn(),
-  trackStudioSaveFailure: vi.fn(),
-}));
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -122,8 +115,6 @@ describe("a group drag plans every member before its first write", () => {
     expect(h.elements.map((el) => el.getAttribute("style"))).toEqual(styles);
     expect(h.showToast).toHaveBeenCalledTimes(1);
     expect(h.showToast).toHaveBeenCalledWith(GSAP_EDIT_BLOCK_COPY["keyframes-uneditable"], "error");
-    expect(trackStudioEditBlocked).toHaveBeenCalledTimes(1);
-    expect(trackStudioEditBlocked).toHaveBeenCalledWith(expect.objectContaining({ targetId: "b" }));
     act(() => h.root.unmount());
   });
 
@@ -148,7 +139,6 @@ describe("a group drag plans every member before its first write", () => {
     });
 
     expect(h.written()).toEqual([]);
-    expect(trackStudioEditBlocked).toHaveBeenCalledWith(expect.objectContaining({ targetId: "b" }));
     act(() => h.root.unmount());
   });
 
@@ -162,7 +152,6 @@ describe("a group drag plans every member before its first write", () => {
     await expect(h.groupCommit(updates)).rejects.toMatchObject({ reason: "mixed-files" });
 
     expect(h.written()).toEqual([]);
-    expect(trackStudioEditBlocked).toHaveBeenCalledWith(expect.objectContaining({ targetId: "c" }));
     act(() => h.root.unmount());
   });
 

@@ -309,7 +309,7 @@ describe("applyArcKeyframeAtPlayhead", () => {
         ],
         ease: "none",
       },
-      { label: "Add keyframe", softReload: true, keyframeAction: "add" },
+      { label: "Add keyframe", softReload: true },
     );
   });
 
@@ -341,7 +341,7 @@ describe("applyArcKeyframeAtPlayhead", () => {
         ],
         ease: "none",
       },
-      { label: "Add keyframe", softReload: true, keyframeAction: "add" },
+      { label: "Add keyframe", softReload: true },
     );
   });
 });

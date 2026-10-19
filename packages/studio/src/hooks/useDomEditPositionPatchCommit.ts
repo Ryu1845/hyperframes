@@ -1,13 +1,11 @@
 import { useCallback } from "react";
 import type { DomEditSelection } from "../components/editor/domEditing";
 import type { PatchOperation } from "../utils/sourcePatcher";
-import { trackStudioSaveFailure } from "../utils/studioSaveDiagnostics";
 import { DomEditSaveQueueOpenError } from "../utils/domEditSaveQueue";
 import type { PersistDomEditOperations } from "./domEditCommitTypes";
 import { wasAlreadyToasted } from "./domEditPersistFailure";
 
 interface UseDomEditPositionPatchCommitParams {
-  activeCompPath: string | null;
   persistDomEditOperations: PersistDomEditOperations;
   showToast: (message: string, tone?: "error" | "info") => void;
 }
@@ -21,7 +19,6 @@ type PositionPatchOptions = {
 };
 
 export function useDomEditPositionPatchCommit({
-  activeCompPath,
   persistDomEditOperations,
   showToast,
 }: UseDomEditPositionPatchCommitParams) {
@@ -40,19 +37,9 @@ export function useDomEditPositionPatchCommit({
         if (!wasAlreadyToasted(error)) {
           showToast(error instanceof Error ? error.message : "Failed to save position");
         }
-        trackStudioSaveFailure({
-          source: "dom_edit",
-          error,
-          filePath: selection.sourceFile ?? activeCompPath ?? "index.html",
-          mutationType: "position",
-          label: options.label,
-          targetId: selection.id,
-          targetSelector: selection.selector,
-          targetSourceFile: selection.sourceFile,
-        });
         throw error;
       });
     },
-    [activeCompPath, persistDomEditOperations, showToast],
+    [persistDomEditOperations, showToast],
   );
 }

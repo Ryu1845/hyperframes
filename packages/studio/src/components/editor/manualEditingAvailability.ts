@@ -57,16 +57,6 @@ export const STUDIO_SDK_CUTOVER_FAMILIES = resolveEnabledSdkFamilies(
   STUDIO_SDK_CUTOVER_ENABLED,
 );
 
-// Resolver-parity tripwire (telemetry-only, decoupled from cutover).
-// Runs the SDK resolver alongside any edit and emits sdk_resolver_shadow on
-// divergence. Default true; disable via VITE_STUDIO_SDK_RESOLVER_SHADOW_ENABLED=false.
-// Soak gate: retire once zero element_not_found divergences over a clean window.
-export const STUDIO_SDK_RESOLVER_SHADOW_ENABLED = resolveStudioBooleanEnvFlag(
-  env,
-  ["VITE_STUDIO_SDK_RESOLVER_SHADOW_ENABLED"],
-  true,
-);
-
 // Studio inspector redesign ("Ledger, flat" — design_handoff_studio_inspector):
 // flat identity header/footer/groups. Default true as of v0.7.59+ bug-fix pass
 // (right-aligned values, Stroke select-only, promote-badge overlap, Layout/

@@ -1,46 +1,18 @@
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
+import { declinedCutover, failedCutover } from "./sdkEditTransaction";
 
-vi.mock("./studioTelemetry", () => ({ trackStudioEvent: vi.fn() }));
-
-import { trackStudioEvent } from "./studioTelemetry";
-import { declinedCutover } from "./sdkEditTransaction";
-
-describe("declinedCutover telemetry", () => {
-  it("emits sdk_cutover_declined with reason and family, and returns the declined result", () => {
-    const result = declinedCutover("target_not_found", "timing");
-    expect(result).toEqual({ status: "declined", reason: "target_not_found" });
-    expect(trackStudioEvent).toHaveBeenCalledWith("sdk_cutover_declined", {
+describe("cutover results", () => {
+  it("returns a decline that names its reason", () => {
+    expect(declinedCutover("target_not_found")).toEqual({
+      status: "declined",
       reason: "target_not_found",
-      family: "timing",
     });
   });
 
-  it("emits family:null when the decline happens before a family is known", () => {
-    declinedCutover("no_change");
-    expect(trackStudioEvent).toHaveBeenCalledWith("sdk_cutover_declined", {
-      reason: "no_change",
-      family: null,
-    });
-  });
-
-  it("omits resolverDisagreement when it is not set, and carries it when it is", () => {
-    declinedCutover("target_not_found", "timing");
-    expect(trackStudioEvent).toHaveBeenLastCalledWith("sdk_cutover_declined", {
-      reason: "target_not_found",
-      family: "timing",
-    });
-
-    declinedCutover("target_not_found", "timing", true);
-    expect(trackStudioEvent).toHaveBeenLastCalledWith("sdk_cutover_declined", {
-      reason: "target_not_found",
-      family: "timing",
-      resolverDisagreement: true,
-    });
-
-    declinedCutover("target_not_found", "timing", false);
-    expect(trackStudioEvent).toHaveBeenLastCalledWith("sdk_cutover_declined", {
-      reason: "target_not_found",
-      family: "timing",
-    });
+  it("wraps a non-Error failure so callers can always throw it", () => {
+    const result = failedCutover("refused");
+    expect(result.status).toBe("failed");
+    expect(result.status === "failed" && result.error).toBeInstanceOf(Error);
+    expect(result.status === "failed" && result.error.message).toBe("refused");
   });
 });

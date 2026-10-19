@@ -21,10 +21,8 @@ import { whileScriptWrites } from "../player/previewReloading";
 import { readGsapPositionFromIframe } from "./gsapPositionDetection";
 import { selectorFromSelection } from "./gsapShared";
 import { useAnimatedPropertyCommit } from "./useAnimatedPropertyCommit";
-import {
-  useGsapSaveFailureTelemetry,
-  useSafeGsapCommitMutation,
-} from "./useSafeGsapCommitMutation";
+import { useSafeGsapCommitMutation } from "./useSafeGsapCommitMutation";
+import { getStudioSaveErrorMessage } from "../utils/studioSaveDiagnostics";
 import type { CommitMutation, CommitMutationOptions } from "./gsapScriptCommitTypes";
 import { setElementGsapPosition } from "../utils/elementGsap";
 import { logResize, logResizeSettle } from "../utils/resizeDebug";
@@ -56,13 +54,7 @@ export interface UseGsapAwareEditingParams {
     selection: DomEditSelection,
     options?: GsapAnimationFetchOptions,
   ) => () => Promise<GsapAnimation[]>;
-  trackGsapInteractionFailure: (
-    error: unknown,
-    selection: DomEditSelection | null,
-    mutationType: string,
-    label: string,
-    toast?: boolean,
-  ) => void;
+  toastGsapInteractionFailure: (error: unknown, toast?: boolean) => void;
   // DOM fallbacks (from useDomEditCommits)
   stageElementPositionOffset: (
     selection: DomEditSelection,
@@ -123,7 +115,7 @@ export function useGsapAwareEditing({
   showToast,
   bumpGsapCache,
   makeFetchFallback,
-  trackGsapInteractionFailure,
+  toastGsapInteractionFailure,
   stageElementPositionOffset,
   handleDomBoxSizeCommit,
   handleDomRotationCommit,
@@ -180,7 +172,7 @@ export function useGsapAwareEditing({
           });
           return writes.finish();
         } catch (error) {
-          trackGsapInteractionFailure(error, selection, "drag", "Move animated layer");
+          toastGsapInteractionFailure(error);
           throw error;
         }
       });
@@ -189,7 +181,7 @@ export function useGsapAwareEditing({
       gsapCommitMutation,
       previewIframeRef,
       makeFetchFallback,
-      trackGsapInteractionFailure,
+      toastGsapInteractionFailure,
       getGsapAnimationsForSelection,
       stageElementPositionOffset,
     ],
@@ -200,7 +192,7 @@ export function useGsapAwareEditing({
     activeCompPath,
     previewIframeRef,
     makeFetchFallback,
-    trackGsapInteractionFailure,
+    toastGsapInteractionFailure,
     stageElementPositionOffset,
     showToast,
   });
@@ -228,7 +220,7 @@ export function useGsapAwareEditing({
             : await ownedAnimations;
         } catch (error) {
           restore();
-          trackGsapInteractionFailure(error, selection, "resize", "Resize animated layer");
+          toastGsapInteractionFailure(error);
           throw error;
         }
         const scaleRoute = targetAnimations.some((anim) => anim.propertyGroup === "scale");
@@ -335,7 +327,7 @@ export function useGsapAwareEditing({
                 logResizeSettle(selection.element, ownsDragOffset ? "gsap-scale" : "gsap-size");
                 return;
               } catch (error) {
-                trackGsapInteractionFailure(error, selection, "resize", "Resize animated layer");
+                toastGsapInteractionFailure(error);
                 throw error;
               }
             }
@@ -368,7 +360,7 @@ export function useGsapAwareEditing({
       gsapCommitMutation,
       previewIframeRef,
       makeFetchFallback,
-      trackGsapInteractionFailure,
+      toastGsapInteractionFailure,
       getGsapAnimationsForSelection,
     ],
   );
@@ -399,7 +391,7 @@ export function useGsapAwareEditing({
           assertGsapEditPersisted(outcome);
           return writes.finish();
         } catch (error) {
-          trackGsapInteractionFailure(error, selection, "rotation", "Rotate animated layer");
+          toastGsapInteractionFailure(error);
           throw error;
         }
       });
@@ -408,7 +400,7 @@ export function useGsapAwareEditing({
       gsapCommitMutation,
       previewIframeRef,
       makeFetchFallback,
-      trackGsapInteractionFailure,
+      toastGsapInteractionFailure,
       getGsapAnimationsForSelection,
       handleDomRotationCommit,
     ],
@@ -436,7 +428,7 @@ export function useGsapAwareEditing({
           (keyed) => commitAnimatedPropertiesRaw(selection, properties, keyed),
         );
       } catch (error) {
-        trackGsapInteractionFailure(error, selection, "property", "Edit animated property");
+        toastGsapInteractionFailure(error);
         throw error;
       }
     },
@@ -444,7 +436,7 @@ export function useGsapAwareEditing({
       commitAnimatedPropertiesRaw,
       commitPositionPatchToHtml,
       gsapCommitMutation,
-      trackGsapInteractionFailure,
+      toastGsapInteractionFailure,
     ],
   );
 
@@ -474,15 +466,18 @@ export function useGsapAwareEditing({
 
   // ── Thin commitMutation facade ──
   // Routes through the canonical safe wrapper so a server-save failure surfaces a
-  // toast + save telemetry instead of silently reverting — parity with the
-  // arc/keyframe/animation ops that all go through useSafeGsapCommitMutation.
+  // toast instead of silently reverting — parity with the arc/keyframe/animation
+  // ops that all go through useSafeGsapCommitMutation.
 
   const noopCommit = useCallback<CommitMutation>(async () => {}, []);
-  const trackGsapSaveFailure = useGsapSaveFailureTelemetry(null);
+  const toastGsapSaveFailure = useCallback(
+    (error: unknown) =>
+      showToast(`Couldn't save animation: ${getStudioSaveErrorMessage(error)}`, "error"),
+    [showToast],
+  );
   const safeGsapCommit = useSafeGsapCommitMutation(
     gsapCommitMutation ?? noopCommit,
-    trackGsapSaveFailure,
-    showToast,
+    toastGsapSaveFailure,
   );
 
   const commitMutation = useCallback(

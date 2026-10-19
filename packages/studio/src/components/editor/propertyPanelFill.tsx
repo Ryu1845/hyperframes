@@ -19,7 +19,6 @@ import {
   SliderControl,
 } from "./propertyPanelPrimitives";
 import { ColorField } from "./propertyPanelColor";
-import { useTrackDesignInput } from "../../contexts/DesignPanelInputContext";
 import { encodeUrlPath } from "@hyperframes/parsers";
 
 /* ------------------------------------------------------------------ */
@@ -98,7 +97,6 @@ export function ImageFillField({
   onCommit: (nextValue: string) => void;
   onImportAssets?: (files: FileList) => Promise<string[]>;
 }) {
-  const track = useTrackDesignInput();
   const sourceFile = element.sourceFile;
   const isImage = element.tagName === "img";
   const imageUrl = isImage ? (element.element.getAttribute("src") ?? "") : value;
@@ -131,7 +129,6 @@ export function ImageFillField({
       const uploaded = await onImportAssets(files);
       const nextImage = uploaded.find((a) => IMAGE_EXT.test(a));
       if (nextImage) {
-        track("button", "Upload image");
         commitImage(toProjectRootAssetPath(nextImage), true);
       }
     } catch {
@@ -194,7 +191,6 @@ export function ImageFillField({
                 disabled={disabled}
                 onChange={(e) => {
                   const next = e.target.value;
-                  track("select", "Project asset");
                   if (!next) {
                     commitImage("");
                     return;
@@ -246,7 +242,6 @@ export function GradientField({
   disabled?: boolean;
   onCommit: (nextValue: string) => void;
 }) {
-  const track = useTrackDesignInput();
   const previewRef = useRef<HTMLDivElement | null>(null);
   const parsed = parseGradient(value) ?? buildDefaultGradientModel(fallbackColor);
 
@@ -268,13 +263,11 @@ export function GradientField({
               ? Math.min(100, (parsed.stops.at(-1)?.position ?? 90) + 10)
               : 100,
           );
-    track("button", "Add gradient stop");
     commit(nextGradient);
   };
 
   const removeStop = (index: number) => {
     if (parsed.stops.length <= 2) return;
-    track("button", `Remove gradient stop ${index + 1}`);
     commit({ ...parsed, stops: parsed.stops.filter((_, i) => i !== index) });
   };
 
@@ -345,7 +338,6 @@ export function GradientField({
         </div>
         <div className="flex min-w-0 flex-wrap items-center gap-2">
           <SegmentedControl
-            trackName="Gradient type"
             disabled={disabled}
             value={parsed.kind}
             onChange={(next) => patch({ kind: next as GradientModel["kind"] })}
@@ -361,7 +353,6 @@ export function GradientField({
               checked={parsed.repeating}
               disabled={disabled}
               onChange={(e) => {
-                track("toggle", "Repeat gradient");
                 patch({ repeating: e.target.checked });
               }}
               className="h-4 w-4 rounded-sm border-neutral-700 bg-neutral-950 text-accent-ink focus:ring-panel-accent"
@@ -372,7 +363,6 @@ export function GradientField({
             type="button"
             disabled={disabled}
             onClick={() => {
-              track("button", "Reverse gradient");
               commit({
                 ...parsed,
                 stops: [...parsed.stops].reverse().map((stop) => ({
@@ -393,7 +383,7 @@ export function GradientField({
         <div className="grid gap-1.5">
           <span className={LABEL}>{parsed.kind === "linear" ? "Angle" : "Start angle"}</span>
           <SliderControl
-            trackName={parsed.kind === "linear" ? "Angle" : "Start angle"}
+            ariaLabel={parsed.kind === "linear" ? "Angle" : "Start angle"}
             value={parsed.angle}
             min={0}
             max={360}
@@ -430,7 +420,7 @@ export function GradientField({
           <div className="grid min-w-0 gap-1.5">
             <span className={LABEL}>Center X</span>
             <SliderControl
-              trackName="Center X"
+              ariaLabel="Center X"
               value={parsed.centerX}
               min={0}
               max={100}
@@ -444,7 +434,7 @@ export function GradientField({
           <div className="grid min-w-0 gap-1.5">
             <span className={LABEL}>Center Y</span>
             <SliderControl
-              trackName="Center Y"
+              ariaLabel="Center Y"
               value={parsed.centerY}
               min={0}
               max={100}

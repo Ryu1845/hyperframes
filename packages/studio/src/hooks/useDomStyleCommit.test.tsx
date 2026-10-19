@@ -7,8 +7,6 @@ import { makeSelection } from "./domSelectionTestHarness";
 
 Reflect.set(globalThis, "IS_REACT_ACT_ENVIRONMENT", true);
 
-vi.mock("../utils/studioTelemetry", () => ({ trackStudioEvent: vi.fn() }));
-
 const SOURCE = '<div id="card" style="color: red">Card</div>';
 
 /** Each patch answers with the next status in `failures` (none left: success). */

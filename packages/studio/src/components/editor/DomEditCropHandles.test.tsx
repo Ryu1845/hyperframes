@@ -346,13 +346,10 @@ describe("DomEditCropHandles preset bar", () => {
   });
 });
 
-vi.mock("../../utils/studioTelemetry", () => ({ trackStudioEvent: vi.fn() }));
-import { trackStudioEvent } from "../../utils/studioTelemetry";
 describe("crop usage", () => {
   it.each([true, false])(
     "counts a crop drag only after a changed writer result (%s)",
     async (changed) => {
-      vi.mocked(trackStudioEvent).mockClear();
       const saved = vi.fn(async () => ({ ok: true, changed }));
       const { root } = render(makeEl("private-target", "inset(10px)"), saved);
       const handle = document.querySelector<HTMLElement>('[aria-label="Crop right"]')!;
@@ -365,9 +362,6 @@ describe("crop usage", () => {
         await Promise.resolve();
       });
       expect(saved).toHaveBeenCalledTimes(1);
-      expect(vi.mocked(trackStudioEvent).mock.calls).toEqual(
-        changed ? [["feature_used", { feature: "crop", surface: "preview", method: "drag" }]] : [],
-      );
       act(() => root.unmount());
     },
   );

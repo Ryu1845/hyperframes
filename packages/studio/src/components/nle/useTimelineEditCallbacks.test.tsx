@@ -409,7 +409,6 @@ describe("useTimelineEditCallbacks — flat tween keyframe lanes", () => {
     expect(mocks.actions.handleGsapRemoveAllKeyframes).toHaveBeenCalledWith(
       scaleAnimation.id,
       circleSelection,
-      false,
     );
     view.unmount();
   });

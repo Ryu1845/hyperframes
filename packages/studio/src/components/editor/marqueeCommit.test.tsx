@@ -3,11 +3,8 @@ import { act, useRef, type RefObject } from "react";
 import type { Root } from "react-dom/client";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { installReactActEnvironment, mountReactHarness } from "../../hooks/domSelectionTestHarness";
-import { trackStudioEvent } from "../../utils/studioTelemetry";
 import type { DomSelectionResult } from "../../hooks/useDomSelectionTypes";
 import { useMarqueeGestures } from "./marqueeCommit";
-
-vi.mock("../../utils/studioTelemetry", () => ({ trackStudioEvent: vi.fn() }));
 
 // Layout stands in for a real preview: every element is visible and sits at the band's start.
 vi.mock("./domEditingElement", async (importOriginal) => ({
@@ -202,45 +199,35 @@ it("a reload promoted mid-band selects from the preview on screen, not the retir
 });
 
 it.each([
-  [2, false, 2, 0],
-  [1, true, 2, 1],
-  [2, true, 2, 1],
-  [1, true, 1, 0],
-])(
-  "counts marquee receipt: %s hits, changed=%s, group=%s",
-  async (hits, changed, count, events) => {
-    const iframe = document.createElement("iframe");
-    const doc = document.implementation.createHTMLDocument("preview");
-    doc.body.innerHTML =
-      '<div data-composition-id="main"><h1 id="title">Title</h1><p id="subtitle">Subtitle</p></div>';
-    Object.defineProperty(iframe, "contentDocument", { value: doc });
-    const apply = vi.fn((_selections: HTMLElement[], _additive: boolean) => ({ changed, count }));
-    const band = mountReactHarness(
-      <TestMarquee
-        iframeRef={{ current: iframe }}
-        onSelect={apply}
-        resolveHits={(elements) => elements.slice(0, hits)}
-      />,
-    );
-    const fire = (type: string, x: number, y: number) =>
-      pointer(type, x, y, "[data-band-overlay]", true);
-    try {
-      fire("pointerdown", 0, 0);
-      fire("pointermove", 120, 90);
-      await act(async () => {
-        fire("pointerup", 120, 90);
-      });
-      expect(apply).toHaveBeenCalledTimes(1);
-      expect(apply.mock.calls[0]![0]).toHaveLength(hits);
-      expect(trackStudioEvent).toHaveBeenCalledTimes(events);
-      if (events)
-        expect(trackStudioEvent).toHaveBeenCalledWith("feature_used", {
-          feature: "multi_select",
-          surface: "preview",
-          method: "drag",
-        });
-    } finally {
-      act(() => band.unmount());
-    }
-  },
-);
+  [2, false, 2],
+  [1, true, 2],
+  [2, true, 2],
+  [1, true, 1],
+])("applies every resolved hit: %s hits, changed=%s, group=%s", async (hits, changed, count) => {
+  const iframe = document.createElement("iframe");
+  const doc = document.implementation.createHTMLDocument("preview");
+  doc.body.innerHTML =
+    '<div data-composition-id="main"><h1 id="title">Title</h1><p id="subtitle">Subtitle</p></div>';
+  Object.defineProperty(iframe, "contentDocument", { value: doc });
+  const apply = vi.fn((_selections: HTMLElement[], _additive: boolean) => ({ changed, count }));
+  const band = mountReactHarness(
+    <TestMarquee
+      iframeRef={{ current: iframe }}
+      onSelect={apply}
+      resolveHits={(elements) => elements.slice(0, hits)}
+    />,
+  );
+  const fire = (type: string, x: number, y: number) =>
+    pointer(type, x, y, "[data-band-overlay]", true);
+  try {
+    fire("pointerdown", 0, 0);
+    fire("pointermove", 120, 90);
+    await act(async () => {
+      fire("pointerup", 120, 90);
+    });
+    expect(apply).toHaveBeenCalledTimes(1);
+    expect(apply.mock.calls[0]![0]).toHaveLength(hits);
+  } finally {
+    act(() => band.unmount());
+  }
+});

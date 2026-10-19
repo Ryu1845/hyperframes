@@ -1,15 +1,6 @@
 import type { GsapAnimation } from "@hyperframes/core/gsap-parser";
 import { describe, expect, it } from "vitest";
-import { buildStudioSaveFailureProperties } from "../utils/studioSaveDiagnostics";
-import {
-  GsapEditBlockedError,
-  assertGsapEditPersisted,
-  directEditOutcomeForProperties,
-} from "./gsapEditOutcome";
-
-function blockDetailFor(error: unknown): unknown {
-  return buildStudioSaveFailureProperties({ source: "gsap_commit", error }).block_detail;
-}
+import { assertGsapEditPersisted, directEditOutcomeForProperties } from "./gsapEditOutcome";
 
 /** Minimal animation that writes `x`, so the editability check actually runs. */
 function animation(overrides: Partial<GsapAnimation> = {}): GsapAnimation {
@@ -91,25 +82,5 @@ describe("a blocked GSAP edit names which of the nine causes it hit", () => {
     ).toThrow(
       expect.objectContaining({ name: "GsapEditBlockedError", detail: "no-position-tween" }),
     );
-  });
-
-  it("surfaces the detail on the telemetry payload", () => {
-    expect(
-      blockDetailFor(
-        new GsapEditBlockedError("source-uneditable", "live-rotation-no-source-tween"),
-      ),
-    ).toBe("live-rotation-no-source-tween");
-  });
-
-  it("omits the detail for a block that has no specific cause", () => {
-    expect(blockDetailFor(new GsapEditBlockedError("no-selector"))).toBeUndefined();
-  });
-
-  it("ignores a detail-shaped field on an error that is not a block", () => {
-    // Guards the name check: any error can carry a `detail`, and reporting a
-    // save failure's detail as a block cause would be a silent mislabel.
-    const impostor = Object.assign(new Error("network down"), { detail: "unresolved-selector" });
-    expect(blockDetailFor(impostor)).toBeUndefined();
-    expect(blockDetailFor("not an error")).toBeUndefined();
   });
 });

@@ -1788,58 +1788,36 @@ describe("voiceover carve visibility", () => {
   });
 });
 
-vi.mock("../../utils/studioTelemetry", () => ({ trackStudioEvent: vi.fn() }));
-import { trackStudioEvent } from "../../utils/studioTelemetry";
-import { __resetDesignInputThrottle } from "../../utils/designInputTracking";
-import { DesignPanelInputProvider } from "../../contexts/DesignPanelInputContext";
-function renderTrackedFx(props: Partial<Parameters<typeof FxSection>[0]> = {}) {
-  vi.mocked(trackStudioEvent).mockClear();
-  __resetDesignInputThrottle();
+function renderFx(props: Partial<Parameters<typeof FxSection>[0]> = {}) {
   return renderInto(
-    <DesignPanelInputProvider ui="flat" section="media">
-      <FxSection
-        chain={chainOf("lowpass", "gain")}
-        onChainChange={vi.fn()}
-        carve={null}
-        onCarveChange={vi.fn()}
-        sourceOptions={[]}
-        {...props}
-      />
-    </DesignPanelInputProvider>,
+    <FxSection
+      chain={chainOf("lowpass", "gain")}
+      onChainChange={vi.fn()}
+      carve={null}
+      onCarveChange={vi.fn()}
+      sourceOptions={[]}
+      {...props}
+    />,
   );
 }
 
-describe("custom FX inspector input usage", () => {
-  it.each([
-    [".hf-fx-bypass", "toggle", "effect-bypass"],
-    ['.hf-fx-move[title="Move down"]', "button", "move-effect"],
-    [".hf-fx-remove", "button", "remove-effect"],
-  ])("tracks %s through design_input once", (selector, control, name) => {
-    const onChainChange = vi.fn();
-    const { host, root } = renderTrackedFx({ onChainChange });
-    click(host.querySelector(selector));
-    expect(onChainChange).toHaveBeenCalledTimes(1);
-    expect(
-      vi.mocked(trackStudioEvent).mock.calls.filter(([event]) => event === "design_input"),
-    ).toEqual([["design_input", { ui: "flat", section: "media", control, name }]]);
-    expect(vi.mocked(trackStudioEvent).mock.calls.some(([event]) => event === "feature_used")).toBe(
-      false,
-    );
-    act(() => root.unmount());
-  });
-  it.each([false, true])("tracks a levelling button once (already levelled: %s)", (levelled) => {
+describe("custom FX inspector controls", () => {
+  it.each([".hf-fx-bypass", '.hf-fx-move[title="Move down"]', ".hf-fx-remove"])(
+    "%s changes the chain once",
+    (selector) => {
+      const onChainChange = vi.fn();
+      const { host, root } = renderFx({ onChainChange });
+      click(host.querySelector(selector));
+      expect(onChainChange).toHaveBeenCalledTimes(1);
+      act(() => root.unmount());
+    },
+  );
+  it.each([false, true])("fires a levelling button once (already levelled: %s)", (levelled) => {
     const action = vi.fn();
-    const { host, root } = renderTrackedFx({ levelled, onLevel: action, onRemoveLevel: action });
+    const { host, root } = renderFx({ levelled, onLevel: action, onRemoveLevel: action });
     click(byText(host, "button", "+ effect"));
-    vi.mocked(trackStudioEvent).mockClear();
     click(byText(host, "button", levelled ? "Remove levelling" : "Even Out Levels"));
     expect(action).toHaveBeenCalledTimes(1);
-    expect(trackStudioEvent).toHaveBeenCalledExactlyOnceWith("design_input", {
-      ui: "flat",
-      section: "media",
-      control: "button",
-      name: levelled ? "remove-levelling" : "add-levelling",
-    });
     act(() => root.unmount());
   });
 });

@@ -1,5 +1,4 @@
 import type { DomSelectionResult } from "../../hooks/useDomSelectionTypes";
-import { trackPreviewFeatureUsed } from "../../utils/previewFeatureUsage";
 // fallow-ignore-file code-duplication
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { DomEditSelection } from "./domEditing";
@@ -141,10 +140,6 @@ export interface MarqueeGestures {
   onPointerCancel: () => void;
 }
 
-function trackMarqueeSelection(result: DomSelectionResult | void): void {
-  if (result?.changed && result.count > 1) trackPreviewFeatureUsed("multi_select", "drag");
-}
-
 function releaseCapture(m: MarqueeState): void {
   try {
     m.target.releasePointerCapture(m.pointerId);
@@ -186,8 +181,7 @@ export function useMarqueeGestures<T>(deps: MarqueeGesturesDeps<T>): MarqueeGest
         : ((await resolveDomEditSelections(elements, acp)) as T[]);
       const applySelection = deps.onMarqueeSelectRef.current;
       if (!applySelection) return;
-      const result = applySelection(picks, additive);
-      trackMarqueeSelection(result);
+      applySelection(picks, additive);
     },
     [
       deps.iframeRef,

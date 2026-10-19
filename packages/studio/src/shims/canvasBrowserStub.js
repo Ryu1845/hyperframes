@@ -10,13 +10,8 @@
  * statically, so the bundled form is a plain assignment that cannot throw, the
  * catch never runs, and `createCanvas` lands `undefined`. Parsing any `<canvas>`
  * tag then throws inside `openComposition`, Studio loses its SDK session for the
- * whole composition, and every edit silently falls back to the server path — the
- * resolver shadow does not run either, so it was invisible until
- * `studio:sdk_session_unavailable` shipped in v0.8.47.
- *
- * Production telemetry over the 72h after the flip: 1065 of 1544 session-open
- * failures were this crash, across a large share of 197 users. Canvas is common
- * in compositions (Three.js, shaders, particle effects, charts).
+ * whole composition, and every edit silently falls back to the server path.
+ * Canvas is common in compositions (Three.js, shaders, particle effects, charts).
  *
  * Aliasing `canvas` to this file makes the browser build resolve to a
  * measurement-only canvas, which is all linkedom's static parse needs — nothing

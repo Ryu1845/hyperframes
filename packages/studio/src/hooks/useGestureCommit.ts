@@ -12,7 +12,6 @@ import { resolveTweenDuration } from "../utils/globalTimeCompiler";
 import type { DomEditSelection } from "../components/editor/domEditing";
 import type { GsapAnimation } from "@hyperframes/core/gsap-parser";
 import type { CommitMutationOptions } from "./gsapScriptCommitTypes";
-import { trackPreviewEditResult } from "../utils/previewFeatureUsage";
 import { observeGsapGesture } from "./gsapGestureOutcome";
 import { roundTo3 } from "../utils/rounding";
 import { classifyPropertyGroup } from "@hyperframes/core/gsap-parser";
@@ -112,7 +111,7 @@ interface UseGestureCommitParams {
 export interface UseGestureCommitResult {
   gestureState: "idle" | "recording";
   gestureRecording: ReturnType<typeof useGestureRecording>;
-  handleToggleRecording: (method?: "button" | "keyboard") => void;
+  handleToggleRecording: () => void;
 }
 
 // fallow-ignore-next-line complexity
@@ -128,7 +127,6 @@ export function useGestureCommit({
   const [gestureState, setGestureState] = useState<"idle" | "recording">("idle");
   const gestureStateRef = useRef<"idle" | "recording">("idle");
   const recordingAutoStopRef = useRef<ReturnType<typeof setInterval>>(undefined);
-  const recordingMethodRef = useRef<"button" | "keyboard">("button");
   const recordingStartTimeRef = useRef(0);
   const commitInFlightRef = useRef(false);
   // Capture selection at recording start so commit always targets the recorded element,
@@ -262,7 +260,7 @@ export function useGestureCommit({
                 duration: roundTo3(duration),
                 keyframes,
               },
-              { label: "Gesture recording (replace set)", softReload: true, keyframeAction: "add" },
+              { label: "Gesture recording (replace set)", softReload: true },
             );
           } else {
             const tweenStart = existingPositionTween.resolvedStart ?? 0;
@@ -321,7 +319,7 @@ export function useGestureCommit({
                   keyframes: merged,
                   ...keyframeEases(existingPositionTween),
                 },
-                { label: "Gesture recording (merge)", softReload: true, keyframeAction: "add" },
+                { label: "Gesture recording (merge)", softReload: true },
               );
             } else {
               // Emit one tween per property group so a mixed-prop gesture (e.g.
@@ -373,7 +371,6 @@ export function useGestureCommit({
             );
           }
         }
-        trackPreviewEditResult("gesture_recording", recordingMethodRef.current, outcome.finish());
       }
       showToast(`Recorded ${sortedPcts.length} keyframes`, "info");
     } catch (err) {
@@ -402,56 +399,49 @@ export function useGestureCommit({
     [stopAndCommitRecording],
   );
 
-  const startRecording = useCallback(
-    (method: "button" | "keyboard") => {
-      if (readOnlyPreview) return;
-      const sel = domEditSessionRef.current.domEditSelection;
-      if (!sel) {
-        showToast("Select an element first", "error");
-        return;
-      }
-      const iframe = previewIframeRef.current;
-      if (!iframe) {
-        showToast("Preview not ready. Try again", "error");
-        return;
-      }
+  const startRecording = useCallback(() => {
+    if (readOnlyPreview) return;
+    const sel = domEditSessionRef.current.domEditSelection;
+    if (!sel) {
+      showToast("Select an element first", "error");
+      return;
+    }
+    const iframe = previewIframeRef.current;
+    if (!iframe) {
+      showToast("Preview not ready. Try again", "error");
+      return;
+    }
 
-      const store = usePlayerStore.getState();
-      recordingMethodRef.current = method;
-      recordingStartTimeRef.current = store.currentTime;
-      const elementEnd = recordingEnd(sel);
-      capturedSelectionRef.current = sel;
-      capturedAnimationsRef.current = domEditSessionRef.current.selectedGsapAnimations ?? [];
-      gestureRecording.startRecording(sel.element, iframe, elementEnd);
-      gestureStateRef.current = "recording";
-      isGestureRecordingRef.current = true;
-      setGestureState("recording");
+    const store = usePlayerStore.getState();
+    recordingStartTimeRef.current = store.currentTime;
+    const elementEnd = recordingEnd(sel);
+    capturedSelectionRef.current = sel;
+    capturedAnimationsRef.current = domEditSessionRef.current.selectedGsapAnimations ?? [];
+    gestureRecording.startRecording(sel.element, iframe, elementEnd);
+    gestureStateRef.current = "recording";
+    isGestureRecordingRef.current = true;
+    setGestureState("recording");
 
-      armAutoStop(elementEnd);
-    },
-    [
-      gestureRecording,
-      showToast,
-      previewIframeRef,
-      domEditSessionRef,
-      isGestureRecordingRef,
-      readOnlyPreview,
-      armAutoStop,
-    ],
-  );
+    armAutoStop(elementEnd);
+  }, [
+    gestureRecording,
+    showToast,
+    previewIframeRef,
+    domEditSessionRef,
+    isGestureRecordingRef,
+    readOnlyPreview,
+    armAutoStop,
+  ]);
 
-  const handleToggleRecording = useCallback(
-    (method: "button" | "keyboard" = "button") => {
-      if (commitInFlightRef.current) return;
-      if (gestureStateRef.current === "recording") {
-        if (readOnlyPreview) cancelRecording();
-        else void stopAndCommitRecording();
-        return;
-      }
-      startRecording(method);
-    },
-    [cancelRecording, readOnlyPreview, startRecording, stopAndCommitRecording],
-  );
+  const handleToggleRecording = useCallback(() => {
+    if (commitInFlightRef.current) return;
+    if (gestureStateRef.current === "recording") {
+      if (readOnlyPreview) cancelRecording();
+      else void stopAndCommitRecording();
+      return;
+    }
+    startRecording();
+  }, [cancelRecording, readOnlyPreview, startRecording, stopAndCommitRecording]);
 
   return useStableHandlers({ gestureState, gestureRecording, handleToggleRecording }, projectId);
 }

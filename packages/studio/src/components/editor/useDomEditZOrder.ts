@@ -1,4 +1,3 @@
-import { trackPreviewFeatureUsed } from "../../utils/previewFeatureUsage";
 import { useCallback, useMemo } from "react";
 import { useDomEditActionsContext } from "../../contexts/DomEditContext";
 import { readHfId, type DomEditSelection } from "./domEditing";
@@ -157,13 +156,8 @@ export function useDomEditZOrder(): DomEditZOrder {
       // One serialized z→lane transaction: the mirror runs only AFTER a durable z commit and
       // no second gesture interleaves (see runZLaneGesture). A failed z commit has already
       // toasted and rolled back, so the catch only keeps its rejection from going unhandled.
-      let changed = false;
       runZLaneGesture({
-        commitZ: async () => {
-          const result = await handleDomZIndexReorderCommit(entries, coalesceKey, action);
-          changed = result?.durable === true && result.changed;
-          return result;
-        },
+        commitZ: () => handleDomZIndexReorderCommit(entries, coalesceKey, action),
         mirror: () =>
           mirrorZOrderToTimeline({
             selectionKey: entries.find((e) => e.element === sel.element)?.key,
@@ -172,11 +166,7 @@ export function useDomEditZOrder(): DomEditZOrder {
             sourceFile: sel.sourceFile,
             coalesceKey,
           }),
-      })
-        .then(() => {
-          if (changed) trackPreviewFeatureUsed("z_order", "button");
-        })
-        .catch(() => undefined);
+      }).catch(() => undefined);
       return true;
     },
     [activeCompPath, handleDomZIndexReorderCommit, mirrorZOrderToTimeline, readOnly],

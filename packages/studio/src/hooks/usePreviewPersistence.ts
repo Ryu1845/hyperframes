@@ -16,7 +16,6 @@ import {
   hasStudioPendingEdits,
   type StudioPendingEditsDrainResult,
 } from "../utils/studioPendingEdits";
-import { trackStudioEvent } from "../utils/studioTelemetry";
 import {
   applyUndoRestoreToPreview,
   readUndoNestedFiles,
@@ -137,12 +136,6 @@ export function usePreviewPersistence({
             : "Auto-save is paused. Check your connection.";
         setDomEditSaveQueuePaused(message);
         showToastRef.current(message, "error");
-        trackStudioEvent("save_queue_paused", {
-          source: "dom_edit",
-          error_message: event.errorMessage,
-          status_code: event.statusCode,
-          consecutive_failures: event.consecutiveFailures,
-        });
       },
       onReset: () => {
         setDomEditSaveQueuePaused(null);

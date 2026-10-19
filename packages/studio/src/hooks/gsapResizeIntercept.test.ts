@@ -4,13 +4,10 @@ import type { GsapAnimation } from "@hyperframes/core/gsap-parser";
 import type { DomEditSelection } from "../components/editor/domEditingTypes";
 import { usePlayerStore } from "../player/store/playerStore";
 import { observeGsapGesture } from "./gsapGestureOutcome";
-import { trackStudioEvent } from "../utils/studioTelemetry";
 import type { CommitMutation } from "./gsapScriptCommitTypes";
 import { computeCurrentPercentage } from "./gsapDragCommit";
 import { commitSizeAtPlayhead, tryGsapResizeIntercept } from "./gsapResizeIntercept";
 import { liveTween, previewWith, tween } from "./gsapParsedTween.test-helpers";
-
-vi.mock("../utils/studioTelemetry", () => ({ trackStudioEvent: vi.fn() }));
 
 afterEach(() => {
   vi.clearAllMocks();
@@ -718,11 +715,7 @@ it.each([
   },
 );
 
-it.each([
-  [5, 1],
-  [0.5, 1],
-  [0.2, 0],
-])("counts scale resize insertion at %ss", async (time, count) => {
+it.each([5, 0.5, 0.2])("persists a scale resize at %ss", async (time) => {
   const el = makeGradedElement();
   const iframe = fakeIframe(el, { scale: 1, scaleX: 1, scaleY: 1 });
   usePlayerStore.setState({ currentTime: time, activeKeyframePct: null });
@@ -738,9 +731,6 @@ it.each([
     outcome.commit!,
   );
   expect(result.status).toBe("persisted");
-  outcome.finish();
-  expect(trackStudioEvent).toHaveBeenCalledTimes(count);
-  if (count) expect(trackStudioEvent).toHaveBeenCalledWith("keyframe", { action: "add" });
   el.remove();
   document.querySelector("#__hf_color_grading_clip")?.remove();
 });

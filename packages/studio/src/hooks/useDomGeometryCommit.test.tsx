@@ -12,8 +12,6 @@ import { makeSelection } from "./domSelectionTestHarness";
 
 Reflect.set(globalThis, "IS_REACT_ACT_ENVIRONMENT", true);
 
-vi.mock("../utils/studioTelemetry", () => ({ trackStudioEvent: vi.fn() }));
-
 const SOURCE = '<div id="card">Card</div><div id="other">Other</div>';
 
 /** GSAP already renders this element's transform, so a move takes the GSAP writer. */

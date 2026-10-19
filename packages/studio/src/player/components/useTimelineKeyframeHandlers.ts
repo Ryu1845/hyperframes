@@ -10,7 +10,6 @@ import {
   previewClipPct,
   resolveKeyframeDrag,
 } from "../../components/editor/keyframeDrag";
-import { trackStudioSegmentEaseEdit } from "../../telemetry/events";
 import type { AnimationKeyframeTarget } from "../../hooks/gsapTweenSynth";
 import type { TimelineElement, KeyframeCacheEntry } from "../store/playerStore";
 import { usePlayerStore } from "../store/playerStore";
@@ -554,7 +553,6 @@ export function useTimelineKeyframeHandlers({
           tweenPercentage: target.tweenPercentage,
           elementId: elId,
         });
-        trackStudioSegmentEaseEdit({ action: "open" });
       }
     },
     [expandedElements, onClickKeyframe],

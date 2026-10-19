@@ -82,15 +82,15 @@ export interface PropertyPanelProps {
     element: DomEditSelection,
     next: { x: number; y: number },
     route?: { plainTranslate: boolean },
-  ) => void | Promise<void | import("../../utils/previewFeatureUsage").GeometryCommitResult>;
+  ) => void | Promise<void | import("../../hooks/gsapGestureOutcome").GeometryCommitResult>;
   onSetManualSize: (
     element: DomEditSelection,
     next: { width: number; height: number },
-  ) => void | Promise<void | import("../../utils/previewFeatureUsage").GeometryCommitResult>;
+  ) => void | Promise<void | import("../../hooks/gsapGestureOutcome").GeometryCommitResult>;
   onSetManualRotation: (
     element: DomEditSelection,
     next: { angle: number },
-  ) => void | Promise<void | import("../../utils/previewFeatureUsage").GeometryCommitResult>;
+  ) => void | Promise<void | import("../../hooks/gsapGestureOutcome").GeometryCommitResult>;
   onSetText: (value: string, fieldKey?: string) => void;
   onSetTextFieldStyle: (fieldKey: string, property: string, value: string) => void;
   onPreviewTextFieldStyle?: (fieldKey: string, property: string, value: string) => void;

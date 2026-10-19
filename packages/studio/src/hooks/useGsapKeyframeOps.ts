@@ -1,4 +1,3 @@
-import { trackKeyframeUsage } from "../utils/keyframeUsage";
 // fallow-ignore-file code-duplication
 // Add/remove operation-family transaction shapes stay parallel until SDK graduation.
 import { useCallback } from "react";
@@ -25,7 +24,7 @@ import type {
   CommitMutation,
   CommitMutationOptions,
   SafeGsapCommitMutation,
-  TrackGsapSaveFailure,
+  GsapSaveFailureHandler,
 } from "./gsapScriptCommitTypes";
 
 function executeOptimisticKeyframeCacheUpdate(options: {
@@ -56,7 +55,7 @@ interface GsapKeyframeOpsParams extends SdkKeyframeDeps {
   activeCompPath: string | null;
   commitMutation: CommitMutation;
   commitMutationSafely: SafeGsapCommitMutation;
-  trackGsapSaveFailure: TrackGsapSaveFailure;
+  onGsapSaveFailure: GsapSaveFailureHandler;
 }
 
 /**
@@ -78,7 +77,7 @@ export function useGsapKeyframeOps({
   activeCompPath,
   commitMutation,
   commitMutationSafely,
-  trackGsapSaveFailure,
+  onGsapSaveFailure,
   sdkSession,
   sdkDeps,
 }: GsapKeyframeOpsParams) {
@@ -140,22 +139,18 @@ export function useGsapKeyframeOps({
                 coalesceKey: `gsap:${animationId}:kf:${percentage}`,
               },
             );
-            if (cutoverCommittedOrThrow(handled)) {
-              if (handled.before !== handled.after) trackKeyframeUsage("add", property);
-              return;
-            }
+            if (cutoverCommittedOrThrow(handled)) return;
           }
           await commitMutation(selection, mutation, {
             label: `Add keyframe at ${percentage}%`,
-            keyframeProperty: property,
             softReload: true,
           });
         },
       }).catch((error) => {
-        trackGsapSaveFailure(error, selection, mutation, `Add keyframe at ${percentage}%`);
+        onGsapSaveFailure(error);
       });
     },
-    [activeCompPath, commitMutation, trackGsapSaveFailure, sdkSession, sdkDeps],
+    [activeCompPath, commitMutation, onGsapSaveFailure, sdkSession, sdkDeps],
   );
 
   const addKeyframeBatch = useCallback(
@@ -177,11 +172,7 @@ export function useGsapKeyframeOps({
           sdkDeps,
           toSdkPersistOptions(`Add keyframe at ${percentage}%`, commitOverrides),
         );
-        if (cutoverCommittedOrThrow(handled)) {
-          if (handled.before !== handled.after && commitOverrides?.keyframeTelemetry !== false)
-            trackKeyframeUsage("add");
-          return;
-        }
+        if (cutoverCommittedOrThrow(handled)) return;
       }
       return commitMutation(
         selection,
@@ -238,10 +229,10 @@ export function useGsapKeyframeOps({
           await commitMutation(selection, mutation, commitOptions);
         },
       }).catch((error) => {
-        trackGsapSaveFailure(error, selection, mutation, `Remove keyframe at ${percentage}%`);
+        onGsapSaveFailure(error);
       });
     },
-    [activeCompPath, commitMutation, trackGsapSaveFailure, sdkSession, sdkDeps],
+    [activeCompPath, commitMutation, onGsapSaveFailure, sdkSession, sdkDeps],
   );
 
   const moveKeyframe = useCallback(
@@ -267,11 +258,11 @@ export function useGsapKeyframeOps({
         });
         return changed;
       } catch (error) {
-        trackGsapSaveFailure(error, selection, mutation, `Move keyframe to ${toPercentage}%`);
+        onGsapSaveFailure(error);
         return false;
       }
     },
-    [commitMutation, trackGsapSaveFailure],
+    [commitMutation, onGsapSaveFailure],
   );
 
   const resizeKeyframedTween = useCallback(
@@ -303,11 +294,11 @@ export function useGsapKeyframeOps({
         });
         return changed;
       } catch (error) {
-        trackGsapSaveFailure(error, selection, mutation, "Retime keyframe (resize tween)");
+        onGsapSaveFailure(error);
         return false;
       }
     },
-    [commitMutation, trackGsapSaveFailure],
+    [commitMutation, onGsapSaveFailure],
   );
 
   const convertToKeyframes = useCallback(
@@ -328,11 +319,7 @@ export function useGsapKeyframeOps({
           sdkDeps,
           toSdkPersistOptions("Convert to keyframes", commitOverrides),
         );
-        if (cutoverCommittedOrThrow(handled)) {
-          if (handled.before !== handled.after && commitOverrides.keyframeTelemetry !== false)
-            trackKeyframeUsage("convert");
-          return;
-        }
+        if (cutoverCommittedOrThrow(handled)) return;
       }
       return commitMutation(
         selection,
@@ -346,12 +333,7 @@ export function useGsapKeyframeOps({
   );
 
   const removeAllKeyframes = useCallback(
-    async (
-      selection: DomEditSelection,
-      animationId: string,
-      action: "remove_all" | "reset" = "remove_all",
-      telemetry = true,
-    ): Promise<boolean> => {
+    async (selection: DomEditSelection, animationId: string): Promise<boolean> => {
       const targetPath = selection.sourceFile || activeCompPath || "index.html";
       // A class/descendant selector can resolve a live element whose selection
       // deliberately has no id. The cache is still keyed by that DOM id.
@@ -369,9 +351,7 @@ export function useGsapKeyframeOps({
         );
         if (cutoverCommittedOrThrow(handled)) {
           clearCache();
-          const changed = handled.before !== handled.after;
-          if (changed && telemetry) trackKeyframeUsage(action);
-          return changed;
+          return handled.before !== handled.after;
         }
       }
       let changed = false;
@@ -380,8 +360,6 @@ export function useGsapKeyframeOps({
         { type: "remove-all-keyframes", animationId },
         {
           label: "Remove all keyframes",
-          keyframeAction: action,
-          keyframeTelemetry: telemetry,
           softReload: true,
           // The committed result is the single success boundary: clearing
           // before it makes failed saves lie, while waiting for the reload leaves

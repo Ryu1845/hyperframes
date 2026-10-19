@@ -1,4 +1,3 @@
-import { useTrackDesignInput } from "../../contexts/DesignPanelInputContext";
 /**
  * The add-effect shelf: Tone, the composite jobs, and the raw registry.
  *
@@ -82,7 +81,6 @@ export function FxAddMenu({
   withJob,
   withEffect,
 }: FxAddMenuProps) {
-  const trackInput = useTrackDesignInput();
   return (
     <div
       className="hf-fx-add-menu space-y-1.5 rounded-[4px] border border-panel-border-input p-1.5"
@@ -113,11 +111,9 @@ export function FxAddMenu({
               if (levelled) {
                 if (onRemoveLevel) {
                   onRemoveLevel();
-                  trackInput("button", "remove-levelling");
                 }
               } else {
                 onLevel();
-                trackInput("button", "add-levelling");
               }
               onClose();
             }}

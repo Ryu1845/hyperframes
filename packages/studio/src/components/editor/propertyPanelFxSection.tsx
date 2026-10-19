@@ -1,4 +1,3 @@
-import { useTrackDesignInput } from "../../contexts/DesignPanelInputContext";
 /**
  * The FX section for an audio element: the chain, plus the voiceover carve.
  *
@@ -30,15 +29,6 @@ import { FxRackChain } from "./propertyPanelFxRackChain.js";
 import { CLIP_SIGNAL_PATH } from "./audioFxSignalPath.js";
 import { FxAddMenu } from "./propertyPanelFxAddMenu.js";
 import { useFxAudition } from "./useFxAudition.js";
-import {
-  nodeOrigin,
-  trackNodeAdded,
-  trackNodeMoved,
-  trackNodeRemoved,
-  trackPresetAuditioned,
-  trackPresetAutomated,
-  trackPresetRemoved,
-} from "./audioFxTelemetry.js";
 import type { FxSectionProps } from "./propertyPanelFxSectionTypes.js";
 
 export type { FxSectionProps } from "./propertyPanelFxSectionTypes.js";
@@ -121,17 +111,13 @@ export function FxSection({
   // could only name a source it must not.
   const showCarve = !carvedAgainstBy && (sourceOptions.length > 0 || carve !== null);
 
-  const trackInput = useTrackDesignInput();
   const [adding, setAdding] = useState(false);
   const [picking, setPicking] = useState(false);
   const [openNode, setOpenNode] = useState<number | null>(0);
 
   const mutate = useCallback(
-    (nodes: HfAudioFxNode[], input?: string, control = "button") => {
-      onChainChange({ ...chain, nodes });
-      if (input) trackInput(control, input);
-    },
-    [chain, onChainChange, trackInput],
+    (nodes: HfAudioFxNode[]) => onChainChange({ ...chain, nodes }),
+    [chain, onChainChange],
   );
 
   // Dragging a knob previews without persisting; releasing it commits once.
@@ -155,41 +141,39 @@ export function FxSection({
       // The stored chain, not whatever is being auditioned on top of it — see
       // `storedChain`. Clicking preset B while hovering preset A used to save
       // both, which is heard as the effect running twice.
-      const next = applyPresetToChain(storedChain(), id, trackKind);
+      const next = applyPresetToChain(storedChain(), id);
       if (!next) return;
       // The audition WAS this, so there is nothing to put back — and putting the
       // old chain back over the write that just landed is a race the author
       // hears as the preset arriving and then leaving again.
       clearAudition();
-      mutate(next.nodes, "apply-preset");
+      mutate(next.nodes);
       // Land on the first node the preset wrote, so the author can hear what
       // arrived and immediately see what it is made of.
       setOpenNode(next.nodes.findIndex((n) => n.fromPreset === id));
       setPicking(false);
     },
-    [storedChain, mutate, clearAudition, trackKind],
+    [storedChain, mutate, clearAudition],
   );
 
   const addJob = useCallback(
     (job: HfAudioFxJob) => {
       clearAudition();
-      trackNodeAdded(job.type, "job", job.id, { trackKind });
-      mutate(withJob(chain, job).nodes, "add-job");
+      mutate(withJob(chain, job).nodes);
       setOpenNode(chain.nodes.length);
       setAdding(false);
     },
-    [chain, mutate, clearAudition, trackKind],
+    [chain, mutate, clearAudition],
   );
 
   const addEffect = useCallback(
     (type: string) => {
       clearAudition();
-      trackNodeAdded(type, "effect", null, { trackKind });
-      mutate(withEffect(chain, type).nodes, "add-effect");
+      mutate(withEffect(chain, type).nodes);
       setOpenNode(chain.nodes.length);
       setAdding(false);
     },
-    [chain, mutate, clearAudition, trackKind],
+    [chain, mutate, clearAudition],
   );
 
   const updateNode = useCallback(
@@ -229,15 +213,11 @@ export function FxSection({
       // Remove node and preset automation together before replacing the chain.
       const ids = items.map(({ node }) => node.id).filter((id): id is string => Boolean(id));
       if (ids.length > 0 || presetId) onRemoveNodesAutomation?.(ids, presetId);
-      if (presetId) trackPresetRemoved(presetId, { trackKind });
       const slots = new Set(items.map((item) => item.i));
-      mutate(
-        chain.nodes.filter((_, i) => !slots.has(i)),
-        "remove-preset",
-      );
+      mutate(chain.nodes.filter((_, i) => !slots.has(i)));
       setOpenNode(null);
     },
-    [chain.nodes, mutate, onRemoveNodesAutomation, trackKind],
+    [chain.nodes, mutate, onRemoveNodesAutomation],
   );
 
   const removeNode = useCallback(
@@ -247,17 +227,12 @@ export function FxSection({
       // next effect added takes the same id and inherits the dead envelope —
       // arriving with its control disabled and "Automated" without the author
       // ever automating it, and baked into the render.
-      const removed = chain.nodes[index];
-      const removedId = removed?.id;
+      const removedId = chain.nodes[index]?.id;
       if (removedId) onRemoveNodeAutomation?.(removedId);
-      if (removed) trackNodeRemoved(removed.type, nodeOrigin(removed), { trackKind });
-      mutate(
-        chain.nodes.filter((_, i) => i !== index),
-        "remove-effect",
-      );
+      mutate(chain.nodes.filter((_, i) => i !== index));
       setOpenNode(null);
     },
-    [chain.nodes, mutate, onRemoveNodeAutomation, trackKind],
+    [chain.nodes, mutate, onRemoveNodeAutomation],
   );
 
   // Open by default: the module is the carve's whole control surface now, and a
@@ -371,11 +346,10 @@ export function FxSection({
   const addEq = useCallback(() => {
     clearAudition();
     const { chain: next, eqId } = addAudioEq(chain);
-    trackNodeAdded("eq", "eq", null, { trackKind });
-    mutate(next.nodes, "add-eq");
+    mutate(next.nodes);
     setOpenEq(eqId);
     setAdding(false);
-  }, [chain, mutate, clearAudition, trackKind]);
+  }, [chain, mutate, clearAudition]);
 
   // Dragging a fader is heard immediately and written once on release, the same
   // split every other control in the rack uses.
@@ -386,7 +360,7 @@ export function FxSection({
   );
   const commitEqBand = useCallback(
     (eqId: string, band: string, gain: number) =>
-      mutate(setAudioEqBandGain(chain, eqId, band, gain).nodes, "eq-gain", "slider"),
+      mutate(setAudioEqBandGain(chain, eqId, band, gain).nodes),
     [chain, mutate],
   );
   const removeEq = useCallback(
@@ -397,7 +371,7 @@ export function FxSection({
         .map((node) => node.id)
         .filter((id): id is string => Boolean(id));
       if (ids.length > 0) onRemoveNodesAutomation?.(ids);
-      mutate(removeAudioEq(chain, eqId).nodes, "remove-eq");
+      mutate(removeAudioEq(chain, eqId).nodes);
     },
     [chain, mutate, onRemoveNodesAutomation],
   );
@@ -409,11 +383,10 @@ export function FxSection({
       const next = [...chain.nodes];
       const [moved] = next.splice(index, 1);
       next.splice(target, 0, moved!);
-      if (moved) trackNodeMoved(moved.type, delta < 0 ? "up" : "down", { trackKind });
-      mutate(next, "move-effect");
+      mutate(next);
       setOpenNode(target);
     },
-    [chain.nodes, mutate, trackKind],
+    [chain.nodes, mutate],
   );
 
   /**
@@ -444,9 +417,7 @@ export function FxSection({
   ): (() => void) | undefined => {
     if (!presetId || !onAutomatePreset || presetAutomated.has(presetId)) return undefined;
     return () => {
-      trackPresetAutomated(presetId, true, { trackKind });
       onAutomatePreset(presetId, amount);
-      trackInput("button", "automate-preset");
     };
   };
 
@@ -457,7 +428,6 @@ export function FxSection({
     if (!presetId || !onRemovePresetAutomation || !presetAutomated.has(presetId)) return undefined;
     return () => {
       onRemovePresetAutomation(presetId);
-      trackInput("button", "remove-preset-automation");
     };
   };
 
@@ -499,7 +469,6 @@ export function FxSection({
         onMoveNode={moveNode}
         onRemoveNode={removeNode}
         onPreviewNode={previewNode}
-        trackKind={trackKind}
         collapsedRuns={collapsedRuns}
         onToggleCollapse={(runKey) =>
           setCollapsedRuns((was) => {
@@ -541,7 +510,6 @@ export function FxSection({
         <FxPresetMenu
           trackKind={trackKind}
           onPick={applyPreset}
-          onAuditionTracked={(id) => trackPresetAuditioned(id, { trackKind })}
           onAudition={
             onChainPreview
               ? (id) => {

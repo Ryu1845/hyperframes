@@ -1,9 +1,8 @@
 // @vitest-environment happy-dom
 
 // The render POST's catch used to discard its error, so a dead server, a DNS
-// failure and a mid-render crash all produced one sentence. That string is also
-// what travels into the feedback report, so three field reports — one of them a
-// render that failed EVERY time — arrived with nothing to act on.
+// failure and a mid-render crash all produced one sentence, and a render that
+// failed EVERY time said nothing to act on.
 
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { mountRenderQueue } from "./renderQueueTestHarness";
@@ -12,7 +11,6 @@ vi.mock("./useFfmpegStatus", async (importOriginal) => ({
   ...(await importOriginal<typeof import("./useFfmpegStatus")>()),
   useFfmpegStatus: () => ({ status: { ok: true }, checking: false, recheck: vi.fn() }),
 }));
-vi.mock("../../telemetry/events", () => ({ trackStudioRenderStart: vi.fn() }));
 
 const { useRenderQueue } = await import("./useRenderQueue");
 

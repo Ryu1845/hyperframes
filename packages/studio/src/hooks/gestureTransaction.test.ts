@@ -2,13 +2,8 @@
 
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { DomEditSelection } from "../components/editor/domEditingTypes";
-import { trackStudioEvent } from "../utils/studioTelemetry";
 import type { CommitMutation } from "./gsapScriptCommitTypes";
 import { isGestureTransactionCommit, runGestureTransaction } from "./gestureTransaction";
-
-vi.mock("../utils/studioTelemetry", () => ({ trackStudioEvent: vi.fn() }));
-
-const trackStudioEventMock = vi.mocked(trackStudioEvent);
 
 function rect(x: number, y: number, width: number, height: number): DOMRect {
   return { x, y, width, height } as DOMRect;
@@ -35,7 +30,6 @@ function runTwoMutationTransaction(
 
 describe("runGestureTransaction", () => {
   beforeEach(() => {
-    trackStudioEventMock.mockReset();
     localStorage.clear();
   });
 
@@ -71,7 +65,6 @@ describe("runGestureTransaction", () => {
     const underlying = vi.fn<CommitMutation>().mockResolvedValue(undefined);
     const batch = vi.fn<NonNullable<CommitMutation["batch"]>>().mockResolvedValue(undefined);
     underlying.batch = batch;
-    const now = vi.spyOn(performance, "now").mockReturnValueOnce(100).mockReturnValueOnce(112.6);
 
     await runTwoMutationTransaction(underlying, selection);
 
@@ -100,24 +93,16 @@ describe("runGestureTransaction", () => {
       softReload: true,
     });
     expect(mergedOptions.skipReload).toBeUndefined();
-    expect(trackStudioEventMock).toHaveBeenCalledWith("commit_transaction", {
-      label: "Resize layer",
-      mutation_count: 2,
-      reload_count: 1,
-      duration_ms: 13,
-      pixel_asserted: false,
-    });
-    now.mockRestore();
   });
 
-  it("reports one reload when a batch collapses two softReload commits", async () => {
+  it("collapses two softReload commits into one batch with one reload", async () => {
     const element = document.createElement("div");
     const selection = { element, id: "clip", sourceFile: "index.html" } as DomEditSelection;
     const underlying = vi.fn<CommitMutation>().mockResolvedValue(undefined);
     underlying.batch = vi.fn<NonNullable<CommitMutation["batch"]>>().mockResolvedValue(undefined);
 
     // Both a resize's size and offset persists request softReload; the batch is
-    // one write and one reload, so telemetry must report reload_count 1, not 2.
+    // one write and one reload.
     await runGestureTransaction({
       element,
       label: "Resize layer",
@@ -132,10 +117,7 @@ describe("runGestureTransaction", () => {
     });
 
     expect(underlying.batch).toHaveBeenCalledTimes(1);
-    expect(trackStudioEventMock).toHaveBeenCalledWith(
-      "commit_transaction",
-      expect.objectContaining({ mutation_count: 2, reload_count: 1 }),
-    );
+    expect(vi.mocked(underlying.batch!).mock.calls[0]![1]).toMatchObject({ softReload: true });
   });
 
   it("falls back to sequential dispatch when the commit has no batch capability", async () => {
@@ -210,8 +192,7 @@ describe("runGestureTransaction", () => {
   });
 
   it("restores exactly once and rethrows a persist failure", async () => {
-    const error = new Error("persist failed with secret selector #private-layer");
-    error.name = "PersistenceError";
+    const error = new Error("persist failed");
     const restore = vi.fn();
     const element = document.createElement("div");
     const selection = { element, id: "clip" } as DomEditSelection;
@@ -231,27 +212,15 @@ describe("runGestureTransaction", () => {
       }),
     ).rejects.toBe(error);
     expect(restore).toHaveBeenCalledTimes(1);
-    expect(trackStudioEventMock).toHaveBeenCalledWith("commit_transaction_failed", {
-      label: "Resize layer",
-      mutation_count: 1,
-      error_name: "PersistenceError",
-      restore_ran: true,
-    });
-    const failureProperties = trackStudioEventMock.mock.calls.find(
-      ([event]) => event === "commit_transaction_failed",
-    )?.[1];
-    expect(JSON.stringify(failureProperties)).not.toContain(error.message);
-    expect(JSON.stringify(failureProperties)).not.toContain("#private-layer");
   });
 
-  it("reports when persistence changes pixels", async () => {
+  it("measures the box before and after persisting", async () => {
     const element = document.createElement("div");
     const getRect = vi
       .spyOn(element, "getBoundingClientRect")
       .mockReturnValueOnce(rect(10.04, 20.05, 100.05, 80.05))
       .mockReturnValueOnce(rect(11.19, 17.89, 100.29, 78.99));
     const log = vi.spyOn(console, "log").mockImplementation(() => undefined);
-    const now = vi.spyOn(performance, "now").mockReturnValueOnce(50).mockReturnValueOnce(58.44);
 
     await runGestureTransaction({
       element,
@@ -263,30 +232,17 @@ describe("runGestureTransaction", () => {
 
     expect(getRect).toHaveBeenCalledTimes(2);
     expect(log).not.toHaveBeenCalled();
-    expect(trackStudioEventMock).toHaveBeenCalledWith("commit_invariant_violation", {
-      label: "Resize layer",
-      delta_x: 1.2,
-      delta_y: -2.2,
-      delta_w: 0.2,
-      delta_h: -1.1,
-      mutation_count: 0,
-      reload_count: 0,
-      duration_ms: 8,
-    });
-    expect(trackStudioEventMock).toHaveBeenCalledWith(
-      "commit_transaction",
-      expect.objectContaining({ pixel_asserted: true }),
-    );
-    now.mockRestore();
     log.mockRestore();
   });
 
-  it("measures a box undo painted back mid-save as the edit drew it, so it reports no change", async () => {
+  it("measures a box undo painted back mid-save as the edit drew it, so before and after agree", async () => {
     const element = document.createElement("div");
     let undone = false;
-    vi.spyOn(element, "getBoundingClientRect").mockImplementation(() =>
-      undone ? rect(0, 0, 50, 40) : rect(10, 20, 100, 80),
-    );
+    const measured: boolean[] = [];
+    vi.spyOn(element, "getBoundingClientRect").mockImplementation(() => {
+      measured.push(undone);
+      return undone ? rect(0, 0, 50, 40) : rect(10, 20, 100, 80);
+    });
     const draw = <T>(run: () => T): T => {
       undone = false;
       try {
@@ -305,18 +261,18 @@ describe("runGestureTransaction", () => {
       draw,
     });
 
-    expect(trackStudioEventMock).not.toHaveBeenCalledWith(
-      "commit_invariant_violation",
-      expect.anything(),
-    );
+    // Both measurements (before and after) read the box the edit drew.
+    expect(measured).toEqual([false, false]);
   });
 
   it("measures as the edit drew it when undo painted the box back before the transaction began", async () => {
     const element = document.createElement("div");
     let undone = true;
-    vi.spyOn(element, "getBoundingClientRect").mockImplementation(() =>
-      undone ? rect(0, 0, 50, 40) : rect(10, 20, 100, 80),
-    );
+    const measured: boolean[] = [];
+    vi.spyOn(element, "getBoundingClientRect").mockImplementation(() => {
+      measured.push(undone);
+      return undone ? rect(0, 0, 50, 40) : rect(10, 20, 100, 80);
+    });
     const draw = <T>(run: () => T): T => {
       undone = false;
       try {
@@ -335,10 +291,8 @@ describe("runGestureTransaction", () => {
       draw,
     });
 
-    expect(trackStudioEventMock).not.toHaveBeenCalledWith(
-      "commit_invariant_violation",
-      expect.anything(),
-    );
+    // Both measurements (before and after) read the box the edit drew.
+    expect(measured).toEqual([false, false]);
   });
 
   it("skips the pixel assertion for live position tweens", async () => {
@@ -357,10 +311,6 @@ describe("runGestureTransaction", () => {
 
     expect(getRect).not.toHaveBeenCalled();
     expect(log).not.toHaveBeenCalled();
-    expect(trackStudioEventMock).not.toHaveBeenCalledWith(
-      "commit_invariant_violation",
-      expect.anything(),
-    );
     log.mockRestore();
   });
 });

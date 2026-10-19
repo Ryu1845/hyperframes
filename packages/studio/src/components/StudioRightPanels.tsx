@@ -271,7 +271,6 @@ export const StudioRightPanels = memo(function StudioRightPanels({
   } else if (activeBlockParams) {
     designBody = (
       <BlockParamsPanel
-        blockName={activeBlockParams.blockName}
         blockTitle={activeBlockParams.blockTitle}
         params={activeBlockParams.params}
         compositionPath={activeBlockParams.compositionPath}

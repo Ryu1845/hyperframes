@@ -32,13 +32,13 @@ type ResizeCommit = (
   next: { width: number; height: number },
   offset?: { x: number; y: number },
   restore?: () => void,
-) => Promise<void | import("../utils/previewFeatureUsage").GeometryCommitResult>;
+) => Promise<void | import("../hooks/gsapGestureOutcome").GeometryCommitResult>;
 
 export function resizeSelectionFromAgent(
   selection: DomEditSelection,
   next: { width: number; height: number },
   commit: ResizeCommit,
-): Promise<void | import("../utils/previewFeatureUsage").GeometryCommitResult> {
+): Promise<void | import("../hooks/gsapGestureOutcome").GeometryCommitResult> {
   const previous = captureStudioBoxSize(selection.element);
   applyStudioBoxSizeDraft(selection.element, next);
   return commit(selection, next, undefined, () => {

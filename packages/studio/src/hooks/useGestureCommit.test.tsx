@@ -2,8 +2,6 @@
 import { act, useLayoutEffect } from "react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import type { GsapAnimation } from "@hyperframes/core/gsap-parser";
-import { trackStudioEvent } from "../utils/studioTelemetry";
-import { trackKeyframeCommit } from "../utils/keyframeUsage";
 import type { DomEditSelection } from "../components/editor/domEditing";
 import { usePlayerStore } from "../player";
 import { mountReactHarness } from "./domSelectionTestHarness";
@@ -11,8 +9,6 @@ import type { CommitMutationOptions } from "./gsapScriptCommitTypes";
 import { useGsapAwareEditing } from "./useGsapAwareEditing";
 import { useGestureCommit } from "./useGestureCommit";
 import { xAtTime } from "./gsapPlaybackTestHarness";
-
-vi.mock("../utils/studioTelemetry", () => ({ trackStudioEvent: vi.fn() }));
 
 const gestureRecording = vi.hoisted(() => ({
   startRecording: vi.fn(),
@@ -121,7 +117,7 @@ function mountRecording(
       showToast: vi.fn(),
       bumpGsapCache: vi.fn(),
       makeFetchFallback: () => vi.fn(),
-      trackGsapInteractionFailure: vi.fn(),
+      toastGsapInteractionFailure: vi.fn(),
       stageElementPositionOffset: vi.fn(),
       handleDomBoxSizeCommit: vi.fn(),
       handleDomRotationCommit: vi.fn(),
@@ -190,59 +186,44 @@ describe("useGestureCommit", () => {
 });
 
 it.each([
-  ["new mixed-property recording", undefined, true, true, 1, "button"],
-  ["keyboard recording", undefined, true, true, 1, "keyboard"],
-  ["static hold replacement", "set", true, true, 1, "button"],
-  ["overlapping tween replacement", "to", true, true, 1, "button"],
-  ["unchanged recording", undefined, true, false, 0, "button"],
-  ["refused recording", undefined, false, true, 0, "button"],
-] as const)(
-  "counts writer receipts once for %s",
-  async (_name, method, ok, changed, count, inputMethod) => {
-    const animations = method
-      ? [
-          {
-            id: "card-position",
-            targetSelector: "#card",
-            propertyGroup: "position",
-            method,
-            properties: { x: 0, y: 0 },
-            resolvedStart: 0,
-            position: 0,
-            duration: method === "set" ? 0 : 2,
-            keyframes: {
-              keyframes: [
-                { percentage: 0, properties: { x: 0 } },
-                { percentage: 100, properties: { x: 100 } },
-              ],
-            },
-          } as unknown as GsapAnimation,
-        ]
-      : [];
-    const writer = vi.fn(
-      async (mutation: Record<string, unknown>, options: CommitMutationOptions) => {
-        const result = { ok, changed };
-        trackKeyframeCommit([mutation], result, options);
-        options.onResult?.(result);
-      },
-    );
-    const hook = mountRecording(writer, animations);
-    act(() => hook().handleToggleRecording(inputMethod));
-    await act(async () => {
-      hook().handleToggleRecording();
-      await vi.waitFor(() => expect(writer).toHaveBeenCalled());
-    });
-    expect(trackStudioEvent).toHaveBeenCalledTimes(count * 2);
-    if (count) {
-      expect(trackStudioEvent).toHaveBeenCalledWith("keyframe", { action: "add" });
-      expect(trackStudioEvent).toHaveBeenCalledWith("feature_used", {
-        feature: "gesture_recording",
-        surface: "preview",
-        method: inputMethod,
-      });
-    }
-  },
-);
+  ["new mixed-property recording", undefined, true, true],
+  ["static hold replacement", "set", true, true],
+  ["overlapping tween replacement", "to", true, true],
+  ["unchanged recording", undefined, true, false],
+  ["refused recording", undefined, false, true],
+] as const)("hands %s to the writer", async (_name, method, ok, changed) => {
+  const animations = method
+    ? [
+        {
+          id: "card-position",
+          targetSelector: "#card",
+          propertyGroup: "position",
+          method,
+          properties: { x: 0, y: 0 },
+          resolvedStart: 0,
+          position: 0,
+          duration: method === "set" ? 0 : 2,
+          keyframes: {
+            keyframes: [
+              { percentage: 0, properties: { x: 0 } },
+              { percentage: 100, properties: { x: 100 } },
+            ],
+          },
+        } as unknown as GsapAnimation,
+      ]
+    : [];
+  const writer = vi.fn(
+    async (_mutation: Record<string, unknown>, options: CommitMutationOptions) => {
+      options.onResult?.({ ok, changed });
+    },
+  );
+  const hook = mountRecording(writer, animations);
+  act(() => hook().handleToggleRecording());
+  await act(async () => {
+    hook().handleToggleRecording();
+    await vi.waitFor(() => expect(writer).toHaveBeenCalled());
+  });
+});
 
 const FROM_0_TO_100 = [
   { percentage: 0, properties: { x: 0 } },
@@ -279,7 +260,7 @@ async function recordMergeInto(tween: GsapAnimation) {
     },
   );
   const hook = mountRecording(writer, [tween]);
-  act(() => hook().handleToggleRecording("button"));
+  act(() => hook().handleToggleRecording());
   await act(async () => {
     hook().handleToggleRecording();
     await vi.waitFor(() => expect(writer).toHaveBeenCalled());
@@ -344,23 +325,16 @@ it("keeps a pending recording isolated until its writer settles", async () => {
     },
   );
   const hook = mountRecording(writer);
-  act(() => hook().handleToggleRecording("keyboard"));
+  act(() => hook().handleToggleRecording());
   act(() => hook().handleToggleRecording());
   await vi.waitFor(() => expect(writer).toHaveBeenCalledTimes(1));
-  act(() => hook().handleToggleRecording("button"));
+  act(() => hook().handleToggleRecording());
   expect(gestureRecording.startRecording).toHaveBeenCalledTimes(1);
   await act(async () => {
     release();
-    await vi.waitFor(() =>
-      expect(trackStudioEvent).toHaveBeenCalledWith("feature_used", {
-        feature: "gesture_recording",
-        surface: "preview",
-        method: "keyboard",
-      }),
-    );
+    await vi.waitFor(() => expect(gestureRecording.clearSamples).toHaveBeenCalledTimes(1));
   });
-  expect(gestureRecording.clearSamples).toHaveBeenCalledTimes(1);
-  act(() => hook().handleToggleRecording("button"));
+  act(() => hook().handleToggleRecording());
   expect(gestureRecording.startRecording).toHaveBeenCalledTimes(2);
 });
 
@@ -385,7 +359,7 @@ it("writes one recording to its original selection after selecting another sourc
     },
   );
   const hook = mountRecording(writer, [original]);
-  act(() => hook().handleToggleRecording("keyboard"));
+  act(() => hook().handleToggleRecording());
   const other = document.createElement("div");
   other.id = "other";
   hook.select(
@@ -394,7 +368,7 @@ it("writes one recording to its original selection after selecting another sourc
   );
   await act(async () => {
     hook().handleToggleRecording();
-    await vi.waitFor(() => expect(trackStudioEvent).toHaveBeenCalledTimes(2));
+    await vi.waitFor(() => expect(writer).toHaveBeenCalled());
   });
   expect(writer).toHaveBeenCalledExactlyOnceWith(
     expect.objectContaining({
@@ -402,17 +376,11 @@ it("writes one recording to its original selection after selecting another sourc
       animationId: "original-position",
       targetSelector: "#card",
     }),
-    expect.objectContaining({ keyframeAction: "add" }),
+    expect.objectContaining({ softReload: true }),
     expect.objectContaining({
       id: "card",
       sourceFile: "index.html",
       compositionPath: "index.html",
     }),
   );
-  expect(trackStudioEvent).toHaveBeenCalledWith("keyframe", { action: "add" });
-  expect(trackStudioEvent).toHaveBeenCalledWith("feature_used", {
-    feature: "gesture_recording",
-    surface: "preview",
-    method: "keyboard",
-  });
 });

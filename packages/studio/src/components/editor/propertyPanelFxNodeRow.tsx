@@ -1,4 +1,3 @@
-import { useTrackDesignInput } from "../../contexts/DesignPanelInputContext";
 /**
  * One effect in the FX rack: its header controls, and its knobs when open.
  *
@@ -21,7 +20,6 @@ import {
   type HfAudioFxParamValues,
 } from "@hyperframes/core/audio-fx";
 import { EFFECT_COPY, SUMMARY } from "@hyperframes/core/audio-fx-copy";
-import { trackNodeBypassed } from "./audioFxTelemetry.js";
 import { getAudioFxProfile } from "@hyperframes/core/audio-fx-profiles";
 import { FX_FAMILY_TYPE, fxFamilyOf, fxFamilyTint } from "./propertyPanelFxFamily.js";
 import { FxNodeOpenBody } from "./propertyPanelFxNodeOpenBody.js";
@@ -114,8 +112,6 @@ interface FxNodeRowProps {
   onMove(index: number, delta: number): void;
   onRemove(index: number): void;
   onPreview(index: number, params: HfAudioFxParamValues): void;
-  /** What the track reads as, carried onto this row own events. */
-  trackKind?: string;
 }
 
 /** Reorder arrow. Disabled at the end of the chain it would move past. */
@@ -245,9 +241,7 @@ export function FxNodeRow({
   onMove,
   onRemove,
   onPreview,
-  trackKind,
 }: FxNodeRowProps) {
-  const trackInput = useTrackDesignInput();
   const registryDef = getAudioFxDef(node.type);
   const def = useMemo(() => (registryDef ? plainDef(registryDef) : null), [registryDef]);
   const primary = registryDef ? primaryParamOf(registryDef) : null;
@@ -306,9 +300,7 @@ export function FxNodeRow({
         disabled={disabled}
         onToggleOpen={onToggleOpen}
         onToggleBypass={() => {
-          trackNodeBypassed(node.type, !bypassed, { trackKind });
           onUpdate(index, { enabled: bypassed });
-          trackInput("toggle", "effect-bypass");
         }}
         onMove={(delta) => onMove(index, delta)}
         onRemove={() => onRemove(index)}
@@ -344,7 +336,6 @@ export function FxNodeRow({
           onPreview={onPreview}
           onAutomateParam={onAutomateParam}
           onRemoveParamAutomation={onRemoveParamAutomation}
-          trackKind={trackKind}
         />
       ) : null}
     </div>

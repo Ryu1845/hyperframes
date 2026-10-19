@@ -7,9 +7,6 @@ import type { DomEditSelection } from "../components/editor/domEditing";
 import { usePlayerStore } from "../player/store/playerStore";
 import { useAppHotkeys } from "./useAppHotkeys";
 import { mountReactHarness } from "./domSelectionTestHarness";
-import { trackStudioEvent } from "../utils/studioTelemetry";
-
-vi.mock("../utils/studioTelemetry", () => ({ trackStudioEvent: vi.fn() }));
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -72,7 +69,6 @@ afterEach(() => {
   historyRedo.mockClear();
   settle.mockReset();
   settle.mockImplementation(async () => undefined);
-  vi.mocked(trackStudioEvent).mockClear();
 });
 
 describe("preview iframe hotkey forwarding", () => {
@@ -121,8 +117,6 @@ describe("preview iframe hotkey forwarding", () => {
     await press(mountWithPreview(), { key: "z", ctrlKey: true });
 
     expect(historyUndo).toHaveBeenCalledTimes(1);
-    expect(trackStudioEvent).toHaveBeenCalledTimes(1);
-    expect(trackStudioEvent).toHaveBeenCalledWith("keyboard_shortcut", { action: "undo" });
   });
 
   it("settles pending edits, failed ones included, before Cmd+Z steps the history", async () => {
@@ -144,8 +138,6 @@ describe("preview iframe hotkey forwarding", () => {
     await press(mountWithPreview(), init);
 
     expect(historyRedo).toHaveBeenCalledTimes(1);
-    expect(trackStudioEvent).toHaveBeenCalledTimes(1);
-    expect(trackStudioEvent).toHaveBeenCalledWith("keyboard_shortcut", { action: "redo" });
   });
 
   it("stops handling preview keys once the app unmounts", async () => {
