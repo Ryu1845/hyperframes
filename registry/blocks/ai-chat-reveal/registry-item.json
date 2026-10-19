@@ -110,7 +110,7 @@
       "label": "End-card footer",
       "description": "Domain of the brand this video promotes, letter-spaced at the very bottom. Use the real domain.",
       "portrays": ["subject_domain"],
-      "default": "HYPERFRAMES.HEYGEN.COM"
+      "default": "GITHUB.COM/RYU1845/HYPERFRAMES"
     },
     {
       "id": "brandLogo",

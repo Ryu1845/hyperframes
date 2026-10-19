@@ -84,7 +84,7 @@
       "label": "End-card footer",
       "description": "Domain of the brand this video promotes, under the end-card headline. Use the real domain, or a call to action when no domain fits.",
       "portrays": ["subject_domain"],
-      "default": "hyperframes.heygen.com"
+      "default": "github.com/ryu1845/hyperframes"
     },
     {
       "id": "brandLogo",

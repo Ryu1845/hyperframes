@@ -21,7 +21,7 @@
     { "id": "check3Label", "type": "string", "role": "content", "label": "Checklist 3 label", "description": "Typewriter label of the third checklist row.", "default": "SHIP" },
     { "id": "check3Value", "type": "string", "role": "content", "label": "Checklist 3 value", "description": "Marker value of the third checklist row.", "default": "TODAY" },
     { "id": "brandLogo", "type": "image", "role": "content", "label": "Brand logo", "description": "Transparent mark of the brand this video promotes, in the sign-off strip under the card.", "portrays": ["subject_logo"], "default": "assets/hyperframes-logo-black.svg" },
-    { "id": "brandDomain", "type": "string", "role": "content", "label": "Sign-off domain", "description": "Domain of the brand this video promotes, closing the sign-off strip. Use the real domain, or a call to action when no domain fits.", "portrays": ["subject_domain"], "default": "hyperframes.heygen.com" }
+    { "id": "brandDomain", "type": "string", "role": "content", "label": "Sign-off domain", "description": "Domain of the brand this video promotes, closing the sign-off strip. Use the real domain, or a call to action when no domain fits.", "portrays": ["subject_domain"], "default": "github.com/ryu1845/hyperframes" }
   ]'
 >
   <head>
@@ -483,7 +483,7 @@
           </div>
           <div id="brand-strip">
             <img id="brand-mark" src="assets/hyperframes-logo-black.svg" alt="" />
-            <div id="brand-domain">hyperframes.heygen.com</div>
+            <div id="brand-domain">github.com/ryu1845/hyperframes</div>
           </div>
           <div id="nrv-video">
             <div id="nrv-play">
@@ -1072,7 +1072,7 @@
         values[2].textContent = t(vars.check3Value, "TODAY", 18);
         document.getElementById("brand-domain").textContent = t(
           vars.brandDomain,
-          "hyperframes.heygen.com",
+          "github.com/ryu1845/hyperframes",
           30,
         );
         // An image slot arrives as a URL. Leave the packaged mark in place when it is absent,

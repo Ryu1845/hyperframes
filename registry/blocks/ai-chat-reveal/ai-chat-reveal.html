@@ -13,7 +13,7 @@
     { "id": "ecHeadline", "type": "string", "role": "content", "label": "End-card headline", "description": "Closing card headline. A | breaks the line.", "default": "It&#39;s not magic.|It&#39;s HTML." },
     { "id": "ecSub", "type": "string", "role": "content", "label": "End-card subline", "description": "Positioning sentence of the brand this video promotes, on the closing card.", "portrays": ["subject_tagline"], "default": "Open-source video rendering — write HTML, ship pixel-perfect video." },
     { "id": "ecCta", "type": "string", "role": "content", "label": "End-card CTA", "description": "Closing-card button label, which names the brand this video promotes. Use the real name of that brand.", "portrays": ["subject_name"], "default": "Try HyperFrames" },
-    { "id": "ecFooter", "type": "string", "role": "content", "label": "End-card footer", "description": "Domain of the brand this video promotes, letter-spaced at the very bottom. Use the real domain.", "portrays": ["subject_domain"], "default": "HYPERFRAMES.HEYGEN.COM" },
+    { "id": "ecFooter", "type": "string", "role": "content", "label": "End-card footer", "description": "Domain of the brand this video promotes, letter-spaced at the very bottom. Use the real domain.", "portrays": ["subject_domain"], "default": "GITHUB.COM/RYU1845/HYPERFRAMES" },
     { "id": "brandLogo", "type": "image", "role": "content", "label": "Brand logo", "description": "Transparent mark of the brand this video promotes, in the closing-card header.", "portrays": ["subject_logo"], "default": "assets/hyperframes-logo-white.svg" }
   ]'
 >
@@ -748,7 +748,7 @@
                 <path d="M4 3 L13 12 L4 21" />
               </svg>
             </div>
-            <div id="acr-ecfoot">HYPERFRAMES.HEYGEN.COM</div>
+            <div id="acr-ecfoot">GITHUB.COM/RYU1845/HYPERFRAMES</div>
           </div>
         </div>
       </section>
@@ -808,7 +808,7 @@
         );
         document.getElementById("acr-ecfoot").textContent = text(
           vars.ecFooter,
-          "HYPERFRAMES.HEYGEN.COM",
+          "GITHUB.COM/RYU1845/HYPERFRAMES",
           40,
         );
 

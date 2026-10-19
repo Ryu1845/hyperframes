@@ -60,7 +60,7 @@
       "label": "Link card domain",
       "description": "Domain of the brand this video promotes, under the card title. Use the real domain.",
       "portrays": ["subject_domain"],
-      "default": "hyperframes.heygen.com"
+      "default": "github.com/ryu1845/hyperframes"
     },
     {
       "id": "reactionMessage",
@@ -100,7 +100,7 @@
       "role": "content",
       "label": "Source reply",
       "description": "Typed outgoing reply naming where to find the brand this video promotes.",
-      "default": "on heygen"
+      "default": "on github"
     },
     {
       "id": "workflowMessage",

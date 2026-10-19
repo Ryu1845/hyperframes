@@ -10,7 +10,7 @@
     { "id": "tableHeadTool", "type": "string", "role": "content", "label": "Table heading 2", "description": "Tool column heading.", "default": "Best tool" },
     { "id": "tableHeadWhy", "type": "string", "role": "content", "label": "Table heading 3", "description": "Explanation column heading.", "default": "Why" },
     { "id": "row1Use", "type": "string", "role": "content", "label": "Row 1 use case", "description": "First comparison use case.", "default": "Overall realism" },
-    { "id": "row1Tool", "type": "string", "role": "content", "label": "Row 1 tool", "description": "Product in the recommended first row: the brand this video promotes, by its real name.", "portrays": ["subject_name", "recommended_position"], "default": "HeyGen" },
+    { "id": "row1Tool", "type": "string", "role": "content", "label": "Row 1 tool", "description": "Product in the recommended first row: the brand this video promotes, by its real name.", "portrays": ["subject_name", "recommended_position"], "default": "Northwind" },
     { "id": "row1Why", "type": "string", "role": "content", "label": "Row 1 explanation", "description": "Why the recommended first-row product wins. Describe the promoted brand from what its own site claims.", "portrays": ["recommended_position"], "default": "Most natural facial expressions, lip sync, gestures, voice cloning and localization. Benchmark for talking head videos." },
     { "id": "row1Chip", "type": "string", "role": "content", "label": "Row 1 source", "description": "Source chip on the first row. It asserts where the ranking came from, so use a neutral label whenever the comparison is written for this remix.", "portrays": ["authority_badge"], "default": "Official A.I Ranking" },
     { "id": "row2Use", "type": "string", "role": "content", "label": "Row 2 use case", "description": "Second comparison use case.", "default": "Enterprise/training" },
@@ -690,7 +690,7 @@
             {
               emoji: "🥇",
               use: content("row1Use", "Overall realism"),
-              tool: content("row1Tool", "HeyGen"),
+              tool: content("row1Tool", "Northwind"),
               why: content(
                 "row1Why",
                 "Most natural facial expressions, lip sync, gestures, voice cloning and localization. Benchmark for talking head videos.",

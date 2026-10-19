@@ -38,7 +38,7 @@
   data-composition-variables='[
     { "id": "wordmark", "type": "string", "role": "content", "label": "Wordmark", "description": "Brand name whose letters cascade into the centered lockup.", "default": "HYPERFRAMES" },
     { "id": "tagline", "type": "string", "role": "content", "label": "Tagline", "description": "Optional tagline that settles beneath the wordmark. Empty hides it.", "default": "Write HTML. Render video." },
-    { "id": "url", "type": "string", "role": "content", "label": "URL", "description": "Optional mono URL line beneath the tagline. Empty hides it.", "default": "hyperframes.heygen.com" },
+    { "id": "url", "type": "string", "role": "content", "label": "URL", "description": "Optional mono URL line beneath the tagline. Empty hides it.", "default": "github.com/ryu1845/hyperframes" },
     { "id": "accent", "type": "enum", "role": "style", "label": "Accent", "description": "Contract color used by the brand period at the end of the wordmark.", "default": "green", "options": [{ "value": "green", "label": "Green" }, { "value": "blue", "label": "Blue" }, { "value": "violet", "label": "Violet" }] },
     { "id": "exit", "type": "enum", "role": "style", "label": "Exit", "description": "Optional departure. Films end on the still hold, so the default is none.", "default": "none", "options": [{ "value": "none", "label": "None" }, { "value": "fade", "label": "Fade" }, { "value": "up", "label": "Up" }] }
   ]'
@@ -178,7 +178,7 @@
               vars.tagline == null
                 ? "Write HTML. Render video."
                 : String(vars.tagline).trim().replace(/\s+/g, " ");
-            var url = vars.url == null ? "hyperframes.heygen.com" : String(vars.url).trim();
+            var url = vars.url == null ? "github.com/ryu1845/hyperframes" : String(vars.url).trim();
             var accentColors = {
               green: "var(--brand, #71f5a7)",
               blue: "var(--accent, #61a8ff)",
