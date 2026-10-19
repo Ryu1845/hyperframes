@@ -6,23 +6,19 @@ on demand — no `.cube` bodies are committed to the repo.
 Each look has:
 
 - `id`, `description`, `tags`, `intensity` — matching + application metadata.
-- `url` (optional) — a hosted `.cube` downloaded, validated, and frozen at resolve
-  time, exactly like bgm/image assets.
-- `params` (optional) — a deterministic `buildCube` spec used offline (`--local-only`)
-  or as a fallback if the `url` download/validation fails.
+- `params` — a deterministic `buildCube` spec. Resolve builds the `.cube` from it,
+  validates it, and freezes it into the project; nothing is downloaded, so it works
+  the same offline (`--local-only`).
+- `url` (optional) — a hosted `.cube` to download, validate, and freeze instead.
+  With `params` also set, `params` is the fallback when the download or validation
+  fails and the only path under `--local-only`. The bundled looks carry no `url`.
 
-An entry needs at least one of `url` or `params`; prefer both (CDN url with a params
-fallback) so resolution is never blocked on the network.
+An entry needs at least one of `params` or `url`; prefer `params`, so resolution
+never depends on the network.
 
-## Hosting a new look (operators)
+## Adding a look
 
-1. Generate the `.cube` (e.g. `resolve -t lut --params '{...}'` or a graded export).
-2. Upload it to the public CDN origin bucket:
-
-   ```
-   aws s3 cp <id>.cube s3://heygen-public/luts/<id>.cube
-   ```
-
-   It is then served at `https://static.heygen.ai/luts/<id>.cube` (CloudFront).
-
-3. Add an entry to `index.json` with that `url` (and ideally a `params` fallback).
+1. Tune the look with `resolve -t lut --params '{...}'` and inspect it with
+   `hyperframes grade-compare`.
+2. Add an entry to `index.json` with those `params`, a `description`, and the
+   `tags` an agent's intent would use.

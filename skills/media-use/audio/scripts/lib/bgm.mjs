@@ -1,20 +1,14 @@
-// bgm.mjs — background music for the media audio engine. Two routes, gated the
-// same way as TTS/SFX:
-//
-//   retrieve (default when HeyGen is configured) — search HeyGen's music library
-//        by mood, download the top track. Synchronous. assets/bgm/track.mp3.
-//   generate (the alternative; the automatic choice when HeyGen is absent) —
-//        Lyria (cloud, $GEMINI_API_KEY/$GOOGLE_API_KEY + google-genai) preferred,
-//        else local MusicGen (facebook/musicgen-small via transformers). Spawned
-//        DETACHED so the engine can return while audio renders; the caller marks
-//        bgm_pending and runs wait-bgm.mjs before assembling. assets/bgm/track.wav.
+// bgm.mjs — background music for the media audio engine. One route, generate:
+// Lyria (cloud, $GEMINI_API_KEY/$GOOGLE_API_KEY + google-genai) preferred, else
+// local MusicGen (facebook/musicgen-small via transformers). Spawned DETACHED so
+// the engine can return while audio renders; the caller marks bgm_pending and
+// runs wait-bgm.mjs before assembling. assets/bgm/track.wav.
 //
 // Missing/failed BGM never blocks a render.
 
 import { spawn, spawnSync } from "node:child_process";
 import { existsSync, mkdirSync, openSync, closeSync, rmSync } from "node:fs";
 import { join } from "node:path";
-import { downloadTo, searchSounds } from "./heygen.mjs";
 import { agentWritePath } from "./media-record.mjs";
 import { pythonInvocation } from "./python.mjs";
 
@@ -45,27 +39,10 @@ function pipInstall(deps) {
   return spawnSync(cmd, args, { stdio: "ignore" }).status === 0;
 }
 
-// ── retrieval (HeyGen music library) ──────────────────────────────────────────
-export async function retrieveBgm({ query, headers, hyperframesDir, hasVoice, anomalies }) {
-  const q = query || "calm cinematic underscore";
-  const results = await searchSounds(q, "music", headers, { limit: 5 });
-  if (!results.length) return null;
-  const top = results[0];
-  const rel = agentWritePath(hyperframesDir, "assets/bgm/track.mp3", { anomalies });
-  await downloadTo(top.audio_url, join(hyperframesDir, rel));
-  return {
-    path: rel,
-    volume: bgmDefaultVolume(hasVoice),
-    query: q,
-    mode: "retrieve",
-    duration_s: typeof top.duration === "number" ? r3(top.duration) : null,
-  };
-}
-
 // ── mood inference (for the generate path's prompt) ──────────────────────────
 // Industry base → archetype shape → emotional-arc tiebreaker. Exported so a
 // workflow adapter can build a rich prompt from its own narrative metadata; the
-// engine also calls it when generate has only a plain mood query.
+// engine also calls it when the request carries no explicit prompt.
 export function inferBgmPrompt({ blob = "", archetype = "", arc = "", userPrompt = "" } = {}) {
   if (userPrompt) return userPrompt;
   const b = String(blob).toLowerCase();

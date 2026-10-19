@@ -5,11 +5,10 @@ import { join } from "node:path";
 import { ffprobeBinary } from "./ff-binaries.mjs";
 import { resolveSpawnCommand } from "../../audio/scripts/lib/tts.mjs";
 
-// Local voiceover via the packaged Kokoro-82M TTS (the `hyperframes tts` CLI),
-// the free/private default now that HeyGen TTS costs wallet credits. Kokoro runs
-// on-device (CPU, faster-than-realtime, bundled voices, native word timestamps),
-// so no key and no per-call charge. When Kokoro is not set up, this returns null
-// and the registry falls through to the HeyGen TTS upsell.
+// Local voiceover via the packaged Kokoro-82M TTS (the `hyperframes tts` CLI).
+// Kokoro runs on-device (CPU, faster-than-realtime, bundled voices, native word
+// timestamps), so no key and no per-call charge. When Kokoro is not set up, this
+// returns null and resolve reports the miss.
 //
 // Delegated to the hyperframes CLI (same as transcribe / remove-background), not
 // re-implemented here. ffprobe reads the duration back for the ledger.
@@ -70,8 +69,8 @@ export async function localTtsGenerate(
   } catch (err) {
     // `hyperframes tts` prints its "kokoro-onnx not installed" hint to stdout
     // (clack UI), so read both streams and surface the actionable enable-command
-    // rather than a bare "Command failed": otherwise resolve silently falls
-    // through to the PAID HeyGen TTS upsell when free local voice was one pip away.
+    // rather than a bare "Command failed": otherwise resolve misses silently
+    // when free local voice was one pip away.
     const out = `${err.stdout?.toString() ?? ""}${err.stderr?.toString() ?? ""}`.trim();
     const hint = /not installed|pip install kokoro/i.test(out)
       ? "install for free on-device voice: pip install kokoro-onnx soundfile (or set HYPERFRAMES_PYTHON to a venv that has it)"

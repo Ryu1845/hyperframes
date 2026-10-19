@@ -92,8 +92,8 @@ test("music and sound effects are marked by where they came from", () => {
     only: new Set(["bgm", "sfx"]),
     lines: [],
     voices: [{ id: "01", path: "assets/voice/01.wav" }],
-    bgm: { path: "assets/bgm/track.mp3", query: "calm" },
-    bgmFields: { bgm_pending: false, bgm_mode: "retrieve" },
+    bgm: { path: "assets/bgm/track.wav", query: "calm" },
+    bgmFields: { bgm_pending: false, bgm_mode: "detached-single", bgm_provider: "lyria" },
     sfx: [
       { file: "assets/sfx/whoosh.mp3", name: "whoosh", source: "local" },
       { file: "assets/sfx/whoosh.mp3", name: "whoosh", source: "local" },
@@ -104,7 +104,7 @@ test("music and sound effects are marked by where they came from", () => {
   assert.deepEqual(
     assets.map(({ path, source, provider }) => [path, source, provider]),
     [
-      ["assets/bgm/track.mp3", "search", undefined],
+      ["assets/bgm/track.wav", "generated", "lyria"],
       ["assets/sfx/whoosh.mp3", "bundled", "bundled.sfx"],
       ["assets/sfx/glass.mp3", "search", "openverse.audio"],
     ],

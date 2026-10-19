@@ -70,7 +70,7 @@ export function writtenAssets({ only, lines, voices, ttsProvider, bgm, bgmFields
     assets.push({
       path: bgm.path,
       type: "bgm",
-      source: bgmFields.bgm_mode === "retrieve" ? "search" : "generated",
+      source: "generated",
       intent: bgm.query,
       duration: bgm.duration_s,
       provider: bgmFields.bgm_provider,

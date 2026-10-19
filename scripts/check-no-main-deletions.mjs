@@ -63,6 +63,9 @@ const HEYGEN_SERVICES_REASON =
 const TELEMETRY_REASON =
   "owner-directed removal of usage telemetry, the npm self-update check and auto-update, and the feedback prompt; the fork reports nothing to anyone";
 
+const HEYGEN_MEDIA_REASON =
+  "owner-directed removal of the media-use HeyGen providers (TTS, voice clone, music library, stock search, avatar video) and media-use telemetry";
+
 /** Many paths removed for one reason. */
 const group = (reason, paths) => paths.map((path) => [path, reason]);
 
@@ -1384,6 +1387,29 @@ export const ALLOWED_DELETIONS = new Map([
     "packages/cli/src/utils/updateCheck.test.ts",
     "packages/cli/src/utils/updateCheck.ts",
     "scripts/ci/cli-telemetry-e2e.mjs",
+  ]),
+  ...group(HEYGEN_MEDIA_REASON, [
+    "packages/cli/src/media-use/lib/bgm-provider.mjs",
+    "packages/cli/src/media-use/lib/heygen-cli.mjs",
+    "packages/cli/src/media-use/lib/heygen-cli.test.mjs",
+    "packages/cli/src/media-use/lib/heygen-search.mjs",
+    "packages/cli/src/media-use/lib/heygen-search.test.mjs",
+    "packages/cli/src/media-use/lib/heygen-video-provider.mjs",
+    "packages/cli/src/media-use/lib/heygen-video-provider.test.mjs",
+    "packages/cli/src/media-use/lib/image-provider.mjs",
+    "packages/cli/src/media-use/lib/telemetry.mjs",
+    "packages/cli/src/media-use/lib/telemetry.test.mjs",
+    "packages/cli/src/media-use/lib/voice-provider.mjs",
+    "packages/cli/src/media-use/lib/voice-provider.test.mjs",
+    "skills/media-use/audio/scripts/heygen-tts.mjs",
+    "skills/media-use/audio/scripts/heygen-tts.test.mjs",
+    "skills/media-use/audio/scripts/heygen-voice.mjs",
+    "skills/media-use/audio/scripts/heygen-voice.test.mjs",
+    "skills/media-use/audio/scripts/lib/heygen.mjs",
+    "skills/media-use/audio/scripts/lib/heygen.test.mjs",
+    "skills/media-use/references/telemetry-dashboard.md",
+    "skills/media-use/scripts/lib/telemetry.mjs",
+    "skills/media-use/scripts/lib/telemetry.test.mjs",
   ]),
 ]);
 

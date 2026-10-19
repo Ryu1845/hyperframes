@@ -2,8 +2,8 @@
 
 Use `grade` when you need a canonical HyperFrames grading/effects payload for
 an `<img>` or `<video>`. Core presets and params-backed LUT entries resolve
-locally; future CDN-backed LUT entries require network unless already
-frozen. Persist a decided payload with the CLI rather than editing HTML by
+locally; a `url`-backed (hosted) LUT entry would require network unless
+already frozen. Persist a decided payload with the CLI rather than editing HTML by
 hand:
 
 For a vague but explicit polish request, do not jump directly from intent to a
@@ -125,8 +125,8 @@ npx hyperframes media-use resolve --type lut --from custom.cube --project .
 ```
 
 Parametric math (`buildCube`) cannot reproduce real film stocks or emulsion
-transforms. Use a CDN-backed scanned `.cube` entry or ingest a real scanned
-`.cube` for those.
+transforms. Use a hosted scanned `.cube` entry (`url`) or ingest a real
+scanned `.cube` for those.
 
 For visual selection, list reusable LUT candidates with
 `resolve --type grade --candidates`, write the promising entries to a
@@ -151,8 +151,8 @@ available. Without `--analyze`, that resolver records a grade candidate in
 
 Library LUT entries live in `luts/index.json`. Each entry keeps `id`,
 `description`, `tags`, and `intensity`, then supplies either compact `params`
-for on-demand `buildCube(params)` generation or a direct CDN `url` for future
-scanned `.cube` files. Do not commit generated `.cube` bodies; resolve
+for on-demand `buildCube(params)` generation or a hosted `url` for scanned
+`.cube` files (the bundled looks are all `params`). Do not commit generated `.cube` bodies; resolve
 validates generated or downloaded cubes as it freezes them under
 `.media/luts/`.
 

@@ -11,9 +11,11 @@
 // STORYBOARD.md, which is product-launch-specific).
 //
 // Three modes (unchanged CLI surface):
-//   (default) generate — engine --only tts,bgm. BGM mode is "retrieve" (strict:
-//        no HeyGen credential ⇒ skip, never a detached generate, since this
-//        workflow has no wait-bgm step). Runs in the background during Step 4.
+//   (default) generate — engine --only tts,bgm. BGM mode is "generate" (Lyria
+//        with a Gemini key, else local MusicGen); the engine renders it in a
+//        detached process, so this pass then waits for the track with the
+//        engine's wait-bgm.mjs (--bgm-timeout-ms, default 10 min). Runs in the
+//        background during Step 4.
 //   sync-durations — write real voice durations into STORYBOARD.md (local).
 //   fetch-sfx      — engine --only sfx, merged into the existing meta (Step 5,
 //        after the frames' `sfx:` cues exist).
@@ -31,6 +33,7 @@ import { parseStoryboard } from "./lib/storyboard.mjs";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const DEFAULT_ENGINE = join(HERE, "..", "..", "media-use", "audio", "scripts", "audio.mjs");
+const DEFAULT_BGM_TIMEOUT_MS = 600000;
 
 const flag = (argv, name, def) => {
   const i = argv.indexOf(`--${name}`);
@@ -67,11 +70,13 @@ function parseScript(md) {
 // (generate then fetch-sfx) accumulate, while audio_meta.json holds the PL shape.
 const neutralPath = (plOutPath) => join(dirname(plOutPath), "audio_engine_meta.json");
 
+const enginePath = () => process.env.HF_MEDIA_ENGINE || DEFAULT_ENGINE;
+
 // Run the shared engine. Returns nothing; dies on a non-zero exit.
 function runEngine({ request, hyperframesDir, neutral, only, extra = [] }, die) {
   const reqPath = join(hyperframesDir, "audio_request.json");
   writeFileSync(reqPath, JSON.stringify(request, null, 2));
-  const engine = process.env.HF_MEDIA_ENGINE || DEFAULT_ENGINE;
+  const engine = enginePath();
   if (!existsSync(engine)) die(`media audio engine not found at ${engine} (set $HF_MEDIA_ENGINE)`);
   const args = [
     engine,
@@ -87,6 +92,45 @@ function runEngine({ request, hyperframesDir, neutral, only, extra = [] }, die) 
   ];
   const r = spawnSync("node", args, { stdio: "inherit" });
   if (r.status !== 0) die(`media audio engine exited ${r.status}`);
+}
+
+// The engine renders BGM in a detached process and returns with bgm_pending. Wait for it here with the
+// engine's own wait-bgm.mjs (it polls the file, the process and its log), then fold the outcome into the
+// neutral sidecar: a finished bed clears bgm_pending, a failed one is dropped (no bed, said out loud), and
+// one still rendering at the timeout stays pending at its path, which assemble mounts once the file exists.
+function waitForBgm({ hyperframesDir, neutral, timeoutMs }) {
+  const meta = JSON.parse(readFileSync(neutral, "utf8"));
+  if (!meta.bgm_pending || !meta.bgm?.path) return;
+  const waiter = join(dirname(enginePath()), "wait-bgm.mjs");
+  if (!existsSync(waiter)) {
+    console.warn(`⚠ audio generate: ${waiter} not found — BGM left pending at ${meta.bgm.path}`);
+    return;
+  }
+  const statusPath = join(hyperframesDir, "bgm_status.json");
+  rmSync(statusPath, { force: true });
+  const args = [waiter, "--audio-meta", neutral, "--hyperframes", hyperframesDir];
+  args.push("--out", statusPath, "--timeout-ms", String(timeoutMs));
+  spawnSync("node", args, { stdio: "inherit" });
+  let status = null;
+  try {
+    status = JSON.parse(readFileSync(statusPath, "utf8"));
+  } catch {
+    // no status file: treat it like a timeout and leave the bed pending
+  }
+  if (status?.status === "ready") {
+    meta.bgm_pending = false;
+  } else if (status?.status === "failed") {
+    console.warn(`⚠ audio generate: BGM generation failed (${status.message}) — no music bed`);
+    meta.bgm = null;
+    meta.bgm_pending = false;
+  } else {
+    console.warn(
+      `⚠ audio generate: BGM still rendering after ${Math.round(timeoutMs / 1000)}s — ` +
+        `re-run wait-bgm.mjs before assembling; the bed lands at ${meta.bgm.path}`,
+    );
+    return;
+  }
+  writeFileSync(neutral, JSON.stringify(meta, null, 2));
 }
 
 // Engine neutral meta (id-keyed) → product-launch meta (frame-keyed) consumed by
@@ -184,16 +228,23 @@ function runGenerate(argv) {
   }
   if (!lines.length) console.error("· no SCRIPT.md — silent film (BGM only)");
 
-  // BGM mood: storyboard `music:` → message → arc → default. `mode: retrieve` is
-  // strict here (no wait-bgm step downstream).
-  const query = (g.extra && g.extra.music) || g.message || g.arc || "calm cinematic underscore";
+  // BGM: the storyboard's `music:` mood is the generation prompt; without one the engine
+  // infers a prompt from message → arc.
+  const music = String(g.extra?.music ?? "").trim();
+  const query = music || g.message || g.arc || "calm cinematic underscore";
   const request = {
     provider: "auto",
     speed: flag(argv, "speed", "1.0"),
     lines,
     bgm: bgmOff
       ? { mode: "none" }
-      : { mode: "retrieve", query, blob: g.message || "", arc: g.arc || "" },
+      : {
+          mode: "generate",
+          ...(music && { prompt: music }),
+          query,
+          blob: g.message || "",
+          arc: g.arc || "",
+        },
   };
   if (userVoice) request.voice = userVoice;
   if (flag(argv, "tts-model", null)) request.tts_model = flag(argv, "tts-model", null);
@@ -201,6 +252,12 @@ function runGenerate(argv) {
 
   const neutral = neutralPath(outPath);
   runEngine({ request, hyperframesDir, neutral, only: "tts,bgm" }, die);
+  const timeoutMs = Number(flag(argv, "bgm-timeout-ms", DEFAULT_BGM_TIMEOUT_MS));
+  waitForBgm({
+    hyperframesDir,
+    neutral,
+    timeoutMs: Number.isFinite(timeoutMs) && timeoutMs >= 0 ? timeoutMs : DEFAULT_BGM_TIMEOUT_MS,
+  });
 
   const rebuilt = toProductLaunchMeta(JSON.parse(readFileSync(neutral, "utf8")));
   const meta = keepHostAudio(rebuilt, previousHostAudio(outPath, hyperframesDir, die));

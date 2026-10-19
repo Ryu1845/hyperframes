@@ -1,43 +1,26 @@
 # Background music (BGM)
 
-One music bed per composition, produced by the shared audio engine (`scripts/audio.mjs` → `scripts/lib/bgm.mjs`). Two routes, chosen by the engine's one switch — whether a HeyGen credential is present:
+One music bed per composition, produced by the shared audio engine (`scripts/audio.mjs` → `scripts/lib/bgm.mjs`). There is no music catalog: the engine **generates** a WAV from a mood prompt — Google Lyria when a Gemini key is set, else local MusicGen. There is **no `npx hyperframes bgm` command**; the engine spawns `scripts/lyria-recipe.py` or an inline MusicGen script directly. `resolve --type bgm` has no provider either: generate the bed here, then record a file you made elsewhere with `resolve --from <file> --type bgm --source generated`. When the host app gives you its own music tool, use that instead.
 
-- **HeyGen retrieval — the default when credentialed.** Search HeyGen's music catalog by mood, download the top track. No generation; same `~/.heygen` / `$HEYGEN_API_KEY` credential as TTS.
-- **Local generation (Lyria → MusicGen) — the fallback when there is no credential** (or when asked for explicitly). Generate a WAV from a mood prompt. There is **no `npx hyperframes bgm` command**; the engine spawns `scripts/lyria-recipe.py` or an inline MusicGen script directly.
-
-> **Run the Preflight first — no credential is not a green light to silently generate locally.** Before generating, complete the sign-in **Preflight** (see `../../SKILL.md` → Preflight): run `npx hyperframes auth status`, recommend signing in, and **STOP for the user's choice** (sign in for HeyGen's music library, or continue offline with local generation). This applies to a one-off "generate a BGM" request just as much as inside a full workflow.
+> **Say which engine will run.** With `$GEMINI_API_KEY` / `$GOOGLE_API_KEY` set the bed comes from Lyria; without one it is generated locally with MusicGen (slow on CPU, ~300 MB model on first run). Tell the user before generating, so a missing key is their choice rather than a surprise. This applies to a one-off "generate a BGM" request just as much as inside a full workflow.
 
 ## Driving it from the request
 
 `audio_request.json` → `bgm: { mode?, query?, prompt? }`:
 
-- **`mode`** — `retrieve | generate | none`. Omit for **auto** (retrieve when credentialed, else generate). An **explicit** `retrieve` is strict: no credential ⇒ skip, never a detached generate (so a caller with no `wait-bgm` step, e.g. product-launch, can't get a pending job it won't await).
-- **`query`** — the mood, used for retrieval and as a fallback prompt seed (e.g. a storyboard's `music:` field, falling back to `message` → `arc` → `"calm cinematic underscore"`).
-- **`prompt`** — an explicit full prompt for generation; omit and the engine infers one (see Mood inference). Optional `blob` / `archetype` / `arc` feed that inference.
+- **`mode`** — `generate | none`. Omit for `generate`. Any other value (such as the old catalog `retrieve`) is skipped with an anomaly, never turned into a detached generate the caller may have no step to await.
+- **`query`** — the mood, used as a fallback seed for prompt inference (e.g. a storyboard's `music:` field, falling back to `message` → `arc` → `"calm cinematic underscore"`).
+- **`prompt`** — an explicit full prompt for generation; omit and the engine infers one (see Mood inference). Optional `blob` / `archetype` / `arc` feed that inference. The workflow adapters pass a storyboard's `music:` mood as `prompt`.
 
-Both routes keep a file of yours already at the output name: the engine writes the next free name (`track-2.mp3`), reports it as an anomaly, and `bgm.path` carries the real path.
+The engine keeps a file of yours already at the output name: it writes the next free name (`track-2.wav`), reports it as an anomaly, and `bgm.path` carries the real path.
 
-## HeyGen retrieval (default)
+`volume` comes from the engine's `bgmDefaultVolume()`: `BGM_BED_VOLUME` (currently `0.12` ≈ -18 dB — a bed under the voice) under narration, `BGM_SILENT_VOLUME` (currently `0.9`) for a silent film (no voice). Tune those constants in `scripts/lib/bgm-volume.mjs`, not call sites. An explicit `volume` in `audio_meta.json` always overrides this default.
 
-`searchSounds(query, "music", { limit: 5 })` → `GET /audio/sounds?query=<mood>&type=music&limit=5`. Take the top result (ranked by `score`), download its presigned `audio_url` → `assets/bgm/track.mp3`. Synchronous. No match → skip (BGM is optional; never fail the render over it). Cue written to `audio_meta.json`:
+For short launch videos, do not assume the beginning of the generated file is the best edit point. Check the opening against later five-second sections. If the track starts with a quiet build but a later section has a stronger, clean musical entrance, trim from that section and apply a short fade-in and longer fade-out. Repeat this check whenever the composition duration changes; the final music file must cover the full cut without a silent tail.
 
-```jsonc
-{
-  "path": "assets/bgm/track.mp3",
-  "volume": 0.12,
-  "mode": "retrieve",
-  "query": "calm cinematic underscore",
-  "duration_s": 42.0,
-}
-```
+## Generation — Lyria → MusicGen
 
-`volume` comes from the engine's `bgmDefaultVolume()`: `BGM_BED_VOLUME` (currently `0.12` ≈ -18 dB — a bed under the voice) under narration, `BGM_SILENT_VOLUME` (currently `0.9`) for a silent film (no voice). Tune those constants in `scripts/lib/bgm.mjs`, not call sites. An explicit `volume` in `audio_meta.json` always overrides this default. `bgm_pending` is `false` — the file is on disk when the engine returns.
-
-For short launch videos, do not assume the beginning of the retrieved file is the best edit point. Check the opening against later five-second sections. If the track starts with a quiet build but a later section has a stronger, clean musical entrance, trim from that section and apply a short fade-in and longer fade-out. Repeat this check whenever the composition duration changes; the final music file must cover the full cut without a silent tail.
-
-## Local generation (fallback) — Lyria → MusicGen
-
-Spawned **detached** so voice work isn't blocked; `audio_meta.bgm_pending: true` and `bgm_pid` / `bgm_log` are set until it finishes. **Run `scripts/wait-bgm.mjs` before assembling** — it polls the output file / process / log, detects crashes, and writes `bgm_status.json` (`status: ready | failed | timeout | disabled`). A failed/absent track is simply omitted; it never blocks voice/SFX.
+Spawned **detached** so voice work isn't blocked; `audio_meta.bgm_pending: true` and `bgm_pid` / `bgm_log` are set until it finishes. **Run `scripts/wait-bgm.mjs` before assembling** — it polls the output file / process / log, detects crashes, and writes `bgm_status.json` (`status: ready | failed | timeout | disabled`). A failed/absent track is simply omitted; it never blocks voice/SFX. The product-launch, faceless-explainer and PR-video audio adapters run `wait-bgm.mjs` themselves after the engine returns (`--bgm-timeout-ms`, default 10 minutes) and fold its status back into `audio_meta.json`.
 
 | Order | Provider                             | Env / deps                                                                            | Speed                                   | Quality                     |
 | ----- | ------------------------------------ | ------------------------------------------------------------------------------------- | --------------------------------------- | --------------------------- |
@@ -67,8 +50,7 @@ The engine bakes BPM / scale into the **prompt text** (via the inference above) 
 
 | Failure                                       | Behavior                                                                                 |
 | --------------------------------------------- | ---------------------------------------------------------------------------------------- |
-| No music match (retrieve)                     | `bgm: null`, anomaly logged. Render proceeds without BGM.                                |
-| Explicit `retrieve`, no credential            | Skipped (no silent generate fallback). Use `mode: generate` or omit `mode` for auto.     |
+| Unsupported `mode` (e.g. `retrieve`)          | Skipped with an anomaly. Use `mode: generate` or omit `mode`.                            |
 | Neither Lyria nor MusicGen can run (generate) | `bgm` disabled with a `pip install …` hint. Voice + SFX still render.                    |
 | Generate still rendering at assemble time     | `bgm_pending: true`; `wait-bgm.mjs` waits/checks and writes `bgm_status.json` first.     |
 | Generate crashed                              | `wait-bgm.mjs` → `bgm_status.json { status: "failed" }`; the `<audio>` track is omitted. |

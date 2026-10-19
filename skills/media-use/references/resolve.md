@@ -8,35 +8,43 @@ Returns one line: `resolved <id> → <path> (<type>, <metadata>)`
 
 ## Types
 
-| Type    | What it finds                    | Provider / cascade                                           |
-| ------- | -------------------------------- | ------------------------------------------------------------ |
-| `bgm`   | Background music                 | HeyGen audio catalog (10k+ tracks)                           |
-| `sfx`   | Sound effects                    | Openverse (CC0 / CC BY), then the bundled 21-file library    |
-| `image` | Photos, backgrounds              | HeyGen asset search (75k+ vectors)                           |
-| `icon`  | Icons, symbols                   | HeyGen asset search (type=icon)                              |
-| `logo`  | Official brand marks             | theSVG → GitHub org avatar → domain favicon                  |
-| `voice` | TTS voiceover                    | HeyGen TTS free-usage path; optional local Kokoro            |
-| `grade` | HyperFrames color-grading blocks | Core preset → look index params/CDN LUT → deterministic cube |
-| `lut`   | Reusable `.cube` LUT files       | Look index params/CDN LUT → deterministic cube               |
+| Type    | What it finds                    | Provider / cascade                                               |
+| ------- | -------------------------------- | ---------------------------------------------------------------- |
+| `bgm`   | Background music                 | none — generate with the audio engine, then `--from` (see below) |
+| `sfx`   | Sound effects                    | Openverse (CC0 / CC BY), then the bundled 21-file library        |
+| `image` | Photos, backgrounds              | Local mflux (RAM-graded), then the codex upsell                  |
+| `icon`  | Icons, symbols                   | none — author an SVG (or generate an image), then `--from`       |
+| `logo`  | Official brand marks             | theSVG → GitHub org avatar → domain favicon                      |
+| `voice` | TTS voiceover                    | Local Kokoro (`--voice-id` picks the voice)                      |
+| `video` | Generated clips                  | Local LTX (`videogen` ladder)                                    |
+| `grade` | HyperFrames color-grading blocks | Core preset → look index params → deterministic cube             |
+| `lut`   | Reusable `.cube` LUT files       | Look index params → deterministic cube                           |
+
+`bgm` and `icon` have no catalog provider: a fresh resolve misses with a typed
+`code` (`no_bgm_provider` / `no_icon_provider`) and a `fix`. Make the file —
+music with the audio engine (`audio/references/bgm.md`, Lyria or local
+MusicGen) or a host app's own music tool, an icon as hand-authored SVG — then
+record it with `--from <file> --type <bgm|icon> --source generated`. Reuse
+(`--candidates`, `--reuse`) works for both types as for any other.
 
 ## Examples
 
 ```bash
-# Background music
-npx hyperframes media-use resolve --type bgm --intent "upbeat tech launch" --project .
-# → resolved bgm_001 → .media/audio/bgm/bgm_001.mp3 (bgm, 25s)
+# Background music: record a track the audio engine generated
+npx hyperframes media-use resolve --type bgm --from assets/bgm/track.wav --source generated --intent "upbeat tech launch" --project .
+# → resolved bgm_001 → assets/bgm/track.wav (bgm, 25s)
 
 # Sound effect
 npx hyperframes media-use resolve --type sfx --intent "whoosh" --project .
 # → resolved sfx_001 → .media/audio/sfx/sfx_001.mp3 (sfx, 0.57s)
 
-# Image
+# Image (generated locally with mflux, or with codex)
 npx hyperframes media-use resolve --type image --intent "gradient tech background" --project .
-# → resolved image_001 → .media/images/image_001.jpg (image)
+# → resolved image_001 → .media/images/image_001.png (image)
 
-# Icon
-npx hyperframes media-use resolve --type icon --intent "rocket" --project .
-# → resolved icon_001 → .media/images/icon_001.png (icon, transparent)
+# Icon: record an SVG you authored
+npx hyperframes media-use resolve --type icon --from ./rocket.svg --project .
+# → resolved icon_001 → .media/images/icon_001.svg (icon)
 
 # Brand logo (official mark — never redrawn by hand)
 npx hyperframes media-use resolve --type logo --entity linkedin --intent "LinkedIn logo" --project .
@@ -55,7 +63,7 @@ npx hyperframes media-use resolve --type lut --intent "teal orange blockbuster" 
 
 | Flag            | Description                                                                          |
 | --------------- | ------------------------------------------------------------------------------------ |
-| `--type, -t`    | Media type: bgm, sfx, image, icon, logo, voice, grade, lut                           |
+| `--type, -t`    | Media type: bgm, sfx, image, icon, logo, voice, video, brand, grade, lut             |
 | `--intent, -i`  | What you need (natural language)                                                     |
 | `--entity, -e`  | Entity name for cache matching (optional)                                            |
 | `--project, -p` | Project directory (default: .)                                                       |
@@ -64,7 +72,8 @@ npx hyperframes media-use resolve --type lut --intent "teal orange blockbuster" 
 | `--from`        | Freeze a local file or direct public URL (ingest)                                    |
 | `--for`         | Analyze a local image/video and add measured adjust suggestions (`grade` only)       |
 | `--local-only`  | Offline: skip every network provider (cache + local only)                            |
-| `--provider`    | Force one generator (e.g. `codex`, `mflux`, `kokoro`, `heygen`)                      |
+| `--provider`    | Force one generator (e.g. `codex`, `mflux`, `kokoro`, `ltx`)                         |
+| `--voice-id`    | Kokoro voice for `--type voice` (e.g. `am_michael`, `af_heart`)                      |
 | `--adopt`       | Bulk-import existing assets/ into manifest                                           |
 | `--doctor`      | Check local CLI dependencies; no manifest changes                                    |
 | `--stats`       | Print local usage stats from `.media/` and `~/.media`; no manifest changes           |
@@ -77,9 +86,9 @@ Before resolving bgm/sfx/image/icon/logo/grade/lut, **check what already exists 
 
 ```bash
 npx hyperframes media-use resolve --type bgm --intent "upbeat tech launch" --candidates --project .
-#   [project] upbeat tech launch (25s, heygen.audio.sounds)
+#   [project] upbeat tech launch (25s, musicgen)
 #           .media/audio/bgm/bgm_001.wav
-#   [global]  energetic tech intro (22s, heygen.audio.sounds)
+#   [global]  energetic tech intro (22s, lyria)
 #           --reuse 06e052c075fd2b80
 ```
 
@@ -100,21 +109,10 @@ The deterministic floor still runs automatically: an identical (case/whitespace-
 1. Check project `.media/manifest.jsonl` for a prompt match (case- and whitespace-insensitive) — auto-reuse
 2. Scan existing `assets/` directory for unregistered files that share a word with the need
 3. Check global cache `~/.media/` for a reusable asset matched on the same normalized prompt — auto-reuse
-4. Search via provider (HeyGen audio catalog, HeyGen asset search), or resolve color locally
+4. Search or generate via the type's providers (Openverse, logo tiers, local mflux/Kokoro/LTX, codex), or resolve color locally
 5. Freeze file to `.media/<type>/`, register in manifest, regenerate `index.md`, auto-promote to `~/.media/`
 
 Steps 1 and 3 are the **deterministic floor**: they only auto-reuse an exact-normalized match, never a fuzzy one. Semantic reuse ("close enough") is the agent's explicit call via [Reuse before you resolve](#reuse-before-you-resolve) — it never happens automatically. The agent gets back **one line**; candidates, scores, provenance stay on disk.
-
-## Stamping provenance when mounting a resolved video
-
-`resolve` never writes composition HTML itself — mounting a `<video>` element
-into a composition is always the agent's own edit. When the mounted video's
-manifest record has `provenance.provider === "heygen.video"` (check
-`.media/manifest.jsonl` or the one-line resolve output for the provider name),
-add `data-media-source="heygen"` to that `<video>` tag. Leave the attribute off
-entirely for every other provider (`ltx.local`, an adopted/local file, etc.) —
-this is not a general provider taxonomy, just the one signal render telemetry
-tracks today.
 
 ## Adopt existing projects
 

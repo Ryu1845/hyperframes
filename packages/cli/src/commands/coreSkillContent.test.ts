@@ -43,7 +43,7 @@ describe("media-use TTS documentation", () => {
     expect(tts).not.toMatch(/hyperframes tts[^\n]*--provider/);
     expect(tts).not.toMatch(/hyperframes tts[^\n]*--words/);
     expect(captions).not.toMatch(/hyperframes tts[^\n]*--provider/);
-    expect(captions).toContain("heygen-tts.mjs");
+    expect(captions).toContain("scripts/audio.mjs");
   });
 });
 

@@ -18,7 +18,6 @@ test("skill CLIs run when invoked through a symlinked skills dir", () => {
       "faceless-explainer/scripts/captions.mjs",
       "pr-to-video/scripts/captions.mjs",
       "product-launch-video/scripts/captions.mjs",
-      "media-use/audio/scripts/heygen-voice.mjs",
     ]) {
       const run = spawnSync(process.execPath, [join(dir, "skills", script), "not-a-command"], {
         encoding: "utf8",

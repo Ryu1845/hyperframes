@@ -5,8 +5,7 @@ import { join } from "node:path";
 import { test } from "node:test";
 import { fetchMedia, isPublicMediaUrl, readCappedBody } from "./media-fetch.mjs";
 import { freezeUrl } from "./freeze.mjs";
-import { downloadTo } from "../../audio/scripts/lib/heygen.mjs";
-import { synthesizeHeygen } from "../../audio/scripts/lib/tts.mjs";
+import { downloadTo } from "../../audio/scripts/lib/download.mjs";
 import { faviconSearch } from "./logo-provider.mjs";
 
 test("blocks private, reserved, alternate-encoded and mapped hosts", () => {
@@ -120,11 +119,11 @@ test("freeze refuses a public-to-private redirect without writing response bytes
   }
 });
 
-for (const entry of ["heygen audio", "tts mp3", "tts wav", "favicon"]) {
+for (const entry of ["audio download", "favicon"]) {
   test(`${entry} blocks private redirects before saving or transcoding`, async (t) => {
     const dir = mkdtempSync(join(tmpdir(), "hf-provider-redirect-"));
     const requests = [];
-    const fetchImpl = t.mock.method(globalThis, "fetch", async (url, options) => {
+    t.mock.method(globalThis, "fetch", async (url, options) => {
       requests.push(url);
       return options?.redirect === "manual"
         ? new Response(null, {
@@ -134,31 +133,13 @@ for (const entry of ["heygen audio", "tts mp3", "tts wav", "favicon"]) {
         : new Response(new Uint8Array(600));
     });
     try {
-      if (entry === "heygen audio") {
+      if (entry === "audio download") {
         await assert.rejects(
           downloadTo("https://cdn.example/audio", join(dir, "audio.mp3")),
           /blocked/,
         );
-      } else if (entry === "favicon") {
-        assert.equal(await faviconSearch("GitHub logo"), null);
       } else {
-        const result = await synthesizeHeygen(
-          {
-            text: "hi",
-            voiceId: "v1",
-            lang: "en",
-            speed: 1,
-            wavAbs: join(dir, entry === "tts wav" ? "audio.wav" : "audio.mp3"),
-          },
-          {
-            heygenAuthHeaders: () => ({}),
-            heygenJSON: async () => ({ data: { audio_url: "https://cdn.example/audio" } }),
-            fetch: fetchImpl,
-            transcodeToWav: () => assert.fail("private bytes must not reach ffmpeg"),
-          },
-        );
-        assert.equal(result.ok, false);
-        assert.match(result.error, /blocked/);
+        assert.equal(await faviconSearch("GitHub logo"), null);
       }
       assert.equal(requests.length, 1);
       assert.deepEqual(readdirSync(dir), []);
