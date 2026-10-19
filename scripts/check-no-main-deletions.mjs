@@ -72,6 +72,12 @@ const HEYGEN_HOSTING_REASON =
 const HEYGEN_INTERNAL_REASON =
   "owner-directed removal of HeyGen-internal material: the changelog-video house skill (HeyGen voice and brand), ClawHub sync under HeyGen's namespace, HeyGen CODEOWNERS, and the HeyGen promo producer fixture";
 
+const STUDIO_TELEMETRY_REASON =
+  "owner-directed removal of Studio usage telemetry, the PostHog feedback card and crash prompt, and the HeyGen desktop-app prompts";
+
+const CANARY_REASON =
+  "owner-directed removal of the telemetry-gated canary rollout system; its only consumer was Studio telemetry";
+
 /** Many paths removed for one reason. */
 const group = (reason, paths) => paths.map((path) => [path, reason]);
 
@@ -1492,6 +1498,71 @@ export const ALLOWED_DELETIONS = new Map([
     "packages/producer/tests/heygen-promo-preview-assets/src/index.html",
     "scripts/clawhub-sync.mjs",
     "scripts/clawhub-sync.test.mjs",
+  ]),
+  ...group(STUDIO_TELEMETRY_REASON, [
+    "packages/studio/src/components/DesktopGuideCard.tsx",
+    "packages/studio/src/components/FrameyGlyph.tsx",
+    "packages/studio/src/components/OpenInDesktopButton.dom.test.tsx",
+    "packages/studio/src/components/OpenInDesktopButton.tsx",
+    "packages/studio/src/components/editor/audioFxTelemetry.test.ts",
+    "packages/studio/src/components/editor/audioFxTelemetry.ts",
+    "packages/studio/src/components/editor/gsapAnimationCallbacks.test.ts",
+    "packages/studio/src/components/editor/propertyPanelInputCoverage.test.tsx",
+    "packages/studio/src/components/editor/useFxChainObserved.ts",
+    "packages/studio/src/components/feedback/CrashFeedbackPrompt.tsx",
+    "packages/studio/src/components/feedback/StudioFeedbackCard.tsx",
+    "packages/studio/src/components/feedback/feedbackTrigger.test.ts",
+    "packages/studio/src/components/feedback/feedbackTrigger.ts",
+    "packages/studio/src/components/feedback/projectProvenance.test.ts",
+    "packages/studio/src/components/feedback/projectProvenance.ts",
+    "packages/studio/src/components/renders/useRenderQueueTelemetry.test.tsx",
+    "packages/studio/src/contexts/DesignPanelInputContext.test.tsx",
+    "packages/studio/src/contexts/DesignPanelInputContext.tsx",
+    "packages/studio/src/hooks/useGsapInteractionFailureTelemetry.test.tsx",
+    "packages/studio/src/hooks/useGsapInteractionFailureTelemetry.ts",
+    "packages/studio/src/hooks/useGsapKeyframeOps.sdkUsage.test.tsx",
+    "packages/studio/src/hooks/useStudioSessionStart.ts",
+    "packages/studio/src/player/components/useTimelinePerformanceTelemetry.test.ts",
+    "packages/studio/src/player/components/useTimelinePerformanceTelemetry.ts",
+    "packages/studio/src/player/hooks/usePreviewFirstFrameTelemetry.ts",
+    "packages/studio/src/telemetry/agentRuntime.test.ts",
+    "packages/studio/src/telemetry/agentRuntime.ts",
+    "packages/studio/src/telemetry/breadcrumbs.test.ts",
+    "packages/studio/src/telemetry/breadcrumbs.ts",
+    "packages/studio/src/telemetry/canary.test.ts",
+    "packages/studio/src/telemetry/canary.ts",
+    "packages/studio/src/telemetry/client.test.ts",
+    "packages/studio/src/telemetry/client.ts",
+    "packages/studio/src/telemetry/config.ts",
+    "packages/studio/src/telemetry/distinctId.test.ts",
+    "packages/studio/src/telemetry/distinctId.ts",
+    "packages/studio/src/telemetry/events.test.ts",
+    "packages/studio/src/telemetry/events.ts",
+    "packages/studio/src/telemetry/policy.test.ts",
+    "packages/studio/src/telemetry/policy.ts",
+    "packages/studio/src/telemetry/system.test.ts",
+    "packages/studio/src/telemetry/system.ts",
+    "packages/studio/src/telemetry/tabId.test.ts",
+    "packages/studio/src/telemetry/tabId.ts",
+    "packages/studio/src/utils/designInputTracking.test.ts",
+    "packages/studio/src/utils/designInputTracking.ts",
+    "packages/studio/src/utils/keyframeUsage.ts",
+    "packages/studio/src/utils/previewFeatureUsage.test.ts",
+    "packages/studio/src/utils/previewFeatureUsage.ts",
+    "packages/studio/src/utils/safeStorage.ts",
+    "packages/studio/src/utils/sdkResolverAttempts.ts",
+    "packages/studio/src/utils/sdkResolverShadow.test.ts",
+    "packages/studio/src/utils/sdkResolverShadow.ts",
+    "packages/studio/src/utils/studioTelemetry.test.ts",
+    "packages/studio/src/utils/studioTelemetry.ts",
+  ]),
+  ...group(CANARY_REASON, [
+    ".github/workflows/canary-sunset.yml",
+    "docs/contributing/canary-rollouts.mdx",
+    "packages/core/src/canary.test.ts",
+    "packages/core/src/canary.ts",
+    "packages/core/src/canaryRegistry.ts",
+    "scripts/check-canary-sunset.ts",
   ]),
 ]);
 

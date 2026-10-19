@@ -26,18 +26,6 @@
       "types": "./src/index.ts"
     },
     "./package.json": "./package.json",
-    "./canary": {
-      "bun": "./src/canary.ts",
-      "node": "./dist/canary.js",
-      "import": "./src/canary.ts",
-      "types": "./src/canary.ts"
-    },
-    "./canary-registry": {
-      "bun": "./src/canaryRegistry.ts",
-      "node": "./dist/canaryRegistry.js",
-      "import": "./src/canaryRegistry.ts",
-      "types": "./src/canaryRegistry.ts"
-    },
     "./telemetry-redaction": {
       "bun": "./src/telemetryRedaction.ts",
       "node": "./dist/telemetryRedaction.js",
@@ -554,14 +542,6 @@
         "types": "./dist/index.d.ts"
       },
       "./package.json": "./package.json",
-      "./canary": {
-        "import": "./dist/canary.js",
-        "types": "./dist/canary.d.ts"
-      },
-      "./canary-registry": {
-        "import": "./dist/canaryRegistry.js",
-        "types": "./dist/canaryRegistry.d.ts"
-      },
       "./telemetry-redaction": {
         "import": "./dist/telemetryRedaction.js",
         "types": "./dist/telemetryRedaction.d.ts"

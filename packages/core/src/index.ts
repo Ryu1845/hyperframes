@@ -404,22 +404,6 @@ export {
   isComponentItem,
 } from "./registry/index.js";
 
-export {
-  canaryBucket,
-  evaluateCanary,
-  parseCanaryOverride,
-  type CanaryDecision,
-  type CanaryInput,
-  type CanaryReason,
-} from "./canary.js";
-export {
-  CANARIES,
-  canaryEnvVar,
-  findCanary,
-  overdueCanaries,
-  type CanaryDefinition,
-} from "./canaryRegistry.js";
-
 // VFX chain (data-vfx-chain) — defs, chain parse/serialize/normalize
 export {
   HF_VFX_ATTR,

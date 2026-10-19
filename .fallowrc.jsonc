@@ -729,12 +729,6 @@
       // inherited clone; consistent with the norm above of leaving parallel
       // command-test cases unabstracted.
       "packages/cli/src/commands/check.test.ts",
-      // canary.test.ts: rawFnv is a deliberate independent re-implementation of
-      // canary.ts's fnv1a32, not copy-paste — its own docstring explains why:
-      // the test re-derives the hash so it can cross-check canaryBucket against
-      // a copy that owes it nothing, rather than importing the function under
-      // test. Importing fnv1a32 here would defeat the point of the assertion.
-      "packages/core/src/canary.test.ts",
       // The audio FX property-panel test files (and the two siblings outside
       // this stack, propertyPanelFlatMotionSection.test.tsx and
       // propertyPanelFlatEffectsSection.test.tsx) share a `renderInto` React
