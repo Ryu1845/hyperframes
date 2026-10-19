@@ -33,52 +33,6 @@ describe("hyperframes-core contract docs", () => {
     expect(brief).toContain("`hyperframes check`");
     expect(brief).not.toContain("`lint` / `validate` / `inspect`");
   });
-
-  it("requires actionable reproduction packets in CLI defect feedback", () => {
-    const skill = read("skills", "hyperframes-cli", "SKILL.md");
-    const renderReference = read("skills", "hyperframes-cli", "references", "preview-render.md");
-
-    expect(skill).toContain("reproduction packet");
-    expect(renderReference).toContain("REPRO COMMAND:");
-    expect(renderReference).toContain("EXPECTED / ACTUAL:");
-    expect(renderReference).toContain("EXACT ERROR:");
-    expect(renderReference).toContain("OUTCOME:");
-    expect(renderReference).toContain("WORKAROUND:");
-  });
-
-  it("sends missing features and host-app friction as ratingless comments", () => {
-    const skill = read("skills", "hyperframes-cli", "SKILL.md");
-
-    expect(skill).toContain(
-      'npx hyperframes feedback --comment "MISSING FEATURE: <what the person asked for, in their words, with names, clients, figures and paths left out> | WORKAROUND:',
-    );
-    expect(skill).toMatch(/HYPERFRAMES_CLIENT[^\n]*npx hyperframes feedback --comment "HOST APP:/);
-  });
-
-  it("mandates a composition-structure block for visual-defect feedback", () => {
-    const skill = read("skills", "hyperframes-cli", "SKILL.md");
-    const renderReference = read("skills", "hyperframes-cli", "references", "preview-render.md");
-
-    // Skill teaches the mandate at a high level.
-    expect(skill).toContain("COMPOSITION_STRUCTURE:");
-    // Reference carries the fillable block + agent-helper pointer.
-    expect(renderReference).toContain("COMPOSITION_STRUCTURE:");
-    expect(renderReference).toContain("elements: video=");
-    expect(renderReference).toContain("attributes:");
-    expect(renderReference).toContain("timeline:");
-    expect(renderReference).toContain("buildCompositionCensus");
-  });
-
-  it("teaches safe cloud archive size remediation", () => {
-    const skill = read("skills", "hyperframes-cli", "SKILL.md");
-    const cloudReference = read("skills", "hyperframes-cli", "references", "cloud.md");
-
-    expect(skill).toContain("cloud render --dry-run --json");
-    expect(skill).toContain("Never ignore an asset merely because it is large");
-    expect(cloudReference).toContain(".hyperframesignore");
-    expect(cloudReference).toContain("Never ignore all of `assets/`");
-    expect(cloudReference).toContain("dynamically computed asset path");
-  });
 });
 
 describe("media-use TTS documentation", () => {

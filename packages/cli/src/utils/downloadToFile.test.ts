@@ -15,7 +15,7 @@ import type { AddressInfo } from "node:net";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import { downloadToFile } from "./download.js";
+import { downloadToFile } from "./downloadToFile.js";
 
 function makeBytesFetch(bytes: Uint8Array, headers: Record<string, string> = {}): typeof fetch {
   return (async () =>
@@ -89,10 +89,10 @@ function patternBytes(length: number): Buffer {
   return bytes;
 }
 
-describe("cloud/download", () => {
+describe("downloadToFile", () => {
   let dir: string;
   beforeEach(() => {
-    dir = mkdtempSync(join(tmpdir(), "hf-cloud-download-"));
+    dir = mkdtempSync(join(tmpdir(), "hf-download-to-file-"));
   });
   afterEach(() => {
     rmSync(dir, { recursive: true, force: true });

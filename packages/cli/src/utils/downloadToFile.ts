@@ -1,10 +1,5 @@
 /**
- * Stream a presigned `video_url` (or any HTTPS URL) into a local file.
- *
- * The presigned URLs returned by `GET /v3/hyperframes/renders/{id}` are
- * S3 URLs scoped per-request — they don't take any HeyGen auth header.
- * That's why this lives separate from the cloud client: the client
- * threads auth headers, the download path explicitly does NOT.
+ * Stream an HTTPS URL into a local file. No auth headers are sent.
  *
  * Failure behavior is "all or nothing": on any error we (1) listen for
  * stream errors / aborts so awaits resolve promptly instead of hanging,
@@ -131,8 +126,7 @@ export async function downloadToFile(
         pump(first, part).then(() => {
           if (total !== undefined && part.at !== total) {
             throw new Error(
-              `Truncated download: got ${part.at} bytes, expected ${total} (content-length). ` +
-                `The presigned URL may have expired mid-transfer — refetch via \`hyperframes cloud get\`.`,
+              `Truncated download: got ${part.at} bytes, expected ${total} (content-length).`,
             );
           }
         }),

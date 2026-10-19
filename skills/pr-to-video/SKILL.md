@@ -50,14 +50,14 @@ Every relative-path command below runs with `$PROJECT_DIR` as its working direct
 
 **Write `BRIEF.md` immediately after init** (never before — `init` refuses a non-empty directory): the intent layer's locked brief, shape per `../hyperframes/references/brief-format.md`. Resolve `<MEDIA_DIR>` as the installed `/media-use` skill directory. Then record each preference-backed answer with `node <MEDIA_DIR>/scripts/prefs.mjs record --hyperframes .` (`brief-format.md` names the subset). If the intent layer adopted a recipe, run `node <MEDIA_DIR>/scripts/recipe.mjs use --hyperframes . --name <name>`; it copies its `frame.md` into the project (Step 2 is then skipped) and returns the skeletons Step 3 drafts from. A recipe fills answers, not approvals; the review gates still run.
 
-**Show sign-in status before proceeding past Setup** — run `npx hyperframes auth status` and relay its output verbatim. It reports whether voice/BGM will use HeyGen or local engines and, when signed out, how to sign in. Apply one branch:
+**Show the voice and music engines before proceeding past Setup** — run `npx hyperframes doctor` and relay its `TTS (Kokoro)` and `BGM (MusicGen)` lines. Voice uses ElevenLabs when `ELEVENLABS_API_KEY` is set, otherwise local Kokoro; music uses Lyria when a Gemini key is set, otherwise local MusicGen. Apply one branch:
 
-- **Collaborative:** wait for the user to sign in or explicitly choose `offline` / `go`.
-- **Autonomous:** state the status and continue through the available local engines.
+- **Collaborative:** when an engine is missing, show its install hint and wait for the user to install it or explicitly choose `go` without it.
+- **Autonomous:** state which engines are available and continue with them.
 
-Do not silently omit a required capability when no offline provider exists; surface the blocker. Do not fold this decision into another question or write keys into a per-repo `.env`. Auth ownership and offline fallbacks: `/media-use` `references/setup-providers.md` § Providers.
+Do not silently omit a required capability when no provider is available; surface the blocker. Do not fold this decision into another question or write keys into a per-repo `.env`. Provider setup: `/media-use` `references/setup-providers.md` § Providers.
 
-**Gate:** `hyperframes.json` and `BRIEF.md` exist; the PR ref is captured in the brief; the preference-backed answers were recorded (brief contract § 2); sign-in status was shown (signed in, or continuing offline).
+**Gate:** `hyperframes.json` and `BRIEF.md` exist; the PR ref is captured in the brief; the preference-backed answers were recorded (brief contract § 2); the voice and music engine status was shown.
 
 ---
 

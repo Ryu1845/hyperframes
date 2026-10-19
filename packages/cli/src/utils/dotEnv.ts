@@ -1,5 +1,3 @@
-import { FEEDBACK_EMAIL_ENV } from "./feedbackSource.js";
-
 export const CAPTURE_ENV_KEYS = [
   "OPENROUTER_API_KEY",
   "GEMINI_API_KEY",
@@ -33,9 +31,7 @@ function entryOf(rawLine: string): [string, string] | null {
   return [line.slice(0, eq).trim(), valueOf(line.slice(eq + 1).trim())];
 }
 
-// Never over a key already set, and never the feedback email in any letter case (Windows env names are case-blind):
-// only the launching app may attach it, and an agent can write a project `.env`.
-// An optional exact-name allowlist narrows callers that load less-trusted project settings.
+// Never over a key already set. An optional exact-name allowlist narrows callers that load less-trusted project settings.
 export function applyDotEnv(
   content: string,
   env: NodeJS.ProcessEnv,
@@ -45,12 +41,6 @@ export function applyDotEnv(
   for (const entry of content.split("\n").map(entryOf)) {
     if (!entry) continue;
     const [key, value] = entry;
-    if (
-      key &&
-      key.toUpperCase() !== FEEDBACK_EMAIL_ENV &&
-      (allowed === undefined || allowed.has(key)) &&
-      !(key in env)
-    )
-      env[key] = value;
+    if (key && (allowed === undefined || allowed.has(key)) && !(key in env)) env[key] = value;
   }
 }

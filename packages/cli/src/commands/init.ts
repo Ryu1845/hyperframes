@@ -293,7 +293,6 @@ function buildPackageScripts(): Record<string, string> {
     dev: hyperframesScript("preview"),
     check: hyperframesScript("check"),
     render: hyperframesScript("render"),
-    publish: hyperframesScript("publish"),
   };
 }
 

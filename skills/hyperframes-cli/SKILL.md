@@ -2,11 +2,11 @@
 name: hyperframes-cli
 description: >
   Use the HyperFrames CLI development loop: init, add, catalog, capture, lint, check, snapshot,
-  compare, grade-compare, preview, play, present, beats, keyframes, single or batch render, publish,
-  cloud, cloudrun, feedback, lambda, doctor, browser, info, upgrade, skills, compositions, timeline, history, clean, docs,
-  benchmark, telemetry, transcribe, auth, tts, and remove-background. Also use when diagnosing build
+  compare, grade-compare, preview, play, present, beats, keyframes, single or batch render,
+  cloudrun, lambda, doctor, browser, info, upgrade, skills, compositions, timeline, history, clean, docs,
+  benchmark, telemetry, transcribe, tts, and remove-background. Also use when diagnosing build
   or render failures. validate, inspect, and layout are deprecated aliases; use check. Covers local,
-  HeyGen-hosted cloud, AWS Lambda, and Google Cloud Run rendering.
+  AWS Lambda, and Google Cloud Run rendering.
 ---
 
 **Plugin installs:** Before setup or freshness commands, follow [plugin execution rules](../hyperframes/references/plugin-installation.md) when this skill is inside a HyperFrames plugin. Standalone installs keep the update instructions below.
@@ -91,7 +91,6 @@ Treat tiny unstyled content, canvas-sized icons, missing hero elements, or timel
 - **Query in English even when the video is not.** Both tiers index an English catalog, so a query in another script produces no searchable terms and returns nothing. Describe the move in English; the on-screen copy stays in whatever language the video needs. `No searchable words in query` means exactly this and is not a missing component, so do not report it as a catalog gap.
 - **Read which tier answered; never infer it from results appearing.** With `--json` the envelope carries `query`, `tier` (`on-device` or `words`), `tier_detail`, `dropped`, `unindexed`, `shown`, `total` and `results`, plus `top_score` when the answering tier produces one and `warnings` when a tier was asked for and could not run, or when a search returned nothing and a better tier is still waiting on someone's consent. A weak result on `words` is expected; the same result on `on-device` is a bug. `top_score` is on-device only and has no threshold behind it: the ranker returns the whole catalog in some order for every query, so read it as evidence rather than as a pass or fail.
 - **`dropped` and `unindexed` are opposite skews between the registry and the on-device index, and rewording the query fixes neither.** `dropped` counts ranked names this registry cannot install, so the strongest matches are the ones being lost. `unindexed` counts registry moves the index cannot see at all, which no query can ever return. Refreshing the registry is not the answer to either: its manifest carries a 24h TTL and heals itself, while the vectors are a separately published artifact fetched into `~/.hyperframes/catalog/`. Re-running with `--on-device` refetches that index when `unindexed` is above zero, so that is the remedy to hand the user. A pure over-coverage skew (`dropped` above zero while `unindexed` is zero) does not trigger the refetch; clearing `~/.hyperframes/catalog/` is the only way out of that one. Both counts are of names rather than of results, so either can exceed `total`.
-- **When a search comes back with nothing worth installing, say so.** `npx hyperframes feedback --search-miss "<the query you ran>" --wanted "<the move you needed>" --tier <the tier that answered>`. You do not have to assemble that line: `catalog --query` prints it pre-filled, and every `--json` search envelope carries it as `report_gap` with the query and tier already correct — fill in `--wanted` and send. This is the only path that sends a query anywhere, and it is a separate deliberate command precisely so plain `catalog --query` keeps its promise of sending nothing. **Report on either tier**, whenever the results do not do the thing; do not hold out for the on-device tier, which needs a consented 33 MB download and is therefore off in most agent runs — waiting for it means never reporting at all. The tier rides along in the report, so a vocabulary miss stays distinguishable from a meaning miss without you having to judge which one you hit. What comes back is a list of moves the catalog does not have yet, read directly rather than guessed from install counts, so the phrasing that matters is the effect you wanted, not the item name you imagined. It carries no rating and never lands in the rating metric.
 - **Offer the offline tier; never enable it silently.** A one-time ~33 MB download (a quantized ONNX build of `bge-small-en-v1.5` plus its tokenizer, pinned to a fixed revision) and the catalog vectors from the registry, both cached under `~/.hyperframes/`, neither added to the project or any package. Once cached it ranks by meaning with nothing sent. Say the size out loud and let the person decide, then pass `--on-device` (with `-y` to skip the prompt) once they agree. The interactive offer only fires on a TTY. Under `--json` there is no prompt, but a search that found nothing puts the same ask in `warnings`, so read that array and put the decision to the user yourself. When the person asks what the download is, why this model, or what leaves the machine, point them to https://hyperframes.heygen.com/developers/catalog-search.
 
 - Prefer `--json` for agent and CI calls. Server-mode `render`, `preview`, and `play` do not provide ordinary JSON output; `preview --selection --json` and `preview --context --json` are query-mode exceptions.
@@ -107,7 +106,6 @@ Treat tiny unstyled content, canvas-sized icons, missing hero elements, or timel
 - Use `--strict`, `--strict-all`, and `--strict-variables` when the corresponding warnings, variables, or CI conditions must gate the render.
 - For `shader_unbounded_cosine_pow`, clamp the cosine to `[0, 1]` before `pow(1 - cosine, exponent)`; a lower-only `max` is insufficient. Follow `/hyperframes-animation` → `adapters/three.md` for the source fix and affected-GPU preview/export verification. Lint only recognizes static shader expressions, and software rendering can miss hardware-specific invalid pixels.
 - JSON paths redact the home directory as `$HOME`; do not try to reverse the redaction.
-- When a hosted cloud project approaches or exceeds the 200 MB upload limit, use `cloud render --dry-run --json` and follow the `.hyperframesignore` investigation in `references/cloud.md`. Never ignore an asset merely because it is large.
 - Never render merely because checks pass. Pause at the final preview and wait for approval.
 
 ## Studio-directed edits
@@ -122,35 +120,21 @@ Use `selection.target.hfId` when available, otherwise its selector and source fi
 
 ## Render choices
 
-| Need                                     | Command                                                                       |
-| ---------------------------------------- | ----------------------------------------------------------------------------- |
-| Fast local iteration                     | `npx hyperframes render --quality draft`                                      |
-| First real encode                        | `npx hyperframes render --quality looks --output out.mp4`                     |
-| Final local delivery                     | `npx hyperframes render --quality delivery --output out.mp4`                  |
-| Reproducible container render            | `npx hyperframes render --docker --strict --output out.mp4`                   |
-| Local variable-driven batch render       | `npx hyperframes render --batch rows.json --output "renders/{name}.mp4"`      |
-| HeyGen-hosted zero-infrastructure render | `npx hyperframes cloud render`                                                |
-| Self-managed distributed AWS render      | `npx hyperframes lambda render <project> --width 1920 --height 1080 --wait`   |
-| Self-managed distributed GCP render      | `npx hyperframes cloudrun render <project> --width 1920 --height 1080 --wait` |
+| Need                                | Command                                                                       |
+| ----------------------------------- | ----------------------------------------------------------------------------- |
+| Fast local iteration                | `npx hyperframes render --quality draft`                                      |
+| First real encode                   | `npx hyperframes render --quality looks --output out.mp4`                     |
+| Final local delivery                | `npx hyperframes render --quality delivery --output out.mp4`                  |
+| Reproducible container render       | `npx hyperframes render --docker --strict --output out.mp4`                   |
+| Local variable-driven batch render  | `npx hyperframes render --batch rows.json --output "renders/{name}.mp4"`      |
+| Self-managed distributed AWS render | `npx hyperframes lambda render <project> --width 1920 --height 1080 --wait`   |
+| Self-managed distributed GCP render | `npx hyperframes cloudrun render <project> --width 1920 --height 1080 --wait` |
 
 A render stops when whatever started it stops, so a Ctrl-C or a closed terminal never leaves Chrome running. If your tool kills its whole process group when a command times out or ends, a long render dies with it. Start such a render in its own process group with `HYPERFRAMES_RENDER_DETACHED=1`, for example `bash -c 'set -m; HYPERFRAMES_RENDER_DETACHED=1 npx hyperframes render --output out.mp4 < /dev/null > render.log 2>&1 &'` (works on macOS and Linux), then check the log and the output file instead of waiting on the command.
 
 Skill attribution is automatic — the examples above need no `--skill`. A project scaffolded by a workflow (`hyperframes init --skill=<workflow>`) records its owning skill in `hyperframes.json`, and every later render inherits it on anonymous telemetry: re-renders, `npm run render`, and `--batch` alike. Pass `--skill=<slug>` explicitly only to stamp a project that was not created through a workflow (its first render then persists it).
 
-Use cloud rendering when the user wants hosted rendering without local Chrome, FFmpeg, or AWS. Use Lambda only when AWS ownership is a requirement. Use Cloud Run only when GCP ownership is a requirement. Read the matching reference before running any cloud path.
-
-After verifying a successful render, send one feedback report unless telemetry is disabled or the user opted out:
-
-```bash
-npx hyperframes feedback --rating <0-10> --comment "<specific result or friction>"
-```
-
-Keep clean-run feedback concise. For any bug or friction, capture a **reproduction packet** before submitting; do not send only a symptom summary. Include the rerunnable command (relative to the project directory — feedback is submitted to a public channel, so do **not** paste absolute paths, home-directory prefixes, or user/machine identifiers), expected versus actual behavior, exact error (also strip absolute paths from stack traces — keep basename + line, drop the leading directory), whether output completed/fell back/failed, workaround, and repro-project status. For a rating ≤ 7 that describes a visual defect (black frame, flicker, corrupt output, wrong frame, blank output, other visual anomaly), also include a `COMPOSITION_STRUCTURE:` block — a privacy-preserving structural anatomy (element census + attribute presence + timeline shape) so maintainers can pattern-match against known bug families without the composition ZIP. Agents auto-fill this via the composition-census helper; the human user does not fill it by hand. If the issue did not reproduce again, say so and still include the last failing command and logs. Use `--file-issue` only with consent: it publishes a minimal reproduction to a public URL. The required packet format and privacy warning live in `references/preview-render.md`.
-
-Two more reports are a `--comment` with no `--rating`, so they never count in the rating metric. Send them unless telemetry is disabled or the user opted out, under the same privacy rules:
-
-- **Missing feature.** Whenever the person asks for something HyperFrames or the host app cannot do, or can only do with a workaround, send one report per ask: `npx hyperframes feedback --comment "MISSING FEATURE: <what the person asked for, in their words, with names, clients, figures and paths left out> | WORKAROUND: <what you did instead, or none>"`. The report is about the capability they wanted, never their content or anything private. A catalog search that found nothing goes to `--search-miss` instead.
-- **Host app.** When `HYPERFRAMES_CLIENT` is set, the CLI is running inside a host app. When that app itself gets in the way (a panel, button, preview or export that misbehaves), send `npx hyperframes feedback --comment "HOST APP: <what happened>"` with the reproduction packet.
+Use Lambda only when AWS ownership is a requirement. Use Cloud Run only when GCP ownership is a requirement. Read the matching reference before running any cloud path.
 
 ## Read the matching reference before running a command
 
@@ -162,9 +146,8 @@ The following references and owning skills are mandatory command contracts, not 
 | `lint`, `check`, motion sidecars, `snapshot`                                                       | `references/lint-validate-inspect.md` |
 | `compare`, `grade-compare`, variable-driven `render --batch`                                       | `references/compare-and-batch.md`     |
 | `beats` for an existing project's Studio beat grid                                                 | `references/beats.md`                 |
-| `preview`, `play`, `render`, `publish`, Studio context, feedback                                   | `references/preview-render.md`        |
+| `preview`, `play`, `render`, Studio context                                                        | `references/preview-render.md`        |
 | `doctor`, browser management                                                                       | `references/doctor-browser.md`        |
-| `auth`, HeyGen-hosted cloud rendering, and template variables                                      | `references/cloud.md`                 |
 | AWS Lambda deployment and rendering                                                                | `references/lambda.md`                |
 | Google Cloud Run deployment and rendering                                                          | `references/cloudrun.md`              |
 | `info`, `upgrade`, `compositions`, `timeline`, `docs`, `benchmark`, telemetry, media preprocessing | `references/upgrade-info-misc.md`     |

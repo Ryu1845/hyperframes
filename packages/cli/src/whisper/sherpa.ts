@@ -5,7 +5,7 @@ import { homedir } from "node:os";
 import { join } from "node:path";
 import { createInterface } from "node:readline";
 import { fileURLToPath } from "node:url";
-import { downloadToFile } from "../cloud/download.js";
+import { downloadToFile } from "../utils/downloadToFile.js";
 import { verifies, type ModelFile } from "./modelFile.js";
 import { stoppedByCancelSignal } from "../utils/renderCancellation.js";
 import {

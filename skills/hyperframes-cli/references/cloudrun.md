@@ -1,6 +1,6 @@
 # Cloud Run rendering on Google Cloud
 
-Use `hyperframes cloudrun` only when the user explicitly wants self-managed Google Cloud infrastructure. It deploys Cloud Run, Workflows, and Cloud Storage. For a managed default use `hyperframes cloud`; for AWS use `hyperframes lambda`.
+Use `hyperframes cloudrun` only when the user explicitly wants self-managed Google Cloud infrastructure. It deploys Cloud Run, Workflows, and Cloud Storage. For AWS use `hyperframes lambda`.
 
 ## Prerequisites
 

@@ -137,7 +137,6 @@ const commandLoaders = {
   present: () => import("./commands/present.js").then((m) => m.default),
   preview: () =>
     assertStudioWorkspaceBuilt().then(() => import("./commands/preview.js").then((m) => m.default)),
-  publish: () => import("./commands/publish.js").then((m) => m.default),
   render: () => import("./commands/render.js").then((m) => m.default),
   lint: () => import("./commands/lint.js").then((m) => m.default),
   check: () => import("./commands/check.js").then((m) => m.default),
@@ -163,7 +162,6 @@ const commandLoaders = {
   clean: () => import("./commands/clean.js").then((m) => m.default),
   upgrade: () => import("./commands/upgrade.js").then((m) => m.default),
   skills: () => import("./commands/skills.js").then((m) => m.default),
-  feedback: () => import("./commands/feedback.js").then((m) => m.default),
   telemetry: () => import("./commands/telemetry.js").then((m) => m.default),
   events: () => import("./commands/events.js").then((m) => m.default),
   validate: () => import("./commands/validate.js").then((m) => m.default),
@@ -175,8 +173,6 @@ const commandLoaders = {
   capture: () => import("./commands/capture.js").then((m) => m.default),
   lambda: () => import("./commands/lambda.js").then((m) => m.default),
   cloudrun: () => import("./commands/cloudrun.js").then((m) => m.default),
-  cloud: () => import("./commands/cloud.js").then((m) => m.default),
-  auth: () => import("./commands/auth.js").then((m) => m.default),
   figma: () => import("./commands/figma.js").then((m) => m.default),
 };
 

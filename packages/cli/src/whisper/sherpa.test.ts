@@ -13,7 +13,7 @@ import { tmpdir } from "node:os";
 import { basename, dirname, join } from "node:path";
 import { pathToFileURL } from "node:url";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { DownloadOptions } from "../cloud/download.js";
+import type { DownloadOptions } from "../utils/downloadToFile.js";
 import { execFileSync } from "node:child_process";
 import {
   decodeTimeoutMs,

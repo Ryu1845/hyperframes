@@ -586,20 +586,10 @@ answers:
 | Capability | Ladder |
 | --- | --- |
 | moments, onsets, loudness, silence, envelope, kind | `signal` |
-| beats, downbeats (and so bpm) | `api`, `apple-mu`, `beat-this`, `signal` |
-| sections | `api`, `apple-mu`, `signal` |
-| describe | `api`, `apple-sound` |
+| beats, downbeats (and so bpm) | `apple-mu`, `beat-this`, `signal` |
+| sections | `apple-mu`, `signal` |
+| describe | `apple-sound` |
 
-- `api` is an audio analysis service, used when `HYPERFRAMES_AUDIO_API_URL` and
-  `HYPERFRAMES_AUDIO_API_KEY` are both set. The audio is uploaded as 16 kHz mono
-  WAV through the same origin’s public asset direct-upload and completion endpoints.
-  Each decoded signal is uploaded once; analysis requests send its finalized asset ID as JSON.
-  The API key needs asset upload and audio-analysis permissions. Channels are averaged unless cancellation removes over 90% of the loudest
-  channel’s energy, in which case that channel is used. Requests carry the key in an `x-api-key` header and a new `Idempotency-Key` on each
-  request; the answer may come wrapped in `{ "data": … }`. Every beat,
-  downbeat or section boundary it answers moves onto the nearest beat signal
-  processing measured, when one is within a quarter beat; the rest are listed in
-  `snap.unsnapped`, and `snap.medianShiftMs` says how far the moved ones went.
 - `apple-mu` is Apple's Music Understanding, which needs macOS 27. It is not
   available yet.
 - `beat-this` is [Beat This!](https://github.com/CPJKU/beat_this), used when

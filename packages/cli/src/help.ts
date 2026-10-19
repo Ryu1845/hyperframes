@@ -25,7 +25,6 @@ const GROUPS: Group[] = [
       ["catalog", "Browse and install blocks and components"],
       ["preview", "Start the studio for previewing compositions"],
       ["present", "Open a slideshow deck in presenter mode (with audience sync)"],
-      ["publish", "Upload a project to a stable URL (private by default)"],
       ["render", "Render a composition to MP4 or WebM"],
     ],
   },
@@ -79,7 +78,6 @@ const GROUPS: Group[] = [
   {
     title: "Deploy",
     commands: [
-      ["cloud", "Render compositions on HeyGen's cloud (no local Chrome/ffmpeg)"],
       ["lambda", "Deploy and drive distributed renders on AWS Lambda"],
       ["cloudrun", "Deploy and drive distributed renders on Google Cloud Run"],
     ],
@@ -98,15 +96,8 @@ const GROUPS: Group[] = [
     ],
   },
   {
-    title: "Account",
-    commands: [["auth", "Sign in to HeyGen and manage credentials"]],
-  },
-  {
     title: "Settings",
-    commands: [
-      ["feedback", "Submit anonymous feedback about your experience"],
-      ["telemetry", "Manage anonymous usage telemetry"],
-    ],
+    commands: [["telemetry", "Manage anonymous usage telemetry"]],
   },
 ];
 
@@ -116,7 +107,6 @@ import type { Example } from "./commands/_examples.js";
 const ROOT_EXAMPLES: Example[] = [
   ["Create a new project", "hyperframes init my-video"],
   ["Start the live preview studio", "hyperframes preview"],
-  ["Publish to hyperframes.dev", "hyperframes publish"],
   ["Render to MP4", "hyperframes render -o out.mp4"],
   ["Transparent WebM overlay", "hyperframes render --format webm -o out.webm"],
   ["Validate your composition", "hyperframes lint"],
@@ -128,8 +118,8 @@ const ROOT_EXAMPLES: Example[] = [
 // Each command file exports `examples: Example[]`. This function dynamically
 // imports them so examples live next to the command they document.
 //
-// For nested subverbs (e.g. `cloud render`), try the parent-scoped path
-// first (`commands/cloud/render.js`) so we don't collide with the
+// For nested subverbs (e.g. `lambda render`), try the parent-scoped path
+// first (`commands/lambda/render.js`) so we don't collide with the
 // top-level command of the same name (`commands/render.js`).
 // fallow-ignore-next-line complexity
 async function loadExamples(name: string, parentName?: string): Promise<Example[] | undefined> {

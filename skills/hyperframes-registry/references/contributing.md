@@ -119,15 +119,9 @@ hyperframes render -o preview.mp4
 
 # Snapshot for visual QA
 hyperframes snapshot --at "1.0,3.0,5.0,7.0"
-
-# Publish to hyperframes.dev for review
-npx hyperframes publish
 ```
 
-**Catalog preview image** — For the default PNG preview, save your snapshot at `docs/images/catalog/{kind}/{name}.png` in the repository checkout (`{kind}` is `blocks` or `components`). After upload, the catalog serves it from `https://static.heygen.ai/hyperframes-oss/docs/images/catalog/{kind}/{name}.png`. If `registry-item.json` declares `preview`, the card uses its `poster` URL; a `preview` without `poster` has no image fallback.
-
-- **HeyGen internal contributors:** run `scripts/upload-docs-images.sh` from the repository root (requires AWS profile `engineering-767398024897`)
-- **External contributors:** attach the preview MP4 to your PR description. A maintainer will generate and upload the catalog image before merging.
+**Catalog preview** — attach the preview MP4 to your PR description so reviewers can see the motion.
 
 ### Step 6: Ship
 
@@ -152,18 +146,15 @@ npx tsx scripts/generate-registry-items.ts
 # 4. Generate catalog docs page
 npx tsx scripts/generate-catalog-pages.ts
 
-# 5. Publish to hyperframes.dev so reviewers can preview
-npx hyperframes publish
-
-# 6. Stage everything
+# 5. Stage everything
 git add registry/{kind}/{name}/ registry/registry.json docs/catalog/
 
-# 7. Commit
+# 6. Commit
 git commit -m "feat(registry): add {name} — {one sentence}"
 
-# 8. Push and open PR with hyperframes.dev link
+# 7. Push and open PR
 git push origin feat/registry-{name}
-gh pr create --title "feat(registry): {name}" --body "preview: {hyperframes.dev-url}"
+gh pr create --title "feat(registry): {name}"
 ```
 
 **If you don't have a GitHub account:** you need one to open a PR. Sign up at https://github.com/signup, then run `gh auth login`.
@@ -175,6 +166,5 @@ gh pr create --title "feat(registry): {name}" --body "preview: {hyperframes.dev-
 - [ ] `npx oxfmt --check` passes
 - [ ] `registry/registry.json` updated with new entry
 - [ ] `scripts/generate-catalog-pages.ts` run (docs page generated)
-- [ ] `npx hyperframes publish` run (claim your project URL)
-- [ ] Preview MP4 attached to PR (external) or catalog PNG uploaded (internal)
+- [ ] Preview MP4 attached to PR
 - [ ] All IDs unique and prefixed

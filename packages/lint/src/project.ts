@@ -468,7 +468,7 @@ function lintMissingLocalAsset(
       fixHint:
         unique.length === 1
           ? `Add "${unique[0]}" to the project directory, or update the src attribute to point to an existing file. ` +
-            "Common cause: captured asset filenames are unreliable (heygen-logo.svg often contains Google, nvidia-logo.svg may contain Autodesk, etc.). " +
+            "Common cause: captured asset filenames are unreliable (a file named after one brand's logo often contains another's). " +
             "Open the contact sheets and verify the file actually exists at this path before referencing it."
           : "Add the missing files to the project directory, or update the src attributes to point to existing files. " +
             "Captured asset filenames are unreliable. Verify against capture/contact-sheets/ and capture/extracted/asset-descriptions.md.",
