@@ -1,5 +1,5 @@
 {
-  "$schema": "https://hyperframes.heygen.com/schema/registry-item.json",
+  "$schema": "https://raw.githubusercontent.com/ryu1845/hyperframes/main/docs/schema/registry-item.json",
   "name": "swirl-vortex",
   "type": "hyperframes:block",
   "title": "Swirl Vortex",
@@ -16,9 +16,5 @@
       "target": "compositions/swirl-vortex.html",
       "type": "hyperframes:composition"
     }
-  ],
-  "preview": {
-    "video": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/swirl-vortex.mp4",
-    "poster": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/swirl-vortex.png"
-  }
+  ]
 }

@@ -1,5 +1,5 @@
 {
-  "$schema": "https://hyperframes.heygen.com/schema/registry-item.json",
+  "$schema": "https://raw.githubusercontent.com/ryu1845/hyperframes/main/docs/schema/registry-item.json",
   "name": "flash-through-white",
   "type": "hyperframes:block",
   "title": "Flash Through White",
@@ -16,9 +16,5 @@
       "target": "compositions/flash-through-white.html",
       "type": "hyperframes:composition"
     }
-  ],
-  "preview": {
-    "video": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/flash-through-white.mp4",
-    "poster": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/flash-through-white.png"
-  }
+  ]
 }

@@ -1,5 +1,5 @@
 {
-  "$schema": "https://hyperframes.heygen.com/schema/registry-item.json",
+  "$schema": "https://raw.githubusercontent.com/ryu1845/hyperframes/main/docs/schema/registry-item.json",
   "name": "texture-mask-text",
   "type": "hyperframes:component",
   "title": "Texture Mask Text",
@@ -439,8 +439,5 @@
       "target": "assets/texture-mask-text/masks/fabric-080.png",
       "type": "hyperframes:asset"
     }
-  ],
-  "preview": {
-    "poster": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/texture-mask-text.png"
-  }
+  ]
 }

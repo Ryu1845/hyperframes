@@ -1,5 +1,5 @@
 {
-  "$schema": "https://hyperframes.heygen.com/schema/registry-item.json",
+  "$schema": "https://raw.githubusercontent.com/ryu1845/hyperframes/main/docs/schema/registry-item.json",
   "name": "yt-lower-third",
   "type": "hyperframes:block",
   "title": "YouTube Lower Third",
@@ -21,9 +21,5 @@
       "target": "assets/avatar.jpg",
       "type": "hyperframes:asset"
     }
-  ],
-  "preview": {
-    "video": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/yt-lower-third.mp4",
-    "poster": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/yt-lower-third.png"
-  }
+  ]
 }

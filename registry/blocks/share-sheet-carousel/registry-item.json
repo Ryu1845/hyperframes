@@ -1,5 +1,5 @@
 {
-  "$schema": "https://hyperframes.heygen.com/schema/registry-item.json",
+  "$schema": "https://raw.githubusercontent.com/ryu1845/hyperframes/main/docs/schema/registry-item.json",
   "name": "share-sheet-carousel",
   "type": "hyperframes:block",
   "title": "Share-Sheet Carousel",
@@ -140,9 +140,5 @@
       "target": "TEMPLATE.md",
       "type": "hyperframes:asset"
     }
-  ],
-  "preview": {
-    "video": "https://static.heygen.ai/hyperframes/templates/promoted/254fe4bd8a3f00c1e70ac5e38a1bce25060f7590/share-sheet-carousel/preview.mp4",
-    "poster": "https://static.heygen.ai/hyperframes/templates/promoted/254fe4bd8a3f00c1e70ac5e38a1bce25060f7590/share-sheet-carousel/poster.jpg"
-  }
+  ]
 }

@@ -426,8 +426,10 @@ export const CatalogGallery = ({ catalog, initialGroup = "", initialSection = ""
         React.createElement("div", { className: "hfc-media" },
             item.preview?.mode === "unsupported"
                 ? React.createElement("div", { className: "hfc-fallback hfc-unsupported", "aria-hidden": "true" },
-                    React.createElement("span", null, "Needs a browser flag"),
-                    React.createElement("code", null, `chrome://flags/#${item.preview.flag}`))
+                    React.createElement("span", null, item.preview.flag ? "Needs a browser flag" : "Needs WebGPU to play live"),
+                    item.preview.flag
+                        ? React.createElement("code", null, `chrome://flags/#${item.preview.flag}`)
+                        : React.createElement("strong", null, item.title))
                 : React.createElement("div", { className: "hfc-fallback", "aria-hidden": "true", style: { display: item.poster ? "none" : undefined } },
                     React.createElement("span", null, item.section),
                     React.createElement("strong", null, item.title)),

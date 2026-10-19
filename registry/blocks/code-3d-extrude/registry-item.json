@@ -1,5 +1,5 @@
 {
-  "$schema": "https://hyperframes.heygen.com/schema/registry-item.json",
+  "$schema": "https://raw.githubusercontent.com/ryu1845/hyperframes/main/docs/schema/registry-item.json",
   "name": "code-3d-extrude",
   "type": "hyperframes:block",
   "title": "Code 3D Extrude",
@@ -16,9 +16,5 @@
       "target": "compositions/code-3d-extrude.html",
       "type": "hyperframes:composition"
     }
-  ],
-  "preview": {
-    "video": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/code-3d-extrude.mp4",
-    "poster": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/code-3d-extrude.png"
-  }
+  ]
 }

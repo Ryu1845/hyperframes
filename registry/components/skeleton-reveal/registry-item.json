@@ -1,5 +1,5 @@
 {
-  "$schema": "https://hyperframes.heygen.com/schema/registry-item.json",
+  "$schema": "https://raw.githubusercontent.com/ryu1845/hyperframes/main/docs/schema/registry-item.json",
   "name": "skeleton-reveal",
   "type": "hyperframes:component",
   "title": "Skeleton Reveal",
@@ -47,8 +47,5 @@
         }
       ]
     }
-  ],
-  "preview": {
-    "poster": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/skeleton-reveal.png"
-  }
+  ]
 }

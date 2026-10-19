@@ -2,15 +2,23 @@ import { existsSync, readFileSync, realpathSync, mkdirSync, writeFileSync } from
 import { dirname, join, resolve } from "node:path";
 import { isContainedIn } from "./registry-target-paths.mjs";
 
-// All published registry assets use this CDN. Keep every redirect on the same
-// HTTPS origin; a contributor manifest must not select a runner-local service.
-const ASSET_ORIGIN = "https://static.heygen.ai";
+// A hosted registry asset is served raw from this repository. Keep every redirect on the same
+// HTTPS origin and inside this repository's tree; a contributor manifest must not select a
+// runner-local service or another repository's files. The URL parser has already resolved any
+// dot segment, so the prefix check sees the path that is actually requested.
+const ASSET_ORIGIN = "https://raw.githubusercontent.com";
+const ASSET_PATH_PREFIX = "/ryu1845/hyperframes/";
 // Match the media-freeze ceiling to allow future video assets while bounding runner memory.
 const MAX_ASSET_BYTES = 256 * 1024 * 1024;
 
-function assertCdnUrl(url: URL): void {
-  if (url.origin !== ASSET_ORIGIN || url.username || url.password) {
-    throw new Error("Hosted asset URL must use the registry HTTPS CDN");
+function assertRegistryUrl(url: URL): void {
+  if (
+    url.origin !== ASSET_ORIGIN ||
+    !url.pathname.startsWith(ASSET_PATH_PREFIX) ||
+    url.username ||
+    url.password
+  ) {
+    throw new Error("Hosted asset URL must point into the registry repository over HTTPS");
   }
 }
 
@@ -50,7 +58,7 @@ async function fetchHostedAsset(url: string): Promise<Uint8Array> {
   const signal = AbortSignal.timeout(120_000);
   let current = new URL(url);
   for (let hop = 0; hop <= 5; hop++) {
-    assertCdnUrl(current);
+    assertRegistryUrl(current);
     const response = await fetch(current.href, { redirect: "manual", signal });
     if (response.status >= 300 && response.status < 400) {
       current = await redirectTarget(response, current);

@@ -1,5 +1,5 @@
 {
-  "$schema": "https://hyperframes.heygen.com/schema/registry-item.json",
+  "$schema": "https://raw.githubusercontent.com/ryu1845/hyperframes/main/docs/schema/registry-item.json",
   "name": "sdf-iris",
   "type": "hyperframes:block",
   "title": "SDF Iris",
@@ -16,9 +16,5 @@
       "target": "compositions/sdf-iris.html",
       "type": "hyperframes:composition"
     }
-  ],
-  "preview": {
-    "video": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/sdf-iris.mp4",
-    "poster": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/sdf-iris.png"
-  }
+  ]
 }

@@ -1,5 +1,5 @@
 {
-  "$schema": "https://hyperframes.heygen.com/schema/registry-item.json",
+  "$schema": "https://raw.githubusercontent.com/ryu1845/hyperframes/main/docs/schema/registry-item.json",
   "name": "cross-warp-morph",
   "type": "hyperframes:block",
   "title": "Cross Warp Morph",
@@ -16,9 +16,5 @@
       "target": "compositions/cross-warp-morph.html",
       "type": "hyperframes:composition"
     }
-  ],
-  "preview": {
-    "video": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/cross-warp-morph.mp4",
-    "poster": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/cross-warp-morph.png"
-  }
+  ]
 }

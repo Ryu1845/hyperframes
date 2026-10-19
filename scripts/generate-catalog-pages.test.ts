@@ -236,12 +236,11 @@ describe("WebGPU stage fallback props", () => {
   const page = (name: string) =>
     readFileSync(join(here, "..", "docs", "catalog", "blocks", `${name}.mdx`), "utf-8");
 
-  it("gives a live WebGPU item its recorded clip, poster and the webgpu flag", () => {
+  it("gives a live WebGPU item the webgpu flag, and no clip its manifest does not declare", () => {
     const mdx = page("frost-sequence-camera-orbit");
     assert.match(mdx, /^ {2}previewSrc=/m);
-    assert.match(mdx, /^ {2}video=".*frost-sequence-camera-orbit\.mp4"/m);
-    assert.match(mdx, /^ {2}poster=/m);
     assert.match(mdx, /^ {2}webgpu$/m);
+    assert.doesNotMatch(mdx, /^ {2}(video|poster)=/m);
   });
 
   it("leaves a live item that does not need WebGPU without a recorded fallback", () => {
@@ -299,9 +298,16 @@ describe("stageProps recorded-clip guard", () => {
     ),
   );
 
-  it("offers the recorded fallback only when the manifest has a clip", () => {
-    assert.ok(stageProps("block", frost).includes("  webgpu"));
-    assert.deepEqual(stageProps("block", { ...frost, preview: undefined }), []);
+  it("always probes for WebGPU, and offers the recorded fallback only when the manifest has a clip", () => {
+    assert.deepEqual(stageProps("block", { ...frost, preview: undefined }), ["  webgpu"]);
+    const clip = "https://example.test/frost.mp4";
+    const poster = "https://example.test/frost.png";
+    assert.deepEqual(stageProps("block", { ...frost, preview: { video: clip, poster } }), [
+      `  video="${clip}"`,
+      `  poster="${poster}"`,
+      "  webgpu",
+    ]);
+    assert.deepEqual(stageProps("block", { ...frost, preview: { poster } }), ["  webgpu"]);
   });
 });
 

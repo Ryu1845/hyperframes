@@ -31,8 +31,7 @@ const scriptDir = dirname(fileURLToPath(import.meta.url));
 const repoRoot = resolve(scriptDir, "..");
 const registryDir = resolve(repoRoot, "registry");
 const docsDir = resolve(repoRoot, "docs");
-const rawSourceBase = "https://raw.githubusercontent.com/heygen-com/hyperframes/main/registry";
-const catalogImageBase = "https://static.heygen.ai/hyperframes-oss/docs/images/catalog";
+const rawSourceBase = "https://raw.githubusercontent.com/ryu1845/hyperframes/main/registry";
 const payloadRoot = resolve(repoRoot, "docs/public/catalog");
 
 /**
@@ -328,8 +327,9 @@ function textureSampleWord(slug: string): string {
   return TEXTURE_SAMPLE_WORDS.find(([needle]) => slug.includes(needle))?.[1] ?? slug.toUpperCase();
 }
 
+/** The mask the component itself ships, served raw from the registry it installs from. */
 function textureMaskUrlFor(manifest: RegistryItem, texture: string): string {
-  return `${catalogImageBase}/components/${manifest.name}/masks/${texture}.png`;
+  return `${rawSourceBase}/components/${manifest.name}/masks/${texture}.png`;
 }
 
 function generateTextureExamples(manifest: RegistryItem, textureGroups: TextureGroup[]): string[] {
@@ -592,13 +592,9 @@ export function variablePreviewWrapper(src: string): string[] {
   ];
 }
 
-function catalogPreviewFor(kind: ItemKind, manifest: RegistryItem): string | undefined {
-  // The manifest is the source of truth. Thirteen items declare a preview with
-  // a video and no poster, and that omission is deliberate — no .png was ever
-  // produced for them.
-  if (manifest.preview) return manifest.preview.poster;
-  const dir = typeDir(kind);
-  return `${catalogImageBase}/${dir}/${manifest.name}.png`;
+/** The manifest is the only source of a poster: an item that declares none has none. */
+function catalogPreviewFor(manifest: RegistryItem): string | undefined {
+  return manifest.preview?.poster;
 }
 
 function yamlString(value: string): string {
@@ -876,23 +872,26 @@ function payloadUsesWebgpu(kind: ItemKind, name: string): boolean {
   return usesWebgpu(html ?? "");
 }
 
-/** What the stage shows when the player cannot run the composition: a flag notice, or the recorded video. */
+/** What the stage shows when the player cannot run the composition: a notice, or the recorded video. */
 export function stageProps(kind: ItemKind, manifest: RegistryItem): string[] {
   if (hasPayload(kind, manifest.name)) {
-    // The recorded clip is the fallback for a browser with no WebGPU adapter.
-    if (!manifest.preview?.video || !payloadUsesWebgpu(kind, manifest.name)) return [];
-    return [...recordedProps(kind, manifest), "  webgpu"];
+    // `webgpu` makes the page probe for an adapter before mounting the player; without one it
+    // shows the recorded clip when the manifest declares one, and a notice otherwise.
+    if (!payloadUsesWebgpu(kind, manifest.name)) return [];
+    return [...recordedProps(manifest), "  webgpu"];
   }
   const flag = unsupportedFlag(kind, manifest.name);
   // A recorded video still plays without the flag, so it wins over the notice.
   if (flag && !manifest.preview?.video) return [`  needsFlag="${flag}"`];
-  return recordedProps(kind, manifest);
+  return recordedProps(manifest);
 }
 
-function recordedProps(kind: ItemKind, manifest: RegistryItem): string[] {
-  const previewPath = `${catalogImageBase}/${typeDir(kind)}/${manifest.name}`;
-  const posterUrl = catalogPreviewFor(kind, manifest);
-  return [`  video="${previewPath}.mp4"`, ...(posterUrl ? [`  poster="${posterUrl}"`] : [])];
+/** The manifest's own recorded clip and poster, when it declares them. */
+function recordedProps(manifest: RegistryItem): string[] {
+  const video = manifest.preview?.video;
+  if (!video) return [];
+  const posterUrl = catalogPreviewFor(manifest);
+  return [`  video="${video}"`, ...(posterUrl ? [`  poster="${posterUrl}"`] : [])];
 }
 
 /** How to use it. Empty when a human already wrote that section by hand. */
@@ -1200,7 +1199,7 @@ function main(): void {
       description: manifest.description,
       tags: manifest.tags ?? [],
       href: `/catalog/${dir}/${manifest.name}`,
-      preview: catalogPreviewFor(kind, manifest),
+      preview: catalogPreviewFor(manifest),
     });
   }
 

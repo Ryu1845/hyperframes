@@ -1,5 +1,5 @@
 {
-  "$schema": "https://hyperframes.heygen.com/schema/registry-item.json",
+  "$schema": "https://raw.githubusercontent.com/ryu1845/hyperframes/main/docs/schema/registry-item.json",
   "name": "north-korea-locked-down",
   "type": "hyperframes:block",
   "title": "North Korea Locked Down",
@@ -24,9 +24,5 @@
       "target": "assets/korea-map.png",
       "type": "hyperframes:asset"
     }
-  ],
-  "preview": {
-    "video": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/north-korea-locked-down.mp4",
-    "poster": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/north-korea-locked-down.png"
-  }
+  ]
 }

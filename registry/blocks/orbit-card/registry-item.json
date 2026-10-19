@@ -1,5 +1,5 @@
 {
-  "$schema": "https://hyperframes.heygen.com/schema/registry-item.json",
+  "$schema": "https://raw.githubusercontent.com/ryu1845/hyperframes/main/docs/schema/registry-item.json",
   "name": "orbit-card",
   "type": "hyperframes:block",
   "title": "Orbit Card",
@@ -71,9 +71,5 @@
       "target": "compositions/orbit-card/SKILL.md",
       "type": "hyperframes:asset"
     }
-  ],
-  "preview": {
-    "video": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/orbit-card.mp4",
-    "poster": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/orbit-card.png"
-  }
+  ]
 }

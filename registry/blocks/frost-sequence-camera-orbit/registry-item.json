@@ -1,5 +1,5 @@
 {
-  "$schema": "https://hyperframes.heygen.com/schema/registry-item.json",
+  "$schema": "https://raw.githubusercontent.com/ryu1845/hyperframes/main/docs/schema/registry-item.json",
   "name": "frost-sequence-camera-orbit",
   "type": "hyperframes:block",
   "title": "Frost Sequence Camera Orbit",
@@ -93,8 +93,7 @@
     {
       "path": "assets/shards-atlas.png",
       "target": "compositions/frost-sequence-camera-orbit/assets/shards-atlas.png",
-      "type": "hyperframes:asset",
-      "url": "https://static.heygen.ai/hyperframes-oss/registry-assets/122961c82d240e47.png"
+      "type": "hyperframes:asset"
     },
     {
       "path": "assets/test-mark.svg",
@@ -109,17 +108,12 @@
     {
       "path": "assets/textures/ice-inclusions-generated.png",
       "target": "compositions/frost-sequence-camera-orbit/assets/textures/ice-inclusions-generated.png",
-      "type": "hyperframes:asset",
-      "url": "https://static.heygen.ai/hyperframes-oss/registry-assets/4bea3a8ab90c9527.png"
+      "type": "hyperframes:asset"
     },
     {
       "path": "SKILL.md",
       "target": "compositions/frost-sequence-camera-orbit/SKILL.md",
       "type": "hyperframes:asset"
     }
-  ],
-  "preview": {
-    "video": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/frost-sequence-camera-orbit.mp4",
-    "poster": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/frost-sequence-camera-orbit.png"
-  }
+  ]
 }

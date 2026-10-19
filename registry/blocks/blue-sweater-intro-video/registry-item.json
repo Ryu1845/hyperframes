@@ -1,5 +1,5 @@
 {
-  "$schema": "https://hyperframes.heygen.com/schema/registry-item.json",
+  "$schema": "https://raw.githubusercontent.com/ryu1845/hyperframes/main/docs/schema/registry-item.json",
   "name": "blue-sweater-intro-video",
   "type": "hyperframes:block",
   "title": "Blue Sweater Intro Video",
@@ -28,9 +28,5 @@
       "target": "assets/sfx/integrated-melodic-tech-mix.wav",
       "type": "hyperframes:asset"
     }
-  ],
-  "preview": {
-    "video": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/blue-sweater-intro-video.mp4",
-    "poster": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/blue-sweater-intro-video.png"
-  }
+  ]
 }

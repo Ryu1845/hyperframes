@@ -1,5 +1,5 @@
 {
-  "$schema": "https://hyperframes.heygen.com/schema/registry-item.json",
+  "$schema": "https://raw.githubusercontent.com/ryu1845/hyperframes/main/docs/schema/registry-item.json",
   "name": "ios26-liquid-glass",
   "type": "hyperframes:block",
   "title": "iOS 26 Liquid Glass Home Screen",
@@ -166,9 +166,5 @@
       "target": "assets/icons/music.jpg",
       "type": "hyperframes:asset"
     }
-  ],
-  "preview": {
-    "video": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/ios26-liquid-glass.mp4",
-    "poster": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/ios26-liquid-glass.png"
-  }
+  ]
 }

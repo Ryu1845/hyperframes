@@ -6,8 +6,8 @@
  * videos of each built-in template.
  *
  * Output: docs/images/templates/<id>.png + <id>.mp4
- *   (docs/images/ is gitignored — files are served from the CDN. After running
- *   this script, run `bun run upload:docs-images` to publish.)
+ *   (docs/images/ is gitignored: the files are local review output, nothing
+ *   publishes them.)
  *
  * Usage:
  *   bun run generate:previews                 # all templates (PNG + MP4)

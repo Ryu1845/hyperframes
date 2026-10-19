@@ -1,5 +1,5 @@
 {
-  "$schema": "https://hyperframes.heygen.com/schema/registry-item.json",
+  "$schema": "https://raw.githubusercontent.com/ryu1845/hyperframes/main/docs/schema/registry-item.json",
   "name": "filmed-screen",
   "type": "hyperframes:component",
   "title": "Filmed Screen",
@@ -23,9 +23,5 @@
       "target": "compositions/components/filmed-screen.html",
       "type": "hyperframes:snippet"
     }
-  ],
-  "preview": {
-    "video": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/filmed-screen.mp4",
-    "poster": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/filmed-screen.png"
-  }
+  ]
 }

@@ -1,5 +1,5 @@
 {
-  "$schema": "https://hyperframes.heygen.com/schema/registry-item.json",
+  "$schema": "https://raw.githubusercontent.com/ryu1845/hyperframes/main/docs/schema/registry-item.json",
   "name": "caption-weight-shift",
   "type": "hyperframes:component",
   "title": "Weight Shift",
@@ -11,9 +11,5 @@
       "target": "compositions/components/caption-weight-shift.html",
       "type": "hyperframes:snippet"
     }
-  ],
-  "preview": {
-    "video": "https://static.heygen.ai/hyperframes-oss/registry/components/caption-weight-shift/preview-v2.mp4",
-    "poster": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/caption-weight-shift.png"
-  }
+  ]
 }

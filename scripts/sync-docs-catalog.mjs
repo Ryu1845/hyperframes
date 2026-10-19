@@ -26,22 +26,22 @@ function isHeavy(html) {
   return /getContext\(\s*["']webgl2?["']|THREE\./.test(html) || usesWebgpu(html);
 }
 
-// The one preview rule: a composition that needs a Chrome flag shows its recorded video, every
-// other one plays live from the same JSON payload the detail page serves. Poster art is only
-// the still before the player mounts, so it never decides the mode.
+// The one preview rule: every composition plays live from the same JSON payload the detail page
+// serves, unless it needs a Chrome flag or WebGPU. Those show the manifest's recorded video when
+// it declares one, and otherwise an "unsupported" tile naming what the reader's browser lacks.
+// Poster art is only the still before the player mounts, so it never decides the mode. "still"
+// is left for a payload that is missing or cannot play, which check-docs-catalog.mjs rejects.
 // fallow-ignore-next-line complexity
 function previewFor(dir, id, docsDir, man) {
-  const recorded = man.preview?.video ? { mode: "video" } : { mode: "still" };
+  const recorded = man.preview?.video ? { mode: "video" } : null;
   const payloadPath = path.join(docsDir, "public/catalog", dir, `${id}.json`);
-  if (!fs.existsSync(payloadPath)) return recorded;
+  if (!fs.existsSync(payloadPath)) return recorded ?? { mode: "still" };
   const payload = readJson(payloadPath);
-  if (payload.unsupported) {
-    return recorded.mode === "video"
-      ? recorded
-      : { mode: "unsupported", flag: payload.unsupported };
-  }
+  if (payload.unsupported) return recorded ?? { mode: "unsupported", flag: payload.unsupported };
   const { html } = payload;
-  if (!html || previewGap(html)) return recorded;
+  const gap = html ? previewGap(html) : "no-html";
+  if (gap === "webgpu") return recorded ?? { mode: "unsupported", needs: "webgpu" };
+  if (gap) return recorded ?? { mode: "still" };
   return {
     mode: "player",
     source: `/public/catalog/${dir}/${id}.json`,
@@ -143,7 +143,7 @@ const groups = groupsOrder
     if (pb === -1) return -1;
     return pa - pb;
   });
-const result = { source: "https://github.com/heygen-com/hyperframes", groups, items };
+const result = { source: "https://github.com/ryu1845/hyperframes", groups, items };
 fs.writeFileSync(
   path.join(docs, "snippets/catalog-gallery-data.mdx"),
   `export const catalogGalleryData = ${JSON.stringify(result)};\n`,

@@ -1,5 +1,5 @@
 {
-  "$schema": "https://hyperframes.heygen.com/schema/registry-item.json",
+  "$schema": "https://raw.githubusercontent.com/ryu1845/hyperframes/main/docs/schema/registry-item.json",
   "name": "avatar-group-hover",
   "type": "hyperframes:component",
   "title": "Avatar Group Hover",
@@ -79,8 +79,5 @@
         }
       ]
     }
-  ],
-  "preview": {
-    "poster": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/avatar-group-hover.png"
-  }
+  ]
 }

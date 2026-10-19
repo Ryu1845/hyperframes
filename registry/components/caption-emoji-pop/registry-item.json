@@ -1,5 +1,5 @@
 {
-  "$schema": "https://hyperframes.heygen.com/schema/registry-item.json",
+  "$schema": "https://raw.githubusercontent.com/ryu1845/hyperframes/main/docs/schema/registry-item.json",
   "name": "caption-emoji-pop",
   "type": "hyperframes:component",
   "title": "Emoji Pop",
@@ -11,9 +11,5 @@
       "target": "compositions/components/caption-emoji-pop.html",
       "type": "hyperframes:snippet"
     }
-  ],
-  "preview": {
-    "video": "https://static.heygen.ai/hyperframes-oss/registry/components/caption-emoji-pop/preview.mp4?v=1779051416",
-    "poster": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/caption-emoji-pop.png"
-  }
+  ]
 }

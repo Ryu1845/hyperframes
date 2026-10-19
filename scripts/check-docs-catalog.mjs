@@ -85,16 +85,33 @@ for (const item of data.items) {
   );
   assert.ok(
     item.preview.mode !== "still",
-    `${item.id} has neither a live payload nor a Chrome-flag reason for its recorded video`,
+    `${item.id} has neither a live payload nor a Chrome-flag or WebGPU reason not to play live`,
   );
+  const payloadFile = path.join(docs, "public/catalog", `${item.kind}s`, `${item.id}.json`);
+  const payload = fs.existsSync(payloadFile) ? readJson(payloadFile) : {};
   if (item.preview.mode === "video") {
     assert.ok(item.video, `Missing hover video for ${item.id}`);
-    const file = path.join(docs, "public/catalog", `${item.kind}s`, `${item.id}.json`);
-    const payload = fs.existsSync(file) ? readJson(file) : {};
     assert.ok(
       payload.unsupported || previewGap(payload.html ?? "") === "webgpu",
       `${item.id} shows its recorded video although its payload plays live`,
     );
+  }
+  if (item.preview.mode === "unsupported") {
+    // The tile names what the browser lacks, so that reason has to be the payload's own.
+    if (item.preview.flag !== undefined) {
+      assert.equal(
+        item.preview.flag,
+        payload.unsupported,
+        `${item.id} names a Chrome flag its payload does not ask for`,
+      );
+    } else {
+      assert.equal(item.preview.needs, "webgpu", `${item.id} is unsupported without a reason`);
+      assert.equal(
+        previewGap(payload.html ?? ""),
+        "webgpu",
+        `${item.id} is marked as needing WebGPU although its payload does not use it`,
+      );
+    }
   }
   if (item.preview.mode === "player") {
     assert.ok(

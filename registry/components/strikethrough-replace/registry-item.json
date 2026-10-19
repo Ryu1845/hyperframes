@@ -1,5 +1,5 @@
 {
-  "$schema": "https://hyperframes.heygen.com/schema/registry-item.json",
+  "$schema": "https://raw.githubusercontent.com/ryu1845/hyperframes/main/docs/schema/registry-item.json",
   "name": "strikethrough-replace",
   "type": "hyperframes:component",
   "title": "Strikethrough Replace",
@@ -65,8 +65,5 @@
         { "value": "paper", "label": "Paper" }
       ]
     }
-  ],
-  "preview": {
-    "poster": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/strikethrough-replace.png"
-  }
+  ]
 }
