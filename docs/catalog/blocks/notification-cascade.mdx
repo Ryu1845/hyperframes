@@ -13,11 +13,11 @@ import { InstallCommand } from "/snippets/install-command.jsx";
   compositionSrc="compositions/notification-cascade.html"
   title="Notification Cascade"
   description="Phone notifications land one after another and stack up the screen, each banner pushing the pile down as it arrives, before the whole stack lifts away into a closing card"
-  variables={[{"id":"notifTitle","type":"string","role":"content","label":"Notification title","description":"Bold first line on every banner.","default":"New render"},{"id":"message1","type":"string","role":"content","label":"Message 1","description":"Subtitle of the first banner to land.","default":"Launch video is ready."},{"id":"message2","type":"string","role":"content","label":"Message 2","description":"Subtitle of the second banner.","default":"All checks passed."},{"id":"message3","type":"string","role":"content","label":"Message 3","description":"Subtitle of the third banner.","default":"4K render done in 92s."},{"id":"message4","type":"string","role":"content","label":"Message 4","description":"Subtitle of the fourth banner.","default":"Published to the catalog."},{"id":"appName","type":"string","role":"content","label":"App name","description":"Name of the brand this video promotes, credited in the corner of every banner. Use the real name of that brand.","portrays":["subject_name"],"default":"HyperFrames"},{"id":"headlineTop","type":"string","role":"content","label":"End-card line 1","description":"First line of the closing card.","default":"SHIP VIDEO"},{"id":"headlineAccent","type":"string","role":"content","label":"End-card line 2","description":"Accented second line of the closing card.","default":"FROM HTML"},{"id":"footerText","type":"string","role":"content","label":"End-card footer","description":"Domain of the brand this video promotes, under the end-card headline. Use the real domain, or a call to action when no domain fits.","portrays":["subject_domain"],"default":"hyperframes.heygen.com"},{"id":"brandLogo","type":"image","role":"content","label":"Brand logo","description":"Transparent mark of the brand this video promotes, centered on the closing card.","portrays":["subject_logo"],"default":"assets/hyperframes-logo-white.svg"}]}
+  variables={[{"id":"notifTitle","type":"string","role":"content","label":"Notification title","description":"Bold first line on every banner.","default":"New render"},{"id":"message1","type":"string","role":"content","label":"Message 1","description":"Subtitle of the first banner to land.","default":"Launch video is ready."},{"id":"message2","type":"string","role":"content","label":"Message 2","description":"Subtitle of the second banner.","default":"All checks passed."},{"id":"message3","type":"string","role":"content","label":"Message 3","description":"Subtitle of the third banner.","default":"4K render done in 92s."},{"id":"message4","type":"string","role":"content","label":"Message 4","description":"Subtitle of the fourth banner.","default":"Published to the catalog."},{"id":"appName","type":"string","role":"content","label":"App name","description":"Name of the brand this video promotes, credited in the corner of every banner. Use the real name of that brand.","portrays":["subject_name"],"default":"HyperFrames"},{"id":"headlineTop","type":"string","role":"content","label":"End-card line 1","description":"First line of the closing card.","default":"SHIP VIDEO"},{"id":"headlineAccent","type":"string","role":"content","label":"End-card line 2","description":"Accented second line of the closing card.","default":"FROM HTML"},{"id":"footerText","type":"string","role":"content","label":"End-card footer","description":"Domain of the brand this video promotes, under the end-card headline. Use the real domain, or a call to action when no domain fits.","portrays":["subject_domain"],"default":"github.com/ryu1845/hyperframes"},{"id":"brandLogo","type":"image","role":"content","label":"Brand logo","description":"Transparent mark of the brand this video promotes, centered on the closing card.","portrays":["subject_logo"],"default":"assets/hyperframes-logo-white.svg"}]}
   meta={{"duration":14,"width":1080,"height":1920,"category":"Showcases","badge":"Stable","codeLines":520}}
   attribution={{"author":"Miao Yang","path":"registry/blocks/notification-cascade","tags":["showcase","mock-ui","notification","vertical","ad-template"]}}
   hasCode
-  rawUrl="https://raw.githubusercontent.com/heygen-com/hyperframes/main/registry/blocks/notification-cascade/notification-cascade.html"
+  rawUrl="https://raw.githubusercontent.com/ryu1845/hyperframes/main/registry/blocks/notification-cascade/notification-cascade.html"
 >
 
 <CatalogSlot slot="code">
@@ -35,7 +35,7 @@ import { InstallCommand } from "/snippets/install-command.jsx";
     { "id": "appName", "type": "string", "role": "content", "label": "App name", "description": "Name of the brand this video promotes, credited in the corner of every banner. Use the real name of that brand.", "portrays": ["subject_name"], "default": "HyperFrames" },
     { "id": "headlineTop", "type": "string", "role": "content", "label": "End-card line 1", "description": "First line of the closing card.", "default": "SHIP VIDEO" },
     { "id": "headlineAccent", "type": "string", "role": "content", "label": "End-card line 2", "description": "Accented second line of the closing card.", "default": "FROM HTML" },
-    { "id": "footerText", "type": "string", "role": "content", "label": "End-card footer", "description": "Domain of the brand this video promotes, under the end-card headline. Use the real domain, or a call to action when no domain fits.", "portrays": ["subject_domain"], "default": "hyperframes.heygen.com" },
+    { "id": "footerText", "type": "string", "role": "content", "label": "End-card footer", "description": "Domain of the brand this video promotes, under the end-card headline. Use the real domain, or a call to action when no domain fits.", "portrays": ["subject_domain"], "default": "github.com/ryu1845/hyperframes" },
     { "id": "brandLogo", "type": "image", "role": "content", "label": "Brand logo", "description": "Transparent mark of the brand this video promotes, centered on the closing card.", "portrays": ["subject_logo"], "default": "assets/hyperframes-logo-white.svg" }
   ]'
 >
@@ -390,7 +390,7 @@ import { InstallCommand } from "/snippets/install-command.jsx";
             src="assets/hyperframes-logo-white.svg"
             alt="Brand logo"
           />
-          <div id="nc-ec-footer">hyperframes.heygen.com</div>
+          <div id="nc-ec-footer">github.com/ryu1845/hyperframes</div>
         </div>
       </section>
 
@@ -441,7 +441,7 @@ import { InstallCommand } from "/snippets/install-command.jsx";
         );
         document.getElementById("nc-ec-footer").textContent = text(
           vars.footerText,
-          "hyperframes.heygen.com",
+          "github.com/ryu1845/hyperframes",
         );
 
         /* -------- timeline: every decisive number is measured from the reference -------- */
@@ -591,7 +591,7 @@ want to change on the element:
 | `appName` | `HyperFrames` | string | Name of the brand this video promotes, credited in the corner of every banner. Use the real name of that brand. |
 | `headlineTop` | `SHIP VIDEO` | string | First line of the closing card. |
 | `headlineAccent` | `FROM HTML` | string | Accented second line of the closing card. |
-| `footerText` | `hyperframes.heygen.com` | string | Domain of the brand this video promotes, under the end-card headline. Use the real domain, or a call to action when no domain fits. |
+| `footerText` | `github.com/ryu1845/hyperframes` | string | Domain of the brand this video promotes, under the end-card headline. Use the real domain, or a call to action when no domain fits. |
 | `brandLogo` | `assets/hyperframes-logo-white.svg` | image | Transparent mark of the brand this video promotes, centered on the closing card. |
 
 Set them with `data-variable-values` on the element that mounts it. These are the
@@ -601,7 +601,7 @@ defaults, so this behaves exactly like the preview above until you change one:
 <div
   data-composition-id="notification-cascade"
   data-composition-src="compositions/notification-cascade.html"
-  data-variable-values='{"notifTitle":"New render","message1":"Launch video is ready.","message2":"All checks passed.","message3":"4K render done in 92s.","message4":"Published to the catalog.","appName":"HyperFrames","headlineTop":"SHIP VIDEO","headlineAccent":"FROM HTML","footerText":"hyperframes.heygen.com","brandLogo":"assets/hyperframes-logo-white.svg"}'
+  data-variable-values='{"notifTitle":"New render","message1":"Launch video is ready.","message2":"All checks passed.","message3":"4K render done in 92s.","message4":"Published to the catalog.","appName":"HyperFrames","headlineTop":"SHIP VIDEO","headlineAccent":"FROM HTML","footerText":"github.com/ryu1845/hyperframes","brandLogo":"assets/hyperframes-logo-white.svg"}'
 ></div>
 ```
 

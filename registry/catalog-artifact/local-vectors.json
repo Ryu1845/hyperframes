@@ -2,7 +2,7 @@
   "model": "bge-small-en-v1.5",
   "modelRevision": "ea104dacec62c0de699686887e3f920caeb4f3e3",
   "dimensions": 384,
-  "revision": "23c72deda09b01ac3f1fb8904cc03e3fdf2ca08d660c6cd7499d289f927b74e2",
+  "revision": "606d02005e771686a4b531e5fac1d74901f891f4ccb46bffbc21db67d11a7fcf",
   "names": [
     "agent-cursor",
     "ai-answer-rank",
@@ -173,7 +173,6 @@
     "halftone-field",
     "headline-slam",
     "heatmap",
-    "heygen-avatar-promo-card",
     "hologram",
     "holographic",
     "hw-arrow",

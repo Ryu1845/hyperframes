@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Northwind">
+  <defs>
+    <linearGradient id="nw-needle" x1="256" y1="28" x2="256" y2="300" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#22D3EE" />
+      <stop offset="1" stop-color="#2563EB" />
+    </linearGradient>
+    <linearGradient id="nw-wind" x1="92" y1="0" x2="420" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#2563EB" />
+      <stop offset="1" stop-color="#7C3AED" />
+    </linearGradient>
+  </defs>
+  <path d="M256 28 L388 300 L256 238 L124 300 Z" fill="url(#nw-needle)" />
+  <g fill="none" stroke="url(#nw-wind)" stroke-width="46" stroke-linecap="round">
+    <path d="M92 360 C 172 326 252 394 332 362 S 420 338 420 338" />
+    <path d="M148 440 C 206 416 270 464 340 438" />
+  </g>
+</svg>

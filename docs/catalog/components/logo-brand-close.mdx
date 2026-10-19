@@ -13,11 +13,11 @@ import { InstallCommand } from "/snippets/install-command.jsx";
   compositionSrc="compositions/components/logo-brand-close.html"
   title="Logo Brand Close"
   description="A display-scale wordmark cascades letter by letter into a centered lockup, the accent brand period lands last, an optional tagline and wide-tracked mono URL settle beneath, and the finished identity holds dead still to the end of the film."
-  variables={[{"id":"wordmark","type":"string","role":"content","label":"Wordmark","description":"Brand name whose letters cascade into the centered lockup.","default":"HYPERFRAMES"},{"id":"tagline","type":"string","role":"content","label":"Tagline","description":"Optional tagline that settles beneath the wordmark. Empty hides it.","default":"Write HTML. Render video."},{"id":"url","type":"string","role":"content","label":"URL","description":"Optional mono URL line beneath the tagline. Empty hides it.","default":"hyperframes.heygen.com"},{"id":"accent","type":"enum","role":"style","label":"Accent","description":"Contract color used by the brand period at the end of the wordmark.","default":"green","options":[{"value":"green","label":"Green"},{"value":"blue","label":"Blue"},{"value":"violet","label":"Violet"}]},{"id":"exit","type":"enum","role":"style","label":"Exit","description":"Optional departure. Films end on the still hold, so the default is none.","default":"none","options":[{"value":"none","label":"None"},{"value":"fade","label":"Fade"},{"value":"up","label":"Up"}]}]}
+  variables={[{"id":"wordmark","type":"string","role":"content","label":"Wordmark","description":"Brand name whose letters cascade into the centered lockup.","default":"HYPERFRAMES"},{"id":"tagline","type":"string","role":"content","label":"Tagline","description":"Optional tagline that settles beneath the wordmark. Empty hides it.","default":"Write HTML. Render video."},{"id":"url","type":"string","role":"content","label":"URL","description":"Optional mono URL line beneath the tagline. Empty hides it.","default":"github.com/ryu1845/hyperframes"},{"id":"accent","type":"enum","role":"style","label":"Accent","description":"Contract color used by the brand period at the end of the wordmark.","default":"green","options":[{"value":"green","label":"Green"},{"value":"blue","label":"Blue"},{"value":"violet","label":"Violet"}]},{"id":"exit","type":"enum","role":"style","label":"Exit","description":"Optional departure. Films end on the still hold, so the default is none.","default":"none","options":[{"value":"none","label":"None"},{"value":"fade","label":"Fade"},{"value":"up","label":"Up"}]}]}
   meta={{"category":"Typography & Text","badge":"Stable","codeLines":367}}
   attribution={{"path":"registry/components/logo-brand-close","tags":["motion-primitive","typography","brand","logo","end-card","close"]}}
   hasCode
-  rawUrl="https://raw.githubusercontent.com/heygen-com/hyperframes/main/registry/components/logo-brand-close/logo-brand-close.html"
+  rawUrl="https://raw.githubusercontent.com/ryu1845/hyperframes/main/registry/components/logo-brand-close/logo-brand-close.html"
 >
 
 <CatalogSlot slot="code">
@@ -63,7 +63,7 @@ import { InstallCommand } from "/snippets/install-command.jsx";
   data-composition-variables='[
     { "id": "wordmark", "type": "string", "role": "content", "label": "Wordmark", "description": "Brand name whose letters cascade into the centered lockup.", "default": "HYPERFRAMES" },
     { "id": "tagline", "type": "string", "role": "content", "label": "Tagline", "description": "Optional tagline that settles beneath the wordmark. Empty hides it.", "default": "Write HTML. Render video." },
-    { "id": "url", "type": "string", "role": "content", "label": "URL", "description": "Optional mono URL line beneath the tagline. Empty hides it.", "default": "hyperframes.heygen.com" },
+    { "id": "url", "type": "string", "role": "content", "label": "URL", "description": "Optional mono URL line beneath the tagline. Empty hides it.", "default": "github.com/ryu1845/hyperframes" },
     { "id": "accent", "type": "enum", "role": "style", "label": "Accent", "description": "Contract color used by the brand period at the end of the wordmark.", "default": "green", "options": [{ "value": "green", "label": "Green" }, { "value": "blue", "label": "Blue" }, { "value": "violet", "label": "Violet" }] },
     { "id": "exit", "type": "enum", "role": "style", "label": "Exit", "description": "Optional departure. Films end on the still hold, so the default is none.", "default": "none", "options": [{ "value": "none", "label": "None" }, { "value": "fade", "label": "Fade" }, { "value": "up", "label": "Up" }] }
   ]'
@@ -203,7 +203,7 @@ import { InstallCommand } from "/snippets/install-command.jsx";
               vars.tagline == null
                 ? "Write HTML. Render video."
                 : String(vars.tagline).trim().replace(/\s+/g, " ");
-            var url = vars.url == null ? "hyperframes.heygen.com" : String(vars.url).trim();
+            var url = vars.url == null ? "github.com/ryu1845/hyperframes" : String(vars.url).trim();
             var accentColors = {
               green: "var(--brand, #71f5a7)",
               blue: "var(--accent, #61a8ff)",
@@ -420,7 +420,7 @@ want to change on the element:
 | --- | --- | --- | --- |
 | `wordmark` | `HYPERFRAMES` | string | Brand name whose letters cascade into the centered lockup. |
 | `tagline` | `Write HTML. Render video.` | string | Optional tagline that settles beneath the wordmark. Empty hides it. |
-| `url` | `hyperframes.heygen.com` | string | Optional mono URL line beneath the tagline. Empty hides it. |
+| `url` | `github.com/ryu1845/hyperframes` | string | Optional mono URL line beneath the tagline. Empty hides it. |
 | `accent` | `green` | `green`, `blue`, `violet` | Contract color used by the brand period at the end of the wordmark. |
 | `exit` | `none` | `none`, `fade`, `up` | Optional departure. Films end on the still hold, so the default is none. |
 
@@ -431,7 +431,7 @@ defaults, so this behaves exactly like the preview above until you change one:
 <div
   data-composition-id="logo-brand-close"
   data-composition-src="compositions/components/logo-brand-close.html"
-  data-variable-values='{"wordmark":"HYPERFRAMES","tagline":"Write HTML. Render video.","url":"hyperframes.heygen.com","accent":"green","exit":"none"}'
+  data-variable-values='{"wordmark":"HYPERFRAMES","tagline":"Write HTML. Render video.","url":"github.com/ryu1845/hyperframes","accent":"green","exit":"none"}'
 ></div>
 ```
 

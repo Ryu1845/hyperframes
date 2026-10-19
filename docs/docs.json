@@ -541,12 +541,12 @@
               },
               {
                 "group": "Scenes & demos",
-                "tag": "93",
+                "tag": "92",
                 "expanded": false,
                 "pages": [
                   {
                     "group": "Showcases",
-                    "tag": "23",
+                    "tag": "22",
                     "expanded": false,
                     "pages": [
                       "catalog/blocks/ai-chat-reveal",
@@ -559,7 +559,6 @@
                       "catalog/blocks/cosmic-orb",
                       "catalog/blocks/gallery-tunnel",
                       "catalog/blocks/goo",
-                      "catalog/blocks/heygen-avatar-promo-card",
                       "catalog/blocks/message-thread-reveal",
                       "catalog/blocks/north-korea-locked-down",
                       "catalog/blocks/notes-reveal",
