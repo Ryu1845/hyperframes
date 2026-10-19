@@ -66,6 +66,9 @@ const TELEMETRY_REASON =
 const HEYGEN_MEDIA_REASON =
   "owner-directed removal of the media-use HeyGen providers (TTS, voice clone, music library, stock search, avatar video) and media-use telemetry";
 
+const HEYGEN_HOSTING_REASON =
+  "owner-directed removal of HeyGen-hosted assets and branding: the HeyGen ad block, HeyGen sample marks, superseded catalog payloads, and the scripts that uploaded to HeyGen's S3/CloudFront";
+
 /** Many paths removed for one reason. */
 const group = (reason, paths) => paths.map((path) => [path, reason]);
 
@@ -1410,6 +1413,29 @@ export const ALLOWED_DELETIONS = new Map([
     "skills/media-use/references/telemetry-dashboard.md",
     "skills/media-use/scripts/lib/telemetry.mjs",
     "skills/media-use/scripts/lib/telemetry.test.mjs",
+  ]),
+  ...group(HEYGEN_HOSTING_REASON, [
+    "docs/catalog/blocks/heygen-avatar-promo-card.mdx",
+    "docs/public/catalog/assets/34391f3497738d29.svg",
+    "docs/public/catalog/assets/a300f59c31d2ea16.jpg",
+    "docs/public/catalog/assets/dc156e7c21b47474.svg",
+    "docs/public/catalog/assets/dc71dcbd63987298.svg",
+    "docs/public/catalog/assets/f9f942c43b465616.svg",
+    "docs/public/catalog/blocks/heygen-avatar-promo-card.json",
+    "docs/public/catalog/items/heygen-avatar-promo-card/assets/heygen-logo.svg",
+    "docs/public/catalog/items/slack-notification-ad/assets/img/heygen-mark.svg",
+    "registry/blocks/heygen-avatar-promo-card/TEMPLATE.md",
+    "registry/blocks/heygen-avatar-promo-card/assets/fonts/eb-garamond-LICENSE.txt",
+    "registry/blocks/heygen-avatar-promo-card/assets/fonts/inter-LICENSE.txt",
+    "registry/blocks/heygen-avatar-promo-card/assets/heygen-logo.svg",
+    "registry/blocks/heygen-avatar-promo-card/heygen-avatar-promo-card.html",
+    "registry/blocks/heygen-avatar-promo-card/registry-item.json",
+    "registry/blocks/slack-notification-ad/assets/img/heygen-mark.svg",
+    "scripts/backfill-block-previews.test.ts",
+    "scripts/backfill-block-previews.ts",
+    "scripts/host-registry-assets.test.ts",
+    "scripts/host-registry-assets.ts",
+    "scripts/upload-docs-images.sh",
   ]),
 ]);
 
