@@ -94,8 +94,6 @@ export interface DrawElementPerfInput {
   compositionElementTags?: Readonly<Record<string, number>>;
   /** `<video data-aroll="true">` count from the same static scan; only set when compositionElementCountSource is "static". */
   arollVideoCount?: number;
-  /** `<video data-media-source="heygen">` count from the same static scan; only set when compositionElementCountSource is "static". */
-  heygenVideoCount?: number;
   /** Runtime adapters exercised (live+static union); always set (possibly empty). */
   adaptersUsed?: readonly string[];
   /** Audio/image/sub-comp/color-grading counts, same static scan; only set when the source above is "static". */
@@ -161,7 +159,6 @@ function aggregateDrawElement(
     compositionElementCountSource: de.compositionElementCountSource,
     compositionElementTags: de.compositionElementTags,
     arollVideoCount: de.arollVideoCount,
-    heygenVideoCount: de.heygenVideoCount,
     adaptersUsed: de.adaptersUsed,
     audioCount: de.audioCount,
     imageCount: de.imageCount,

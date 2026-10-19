@@ -117,13 +117,6 @@ export interface RenderCaptureObservability {
    * is "static".
    */
   arollVideoCount?: number;
-  /**
-   * `<video data-media-source="heygen">` elements from the same static scan
-   * as `compositionElementTags` — the media-use skill stamps this attribute
-   * only when the mounted video's ledger record traces to the "heygen.video"
-   * provider. Only set when `compositionElementCountSource` is "static".
-   */
-  heygenVideoCount?: number;
   /** Runtime adapters exercised (see `KNOWN_RUNTIME_ADAPTERS`), a live+static union, always set. */
   adaptersUsed?: readonly string[];
   /** Element/attribute counts from the same static scan; only set when the source above is "static". */

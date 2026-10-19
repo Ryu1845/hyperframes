@@ -2253,15 +2253,6 @@ describe("shouldPreferSingleWorkerDrawElement (DE priority inversion)", () => {
       expect(scanElementTags(html).arollVideoCount).toBe(1);
     });
 
-    it("counts <video data-media-source=heygen> elements only, not other provider values", () => {
-      const html =
-        '<video data-media-source="heygen" src="a.mp4"></video>' +
-        '<video src="b.mp4"></video>' +
-        '<video data-media-source="ltx.local" src="c.mp4"></video>' +
-        '<audio data-media-source="heygen" src="a.mp3"></audio>';
-      expect(scanElementTags(html).heygenVideoCount).toBe(1);
-    });
-
     it("counts audio/image/audio-group elements from the uncapped Map, not the capped byTag", () => {
       // 55 distinct single-use filler tags, each ranked (tied count=1) ahead
       // of audio/img/hf-audio-group by insertion order in a stable sort,
@@ -2335,7 +2326,6 @@ describe("shouldPreferSingleWorkerDrawElement (DE priority inversion)", () => {
     it("reports zero (not undefined) for every count and an empty byTag when nothing matches", () => {
       const scan = scanElementTags("plain text, no tags at all");
       expect(scan.arollVideoCount).toBe(0);
-      expect(scan.heygenVideoCount).toBe(0);
       expect(scan.audioCount).toBe(0);
       expect(scan.imageCount).toBe(0);
       expect(scan.subCompositionCount).toBe(0);
@@ -2489,7 +2479,6 @@ describe("shouldPreferSingleWorkerDrawElement (DE priority inversion)", () => {
         source: "static",
         byTag: { div: 1, span: 1 },
         arollVideoCount: 0,
-        heygenVideoCount: 0,
         audioCount: 0,
         imageCount: 0,
         subCompositionCount: 0,
@@ -2508,7 +2497,6 @@ describe("shouldPreferSingleWorkerDrawElement (DE priority inversion)", () => {
         source: "static",
         byTag: { div: 1 },
         arollVideoCount: 0,
-        heygenVideoCount: 0,
         audioCount: 0,
         imageCount: 0,
         subCompositionCount: 0,
@@ -2534,7 +2522,6 @@ describe("shouldPreferSingleWorkerDrawElement (DE priority inversion)", () => {
         source: "static",
         byTag: { div: 1, span: 1 },
         arollVideoCount: 0,
-        heygenVideoCount: 0,
         audioCount: 0,
         imageCount: 0,
         subCompositionCount: 0,
@@ -2553,7 +2540,6 @@ describe("shouldPreferSingleWorkerDrawElement (DE priority inversion)", () => {
         source: "static",
         byTag: { div: 1 },
         arollVideoCount: 0,
-        heygenVideoCount: 0,
         audioCount: 0,
         imageCount: 0,
         subCompositionCount: 0,
@@ -2570,7 +2556,6 @@ describe("shouldPreferSingleWorkerDrawElement (DE priority inversion)", () => {
       const result = await resolveCompositionElementCount(session, "<div><span></span></div>");
       expect(result).not.toHaveProperty("byTag");
       expect(result).not.toHaveProperty("arollVideoCount");
-      expect(result).not.toHaveProperty("heygenVideoCount");
     });
   });
 

@@ -69,6 +69,9 @@ const HEYGEN_MEDIA_REASON =
 const HEYGEN_HOSTING_REASON =
   "owner-directed removal of HeyGen-hosted assets and branding: the HeyGen ad block, HeyGen sample marks, superseded catalog payloads, and the scripts that uploaded to HeyGen's S3/CloudFront";
 
+const HEYGEN_INTERNAL_REASON =
+  "owner-directed removal of HeyGen-internal material: the changelog-video house skill (HeyGen voice and brand), ClawHub sync under HeyGen's namespace, HeyGen CODEOWNERS, and the HeyGen promo producer fixture";
+
 /** Many paths removed for one reason. */
 const group = (reason, paths) => paths.map((path) => [path, reason]);
 
@@ -1436,6 +1439,59 @@ export const ALLOWED_DELETIONS = new Map([
     "scripts/host-registry-assets.test.ts",
     "scripts/host-registry-assets.ts",
     "scripts/upload-docs-images.sh",
+  ]),
+  ...group(HEYGEN_INTERNAL_REASON, [
+    ".agents/skills/changelog-video/SKILL.md",
+    ".agents/skills/changelog-video/assets/bg-pattern.mp4",
+    ".agents/skills/changelog-video/assets/bgm.mp3",
+    ".agents/skills/changelog-video/assets/fonts/ABCSolarDisplay-Bold.woff2",
+    ".agents/skills/changelog-video/assets/fonts/TT_Norms_Pro_Bold.woff2",
+    ".agents/skills/changelog-video/assets/fonts/TT_Norms_Pro_Medium.woff2",
+    ".agents/skills/changelog-video/assets/fonts/TT_Norms_Pro_Normal.woff2",
+    ".agents/skills/changelog-video/assets/fonts/tt_norms_pro_mono_regular-webfont.woff2",
+    ".agents/skills/changelog-video/examples/master-skeleton.html",
+    ".agents/skills/changelog-video/examples/script-tokens.json",
+    ".agents/skills/changelog-video/references/build-spec.md",
+    ".agents/skills/changelog-video/references/lexicon.json",
+    ".agents/skills/changelog-video/references/script-voice.md",
+    ".agents/skills/changelog-video/references/visualization-registry.md",
+    ".agents/skills/changelog-video/scripts/align-captions.mjs",
+    ".claude/skills/changelog-video/SKILL.md",
+    ".claude/skills/changelog-video/assets/bg-pattern.mp4",
+    ".claude/skills/changelog-video/assets/bgm.mp3",
+    ".claude/skills/changelog-video/assets/fonts/ABCSolarDisplay-Bold.woff2",
+    ".claude/skills/changelog-video/assets/fonts/TT_Norms_Pro_Bold.woff2",
+    ".claude/skills/changelog-video/assets/fonts/TT_Norms_Pro_Medium.woff2",
+    ".claude/skills/changelog-video/assets/fonts/TT_Norms_Pro_Normal.woff2",
+    ".claude/skills/changelog-video/assets/fonts/tt_norms_pro_mono_regular-webfont.woff2",
+    ".claude/skills/changelog-video/examples/master-skeleton.html",
+    ".claude/skills/changelog-video/examples/script-tokens.json",
+    ".claude/skills/changelog-video/references/build-spec.md",
+    ".claude/skills/changelog-video/references/lexicon.json",
+    ".claude/skills/changelog-video/references/script-voice.md",
+    ".claude/skills/changelog-video/references/visualization-registry.md",
+    ".claude/skills/changelog-video/scripts/align-captions.mjs",
+    ".github/CODEOWNERS",
+    ".github/workflows/sync-skills-to-clawhub.yml",
+    "packages/cli/src/commands/changelogSkillContent.test.ts",
+    "packages/producer/tests/heygen-promo-preview-assets/meta.json",
+    "packages/producer/tests/heygen-promo-preview-assets/output/compiled.html",
+    "packages/producer/tests/heygen-promo-preview-assets/output/output.mp4",
+    "packages/producer/tests/heygen-promo-preview-assets/src/ABCSolarDisplay-Bold.woff2",
+    "packages/producer/tests/heygen-promo-preview-assets/src/TT_Norms_Pro_Bold.woff2",
+    "packages/producer/tests/heygen-promo-preview-assets/src/TT_Norms_Pro_Medium.woff2",
+    "packages/producer/tests/heygen-promo-preview-assets/src/TT_Norms_Pro_Normal.woff2",
+    "packages/producer/tests/heygen-promo-preview-assets/src/compositions/scene1-heygen-hero.html",
+    "packages/producer/tests/heygen-promo-preview-assets/src/compositions/scene2-heygen-showcase.html",
+    "packages/producer/tests/heygen-promo-preview-assets/src/compositions/scene3-heygen-cta.html",
+    "packages/producer/tests/heygen-promo-preview-assets/src/feature-strip.png",
+    "packages/producer/tests/heygen-promo-preview-assets/src/hero-prism.png",
+    "packages/producer/tests/heygen-promo-preview-assets/src/heygen-homepage.png",
+    "packages/producer/tests/heygen-promo-preview-assets/src/heygen-logo.png",
+    "packages/producer/tests/heygen-promo-preview-assets/src/heygen-superpower.png",
+    "packages/producer/tests/heygen-promo-preview-assets/src/index.html",
+    "scripts/clawhub-sync.mjs",
+    "scripts/clawhub-sync.test.mjs",
   ]),
 ]);
 
