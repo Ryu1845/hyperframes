@@ -54,6 +54,12 @@ const INSPECTOR_TOOLS_REASON =
 const FALLOW_PRUNE_REASON =
   "fallow 3 reuses one audit snapshot per checkout and the hook prunes with `fallow audit-cache prune`, replacing this script";
 
+const DESKTOP_APP_REASON =
+  "owner-directed removal of the closed-source HeyGen desktop app hand-off (open, catch-up, desktop routes and docs); nothing in the fork talks to that app";
+
+/** Many paths removed for one reason. */
+const group = (reason, paths) => paths.map((path) => [path, reason]);
+
 export const ALLOWED_DELETIONS = new Map([
   [
     "packages/cli/src/beats/headlessAnalyzer.ts",
@@ -1188,6 +1194,28 @@ export const ALLOWED_DELETIONS = new Map([
   ],
   ["scripts/prune-fallow-audit-caches.mjs", FALLOW_PRUNE_REASON],
   ["scripts/prune-fallow-audit-caches.test.mjs", FALLOW_PRUNE_REASON],
+  ...group(DESKTOP_APP_REASON, [
+    "docs/public/images/studio-app/export.jpg",
+    "docs/public/images/studio-app/first-video.jpg",
+    "docs/public/images/studio-app/home.jpg",
+    "docs/public/images/studio-app/project.jpg",
+    "docs/studio-app/connect-your-agent.mdx",
+    "docs/studio-app/edit-with-the-agent.mdx",
+    "docs/studio-app/export.mdx",
+    "docs/studio-app/first-video.mdx",
+    "docs/studio-app/index.mdx",
+    "docs/studio-app/troubleshooting.mdx",
+    "packages/cli/src/commands/catch-up.test.ts",
+    "packages/cli/src/commands/catch-up.ts",
+    "packages/cli/src/commands/open.ts",
+    "packages/cli/src/server/desktopRoutes.test.ts",
+    "packages/cli/src/server/desktopRoutes.ts",
+    "packages/cli/src/utils/appHistory.test.ts",
+    "packages/cli/src/utils/appHistory.ts",
+    "packages/cli/src/utils/desktopApp.test.ts",
+    "packages/cli/src/utils/desktopApp.ts",
+    "packages/cli/src/utils/projectRecords.ts",
+  ]),
 ]);
 
 export function parseBase(argv, fallback = "origin/main") {

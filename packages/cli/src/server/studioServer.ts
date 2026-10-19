@@ -33,7 +33,6 @@ import {
 } from "./telemetryIdentity.js";
 import { emitStudioRenderComplete, emitStudioRenderError } from "./studioRenderTelemetry.js";
 import { startRenderCpuSampler } from "../telemetry/renderCpu.js";
-import { mountDesktopRoutes } from "./desktopRoutes.js";
 import { isDevMode } from "../utils/env.js";
 import { runRenderSetupWorker } from "../utils/cancellableProcess.js";
 import type { ProjectLintResult } from "@hyperframes/lint";
@@ -1013,8 +1012,6 @@ export function createStudioServer(options: StudioServerOptions): StudioServer {
       command: getFFmpegInstallCommand(),
     });
   });
-
-  mountDesktopRoutes(app, projectDir);
 
   // ── Pre-flight checks for render ────────────────────────────────────────
   // Intercept render requests before they reach the shared API so we can

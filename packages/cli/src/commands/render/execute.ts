@@ -320,10 +320,7 @@ async function runResolutionPreflight(
   failCommand();
 }
 
-export function batchRowRenderOptions(
-  plan: RenderPlan,
-  browserPath: string | undefined,
-): RenderOptions {
+function batchRowRenderOptions(plan: RenderPlan, browserPath: string | undefined): RenderOptions {
   const batchQuiet = plan.quiet || plan.batchJson;
   return {
     fps: plan.fps,
@@ -361,7 +358,6 @@ export function batchRowRenderOptions(
     exitAfterComplete: false,
     throwOnError: true,
     skipFeedback: true,
-    desktopHint: false,
     manageDeParallelRouterBreaker: plan.batchConcurrency <= 1,
   };
 }

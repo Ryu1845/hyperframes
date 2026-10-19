@@ -24,7 +24,7 @@ npm install -g hyperframes
 | ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Start a project          | [`init`](#init), [`add`](#add), [`catalog`](#catalog)                                                                                                                                                                            |
 | Bring in source material | [`capture`](#capture), [`transcribe`](#transcribe), [`tts`](#tts), [`remove-background`](#remove-background), [`media-treatment`](#media-treatment), [`beats`](#beats), [`audio`](#audio), [`normalize-audio`](#normalize-audio) |
-| Look at it, or share it  | [`preview`](#preview), [`present`](#present-and-play), [`play`](#present-and-play), [`publish`](#publish), [`open`](#open-and-catch-up), [`catch-up`](#open-and-catch-up)                                                        |
+| Look at it, or share it  | [`preview`](#preview), [`present`](#present-and-play), [`play`](#present-and-play), [`publish`](#publish)                                                        |
 | Find problems            | [`lint`](#lint), [`check`](#check), [`snapshot`](#snapshot), [`keyframes`](#keyframes), [`compare`](#compare-and-grade-compare), [`grade-compare`](#compare-and-grade-compare)                                                   |
 | Edit from the terminal   | [`timeline`](#timeline), [`history`](#history)                                                                                                                                                                                   |
 | Make a file              | [`render`](#render), [`benchmark`](#benchmark)                                                                                                                                                                                   |
@@ -757,46 +757,6 @@ editing in the web app.
 Sign in with `npx hyperframes auth login` first when you want an owned, stable
 link you can publish to again. `--update` and `--space` both need that
 ownership.
-
-### `open` and `catch-up`
-
-`open` opens a project in the HyperFrames desktop app and adds it to Home.
-
-```bash
-npx hyperframes open            # the project in the current directory
-npx hyperframes open ./my-video
-npx hyperframes open --json     # for agents
-```
-
-| Flag     | Description                          |
-| -------- | ------------------------------------ |
-| `[dir]`  | Project directory (default: current) |
-| `--json` | Machine-readable result              |
-
-When it runs under Claude Code, Codex, or Grok, the app's chat picks up that
-conversation. When it cannot open the app, for example because the app is not
-installed, `open` exits 1 and prints a download link. With `--json`, the result
-names the `reason` and the `downloadUrl`.
-
-`catch-up` is the other half of that hand-off. Run it when the person is back
-from the desktop app, before you change anything: it lists what they asked and
-what changed in the app since you last looked, and the files changed since
-then.
-
-```bash
-npx hyperframes catch-up
-npx hyperframes catch-up ./my-video
-npx hyperframes catch-up --json
-```
-
-| Flag     | Description                          |
-| -------- | ------------------------------------ |
-| `[dir]`  | Project directory (default: current) |
-| `--json` | Machine-readable result              |
-
-Each run marks what it showed as seen, so the next run lists only what is new.
-A project that was never handed to the app from here has nothing to catch up
-on.
 
 ## Check your work
 
