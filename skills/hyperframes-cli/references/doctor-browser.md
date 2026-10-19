@@ -11,7 +11,7 @@ npx hyperframes doctor --json     # CI / agent output (always exit 0; gate on pa
 
 Runs independent checks and reports each as ok/warn/fail:
 
-- **Version** — installed CLI vs latest on npm (hints upgrade when stale)
+- **Version** — installed CLI version
 - **Node.js** — ≥ 22 required
 - **CPU**, **Memory**, **Disk** — host resources
 - **Environment** — env vars that affect the renderer

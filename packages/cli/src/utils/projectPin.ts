@@ -1,41 +1,14 @@
-import { isSafeVersion } from "./safeVersion.js";
+import { existsSync, readFileSync } from "node:fs";
+import { join } from "node:path";
+import { compareVersions } from "compare-versions";
+import { VERSION } from "../version.js";
+import { isDevMode } from "./env.js";
 
-// Matches `hyperframes@<semver>` as a whole token inside a script string. The
-// version class mirrors isSafeVersion's semver shape; capturing group 1 is the
-// old version. `(?=\s|$)` keeps it from matching a longer package name.
+// Matches `hyperframes@<semver>` as a whole token inside a script string, scoped
+// or not. Capturing group 1 is the version. `(?=\s|$)` keeps it from matching a
+// longer package name.
 export const HYPERFRAMES_PIN_RE =
   /\bhyperframes@([0-9]+\.[0-9]+\.[0-9]+(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?)(?=\s|$)/g;
-
-export interface PinRewriteResult {
-  changed: boolean;
-  scripts: Record<string, string>;
-  fromVersions: string[];
-}
-
-export interface TextPinRewriteResult {
-  changed: boolean;
-  text: string;
-  fromVersions: string[];
-}
-
-export function rewritePinnedHyperframesText(
-  text: string,
-  targetVersion: string,
-): TextPinRewriteResult {
-  if (!isSafeVersion(targetVersion)) {
-    return { changed: false, text, fromVersions: [] };
-  }
-  const fromVersions = new Set<string>();
-  const next = text.replace(HYPERFRAMES_PIN_RE, (_full, version: string) => {
-    if (version !== targetVersion) fromVersions.add(version);
-    return `hyperframes@${targetVersion}`;
-  });
-  return {
-    changed: fromVersions.size > 0,
-    text: next,
-    fromVersions: [...fromVersions].sort(),
-  };
-}
 
 export function readPinnedHyperframesVersions(scripts: Record<string, string>): string[] {
   const found = new Set<string>();
@@ -45,24 +18,35 @@ export function readPinnedHyperframesVersions(scripts: Record<string, string>): 
   return [...found].sort();
 }
 
-export function rewriteProjectPinnedScripts(
-  scripts: Record<string, string>,
-  targetVersion: string,
-): PinRewriteResult {
-  // Never emit an unverified version into a script the user (or npx) will run.
-  if (!isSafeVersion(targetVersion)) {
-    return { changed: false, scripts: { ...scripts }, fromVersions: [] };
+function isNewer(a: string, b: string): boolean {
+  try {
+    return compareVersions(a, b) > 0;
+  } catch {
+    return false;
   }
-  const fromVersions = new Set<string>();
-  const next: Record<string, string> = {};
-  for (const [name, cmd] of Object.entries(scripts ?? {})) {
-    const rewrite = rewritePinnedHyperframesText(cmd, targetVersion);
-    next[name] = rewrite.text;
-    for (const version of rewrite.fromVersions) fromVersions.add(version);
+}
+
+/**
+ * Warn when the running CLI is older than the version this project's npm
+ * scripts pin (e.g. a stale npx cache): an older CLI misjudges every run.
+ * Offline; silent in dev mode and CI. Writes to stderr only.
+ */
+export function printOlderThanPinNotice(cwd: string = process.cwd()): void {
+  if (isDevMode() || process.env["CI"] === "true" || process.env["CI"] === "1") return;
+  let scripts: Record<string, string> = {};
+  try {
+    const pkgPath = join(cwd, "package.json");
+    if (!existsSync(pkgPath)) return;
+    scripts = (JSON.parse(readFileSync(pkgPath, "utf-8")).scripts ?? {}) as Record<string, string>;
+  } catch {
+    return;
   }
-  return {
-    changed: [...fromVersions].length > 0,
-    scripts: next,
-    fromVersions: [...fromVersions].sort(),
-  };
+  const newerPins = readPinnedHyperframesVersions(scripts)
+    .filter((v) => isNewer(v, VERSION))
+    .sort(compareVersions);
+  if (newerPins.length === 0) return;
+  process.stderr.write(
+    `\n  This is hyperframes ${VERSION}, but this project pins hyperframes@${newerPins.join(", ")}.\n` +
+      `  Run it through the project's npm scripts, or npx hyperframes@${newerPins.at(-1)}.\n\n`,
+  );
 }

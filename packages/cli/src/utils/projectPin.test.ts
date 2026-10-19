@@ -1,8 +1,22 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+
+let runningVersion = "0.7.55";
+vi.mock("../version.js", () => ({
+  get VERSION() {
+    return runningVersion;
+  },
+}));
+// isDevMode() is true under vitest (module path ends in .ts), which would
+// suppress the notice unconditionally.
+vi.mock("./env.js", () => ({ isDevMode: () => false }));
+
 import {
-  rewriteProjectPinnedScripts,
-  readPinnedHyperframesVersions,
   HYPERFRAMES_PIN_RE,
+  printOlderThanPinNotice,
+  readPinnedHyperframesVersions,
 } from "./projectPin.js";
 
 describe("HYPERFRAMES_PIN_RE", () => {
@@ -12,40 +26,7 @@ describe("HYPERFRAMES_PIN_RE", () => {
   });
 });
 
-describe("rewriteProjectPinnedScripts", () => {
-  const scripts = {
-    dev: "npx --yes hyperframes@0.7.48 preview",
-    check: "npx --yes hyperframes@0.7.48 check",
-    render: "npx --yes hyperframes@0.7.48 render",
-    unrelated: "echo hi",
-    unpinned: "npx hyperframes render",
-  };
-
-  it("bumps every pinned hyperframes script to the target, leaving others untouched", () => {
-    const r = rewriteProjectPinnedScripts(scripts, "0.7.55");
-    expect(r.changed).toBe(true);
-    expect(r.fromVersions).toEqual(["0.7.48"]);
-    expect(r.scripts.render).toBe("npx --yes hyperframes@0.7.55 render");
-    expect(r.scripts.dev).toBe("npx --yes hyperframes@0.7.55 preview");
-    expect(r.scripts.unrelated).toBe("echo hi");
-    expect(r.scripts.unpinned).toBe("npx hyperframes render");
-  });
-
-  it("is a no-op when already at target", () => {
-    const at = rewriteProjectPinnedScripts(
-      { render: "npx --yes hyperframes@0.7.55 render" },
-      "0.7.55",
-    );
-    expect(at.changed).toBe(false);
-    expect(at.fromVersions).toEqual([]);
-  });
-
-  it("refuses an unsafe target version (no rewrite)", () => {
-    const r = rewriteProjectPinnedScripts(scripts, "0.7.55; rm -rf /");
-    expect(r.changed).toBe(false);
-    expect(r.scripts.render).toBe(scripts.render);
-  });
-
+describe("readPinnedHyperframesVersions", () => {
   it("reads distinct pinned versions across scripts", () => {
     expect(
       readPinnedHyperframesVersions({
@@ -54,5 +35,58 @@ describe("rewriteProjectPinnedScripts", () => {
         c: "npx hyperframes render",
       }),
     ).toEqual(["0.7.48", "0.7.50"]);
+  });
+});
+
+describe("printOlderThanPinNotice", () => {
+  let dir: string;
+  let writes: string[];
+  const origWrite = process.stderr.write.bind(process.stderr);
+  beforeEach(() => {
+    runningVersion = "0.7.55";
+    writes = [];
+    dir = mkdtempSync(join(tmpdir(), "hf-pin-"));
+    process.stderr.write = ((s: unknown) => {
+      writes.push(String(s));
+      return true;
+    }) as typeof process.stderr.write;
+    delete process.env.CI;
+  });
+  afterEach(() => {
+    process.stderr.write = origWrite;
+    rmSync(dir, { recursive: true, force: true });
+  });
+
+  it("warns on every run when an older CLI than the pin is running", () => {
+    runningVersion = "0.7.71";
+    writeFileSync(
+      join(dir, "package.json"),
+      JSON.stringify({ scripts: { check: "npx --yes hyperframes@0.8.66 check" } }),
+    );
+    printOlderThanPinNotice(dir);
+    printOlderThanPinNotice(dir);
+    const mismatch = writes.filter((w) => w.includes("This is hyperframes 0.7.71"));
+    expect(mismatch.length).toBe(2);
+    expect(mismatch[0]).toContain("npx hyperframes@0.8.66");
+  });
+
+  it("is silent when the pin is not newer than the running CLI", () => {
+    writeFileSync(
+      join(dir, "package.json"),
+      JSON.stringify({ scripts: { render: "npx --yes hyperframes@0.7.48 render" } }),
+    );
+    printOlderThanPinNotice(dir);
+    expect(writes.join("")).toBe("");
+  });
+
+  it("is silent under CI", () => {
+    process.env.CI = "true";
+    runningVersion = "0.7.0";
+    writeFileSync(
+      join(dir, "package.json"),
+      JSON.stringify({ scripts: { render: "npx --yes hyperframes@0.7.48 render" } }),
+    );
+    printOlderThanPinNotice(dir);
+    expect(writes.join("")).toBe("");
   });
 });

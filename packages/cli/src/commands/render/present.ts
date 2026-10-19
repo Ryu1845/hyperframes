@@ -14,12 +14,6 @@ export async function presentRenderPlan(plan: RenderPlan): Promise<void> {
 }
 
 async function presentRenderWarnings(plan: RenderPlan): Promise<void> {
-  if (plan.invalidAuthoringSkill) {
-    process.stderr.write(
-      `hyperframes: ignoring --skill="${plan.invalidAuthoringSkill}" — not a valid slug ` +
-        "(lowercase letters/digits/hyphens, max 64); this render will be unattributed.\n",
-    );
-  }
   if (!plan.effectiveQuiet && plan.gifFpsCapped) {
     console.log(c.warn("  GIF output is capped at 30fps. Use --fps 15 for smaller files."));
   }

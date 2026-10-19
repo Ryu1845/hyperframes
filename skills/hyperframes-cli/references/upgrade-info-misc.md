@@ -1,4 +1,4 @@
-# info, upgrade, compositions, timeline, docs, benchmark, telemetry, asset preprocessing
+# info, compositions, timeline, docs, benchmark, asset preprocessing
 
 Catch-all reference for commands that don't fit the main dev loop.
 
@@ -11,19 +11,6 @@ npx hyperframes info --json
 ```
 
 Prints **project** metadata: name, resolution, duration, element counts by type, track count, and total project size. Project-level — not environment. For environment health use `doctor`.
-
-## upgrade
-
-```bash
-npx hyperframes upgrade                # check + interactive prompt
-npx hyperframes upgrade --check        # check and exit, no prompt (agent-friendly)
-npx hyperframes upgrade --check --json # machine-readable: current / latest / updateAvailable
-npx hyperframes upgrade --yes          # print upgrade commands without prompting
-```
-
-Compares the installed CLI version against npm latest.
-
-`--project [dir]` bumps a **project's** pinned scripts instead of the global install: it rewrites every `npx …hyperframes@<version>…` in `<dir>/package.json` (default cwd) to npm-latest. Always invoke it unpinned (`npx hyperframes@latest upgrade --project`) — a project scaffolded on an old CLI stays frozen otherwise. `--project . --check` reports the delta without writing; add `--json` for `{ changed, from, to, path }`. Pass the dir explicitly whenever another flag follows `--project` — on older releases a bare `--project` consumes the next flag as its directory value.
 
 ## timeline
 
@@ -96,22 +83,6 @@ npx hyperframes benchmark --json
 ```
 
 Renders the project with 5 preset configurations — `30fps draft 2w`, `30fps standard 2w`, `30fps high 2w`, `30fps standard 4w`, `60fps standard 4w` — and prints a comparison of render speed and output file size. Use it to find the fastest acceptable preset for your machine. Not a single-render-with-stage-breakdown.
-
-## telemetry
-
-```bash
-npx hyperframes telemetry status      # show telemetry state
-npx hyperframes telemetry disable     # disable anonymous usage telemetry
-npx hyperframes telemetry enable      # re-enable telemetry
-```
-
-Telemetry is anonymous usage counters only. Disable globally with `HYPERFRAMES_NO_TELEMETRY=1` if env-var control is preferred over the subcommand.
-
-Events include two fingerprint properties used to distinguish managed-sandbox runs from real laptops — no PII, no env-var **values**, only existence checks:
-
-- **`sandbox_runtime`**: `gvisor` / `firecracker` / `docker` / `kvm` / `wsl` / `null`. gVisor via kernel string + `/proc/version`. Firecracker via `/dev/vsock` + DMI sys_vendor. Docker via `/.dockerenv` + cgroup.
-- **`agent_runtime`**: `claude_code` / `codex` / `cursor` / `copilot_agent` / `jules` / `replit` / `devin` / `aider` / `gemini_cli` / `hermes` / `openclaw` / `null`. Detected by the existence of well-known vendor env vars; the values themselves are never read.
-- **`client`**: set only when an app launched the CLI with a `HYPERFRAMES_CLIENT` tag (`<app>/<version>/<channel>`), sent as-is when it is a short slug.
 
 ## Asset Preprocessing
 

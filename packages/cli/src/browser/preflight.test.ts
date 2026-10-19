@@ -55,21 +55,12 @@ describe("runEnvironmentChecks", () => {
     expect(result.outcomes.find((outcome) => outcome.name === "FFprobe")?.ok).toBe(true);
     expect(result.ffmpegPath).toBe(process.execPath);
     expect(result.ffprobePath).toBe(process.execPath);
-    expect(result.ffmpegVersionMajor).toBe(7);
     expect(runProcess).toHaveBeenCalledTimes(2);
     expect(runProcess).toHaveBeenCalledWith(
       process.execPath,
       ["-version"],
       expect.objectContaining({ timeoutMs: 60_000 }),
     );
-  });
-
-  it("omits ffmpegVersionMajor when the version banner has no parseable number", async () => {
-    runProcess.mockResolvedValue({ stdout: "ffmpeg version unknown\n", stderr: "" });
-
-    const result = await runEnvironmentChecks();
-
-    expect(result.ffmpegVersionMajor).toBeUndefined();
   });
 
   it.skipIf(process.platform === "win32")(
@@ -207,8 +198,6 @@ describe("runEnvironmentChecks", () => {
       path: process.execPath,
       versionMajor: 7,
     });
-    expect(result.browserVersionMajor).toBe(7);
-    expect(result.browserInstall).toMatchObject({ pathAscii: true });
   });
 
   it("reports Chrome as not found (no throw) when browser discovery throws on a corrupt cache", async () => {

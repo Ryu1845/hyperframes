@@ -44,7 +44,6 @@ import {
   type TemplateOption,
 } from "../templates/generators.js";
 import { fetchRemoteTemplate } from "../templates/remote.js";
-import { trackInitTemplate } from "../telemetry/events.js";
 import { DEFAULT_MODEL, hasFFmpeg } from "../whisper/manager.js";
 import { TRANSCRIPT_FILE } from "../whisper/transcriptFile.js";
 import { initialModelForLanguage } from "../whisper/transcribe.js";
@@ -565,7 +564,6 @@ async function scaffoldProject(
   media: InitMediaOptions,
   tailwind = false,
   resolution?: CanvasResolution,
-  authoringSkill?: string,
 ): Promise<void> {
   mkdirSync(destDir, { recursive: true });
 
@@ -598,17 +596,10 @@ async function scaffoldProject(
 
   // Write hyperframes.json so `hyperframes add` knows which registry to use
   // and where to drop block/component files. Overwritten only if absent.
-  // When the scaffolding workflow declared itself via --skill, stamp the owning
-  // skill here so every later render of this project is attributed to it.
   if (!existsSync(resolve(destDir, "hyperframes.json"))) {
     const { createProjectConfig, DEFAULT_PROJECT_CONFIG } =
       await import("../utils/projectConfig.js");
-    const { normalizeSkillSlug } = await import("../telemetry/skill.js");
-    const skill = normalizeSkillSlug(authoringSkill);
-    createProjectConfig(
-      destDir,
-      skill ? { ...DEFAULT_PROJECT_CONFIG, authoringSkill: skill } : DEFAULT_PROJECT_CONFIG,
-    );
+    createProjectConfig(destDir, DEFAULT_PROJECT_CONFIG);
   }
 
   writeDefaultPackageJson(destDir, name);
@@ -753,13 +744,6 @@ export default defineCommand({
       type: "string",
       description:
         "Canvas resolution preset: landscape (1920x1080), portrait (1080x1920), landscape-4k (3840x2160), portrait-4k (2160x3840), square (1080x1080), square-4k (2160x2160). Aliases: 1080p, 4k, uhd, 1080p-square, square-1080p, 4k-square. Default: keep template dimensions (typically 1920x1080).",
-    },
-    skill: {
-      type: "string",
-      description:
-        "Owning authoring workflow slug (e.g. product-launch-video). Stamped into " +
-        "hyperframes.json so every render of this project is attributed to it on " +
-        "anonymous telemetry, without re-passing --skill on each render. Ignored unless it is a slug.",
     },
   },
   async run({ args }) {
@@ -932,7 +916,6 @@ export default defineCommand({
           media,
           tailwind,
           resolutionPreset,
-          args.skill,
         );
       } catch (err) {
         console.error(
@@ -943,7 +926,6 @@ export default defineCommand({
         console.error(c.dim("Use --example blank for offline use."));
         failCommand();
       }
-      trackInitTemplate(templateId, { tailwind });
       const transcriptFile = resolve(destDir, TRANSCRIPT_FILE);
       if (existsSync(transcriptFile)) {
         await patchTranscript(destDir, transcriptFile);
@@ -1157,15 +1139,7 @@ export default defineCommand({
         audio: audioFlag ? { filename: basename(audioFlag) } : undefined,
         durationSeconds: videoDuration,
       };
-      await scaffoldProject(
-        destDir,
-        name,
-        templateId,
-        media,
-        tailwind,
-        resolutionPreset,
-        args.skill,
-      );
+      await scaffoldProject(destDir, name, templateId, media, tailwind, resolutionPreset);
       if (!isBundled) {
         spin.stop(c.success(`Downloaded ${templateId}`));
       }
@@ -1178,8 +1152,6 @@ export default defineCommand({
       );
       failCommand();
     }
-    trackInitTemplate(templateId, { tailwind });
-
     // 4b. Patch captions with transcript if available
     const transcriptFile = resolve(destDir, TRANSCRIPT_FILE);
     if (existsSync(transcriptFile)) {

@@ -11,10 +11,8 @@ import {
 } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { trackRegistryItemAdded } from "../telemetry/events.js";
 import { createStudioServer, type StudioServer } from "./studioServer.js";
 
-vi.mock("../telemetry/events.js", () => ({ trackRegistryItemAdded: vi.fn() }));
 vi.mock("node:fs", async (importOriginal) => {
   const actual = await importOriginal<typeof import("node:fs")>();
   return { ...actual, writeFileSync: vi.fn(actual.writeFileSync) };
@@ -155,25 +153,15 @@ describe("Studio catalog install", () => {
     expect(existsSync(real)).toBe(false);
   });
 
-  it("installs through add: honours the project's block folder and records the item", async () => {
+  it("installs through add: honours the project's block folder", async () => {
     const { link, real } = projectWithRegistry();
 
     const result = await installer(link)("studio-drop-block");
 
     expect(result.written).toEqual(["scenes/studio-drop-block.html"]);
     expect(result.block.name).toBe("studio-drop-block");
-    expect(trackRegistryItemAdded).toHaveBeenCalledWith(
-      expect.objectContaining({ item: "studio-drop-block", source: "studio" }),
-    );
+    expect(existsSync(join(real, "scenes/studio-drop-block.html"))).toBe(true);
     expect(existsSync(join(real, "compositions/studio-drop-block.html"))).toBe(false);
-    const config = JSON.parse(readFileSync(join(real, "hyperframes.json"), "utf-8"));
-    expect(config.registryItems).toEqual([
-      {
-        name: "studio-drop-block",
-        type: "hyperframes:block",
-        target: "scenes/studio-drop-block.html",
-      },
-    ]);
   });
 
   it("lists the catalog from the registry install uses", async () => {

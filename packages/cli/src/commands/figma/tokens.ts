@@ -82,8 +82,7 @@ export default defineCommand({
     dir: { type: "string", description: "project directory", default: "." },
   },
   async run({ args }) {
-    await withFigmaErrors("figma:tokens", async () => {
-      const t0 = Date.now();
+    await withFigmaErrors(async () => {
       const client = createFigmaClient({ token: process.env.FIGMA_TOKEN ?? "" });
       const result = await runTokensImport(args.ref, { projectDir: args.dir, client });
       if (result.mode === "styles") {
@@ -98,13 +97,6 @@ export default defineCommand({
         console.log("add to data-composition-variables:");
         console.log(JSON.stringify(result.entries, null, 2));
       }
-      const { trackFigmaImport } = await import("../../telemetry/index.js");
-      trackFigmaImport({
-        phase: "tokens",
-        tokensMode: result.mode,
-        entryCount: result.entries.length,
-        durationMs: Date.now() - t0,
-      });
     });
   },
 });

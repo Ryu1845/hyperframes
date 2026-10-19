@@ -61,7 +61,7 @@ describe("a settings file that exists but cannot be read", () => {
     ],
   ])("counts as a no when %s, never as a question not yet asked", async (_, make) => {
     make();
-    const { readConfig, updateLocalModelConsent } = await import("./config.js");
+    const { readConfig, updateLocalModelConsent } = await import("./userConfig.js");
     readConfig();
 
     expect(updateLocalModelConsent((onDisk) => onDisk ?? true)).toBe(false);
@@ -85,7 +85,7 @@ describe("a settings lock left by a process that stopped", () => {
     ["CI", true, [], "true", 0],
   ])("warns once per process on %s", async (_, tty, extraArgs, ci, lines) => {
     const lock = leaveLock();
-    const { writeConfig, readConfig } = await import("./config.js");
+    const { writeConfig, readConfig } = await import("./userConfig.js");
     const streams = [process.stdin, process.stdout];
     const saved = streams.map((stream) => Object.getOwnPropertyDescriptor(stream, "isTTY"));
     const argv = process.argv;
@@ -119,7 +119,7 @@ describe("a settings lock left by a process that stopped", () => {
 
 describe("config writes across processes", () => {
   it("reads a no another process is saving at that moment, not the answer before it", async () => {
-    const { readConfig, updateLocalModelConsent } = await import("./config.js");
+    const { readConfig, updateLocalModelConsent } = await import("./userConfig.js");
     writeFileSync(join(configDir, "config.json"), JSON.stringify({ localEmbeddingEnabled: true }));
     readConfig();
     await anotherProcessSavesNo();
@@ -128,7 +128,7 @@ describe("config writes across processes", () => {
   });
 
   it("waits for another process's settings write, then keeps the no it saved", async () => {
-    const { readConfig, updateLocalModelConsent } = await import("./config.js");
+    const { readConfig, updateLocalModelConsent } = await import("./userConfig.js");
     expect(readConfig().localEmbeddingEnabled).toBeUndefined();
     await anotherProcessSavesNo();
 
@@ -137,7 +137,7 @@ describe("config writes across processes", () => {
   });
 
   it("reads a no saved elsewhere even when keeping it writes nothing", async () => {
-    const { readConfig, updateLocalModelConsent } = await import("./config.js");
+    const { readConfig, updateLocalModelConsent } = await import("./userConfig.js");
     const early = readConfig();
     writeFileSync(
       join(configDir, "config.json"),
@@ -149,14 +149,17 @@ describe("config writes across processes", () => {
   });
 
   it("never lets a copy read before another process's no put the question back", async () => {
-    const { readConfig, writeConfig } = await import("./config.js");
+    const { readConfig, writeConfig } = await import("./userConfig.js");
     const early = readConfig();
     writeFileSync(
       join(configDir, "config.json"),
       JSON.stringify({ ...early, localEmbeddingEnabled: false }),
     );
 
-    writeConfig({ ...early, commandCount: early.commandCount + 1 });
+    writeConfig({
+      ...early,
+      deParallelRouterTrialRenderCount: (early.deParallelRouterTrialRenderCount ?? 0) + 1,
+    });
     expect(consentOnDisk()).toBe(false);
   });
 });

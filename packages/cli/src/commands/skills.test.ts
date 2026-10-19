@@ -69,14 +69,6 @@ vi.mock("@clack/prompts", () => ({
   },
 }));
 
-// Capture the prerequisite-skip telemetry event without touching the real
-// PostHog client. trackSkillsInstallSkipped already gates on the telemetry
-// opt-out inside trackEvent, so the command calls it unconditionally.
-const trackSkillsInstallSkipped = vi.fn();
-vi.mock("../telemetry/events.js", () => ({
-  trackSkillsInstallSkipped: (...args: unknown[]) => trackSkillsInstallSkipped(...args),
-}));
-
 // A realistic check result for the targeted paths (`update`, with or without names):
 // one core skill outdated, one core missing, one on-demand workflow installed
 // and current, one on-demand workflow not installed. `update` must refresh the
@@ -120,15 +112,6 @@ vi.mock("../utils/skillsManifest.js", async (importOriginal) => {
 // dev machine's agent dirs — the mirror has its own isolated-HOME unit tests.
 vi.mock("../utils/skillsMirror.js", () => ({
   mirrorGlobalSkills: vi.fn(() => ({ source: null, mirrored: [], skipped: [] })),
-}));
-
-// The reconcile commands drop the background nudge's cached verdict on
-// success (the stale-24h-cache fix). Stub it so these tests never touch the
-// dev machine's real ~/.hyperframes config; the invalidation behavior itself
-// is unit-tested in skillsUpdateCheck.test.ts.
-const invalidateSkillsCache = vi.fn();
-vi.mock("../utils/skillsUpdateCheck.js", () => ({
-  invalidateSkillsCache: (...args: unknown[]) => invalidateSkillsCache(...args),
 }));
 
 // The global install command this CLI runs (after `skills add <url>` and the
@@ -188,7 +171,6 @@ describe("hyperframes skills", () => {
     state.spawnCalls = [];
     state.spawnExitCode = 0;
     state.gitMissing = false;
-    trackSkillsInstallSkipped.mockClear();
     vi.resetModules();
     // vi.resetModules re-imports skills.js but the manifest mock's vi.fn
     // instances persist — restore their default behavior for each test.
@@ -610,21 +592,6 @@ describe("hyperframes skills", () => {
 
     expect(state.spawnCalls).toHaveLength(0);
     expect(await commandExitCode()).toBe(0);
-    // Diagnostic instrumentation: the skip records why, so rare boxes hitting
-    // this (fresh Windows without git) are visible instead of silently no-op.
-    expect(trackSkillsInstallSkipped).toHaveBeenCalledWith({ reason: "git_missing" });
-  });
-
-  // The happy path must never emit the prerequisite-skip event — it's a
-  // skip-only diagnostic, not a per-install signal.
-  it("bare `skills` does not emit the skip event when prerequisites are present", async () => {
-    setPlatform("linux");
-
-    const { default: skillsCmd } = await import("./skills.js");
-    await skillsCmd.run?.({ args: {}, rawArgs: [], cmd: skillsCmd } as never);
-
-    expect(state.spawnCalls.length).toBeGreaterThan(0);
-    expect(trackSkillsInstallSkipped).not.toHaveBeenCalled();
   });
 
   // The strict recovery path (`skills check || skills update`) must fail loudly
@@ -646,7 +613,6 @@ describe("hyperframes skills", () => {
   describe("with HYPERFRAMES_SKIP_SKILLS=1", () => {
     beforeEach(() => {
       vi.stubEnv("HYPERFRAMES_SKIP_SKILLS", "1");
-      invalidateSkillsCache.mockClear();
     });
 
     afterEach(() => {
@@ -662,7 +628,6 @@ describe("hyperframes skills", () => {
 
       expect(state.spawnCalls).toHaveLength(0);
       expect(vi.mocked(checkSkills)).not.toHaveBeenCalled();
-      expect(invalidateSkillsCache).not.toHaveBeenCalled();
       expect(await commandExitCode()).toBe(0);
       expect(String(logSpy.mock.calls.at(-1)?.[0] ?? "")).toMatch(/managed externally/);
     });
@@ -692,7 +657,6 @@ describe("hyperframes skills", () => {
       await skillsCmd.run?.({ args: {}, rawArgs: [], cmd: skillsCmd } as never);
 
       expect(state.spawnCalls).toHaveLength(0);
-      expect(invalidateSkillsCache).not.toHaveBeenCalled();
       expect(await commandExitCode()).toBe(0);
     });
 
@@ -718,65 +682,6 @@ describe("hyperframes skills", () => {
 
       expect(state.spawnCalls).toHaveLength(0);
       expect(await commandExitCode()).toBe(1);
-    });
-  });
-
-  // The stale-24h-cache regression: the skills commands are excluded from the
-  // background nudge pipeline (cli.ts), so unless they drop the cached verdict
-  // themselves, a successful install keeps the pre-install "N out of date or
-  // missing" nag alive on every other command for up to 24h.
-  describe("nudge-cache invalidation", () => {
-    it("skills update drops the cached nudge verdict on success", async () => {
-      setPlatform("linux");
-      invalidateSkillsCache.mockClear();
-
-      await runSkillsUpdate();
-
-      expect(await commandExitCode()).toBe(0);
-      expect(invalidateSkillsCache).toHaveBeenCalled();
-    });
-
-    it("skills update keeps the cached verdict when the install fails", async () => {
-      setPlatform("linux");
-      invalidateSkillsCache.mockClear();
-      state.spawnExitCode = 1; // `skills add` exits non-zero → strict throw
-
-      await runSkillsUpdate();
-
-      expect(await commandExitCode()).toBe(1);
-      expect(invalidateSkillsCache).not.toHaveBeenCalled();
-    });
-
-    it("skills update keeps the cached verdict on the offline (presence-only) path", async () => {
-      setPlatform("linux");
-      invalidateSkillsCache.mockClear();
-      const { checkSkills } = await import("../utils/skillsManifest.js");
-      vi.mocked(checkSkills).mockRejectedValue(new Error("offline"));
-
-      await runSkillsUpdate();
-
-      // Presence-only run never learned anything about freshness — the cached
-      // verdict is still the best information available.
-      expect(invalidateSkillsCache).not.toHaveBeenCalled();
-    });
-
-    it("bare `skills` (full install) drops the cached nudge verdict", async () => {
-      setPlatform("linux");
-      invalidateSkillsCache.mockClear();
-
-      const { default: skillsCmd } = await import("./skills.js");
-      await skillsCmd.run?.({ args: {}, rawArgs: [], cmd: skillsCmd } as never);
-
-      expect(invalidateSkillsCache).toHaveBeenCalled();
-    });
-
-    it("skills check drops the cached verdict — the fresh result supersedes it", async () => {
-      setPlatform("linux");
-      invalidateSkillsCache.mockClear();
-
-      await runSkillsSub("check", { json: true });
-
-      expect(invalidateSkillsCache).toHaveBeenCalled();
     });
   });
 });

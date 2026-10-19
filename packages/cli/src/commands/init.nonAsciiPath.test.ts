@@ -5,8 +5,6 @@ import { join } from "node:path";
 import { runCommand } from "citty";
 import init from "./init.js";
 
-vi.mock("../telemetry/events.js", () => ({ trackInitTemplate: vi.fn() }));
-
 afterEach(() => {
   vi.restoreAllMocks();
   vi.unstubAllEnvs();

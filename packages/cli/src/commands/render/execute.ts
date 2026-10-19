@@ -17,7 +17,6 @@ import {
   resolveVariablesArg,
   validateVariablesAgainstProject,
 } from "../../utils/variables.js";
-import { trackRenderPreflightRejected } from "../../telemetry/events.js";
 import { applyRenderEnvironment, renderOutputDirectory, type RenderPlan } from "./plan.js";
 import type { RenderOptions, SingleRenderResult } from "../render.js";
 import type { RenderCancellationScope } from "../../utils/renderCancellation.js";
@@ -134,14 +133,8 @@ export function renderOptionsFromPlan(
   const options: RenderOptions = {
     fps: plan.fps,
     quality: plan.quality,
-    authoringSkill: plan.authoringSkill,
-    authoringSkillSource: plan.authoringSkillSource,
-    authoringSkillInvalid: plan.invalidAuthoringSkill,
-    hfEnvOverrides: plan.hfEnvOverrides,
-    catalogUsage: plan.catalogUsage,
     format: plan.format,
     gifLoop: plan.gifLoop,
-    gifFpsCapped: plan.gifFpsCapped,
     hlsSegmentSeconds: plan.hlsSegmentSeconds,
     workers: plan.workers,
     gpu: plan.useGpu,
@@ -315,7 +308,6 @@ async function runResolutionPreflight(
     // Unreadable input is surfaced by the render pipeline with full context.
   }
   if (!issue) return;
-  trackRenderPreflightRejected({ kind: issue.kind });
   errorBox("Output resolution incompatible", issue.message);
   failCommand();
 }
@@ -325,14 +317,8 @@ function batchRowRenderOptions(plan: RenderPlan, browserPath: string | undefined
   return {
     fps: plan.fps,
     quality: plan.quality,
-    authoringSkill: plan.authoringSkill,
-    authoringSkillSource: plan.authoringSkillSource,
-    authoringSkillInvalid: plan.invalidAuthoringSkill,
-    hfEnvOverrides: plan.hfEnvOverrides,
-    catalogUsage: plan.catalogUsage,
     format: plan.format,
     gifLoop: plan.gifLoop,
-    gifFpsCapped: plan.gifFpsCapped,
     hlsSegmentSeconds: plan.hlsSegmentSeconds,
     workers: plan.workers,
     gpu: plan.useGpu,
@@ -357,7 +343,6 @@ function batchRowRenderOptions(plan: RenderPlan, browserPath: string | undefined
     bestEffort: plan.bestEffort,
     exitAfterComplete: false,
     throwOnError: true,
-    skipFeedback: true,
     manageDeParallelRouterBreaker: plan.batchConcurrency <= 1,
   };
 }

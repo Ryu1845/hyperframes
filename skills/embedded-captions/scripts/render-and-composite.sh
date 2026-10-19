@@ -237,9 +237,9 @@ echo "[render] hyperframes render @ ${FPS}fps"
 hf_render_dir() {
   local out="$1" label="$2" proj="$3" fmt="${4:-}"
   if [[ -n "$fmt" ]]; then
-    node "$HF_CLI" render --skill=embedded-captions --dir "$proj" --fps "$FPS" --format "$fmt" --crf 11 -o "$out" || return $?
+    node "$HF_CLI" render --dir "$proj" --fps "$FPS" --format "$fmt" --crf 11 -o "$out" || return $?
   else
-    node "$HF_CLI" render --skill=embedded-captions --dir "$proj" --fps "$FPS" --crf 11 -o "$out" || return $?
+    node "$HF_CLI" render --dir "$proj" --fps "$FPS" --crf 11 -o "$out" || return $?
   fi
   [[ -f "$out" ]]
 }

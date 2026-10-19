@@ -5,7 +5,7 @@ import * as clack from "@clack/prompts";
 import { c } from "../ui/colors.js";
 import { diag } from "../ui/diagnostics.js";
 import { buildNpxCommand } from "../utils/npxCommand.js";
-import { withMeta } from "../utils/updateCheck.js";
+import { withMeta } from "../utils/jsonMeta.js";
 import {
   checkSkills,
   FALLBACK_CORE_SKILLS,
@@ -18,8 +18,6 @@ import {
   type SkillsCheckResult,
 } from "../utils/skillsManifest.js";
 import { mirrorGlobalSkills } from "../utils/skillsMirror.js";
-import { invalidateSkillsCache } from "../utils/skillsUpdateCheck.js";
-import { trackSkillsInstallSkipped } from "../telemetry/events.js";
 import type { Example } from "./_examples.js";
 
 export const examples: Example[] = [
@@ -205,20 +203,16 @@ function mirrorToInstalledAgents(): void {
 const SKILLS_TOOLING: ReadonlyArray<{
   has: () => boolean;
   error: string;
-  // Low-cardinality tag for the skip telemetry event (e.g. "git_missing").
-  reason: string;
   report: () => void;
 }> = [
   {
     has: hasNpx,
     error: "npx not found. Install Node.js and retry.",
-    reason: "npx_missing",
     report: () => clack.log.error(c.error("npx not found. Install Node.js and retry.")),
   },
   {
     has: hasGit,
     error: "git not found. Install git and retry to add AI coding skills.",
-    reason: "git_missing",
     // Skip cleanly rather than letting the upstream clone dump a noisy
     // multi-line `spawn git ENOENT` / "Installation failed" abort.
     report: () => console.log(c.dim("Skipping AI coding skills: git not available.")),
@@ -231,9 +225,6 @@ function skillsToolingReady(strict: boolean): boolean {
     if (tool.has()) continue;
     if (strict) throw new Error(tool.error);
     tool.report();
-    // Surface the rare best-effort skip (init on a box missing git/npx); the
-    // event respects the telemetry opt-out inside trackEvent.
-    trackSkillsInstallSkipped({ reason: tool.reason });
     return false;
   }
   return true;
@@ -410,13 +401,6 @@ export async function updateSkills(
     await installSkills(result.installed, { cwd: opts.cwd, strict });
     verifyInstalled(result.installed, { strict, cwd: opts.cwd });
   }
-  // The install (or the fresh canonical check confirming everything current)
-  // supersedes whatever the background nudge cached before it — drop the
-  // cached verdict so the next command re-checks instead of nagging from the
-  // pre-install snapshot for up to 24h. Deliberately NOT done on the offline
-  // (presence-only) path above: that run never learned anything about
-  // freshness, so the cached verdict is the best information we still have.
-  invalidateSkillsCache();
   return result;
 }
 
@@ -603,11 +587,6 @@ const checkCommand = defineCommand({
 
     if (args.json) console.log(JSON.stringify(withMeta(result), null, 2));
     else renderCheck(result);
-
-    // This check just displayed a fresh verdict, superseding whatever the
-    // background nudge cached — invalidate so the next command's nudge agrees
-    // with what the user was just shown instead of a pre-check snapshot.
-    invalidateSkillsCache();
 
     // Exit non-zero when installed skills are stale, so agents and CI can gate:
     //   hyperframes skills check || npx hyperframes skills update
@@ -856,9 +835,6 @@ export default defineCommand({
         return;
       }
       await updateSkills({ all: true });
-      // Same as updateSkills: a full install supersedes the background
-      // nudge's cached pre-install verdict.
-      invalidateSkillsCache();
     }
   },
 });

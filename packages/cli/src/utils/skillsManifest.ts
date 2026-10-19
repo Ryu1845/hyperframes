@@ -618,7 +618,7 @@ export function pruneOrphanedLockEntries(
   const pruned = names.filter((name) => name in lock.skills!);
   if (pruned.length === 0) return [];
   for (const name of pruned) delete lock.skills[name];
-  // Atomic write (temp file + rename, same pattern as telemetry/autoUpdate.ts
+  // Atomic write (temp file + rename, same pattern as utils/userConfig.ts
   // and utils/download.ts) so a crash mid-write can never leave a truncated
   // lock behind. `path` is guaranteed to exist here (readSkillLock already
   // returned a non-null lock), so preserving its mode on the temp file before

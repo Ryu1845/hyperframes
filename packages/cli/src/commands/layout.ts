@@ -11,7 +11,7 @@ import { pageNavigationTimeoutMs } from "../utils/renderArgs.js";
 import { gotoWhenSent } from "../capture/navigateForCapture.js";
 import { normalizeErrorMessage } from "../utils/errorMessage.js";
 import { serveStaticProjectHtml } from "../utils/staticProjectServer.js";
-import { printDeprecationNotice, withMeta } from "../utils/updateCheck.js";
+import { printDeprecationNotice, withMeta } from "../utils/jsonMeta.js";
 import {
   buildLayoutSampleTimes,
   buildTransitionSampleTimes,

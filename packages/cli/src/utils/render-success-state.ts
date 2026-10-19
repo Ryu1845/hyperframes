@@ -8,7 +8,7 @@
  * Set by the render command AFTER `executeRenderJob` (or the Docker child
  * render) resolves cleanly — the point at which the artifact has been
  * validated AND committed to disk. Any throw after this point (worker
- * teardown, browser shutdown, telemetry flush, feedback prompt, stray
+ * teardown, browser shutdown, stray
  * promise rejection) must not turn a valid render into an exit-1
  * "no final error message" failure.
  *

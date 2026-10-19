@@ -3,8 +3,8 @@ name: hyperframes-cli
 description: >
   Use the HyperFrames CLI development loop: init, add, catalog, capture, lint, check, snapshot,
   compare, grade-compare, preview, play, present, beats, keyframes, single or batch render,
-  cloudrun, lambda, doctor, browser, info, upgrade, skills, compositions, timeline, history, clean, docs,
-  benchmark, telemetry, transcribe, tts, and remove-background. Also use when diagnosing build
+  cloudrun, lambda, doctor, browser, info, skills, compositions, timeline, history, clean, docs,
+  benchmark, transcribe, tts, and remove-background. Also use when diagnosing build
   or render failures. validate, inspect, and layout are deprecated aliases; use check. Covers local,
   AWS Lambda, and Google Cloud Run rendering.
 ---
@@ -101,7 +101,6 @@ Treat tiny unstyled content, canvas-sized icons, missing hero elements, or timel
   ```
 
 - Non-TTY mode is automatic and scaffolds the centered blank. Pass `--example` only to start from a named example. Use `--non-interactive` to force flag-only mode on a TTY.
-- Use one `HYPERFRAMES_RUN_ID` for all commands in the same verification loop.
 - When disk is tight, run `npx hyperframes clean` (`--dry-run` to list first); it removes what dead renders left and idle caches that rebuild themselves, never outputs, sources or anything a running render uses. Write disposable QC frames to a temp dir, then remove only that owned directory. Managed snapshot runs retain the newest 10 plus current/latest/rendered evidence; active captures and runs younger than 24 hours are protected. Copy intentional before/after evidence outside managed storage before it ages out. Never delete `.hyperframes` wholesale: it also holds project history.
 - Use `--strict`, `--strict-all`, and `--strict-variables` when the corresponding warnings, variables, or CI conditions must gate the render.
 - For `shader_unbounded_cosine_pow`, clamp the cosine to `[0, 1]` before `pow(1 - cosine, exponent)`; a lower-only `max` is insufficient. Follow `/hyperframes-animation` → `adapters/three.md` for the source fix and affected-GPU preview/export verification. Lint only recognizes static shader expressions, and software rendering can miss hardware-specific invalid pixels.
@@ -132,25 +131,23 @@ Use `selection.target.hfId` when available, otherwise its selector and source fi
 
 A render stops when whatever started it stops, so a Ctrl-C or a closed terminal never leaves Chrome running. If your tool kills its whole process group when a command times out or ends, a long render dies with it. Start such a render in its own process group with `HYPERFRAMES_RENDER_DETACHED=1`, for example `bash -c 'set -m; HYPERFRAMES_RENDER_DETACHED=1 npx hyperframes render --output out.mp4 < /dev/null > render.log 2>&1 &'` (works on macOS and Linux), then check the log and the output file instead of waiting on the command.
 
-Skill attribution is automatic — the examples above need no `--skill`. A project scaffolded by a workflow (`hyperframes init --skill=<workflow>`) records its owning skill in `hyperframes.json`, and every later render inherits it on anonymous telemetry: re-renders, `npm run render`, and `--batch` alike. Pass `--skill=<slug>` explicitly only to stamp a project that was not created through a workflow (its first render then persists it).
-
 Use Lambda only when AWS ownership is a requirement. Use Cloud Run only when GCP ownership is a requirement. Read the matching reference before running any cloud path.
 
 ## Read the matching reference before running a command
 
 The following references and owning skills are mandatory command contracts, not optional background reading. Before running a command in the table, read its matching row.
 
-| Need                                                                                               | Reference                             |
-| -------------------------------------------------------------------------------------------------- | ------------------------------------- |
-| `init`, `capture`, `skills`                                                                        | `references/init-and-scaffold.md`     |
-| `lint`, `check`, motion sidecars, `snapshot`                                                       | `references/lint-validate-inspect.md` |
-| `compare`, `grade-compare`, variable-driven `render --batch`                                       | `references/compare-and-batch.md`     |
-| `beats` for an existing project's Studio beat grid                                                 | `references/beats.md`                 |
-| `preview`, `play`, `render`, Studio context                                                        | `references/preview-render.md`        |
-| `doctor`, browser management                                                                       | `references/doctor-browser.md`        |
-| AWS Lambda deployment and rendering                                                                | `references/lambda.md`                |
-| Google Cloud Run deployment and rendering                                                          | `references/cloudrun.md`              |
-| `info`, `upgrade`, `compositions`, `timeline`, `docs`, `benchmark`, telemetry, media preprocessing | `references/upgrade-info-misc.md`     |
+| Need                                                                         | Reference                             |
+| ---------------------------------------------------------------------------- | ------------------------------------- |
+| `init`, `capture`, `skills`                                                  | `references/init-and-scaffold.md`     |
+| `lint`, `check`, motion sidecars, `snapshot`                                 | `references/lint-validate-inspect.md` |
+| `compare`, `grade-compare`, variable-driven `render --batch`                 | `references/compare-and-batch.md`     |
+| `beats` for an existing project's Studio beat grid                           | `references/beats.md`                 |
+| `preview`, `play`, `render`, Studio context                                  | `references/preview-render.md`        |
+| `doctor`, browser management                                                 | `references/doctor-browser.md`        |
+| AWS Lambda deployment and rendering                                          | `references/lambda.md`                |
+| Google Cloud Run deployment and rendering                                    | `references/cloudrun.md`              |
+| `info`, `compositions`, `timeline`, `docs`, `benchmark`, media preprocessing | `references/upgrade-info-misc.md`     |
 
 For composition variables, also read `/hyperframes-core` → `references/variables-and-media.md`. For `hyperframes add` and `hyperframes catalog`, use `/hyperframes-registry`. Before `hyperframes present`, read `/slideshow`; before `hyperframes keyframes`, read `/hyperframes-keyframes`. For TTS, transcription, captions, or background removal choices, use `/media-use`.
 
@@ -168,10 +165,7 @@ npx hyperframes figma asset KEY:10-20
 
 ## Commands you should not run
 
-Two entries in `hyperframes --help` are not part of the authoring loop, and reaching for them wastes a turn:
-
-- `events` is the telemetry endpoint skills use to report their **own** invocation, ideally from a bundled script. It emits an anonymous event and exits 0 no matter what you pass it. It is not a way to read telemetry back, and an agent has no reason to call it by hand.
-- `validate`, `inspect`, and `layout` are deprecated aliases kept for old scripts. `check` is the one that is maintained, and it is what every reference in this skill assumes.
+One entry in `hyperframes --help` is not part of the authoring loop: `validate`, `inspect`, and `layout` are deprecated aliases kept for old scripts. `check` is the one that is maintained, and it is what every reference in this skill assumes.
 
 ## Remaining harness usage
 

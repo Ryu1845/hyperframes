@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 // Times whole CLI runs (spawn to exit) and prints a markdown table of median and p90.
-// Usage: node scripts/bench-startup.mjs <project-dir> [--runs 10] [--cli bin/hyperframes.mjs] [--no-telemetry]
-// Runs with CI=1 (no update check); telemetry stays on unless --no-telemetry, so each run sends real events.
+// Usage: node scripts/bench-startup.mjs <project-dir> [--runs 10] [--cli bin/hyperframes.mjs]
 import { spawnSync } from "node:child_process";
 import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -12,7 +11,6 @@ const { values, positionals } = parseArgs({
   options: {
     runs: { type: "string", default: "10" },
     cli: { type: "string" },
-    "no-telemetry": { type: "boolean", default: false },
   },
 });
 const project = resolve(positionals[0] ?? ".");
@@ -22,7 +20,6 @@ const cli = resolve(
   values.cli ?? fileURLToPath(new URL("../bin/hyperframes.mjs", import.meta.url)),
 );
 const env = { ...process.env, CI: "1" };
-if (values["no-telemetry"]) env.HYPERFRAMES_NO_TELEMETRY = "1";
 
 const commands = [["--help"], ["lint", "--help"], ["lint"], ["compositions"], ["info"]];
 // Nearest rank: p90 of 10 runs is the 9th fastest, not the slowest.

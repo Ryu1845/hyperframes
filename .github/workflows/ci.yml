@@ -5,11 +5,6 @@ permissions:
   contents: read
   pull-requests: read
 
-# Suppress hyperframes CLI telemetry from HeyGen's own CI runs.
-# External users' CI continues to emit telemetry unless they set this themselves.
-env:
-  HYPERFRAMES_NO_TELEMETRY: "1"
-
 on:
   merge_group:
     types: [checks_requested]
@@ -248,7 +243,7 @@ jobs:
               - "packages/cli/src/browser/**"
               - "packages/cli/src/utils/**"
               - "packages/cli/src/ui/**"
-              - "packages/cli/src/{background-removal,registry,telemetry}/**"
+              - "packages/cli/src/{background-removal,registry}/**"
               - "packages/cli/src/capture/{captureCompositionFrame,captureTimeout,navigateForCapture,readBoundedResponse}.ts"
               - "packages/cli/src/media-use/lib/config-lock.mjs"
               - "packages/cli/scripts/**"
@@ -1451,13 +1446,6 @@ jobs:
             --output /tmp/hf-cli-inside/renders/inside.mp4 2>&1 | tee /tmp/hf-cli-render.log
 
           test -s /tmp/hf-cli-inside/renders/inside.mp4
-
-      # Belongs in this job because it needs the BUILT CLI: `shouldTrack()`
-      # short-circuits whenever `isDevMode()` is true, which it is for any `.ts`
-      # entry, so under vitest a real event and no event look identical. Sends
-      # nothing to PostHog — the script wraps fetch and captures the batch.
-      - name: Smoke-test `add` telemetry end to end
-        run: node scripts/ci/cli-telemetry-e2e.mjs
 
       - name: Assert page.goto completes under 5s budget
         run: |

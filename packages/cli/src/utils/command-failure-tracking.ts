@@ -29,8 +29,8 @@ function commandName(cmd: AnyCommandDef): string {
  * here:
  *   1. `assertKnownFlags` runs in the wrapped command, so an unknown-flag
  *      throw reaches the executable boundary like every other failure.
- *   2. Recursion covers nested command groups (`cloud/*`, `auth/*`, `figma/*`,
- *      `lambda/*`, `capture/*`, `skills`). Without it, a nested command's
+ *   2. Recursion covers nested command groups (`figma/*`, `lambda/*`,
+ *      `capture/*`, `skills`). Without it, a nested command's
  *      unknown flags would bypass the leaf's guard.
  */
 function wrapCommand(cmd: AnyCommandDef, path: string): AnyCommandDef {
@@ -93,18 +93,4 @@ function guardLeafFlags(
   if (!guarded.rewritten) return;
   ctx.rawArgs = guarded.rawArgs;
   ctx.args = parseArgs(guarded.rawArgs, (cmd.args ?? {}) as ArgsDef);
-}
-
-/**
- * Report a command failure to telemetry, loading the telemetry module on demand
- * (keeps it off the CLI cold-start path) and awaiting it so the event is
- * enqueued before the caller re-throws / exits. Best-effort — never throws.
- */
-export async function reportCommandFailure(command: string, err: unknown): Promise<void> {
-  try {
-    const { trackCommandFailure } = await import("../telemetry/events.js");
-    trackCommandFailure(command, err);
-  } catch {
-    // ignore: a telemetry failure must not affect the command's exit path
-  }
 }

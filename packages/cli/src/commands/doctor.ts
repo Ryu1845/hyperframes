@@ -7,7 +7,7 @@ import { platform } from "node:os";
 import { dirname } from "node:path";
 import { resolveExtractCacheDir } from "@hyperframes/engine";
 import type { Example } from "./_examples.js";
-import { CONFIG_PATH } from "../telemetry/config.js";
+import { CONFIG_PATH } from "../utils/userConfig.js";
 import { withFileLock } from "../media-use/lib/config-lock.mjs";
 import { normalizeErrorMessage } from "../utils/errorMessage.js";
 import { c } from "../ui/colors.js";
@@ -15,7 +15,7 @@ import { parseToolVersion, runEnvironmentChecks } from "../browser/preflight.js"
 import { KOKORO_MODULES, KOKORO_PIP, MUSICGEN_MODULES, MUSICGEN_PIP } from "../audio/providers.js";
 import { hasPythonModules, describeRejectedPythonOverride } from "../tts/python.js";
 import { VERSION } from "../version.js";
-import { getUpdateMeta, withMeta } from "../utils/updateCheck.js";
+import { withMeta } from "../utils/jsonMeta.js";
 import {
   OPTIONAL_PACKAGES,
   installedOptionalPackageVersion,
@@ -26,7 +26,7 @@ import {
   getShmSizeMb,
   getFreeDiskMb,
   getAvailableMemoryMb,
-} from "../telemetry/system.js";
+} from "../utils/system.js";
 
 export const examples: Example[] = [
   ["Check system dependencies", "hyperframes doctor"],
@@ -73,15 +73,7 @@ function checkDockerRunning(): CheckResult {
 }
 
 function checkVersion(): CheckResult {
-  const meta = getUpdateMeta();
-  if (meta.updateAvailable && meta.latestVersion) {
-    return {
-      ok: false,
-      detail: `${VERSION} \u2192 ${meta.latestVersion} available`,
-      hint: "Run: hyperframes upgrade",
-    };
-  }
-  return { ok: true, detail: `${VERSION} (latest)` };
+  return { ok: true, detail: VERSION };
 }
 
 function checkNode(): CheckResult {
@@ -426,10 +418,7 @@ export default defineCommand({
 
     if (args.json) {
       // Exit code intentionally reflects command success, not environment
-      // health — `checkVersion` returns ok:false when an npm update is
-      // available, which would poison any CI pipeline doing
-      // `hyperframes doctor --json || fail` the next time a new version is
-      // published. Consumers who want a gate can do:
+      // health. Consumers who want a gate can do:
       //   hyperframes doctor --json | jq -e '.ok' > /dev/null || handle_failure
       console.log(JSON.stringify(buildDoctorReport(outcomes, { redact: true }), null, 2));
       return;

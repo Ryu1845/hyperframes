@@ -16,7 +16,7 @@ import type { ProjectLintResult } from "../utils/lintProject.js";
 import { resolveCompositionViewportFromHtml } from "../utils/compositionViewport.js";
 import { c } from "../ui/colors.js";
 import { decodeWellFormedEscapes } from "@hyperframes/studio-server";
-import { printDeprecationNotice, withMeta } from "../utils/updateCheck.js";
+import { printDeprecationNotice, withMeta } from "../utils/jsonMeta.js";
 import { pageNavigationTimeoutMs } from "../utils/renderArgs.js";
 import {
   installPageFunctionGuard,

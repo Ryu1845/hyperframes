@@ -28,7 +28,6 @@ vi.mock("../browser/manager.js", () => ({
   CACHE_DIR: "/cache",
   isLinuxArm: () => linuxArm,
 }));
-vi.mock("../telemetry/events.js", () => ({ trackBrowserInstall: vi.fn() }));
 
 const { default: browserCommand } = await import("./browser.js");
 

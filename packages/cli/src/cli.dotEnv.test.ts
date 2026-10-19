@@ -2,7 +2,6 @@ import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterEach, expect, it, vi } from "vitest";
-import { mockTelemetry } from "./cliDispatchTestUtils.js";
 
 const originalArgv = [...process.argv];
 const originalExitCode = process.exitCode;
@@ -18,13 +17,7 @@ afterEach(async () => {
   process.exitCode = originalExitCode;
   vi.restoreAllMocks();
   vi.unstubAllEnvs();
-  for (const path of [
-    "./commands/capture.js",
-    "./commands/init.js",
-    "./telemetry/index.js",
-    "./telemetry/events.js",
-  ])
-    vi.doUnmock(path);
+  for (const path of ["./commands/capture.js", "./commands/init.js"]) vi.doUnmock(path);
   vi.resetModules();
   for (const [event, original] of listeners) {
     for (const listener of process.listeners(event)) {
@@ -81,7 +74,6 @@ it.each(
     };
     vi.doMock("./commands/capture.js", () => definition);
     vi.doMock("./commands/init.js", () => definition);
-    mockTelemetry();
     process.argv = ["node", "cli.ts", ...prefix, command];
     await import("./cli.js");
     expect(observed).toEqual([browser, command === "capture" ? undefined : "--no-warnings", key]);

@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, describe, expect, it } from "vitest";
 import * as fs from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
@@ -6,14 +6,8 @@ import {
   createProjectConfig,
   DEFAULT_PROJECT_CONFIG,
   projectConfigPath,
-  seedProjectAuthoringSkill,
   writeProjectConfig,
 } from "./projectConfig.js";
-
-vi.mock("node:fs", async (importOriginal) => {
-  const original = await importOriginal<typeof fs>();
-  return { ...original, readFileSync: vi.fn(original.readFileSync) };
-});
 
 const dirs: string[] = [];
 function project() {
@@ -36,30 +30,18 @@ describe("project config creation", () => {
     expect(fs.readFileSync(path, "utf-8")).toBe(
       JSON.stringify(DEFAULT_PROJECT_CONFIG, null, 2) + "\n",
     );
-    const updated = { ...DEFAULT_PROJECT_CONFIG, authoringSkill: "slideshow" };
+    const updated = { ...DEFAULT_PROJECT_CONFIG, registry: "https://custom.example" };
     createProjectConfig(dir, updated);
     expect(JSON.parse(fs.readFileSync(path, "utf-8"))).toEqual(DEFAULT_PROJECT_CONFIG);
     writeProjectConfig(dir, updated);
     expect(JSON.parse(fs.readFileSync(path, "utf-8"))).toEqual(updated);
   });
 
-  it("preserves a config created after the skill seed reads ENOENT", () => {
-    const dir = project();
-    const path = projectConfigPath(dir);
-    const winner = '{"registry":"https://custom.example","authoringSkill":"slideshow"}\n';
-    vi.mocked(fs.readFileSync).mockImplementationOnce(() => {
-      fs.writeFileSync(path, winner);
-      throw Object.assign(new Error("missing before concurrent creation"), { code: "ENOENT" });
-    });
-    seedProjectAuthoringSkill(dir, "product-launch-video");
-    expect(fs.readFileSync(path, "utf-8")).toBe(winner);
-  });
-
-  it("does not create a dangling symlink target when seeding an absent config", () => {
+  it("does not create a dangling symlink target when creating a config", () => {
     const dir = project();
     const target = join(dir, "missing.json");
     fs.symlinkSync(target, projectConfigPath(dir));
-    seedProjectAuthoringSkill(dir, "slideshow");
+    createProjectConfig(dir);
     expect(fs.existsSync(target)).toBe(false);
     expect(fs.lstatSync(projectConfigPath(dir)).isSymbolicLink()).toBe(true);
   });

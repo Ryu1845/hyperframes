@@ -42,7 +42,7 @@ If no offline provider can satisfy the required music capability, surface the bl
 Initialize only if `hyperframes.json` is missing. Name `<project>` from the brief in kebab-case, such as `midnight-drive-loop` — never a timestamp. `init` checks the installed skills against the latest on GitHub and updates the global set if any are out of date.
 
 ```bash
-npx hyperframes init "videos/<project>" --non-interactive --example=blank --skill=music-to-video
+npx hyperframes init "videos/<project>" --non-interactive --example=blank
 mkdir -p "$PROJECT_DIR/assets" "$PROJECT_DIR/renders"
 cp "<user-music>" "$PROJECT_DIR/assets/bgm.mp3"   # extract from a video first if needed
 # only if the user gave you images/videos:
@@ -161,7 +161,7 @@ Run the CLI on the **assembled project** — that's the correct unit (the per-fr
 Inspect at `t=0`, each frame start, the strongest DROP / SURGE, every `hard_stops[].t`, and the final frame. On failure, make the **cheapest safe fix** yourself: edit the offending `compositions/frames/NN-*.html`. Never change duration or audio timing to hide a sync issue. Once the gates pass, open the final Studio preview (`( cd "$PROJECT_DIR" && npx hyperframes preview --background )`) and pause for user review — render now, or what changes? Render only on approval (autonomous mode: the same, as the one kept question), then deliver the MP4 with the contact sheet:
 
 ```bash
-( cd "$PROJECT_DIR" && npx hyperframes render . --skill=music-to-video -q draft -o renders/video.mp4 --fps 30 )
+( cd "$PROJECT_DIR" && npx hyperframes render . -q draft -o renders/video.mp4 --fps 30 )
 ```
 
 **Gate:** `check` passed and the snapshots were inspected; the user approved (autonomous: checks passed and the delivery includes the contact sheet); `renders/video.mp4` exists with audio, duration == `audiomap.audio.duration_sec`. The final reply states the MP4 path and duration.

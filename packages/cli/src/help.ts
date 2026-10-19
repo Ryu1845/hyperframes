@@ -72,7 +72,6 @@ const GROUPS: Group[] = [
       ["browser", "Manage the Chrome browser used for rendering"],
       ["doctor", "Check system dependencies and environment"],
       ["clean", "Find and remove what HyperFrames left on disk"],
-      ["upgrade", "Check for updates and show upgrade instructions"],
     ],
   },
   {
@@ -94,10 +93,6 @@ const GROUPS: Group[] = [
       ["tts", "Generate speech audio from text using a local AI model (Kokoro-82M)"],
       ["remove-background", "Remove background from a video or image to produce transparent media"],
     ],
-  },
-  {
-    title: "Settings",
-    commands: [["telemetry", "Manage anonymous usage telemetry"]],
   },
 ];
 

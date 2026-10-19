@@ -31,7 +31,7 @@ Goal: Enter with a confirmed brief, create the HyperFrames project, and make the
 
 Initialize only if `hyperframes.json` is missing. Name `<project>` from the brand or domain in kebab-case, such as `acme-promo`; never use workspace name or timestamp.
 
-`npx hyperframes init "videos/<project>" --non-interactive --example=blank --skill=product-launch-video` — `init` checks the installed skills against the latest on GitHub and updates the global set if any are out of date.
+`npx hyperframes init "videos/<project>" --non-interactive --example=blank` — `init` checks the installed skills against the latest on GitHub and updates the global set if any are out of date.
 
 After init, let `<PROJECT_ROOT>` be `videos/<project>` and run every subsequent relative-path command with that directory as its working directory. In the commands below, `.` means `<PROJECT_ROOT>`; never write `.media`, `capture`, or output files in the caller directory.
 
@@ -240,7 +240,7 @@ Preview: `npx hyperframes preview --background`
 
 Render only after user approval (autonomous mode: after the render-or-changes question):
 
-`npx hyperframes render --skill=product-launch-video --quality high --output renders/video.mp4`
+`npx hyperframes render --quality high --output renders/video.mp4`
 
 Do not rerun `lint`, `check`, or `snapshot` after rendering unless the user asks.
 

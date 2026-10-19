@@ -86,7 +86,7 @@ Only when `$PROJECT_DIR/hyperframes.json` is absent:
 ```bash
 PROJECT_DIR="${MOTION_GRAPHICS_DIR:-videos/<project-name>}"
 mkdir -p "$(dirname "$PROJECT_DIR")"
-npx hyperframes init "$PROJECT_DIR" --non-interactive --example=blank --skill=motion-graphics
+npx hyperframes init "$PROJECT_DIR" --non-interactive --example=blank
 ```
 
 `init` checks the installed skills against the latest on GitHub and updates the global set if any are out of date.
@@ -140,7 +140,7 @@ Open Studio, then ask one question: “render now, or what changes?” After rev
 Render only after an explicit render answer:
 
 ```bash
-(cd "$PROJECT_DIR" && npx hyperframes render . --skill=motion-graphics -q high -o ./renders/video.mp4)
+(cd "$PROJECT_DIR" && npx hyperframes render . -q high -o ./renders/video.mp4)
 # transparent overlay variant: --format webm  (or mov)
 ```
 

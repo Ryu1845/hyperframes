@@ -2,7 +2,6 @@ import { existsSync } from "node:fs";
 import { platform } from "node:os";
 import { findFfBinary } from "@hyperframes/parsers/ff-binaries";
 import { ensureBrowser, findBrowser, type BrowserResult } from "./manager.js";
-import { describeBrowserInstall, type BrowserInstallFacts } from "./installFacts.js";
 import {
   FFMPEG_PATH_ENV,
   FFPROBE_PATH_ENV,
@@ -15,7 +14,7 @@ import {
   distroLabel,
   parseLddMissingLibs,
 } from "./linuxDeps.js";
-import { getFreeDiskMb } from "../telemetry/system.js";
+import { getFreeDiskMb } from "../utils/system.js";
 import { runCancellableProcess } from "../utils/cancellableProcess.js";
 import { normalizeErrorMessage } from "../utils/errorMessage.js";
 
@@ -38,9 +37,6 @@ export interface EnvironmentCheckResult {
   ffmpegPath?: string;
   ffprobePath?: string;
   browser?: BrowserResult;
-  browserInstall?: BrowserInstallFacts;
-  ffmpegVersionMajor?: number;
-  browserVersionMajor?: number;
 }
 
 export interface EnvironmentCheckOptions {
@@ -413,7 +409,6 @@ export async function runEnvironmentChecks(
   outcomes.push(ffprobe);
 
   let browser: BrowserResult | undefined;
-  let browserVersionMajor: number | undefined;
   if (options.includeBrowser) {
     const chrome = await checkChrome(options.browserPath, options.signal);
     outcomes.push(chrome);
@@ -423,7 +418,6 @@ export async function runEnvironmentChecks(
         source: options.browserPath ? "env" : "cache",
       };
     }
-    browserVersionMajor = chrome.versionMajor;
   }
 
   if (options.includeDisk) {
@@ -440,8 +434,6 @@ export async function runEnvironmentChecks(
     outcomes,
     ...(ffmpeg.ok && ffmpeg.path ? { ffmpegPath: ffmpeg.path } : {}),
     ...(ffprobe.path ? { ffprobePath: ffprobe.path } : {}),
-    ...(browser ? { browser, browserInstall: describeBrowserInstall(browser.executablePath) } : {}),
-    ...(ffmpeg.versionMajor != null ? { ffmpegVersionMajor: ffmpeg.versionMajor } : {}),
-    ...(browserVersionMajor != null ? { browserVersionMajor } : {}),
+    ...(browser ? { browser } : {}),
   };
 }

@@ -77,14 +77,10 @@ export function assertKnownFlags(cmd: CommandDef<ArgsDef>, rawArgs: string[]): v
 
 // Spellings of a command's own string/enum args (the types citty lets swallow the next
 // token), mapped to the canonical arg name. Args in `ignore` are left out.
-function stringValueFlagOwners(
-  args: ArgsDef | undefined,
-  ignore: ReadonlySet<string> | undefined,
-): Map<string, string> {
+function stringValueFlagOwners(args: ArgsDef | undefined): Map<string, string> {
   const owners = new Map<string, string>();
   for (const [name, def] of Object.entries(args ?? {})) {
     if (def?.type !== "string" && def?.type !== "enum") continue;
-    if (ignore?.has(name)) continue;
     for (const s of spellingsOf(name, def)) owners.set(s, name);
   }
   return owners;
@@ -98,14 +94,10 @@ function ownableFlagSpelling(tok: string): string | null {
   return null;
 }
 
-// Keyed by command path. "rewrite": bare flag becomes `--flag=` (check's parseFrameCheck reads
-// that as defaults). "ignore": the command recovers the swallowed value itself
-// (upgrade's resolveProjectArgs).
+// Keyed by command path: the bare flag becomes `--flag=` (check's parseFrameCheck reads
+// that as defaults).
 const SWALLOW_REWRITE_FLAGS: Readonly<Record<string, ReadonlySet<string>>> = {
   check: new Set(["frame-check"]),
-};
-const SWALLOW_IGNORE_FLAGS: Readonly<Record<string, ReadonlySet<string>>> = {
-  upgrade: new Set(["project"]),
 };
 
 function swallowedValueMessage(flagName: string, next: string, hint: string): string {
@@ -176,7 +168,7 @@ export function guardSwallowedFlagValues(
   const rawDef = cmd?.args;
   const argsDef = rawDef && typeof rawDef === "object" ? (rawDef as ArgsDef) : undefined;
   const known = knownFlags(argsDef);
-  const owners = stringValueFlagOwners(argsDef, SWALLOW_IGNORE_FLAGS[path]);
+  const owners = stringValueFlagOwners(argsDef);
   const rewriteFlags = SWALLOW_REWRITE_FLAGS[path];
 
   let out: string[] | undefined;

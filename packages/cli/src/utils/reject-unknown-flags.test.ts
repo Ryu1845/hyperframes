@@ -141,12 +141,6 @@ describe("guardSwallowedFlagValues", () => {
       guardSwallowedFlagValues(otherCmd, "skills check", ["--frame-check", "--json"]),
     ).toThrow(/Missing value for --frame-check/);
   });
-
-  it("ignores an opted-out command+flag entirely, leaving rawArgs untouched for its own recovery logic", async () => {
-    const upgradeCommand = (await import("../commands/upgrade.js")).default as CommandDef<any>;
-    const result = guardSwallowedFlagValues(upgradeCommand, "upgrade", ["--project", "--check"]);
-    expect(result).toEqual({ rawArgs: ["--project", "--check"], rewritten: false });
-  });
 });
 
 // Wraps `cmd` like cli.ts does, so wrapCommand's gate runs before citty's runCommand.

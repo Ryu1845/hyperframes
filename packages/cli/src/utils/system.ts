@@ -2,24 +2,14 @@ import { cpus, freemem, platform, release } from "node:os";
 import { existsSync, readFileSync, statfsSync } from "node:fs";
 import { execSync } from "node:child_process";
 import { getSystemTotalMb } from "@hyperframes/engine/system-memory";
-import {
-  detectAgentRuntime,
-  detectAgentHints,
-  detectExecutionHarnessHint,
-  detectSandboxRuntime,
-  type AgentRuntime,
-  type SandboxRuntime,
-} from "./agent_runtime.js";
-import { detectWSL } from "./platform.js";
+import { detectWsl as detectWSL } from "@hyperframes/engine/wsl-host";
 
 // ---------------------------------------------------------------------------
-// System metadata collected once per CLI session and attached to all events.
-// Follows the same patterns as Next.js, Turborepo, and Gatsby telemetry.
-// No PII — only hardware/environment characteristics useful for debugging.
+// Hardware and environment facts `doctor` and the render preflight report.
 // ---------------------------------------------------------------------------
 
 /** Convert bytes to whole megabytes. */
-export function bytesToMb(bytes: number): number {
+function bytesToMb(bytes: number): number {
   return Math.trunc(bytes / (1024 * 1024));
 }
 
@@ -34,48 +24,9 @@ export interface SystemMeta {
   ci_name: string | null;
   is_wsl: boolean;
   is_tty: boolean;
-  /**
-   * Managed sandbox runtime hosting this invocation, when one is detectable
-   * (gvisor / firecracker / docker / kvm / wsl). null on a normal dev
-   * machine. Lets us distinguish "real laptop" from "ephemeral cloud
-   * sandbox driving the CLI" without geo guesswork.
-   */
-  sandbox_runtime: SandboxRuntime;
-  /**
-   * Coding-agent vendor that spawned this process, if any (see the
-   * `AgentRuntime` union in agent_runtime.ts for the full, current set).
-   * Most rules check env-var existence only — values are never read; a few
-   * use filesystem/kernel markers (e.g. the Gemini managed-agent mount).
-   * Every rule keys on a marker with a source citation in agent_runtime.ts;
-   * unverified guesses are deliberately omitted (false-negative > guess).
-   * null when no agent is detected.
-   */
-  agent_runtime: AgentRuntime;
-  /** Observed harness context, independent of agent attribution; null if absent. */
-  execution_harness_hint: "harbor" | null;
-  /**
-   * New-agent discovery signals for the agent_runtime=null bucket, so an agent
-   * we have no rule for surfaces on its own instead of vanishing into null.
-   * All three are null on a classified event (agent_runtime != null) and on a
-   * plain shell with no markers. See `detectAgentHints` in agent_runtime.ts for
-   * the fields and the privacy contract.
-   */
-  agent_hint: string | null;
-  term_program: string | null;
-  agent_env_hints: string | null;
-  /** App that launched the CLI, from HYPERFRAMES_CLIENT (`<app>/<version>/<channel>`); null from a shell. */
-  client: string | null;
 }
 
 let cached: SystemMeta | null = null;
-
-// Short `<app>/<version>/<channel>`-shaped tags only: the value lands verbatim in the space-delimited feedback string.
-const CLIENT_TAG = /^[a-z0-9][a-z0-9._+-]{0,31}(\/[a-z0-9._+-]{1,32}){0,3}$/i;
-
-function readClientTag(): string | null {
-  const tag = process.env["HYPERFRAMES_CLIENT"]?.trim() ?? "";
-  return CLIENT_TAG.test(tag) ? tag : null;
-}
 
 /**
  * Collect system metadata. Cached after first call.
@@ -86,14 +37,6 @@ export function getSystemMeta(): SystemMeta {
 
   const cpuInfo = cpus();
   const firstCpu = cpuInfo[0] ?? null;
-
-  // Only compute discovery hints for the unclassified bucket — a known agent
-  // needs no hint, and gating keeps them off the ~80%+ of classified events.
-  const agent_runtime = detectAgentRuntime();
-  const hints =
-    agent_runtime === null
-      ? detectAgentHints()
-      : { agent_hint: null, term_program: null, agent_env_hints: null };
 
   cached = {
     os_release: release(),
@@ -106,13 +49,6 @@ export function getSystemMeta(): SystemMeta {
     ci_name: getCIName(),
     is_wsl: detectWSL(),
     is_tty: Boolean(process.stdout?.isTTY),
-    sandbox_runtime: detectSandboxRuntime(),
-    agent_runtime,
-    execution_harness_hint: detectExecutionHarnessHint(),
-    agent_hint: hints.agent_hint,
-    term_program: hints.term_program,
-    agent_env_hints: hints.agent_env_hints,
-    client: readClientTag(),
   };
   return cached;
 }
@@ -170,7 +106,7 @@ function getCIName(): string | null {
 }
 
 // ---------------------------------------------------------------------------
-// Extended hardware checks (for doctor command and detailed render events)
+// Extended hardware checks (for the doctor command and the render preflight)
 // ---------------------------------------------------------------------------
 
 /**
@@ -197,60 +133,6 @@ export function getFreeDiskMb(path: string = "."): number | null {
   } catch {
     return null;
   }
-}
-
-export interface PowerState {
-  /** true = running on battery, false = external power, null = undetectable. */
-  on_battery: boolean | null;
-  /** macOS Low Power Mode; null off-darwin or undetectable. */
-  low_power_mode: boolean | null;
-}
-
-/**
- * Parse `pmset -g batt` output for the power source line. Exported for tests.
- * Example first line: `Now drawing from 'Battery Power'`.
- */
-export function parsePmsetPowerSource(raw: string): boolean | null {
-  const m = raw.match(/Now drawing from '([^']+)'/);
-  if (!m) return null;
-  return m[1] === "Battery Power";
-}
-
-/**
- * Sample the machine's power state. Volatile — sample at event time, never
- * cache alongside SystemMeta.
- *
- * Why this exists: the DE fast path only engages on macOS + hardware GPU, so
- * the render fleet is overwhelmingly laptops, and laptop perf is
- * power-managed — bench sweeps on an M4 Pro showed the SAME render flipping
- * between ~9.6 and ~17.2 ms/frame regimes with no load/thermal signal to
- * explain it. Without a power-state dimension on render telemetry those
- * regimes are indistinguishable noise; with it, perf distributions (and the
- * DE parallel-router soak) can be segmented by the machine state real users
- * actually render in.
- */
-export function getPowerState(): PowerState {
-  if (platform() !== "darwin") {
-    // Linux laptops exist but the DE fleet is darwin; don't guess elsewhere.
-    return { on_battery: null, low_power_mode: null };
-  }
-  let on_battery: boolean | null = null;
-  let low_power_mode: boolean | null = null;
-  try {
-    on_battery = parsePmsetPowerSource(
-      execSync("pmset -g batt", { encoding: "utf-8", timeout: 2000 }),
-    );
-  } catch {
-    // pmset missing/slow — leave null rather than fail telemetry.
-  }
-  try {
-    const raw = execSync("pmset -g", { encoding: "utf-8", timeout: 2000 });
-    const m = raw.match(/lowpowermode\s+(\d)/);
-    if (m) low_power_mode = m[1] === "1";
-  } catch {
-    // Same: absence of the reading is itself acceptable.
-  }
-  return { on_battery, low_power_mode };
 }
 
 /**

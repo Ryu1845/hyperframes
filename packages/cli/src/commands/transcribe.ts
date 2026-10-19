@@ -5,7 +5,6 @@ import type { Example } from "./_examples.js";
 import * as clack from "@clack/prompts";
 import { c } from "../ui/colors.js";
 import { DEFAULT_MODEL } from "../whisper/manager.js";
-import { trackTranscribeUnavailable } from "../telemetry/events.js";
 import {
   MIN_TIMEOUT_MS,
   TranscribeError,
@@ -249,7 +248,6 @@ function reportWhisperUnavailable(
   spin: Spinner | null,
   opts: { json: boolean; optional: boolean },
 ): void {
-  trackTranscribeUnavailable({ optional: opts.optional });
   const { install } = err;
   if (opts.json) {
     console.log(

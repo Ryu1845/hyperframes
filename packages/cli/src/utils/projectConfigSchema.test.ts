@@ -8,9 +8,9 @@
  *
  * This pins the two together by validating a config that exercises every key
  * the CLI can write, nested objects included. A key-name check alone is not
- * enough: `registryItems` is an array of objects with their own
- * `additionalProperties: false`, so a fourth field on `RegistryItemRecord`
- * would recreate the same break one level down.
+ * enough: `paths` and `media` are objects with their own
+ * `additionalProperties: false`, so a new field on either would recreate the
+ * same break one level down.
  */
 import { describe, expect, it } from "vitest";
 import { readFileSync } from "node:fs";
@@ -20,31 +20,22 @@ import { Ajv2020 } from "ajv/dist/2020.js";
 import {
   DEFAULT_PROJECT_CONFIG,
   type ProjectConfig,
-  type RegistryItemRecord,
+  type ProjectConfigMedia,
 } from "./projectConfig.js";
 
 const REPO_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "../../../..");
 const SCHEMA_PATH = resolve(REPO_ROOT, "docs/schema/hyperframes.json");
 
 /**
- * One record carrying every field the CLI writes. Typed, so a new field on
- * `RegistryItemRecord` is a compile error here until it is listed, and then a
- * validation failure until it is declared in the schema.
+ * A config exercising every key the CLI can write, at every level. Typed, so a
+ * new top-level or `media` field is a compile error here until it is listed,
+ * and then a validation failure until it is declared in the schema.
  */
-const EVERY_RECORD_FIELD: Required<RegistryItemRecord> = {
-  name: "data-chart",
-  type: "hyperframes:block",
-  target: "compositions/data-chart.html",
-};
-
-/** A config exercising every key the CLI can write, at every level. */
 const EVERY_WRITTEN_KEY: Required<ProjectConfig> = {
   $schema: "https://hyperframes.heygen.com/schema/hyperframes.json",
   registry: "https://example.test/registry",
   paths: DEFAULT_PROJECT_CONFIG.paths,
-  media: { autoProxy: true },
-  authoringSkill: "product-launch-video",
-  registryItems: [EVERY_RECORD_FIELD],
+  media: { autoProxy: true } satisfies Required<ProjectConfigMedia>,
 };
 
 describe("hyperframes.json schema", () => {
@@ -55,9 +46,9 @@ describe("hyperframes.json schema", () => {
     // Guard the guard: without a closed schema at both levels the assertion
     // below would pass for an undeclared key rather than failing.
     expect(schema.additionalProperties).toBe(false);
-    const items = (schema.properties as Record<string, { items?: Record<string, unknown> }>)
-      .registryItems?.items;
-    expect(items?.additionalProperties).toBe(false);
+    const properties = schema.properties as Record<string, Record<string, unknown>>;
+    expect(properties.paths?.additionalProperties).toBe(false);
+    expect(properties.media?.additionalProperties).toBe(false);
 
     expect(validate(EVERY_WRITTEN_KEY), JSON.stringify(validate.errors)).toBe(true);
   });
@@ -69,7 +60,13 @@ describe("hyperframes.json schema", () => {
     expect(
       validate({
         ...EVERY_WRITTEN_KEY,
-        registryItems: [{ ...EVERY_RECORD_FIELD, unknownItemKey: 1 }],
+        paths: { ...EVERY_WRITTEN_KEY.paths, unknownPathKey: "x" },
+      }),
+    ).toBe(false);
+    expect(
+      validate({
+        ...EVERY_WRITTEN_KEY,
+        media: { ...EVERY_WRITTEN_KEY.media, unknownMediaKey: 1 },
       }),
     ).toBe(false);
   });
