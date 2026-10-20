@@ -81,6 +81,21 @@ test("pnpm is ready before the packed-manifest check that shells out to it", () 
   assert.ok(runs.indexOf("corepack enable") < pnpm);
 });
 
+test("the linux-arm64 smoke gets the Docker image's pinned headless shell", () => {
+  const steps = config.jobs.binaries.steps;
+  const browser = steps.findIndex((step) => step.name === "Provide a headless shell (linux-arm64)");
+  const smoke = steps.findIndex((step) => step.run?.includes("binary-smoke.sh"));
+  assert.ok(browser !== -1 && browser < smoke);
+  assert.equal(steps[browser].if, "matrix.target == 'linux-arm64'");
+  assert.match(steps[browser].run, /ARG PLAYWRIGHT_VERSION=/);
+  assert.match(steps[browser].run, /HYPERFRAMES_BROWSER_PATH=.*GITHUB_ENV/);
+  const dockerfile = readFileSync(
+    new URL("../packages/cli/src/docker/Dockerfile.render", import.meta.url),
+    "utf8",
+  );
+  assert.match(dockerfile, /^ARG PLAYWRIGHT_VERSION=\d+\.\d+\.\d+$/m);
+});
+
 test("releases ship standalone binaries for every target and nothing goes to npm", () => {
   const binaries = config.jobs.binaries;
   assert.equal(binaries.needs, "prepare");
