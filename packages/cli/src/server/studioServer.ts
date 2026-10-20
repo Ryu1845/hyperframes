@@ -14,6 +14,7 @@ import { createHash } from "node:crypto";
 import { fileURLToPath } from "node:url";
 import { resolve, join, basename, relative, sep } from "node:path";
 import { readBundleFile } from "./readBundleFile.js";
+import { registerAgentRoutes } from "./agentRoutes.js";
 import {
   createProjectWatcher,
   shouldWatchProjectFile,
@@ -964,6 +965,8 @@ export function createStudioServer(options: StudioServerOptions): StudioServer {
     }
     return next();
   });
+
+  registerAgentRoutes(app);
 
   // Mount the shared studio API at /api.
   // Use fetch() forwarding (not .route()) so the sub-app sees paths without
