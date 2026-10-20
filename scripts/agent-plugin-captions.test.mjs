@@ -55,9 +55,10 @@ test("extracted captions helpers invoke the pinned CLI without a checkout", (t) 
   writeFileSync(join(project, "index.html"), "<html>caption fixture</html>");
   writeFileSync(join(project, "matte.fps"), "24");
   const log = join(dir, "invocation.json");
+  // The installed binary: the plugin launcher probes its version, then runs the command.
   writeFileSync(
-    join(bin, "npx"),
-    `#!${process.execPath}\nrequire('node:fs').writeFileSync(${JSON.stringify(log)}, JSON.stringify({args:process.argv.slice(2), skip:process.env.HYPERFRAMES_SKIP_SKILLS})); process.exit(23);`,
+    join(bin, "hyperframes"),
+    `#!${process.execPath}\nif (process.argv[2] === "--version") { console.log(${JSON.stringify(version)}); process.exit(0); }\nrequire('node:fs').writeFileSync(${JSON.stringify(log)}, JSON.stringify({args:process.argv.slice(2), skip:process.env.HYPERFRAMES_SKIP_SKILLS})); process.exit(23);`,
     { mode: 0o755 },
   );
   writeFileSync(join(bin, "ffmpeg"), "#!/bin/sh\nexit 0\n", { mode: 0o755 });
@@ -66,6 +67,7 @@ test("extracted captions helpers invoke the pinned CLI without a checkout", (t) 
     ...process.env,
     HOME: join(dir, "home"),
     HYPERFRAMES_ROOT: "",
+    HYPERFRAMES_BINARY: "",
     TRANSCRIBE_ENGINE: "whisper",
     PATH: `${bin}${delimiter}${process.env.PATH}`,
   };
@@ -84,11 +86,7 @@ test("extracted captions helpers invoke the pinned CLI without a checkout", (t) 
     assert.notEqual(result.status, 0, "fake CLI failure must propagate");
     assert.ok(existsSync(log), `${file}: ${result.stdout} ${result.stderr}`);
     const call = JSON.parse(readFileSync(log, "utf8"));
-    assert.deepEqual(
-      call.args.slice(0, 3),
-      ["--yes", `@ryu1845/hyperframes@${version}`, cliCommand],
-      result.stderr,
-    );
+    assert.equal(call.args[0], cliCommand, result.stderr);
     assert.equal(call.skip, "1");
   }
 });
@@ -148,9 +146,11 @@ for (const { code, cancel, expectedStatus } of cases) {
       child,
       "const fs=require('node:fs'); setInterval(()=>fs.appendFileSync(process.argv[2],'x'),50);",
     );
+    const version = JSON.parse(readFileSync(join(dir, "hyperframes/plugin.json"))).version;
     writeFileSync(
-      join(bin, "npx"),
+      join(bin, "hyperframes"),
       `#!${process.execPath}
+if (process.argv[2] === "--version") { console.log(${JSON.stringify(version)}); process.exit(0); }
 const fs=require('node:fs');
 const child=require('node:child_process').spawn(process.execPath,[${JSON.stringify(child)},${JSON.stringify(output)}],{stdio:'ignore'});
 fs.writeFileSync(${JSON.stringify(output)},Buffer.alloc(1200000));
@@ -194,6 +194,7 @@ sys.exit(2)
           ...process.env,
           HOME: join(dir, "home"),
           HYPERFRAMES_ROOT: "",
+          HYPERFRAMES_BINARY: "",
           PATH: `${bin}${delimiter}${process.env.PATH}`,
         },
       },
