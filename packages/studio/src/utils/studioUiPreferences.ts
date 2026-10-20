@@ -42,6 +42,8 @@ export interface StudioUiPreferences {
    * intentionally scoped to one mount.
    */
   agentToolsEnabled?: boolean;
+  /** The OpenRouter model id the Agent panel runs on. */
+  agentModel?: string;
   theme?: StudioTheme;
   /** The dock's serialized panel tree; parsed by `parseDockLayout` on read. */
   dockLayout?: SerializedDockview;
@@ -147,6 +149,9 @@ function readStorage(storage: Storage | null, key: string): StudioUiPreferences 
     }
     if (typeof parsed.agentToolsEnabled === "boolean") {
       preferences.agentToolsEnabled = parsed.agentToolsEnabled;
+    }
+    if (typeof parsed.agentModel === "string" && parsed.agentModel.trim()) {
+      preferences.agentModel = parsed.agentModel.trim();
     }
     if (typeof parsed.linkedSelectionEnabled === "boolean") {
       preferences.linkedSelectionEnabled = parsed.linkedSelectionEnabled;

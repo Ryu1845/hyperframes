@@ -7,6 +7,7 @@ import { BlocksTab, type BlockPreviewInfo } from "./sidebar/BlocksTab";
 import { CompositionsPanel } from "./sidebar/CompositionsPanel";
 import { SidebarLintButton } from "./sidebar/SidebarLintButton";
 import { Dock } from "./dock/Dock";
+import { AgentPanel } from "./agent/AgentPanel";
 import { useDockLayoutStore } from "./dock/dockLayoutStore";
 import { isMediaFile } from "../utils/mediaTypes";
 import { useStudioShellContext } from "../contexts/StudioContext";
@@ -156,6 +157,9 @@ export const StudioLeftPanels = memo(function StudioLeftPanels({
         <PanelColumn footer={lintButton}>
           <BlocksTab onAddBlock={onAddBlock} onPreviewBlock={onPreviewBlock} />
         </PanelColumn>
+      </Dock.Panel>
+      <Dock.Panel id="agent">
+        <AgentPanel />
       </Dock.Panel>
     </>
   );

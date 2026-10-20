@@ -3,6 +3,8 @@ import { readStudioUiPreferences } from "../utils/studioUiPreferences";
 import { makeStudioDebugLogger } from "../utils/studioDebug";
 import { loadModelContextPolyfill } from "./polyfill";
 import { registerStudioTools, type ToolRegistrationReport } from "./registrar";
+import { publishStudioTools } from "./studioToolRegistry";
+import { useMountEffect } from "../hooks/useMountEffect";
 import { runToolBody, type ToolResult } from "./toolResult";
 import { getModelContext, type ModelContext, type ModelContextTool } from "./types";
 import {
@@ -306,6 +308,9 @@ function readNumberInput(input: object, key: string): number {
 export function useStudioAgentTools(deps: StudioAgentToolsDeps): void {
   const depsRef = useRef(deps);
   depsRef.current = deps;
+
+  // In-page callers (the agent panel) use the tools whatever the WebMCP preference says.
+  useMountEffect(() => publishStudioTools(buildStudioTools(depsRef)));
 
   // eslint-disable-next-line no-restricted-syntax
   useEffect(() => {

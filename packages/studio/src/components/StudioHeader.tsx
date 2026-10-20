@@ -1,9 +1,10 @@
 import { memo, useContext, type MouseEvent } from "react";
-import { Camera } from "../icons/SystemIcons";
+import { Camera, Zap } from "../icons/SystemIcons";
 import { useStudioShellContext } from "../contexts/StudioContext";
 import { usePanelLayoutContext } from "../contexts/PanelLayoutContext";
 import { Button, buttonBase, buttonSizes, buttonVariants, cn, Tooltip } from "./ui";
 import { Dock } from "./dock/Dock";
+import { useDockLayoutStore } from "./dock/dockLayoutStore";
 import { InspectorIcon } from "./icons/InspectorIcon";
 import { HyperframesLogo } from "./ui/HyperframesLogo";
 import { ShowThemeToggle, ThemeToggle } from "./ThemeToggle";
@@ -142,6 +143,18 @@ export const StudioHeader = memo(function StudioHeader({
               }}
             >
               Inspector
+            </Button>
+          </Tooltip>
+          <Tooltip label="Ask the agent to change this video" side="bottom">
+            <Button
+              variant="ghost"
+              aria-label="Agent"
+              data-testid="header-agent"
+              className="h-full rounded-none"
+              icon={<Zap size={14} />}
+              onClick={() => useDockLayoutStore.getState().activatePanel("agent")}
+            >
+              <span className="max-[1000px]:hidden">Agent</span>
             </Button>
           </Tooltip>
         </div>
