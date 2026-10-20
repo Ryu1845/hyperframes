@@ -11,7 +11,7 @@ description: >
 
 **Plugin installs:** Before setup or freshness commands, follow [plugin execution rules](../hyperframes/references/plugin-installation.md) when this skill is inside a HyperFrames plugin. Standalone installs keep the update instructions below.
 
-> **First, keep this skill fresh — confirm with the user before running:** `npx @ryu1845/hyperframes skills update embedded-captions`. A fast no-op when everything is current; otherwise it refreshes this skill plus the core domain skills it depends on before you rely on them.
+> **First, keep this skill fresh — confirm with the user before running:** `hyperframes skills update embedded-captions`. A fast no-op when everything is current; otherwise it refreshes this skill plus the core domain skills it depends on before you rely on them.
 
 # Embedded Captions
 
@@ -21,8 +21,8 @@ description: >
 
 ## Runtime prerequisites
 
-Plugin installs use the bundled, manifest-pinned CLI for matting, transcription,
-and rendering; no source checkout is required. The local preview and caption
+Matting, transcription and rendering run on the `hyperframes` binary on PATH
+(install.sh); no source checkout is required. The local preview and caption
 measurement helpers also need Sharp, Puppeteer (with its Chromium browser), and
 GSAP. Install these in the **caption project**, not inside the read-only plugin:
 
@@ -88,7 +88,7 @@ Procedure: probe the clip → shortlist 2–3 identities from the catalog → re
 
 (The full identity table lives in [CATALOG.md](CATALOG.md) — single source of truth for routing. The engine docs below describe each backend's authoring contract.)
 
-**CATALOG.md is the whole answer space here: this workflow does not search the HyperFrames component registry.** The composition workflows run `npx @ryu1845/hyperframes catalog` before authoring a named look; this one must not. Its engines are locked compilers that consume `cinematic.json` / `theme.json` and emit the composition themselves, so a registry item — the `caption-*` blocks included — has nothing to mount into. A registry block styles text on a designed canvas; this skill burns captions into somebody's footage through a matte. When no identity fits the ask, say so and pick the nearest, rather than reaching outside the catalog.
+**CATALOG.md is the whole answer space here: this workflow does not search the HyperFrames component registry.** The composition workflows run `hyperframes catalog` before authoring a named look; this one must not. Its engines are locked compilers that consume `cinematic.json` / `theme.json` and emit the composition themselves, so a registry item — the `caption-*` blocks included — has nothing to mount into. A registry block styles text on a designed canvas; this skill burns captions into somebody's footage through a matte. When no identity fits the ask, say so and pick the nearest, rather than reaching outside the catalog.
 
 **Recommendation heuristic**: use the "Shortlisting heuristics" in [CATALOG.md](CATALOG.md) — they are identity-level (e.g. "炸" shortlists ordnance/stomp/terminal/loud and picks by WHAT should explode), never category-level. Unsure → `anchor`.
 

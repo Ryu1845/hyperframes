@@ -519,7 +519,7 @@ function renderCheck(result: SkillsCheckResult): void {
 
   if (!result.location) {
     console.log(`  ${c.dim("No HyperFrames skills found in the usual locations.")}`);
-    console.log(`  ${c.accent("Install: npx @ryu1845/hyperframes skills")}`);
+    console.log(`  ${c.accent("Install: hyperframes skills")}`);
     console.log();
     return;
   }
@@ -575,7 +575,7 @@ function renderCheck(result: SkillsCheckResult): void {
 
   console.log();
   if (result.updateAvailable) {
-    console.log(`  ${c.accent("Update: npx @ryu1845/hyperframes skills update")}`);
+    console.log(`  ${c.accent("Update: hyperframes skills update")}`);
   } else {
     console.log(`  ${c.success("◇")}  ${c.success("Installed skills are up to date")}`);
   }
@@ -602,7 +602,7 @@ const checkCommand = defineCommand({
     else renderCheck(result);
 
     // Exit non-zero when installed skills are stale, so agents and CI can gate:
-    //   hyperframes skills check || npx @ryu1845/hyperframes skills update
+    //   hyperframes skills check || hyperframes skills update
     if (result.updateAvailable) setCommandExitCode(1);
   },
 });

@@ -7,8 +7,8 @@ Open-source video rendering framework: write HTML, render video.
 This repo ships AI agent skills via [vercel-labs/skills](https://github.com/vercel-labs/skills). Install them before writing compositions — they encode framework-specific patterns that generic docs don't cover. **Default to the core set** — the `/hyperframes` router installs each creation workflow on demand; install everything only when the user explicitly asks for the full set.
 
 ```bash
-npx @ryu1845/hyperframes skills update           # default: installs/refreshes the core set — workflows install on demand
-npx @ryu1845/hyperframes skills                  # all 21 published skills at once
+hyperframes skills update           # default: installs/refreshes the core set — workflows install on demand
+hyperframes skills                  # all 21 published skills at once
 npx skills add ryu1845/hyperframes   # interactive picker (terminal only; repo-internal skills are excluded by default)
 ```
 
@@ -71,8 +71,8 @@ Always lint and format changed files before committing. Lefthook pre-commit hook
 After creating or editing any `.html` composition:
 
 ```bash
-npx @ryu1845/hyperframes lint       # Static HTML structure check
-npx @ryu1845/hyperframes check      # Browser gate (headless Chrome — runtime errors, layout, motion, WCAG contrast)
+hyperframes lint       # Static HTML structure check
+hyperframes check      # Browser gate (headless Chrome — runtime errors, layout, motion, WCAG contrast)
 ```
 
 Both must pass before previewing or considering work complete.

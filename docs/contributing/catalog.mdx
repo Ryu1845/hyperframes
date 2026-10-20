@@ -136,7 +136,7 @@ A one-off example belongs in [Examples](/examples), not the Catalog.
 ## Validate and preview
 
 Lint the item the way a user receives it — mounted into a real project. A bare
-`npx @ryu1845/hyperframes lint` cannot validate a registry directory, because the CLI
+`hyperframes lint` cannot validate a registry directory, because the CLI
 looks for `index.html` and items ship as `<name>.html` or `demo.html`:
 
 ```bash
@@ -146,9 +146,9 @@ bun run lint:registry-items my-block
 To exercise the full gate, install the item into a scratch project and run there:
 
 ```bash
-npx @ryu1845/hyperframes init scratch && cd scratch
-npx @ryu1845/hyperframes add my-block
-npx @ryu1845/hyperframes check
+hyperframes init scratch && cd scratch
+hyperframes add my-block
+hyperframes check
 ```
 
 Generate the Catalog page and preview assets:
@@ -160,7 +160,7 @@ npx tsx scripts/generate-catalog-previews.ts --only my-block
 
 These generators read the item directly from the working tree. The `add`
 command cannot install an unpublished local item by name: it resolves items
-from the registry URL in `hyperframes.json`. Test `npx @ryu1845/hyperframes add my-block`
+from the registry URL in `hyperframes.json`. Test `hyperframes add my-block`
 from a clean project after the item is present in that registry manifest.
 
 Do not hand-edit the generated item page. Fix its registry manifest or the

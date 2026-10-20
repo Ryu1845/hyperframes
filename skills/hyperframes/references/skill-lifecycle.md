@@ -7,11 +7,11 @@ For a plugin installation, follow [plugin execution rules](plugin-installation.m
 HyperFrames installs the core set eagerly and workflow skills lazily.
 
 - **Core set:** `/hyperframes`, the `hyperframes-*` domain skills, and `/media-use`.
-- **Workflow skills:** installed when routing selects them through `npx @ryu1845/hyperframes skills update <workflow-name>`.
+- **Workflow skills:** installed when routing selects them through `hyperframes skills update <workflow-name>`.
 
 ## What `init` does
 
-`npx @ryu1845/hyperframes init` checks GitHub and refreshes the core set plus other skills already installed. It does not install workflows that have never been used. A current install is a no-op. Offline or rate-limited checks degrade gracefully and do not fail project scaffolding.
+`hyperframes init` checks GitHub and refreshes the core set plus other skills already installed. It does not install workflows that have never been used. A current install is a no-op. Offline or rate-limited checks degrade gracefully and do not fail project scaffolding.
 
 The `--skip-skills` CLI flag is temporarily ignored. CI and tests may opt out with `HYPERFRAMES_SKIP_SKILLS=1`.
 
@@ -20,11 +20,11 @@ The `--skip-skills` CLI flag is temporarily ignored. CI and tests may opt out wi
 ## Diagnose and update
 
 ```bash
-npx @ryu1845/hyperframes skills check
-npx @ryu1845/hyperframes skills check --json
-npx @ryu1845/hyperframes skills update
-npx @ryu1845/hyperframes skills update <workflow-name>
-npx @ryu1845/hyperframes skills
+hyperframes skills check
+hyperframes skills check --json
+hyperframes skills update
+hyperframes skills update <workflow-name>
+hyperframes skills
 ```
 
 - `skills check` exits non-zero when an installed skill is stale or the core set is incomplete. Workflows available on demand but not installed are not failures.

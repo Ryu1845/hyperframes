@@ -22,7 +22,7 @@ OpenCode and other agents, or when you prefer the smaller core-only install.
 | Codex | Use your existing HyperFrames plugin; directory updates are published separately |
 | OpenCode | Use standalone skills |
 
-You need Node.js 22+ and npm for the local CLI, plus FFmpeg for rendering.
+Plugins run the standalone `hyperframes` binary, which needs FFmpeg for rendering. Install it with `curl -fsSL https://raw.githubusercontent.com/ryu1845/hyperframes/main/install.sh | sh`.
 Install on each machine you use; a plugin does not synchronize your machines.
 
 ## Claude Code
@@ -135,7 +135,7 @@ itself remains read-only and does not include browsers or model weights.
 
 The plugin bundles workflows from one source snapshot and runs the CLI version
 recorded in its manifest. Your agent should use its bundled plugin launcher;
-it should not run `npx @ryu1845/hyperframes skills update` during a plugin workflow.
+it should not run `hyperframes skills update` during a plugin workflow.
 Existing project dependencies, downloaded media, and external services have their
 own versions and are not frozen by the plugin.
 

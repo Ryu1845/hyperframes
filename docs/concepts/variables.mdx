@@ -139,7 +139,7 @@ Both instances keep the same source and receive different content.
 Override top-level values from the CLI:
 
 ```bash
-npx @ryu1845/hyperframes render \
+hyperframes render \
   --variables '{"title":"Enterprise","accent":"#22c55e"}' \
   --strict-variables \
   --output enterprise.mp4
@@ -162,7 +162,7 @@ row to name each output:
 ```
 
 ```bash
-npx @ryu1845/hyperframes render \
+hyperframes render \
   --batch rows.json \
   --strict-variables \
   --output "renders/{name}.mp4"
@@ -190,7 +190,7 @@ runs.
 Run:
 
 ```bash
-npx @ryu1845/hyperframes lint
+hyperframes lint
 ```
 
 The linter catches malformed declarations, missing fields, wrong default types,

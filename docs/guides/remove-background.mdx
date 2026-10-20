@@ -12,7 +12,7 @@ model locally; it does not upload the source or require an API key.
 Make sure FFmpeg is installed, then run:
 
 ```bash
-npx @ryu1845/hyperframes remove-background subject.mp4 -o subject.webm
+hyperframes remove-background subject.mp4 -o subject.webm
 ```
 
 The first run downloads the model. Later runs reuse it.
@@ -26,8 +26,8 @@ Choose the output by destination:
 | Transparent `.png`  | A single portrait image                                          |
 
 ```bash
-npx @ryu1845/hyperframes remove-background subject.mp4 -o subject.mov
-npx @ryu1845/hyperframes remove-background portrait.jpg -o portrait.png
+hyperframes remove-background subject.mp4 -o subject.mov
+hyperframes remove-background portrait.jpg -o portrait.png
 ```
 
 ## Use the cutout
@@ -56,7 +56,7 @@ For text-behind-subject or another three-layer effect, you can create both the
 foreground cutout and an inverse-alpha background plate in one pass:
 
 ```bash
-npx @ryu1845/hyperframes remove-background subject.mp4 \
+hyperframes remove-background subject.mp4 \
   -o subject.webm \
   --background-output plate.webm
 ```
@@ -91,7 +91,7 @@ in the project, and reuse it.
 provider with:
 
 ```bash
-npx @ryu1845/hyperframes remove-background --info
+hyperframes remove-background --info
 ```
 
 For WebM output, `--quality balanced` is the default. Use `best` when the

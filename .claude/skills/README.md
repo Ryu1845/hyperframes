@@ -8,7 +8,7 @@ manifested by `.claude-plugin/`). Two separate namespaces, on purpose:
 - `.claude/skills/` — **repo-native**, run only against this repo (doctrine-heavy authoring flows). Claude Code's
   project-local skill dir.
 - `skills/` — **marketplace-distributable**, installed into other projects
-  via `npx @ryu1845/hyperframes skills` or `npx skills add ryu1845/hyperframes`.
+  via `hyperframes skills` or `npx skills add ryu1845/hyperframes`.
 
 > **Warning:** Never run `npx skills add ... --all` from inside a HyperFrames checkout: it selects the OpenClaw target, whose `skills/` directory is the repo's own `skills/`, and removes each existing `skills/<name>` destination before linking. A fresh clone restores tracked source, but uncommitted work under `skills/` does not recover. Run it from an empty directory or from your own project root. This happens regardless of `metadata.internal`.
 

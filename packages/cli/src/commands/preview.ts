@@ -939,7 +939,7 @@ async function printCurrentSelection(
   if (!server) {
     printSelectionFailure(
       "preview-not-running",
-      "No running Studio preview found for this project. Start one with: npx @ryu1845/hyperframes preview",
+      "No running Studio preview found for this project. Start one with: hyperframes preview",
       json,
     );
     return;
@@ -1061,7 +1061,7 @@ async function printCurrentContext(
   if (!server) {
     printSelectionFailure(
       "preview-not-running",
-      "No running Studio preview found for this project. Start one with: npx @ryu1845/hyperframes preview",
+      "No running Studio preview found for this project. Start one with: hyperframes preview",
       options.json,
     );
     return;

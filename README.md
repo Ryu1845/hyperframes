@@ -7,9 +7,8 @@
 </p>
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/@ryu1845/hyperframes"><img src="https://img.shields.io/npm/v/@ryu1845/hyperframes.svg?style=flat" alt="npm version"></a>
+  <a href="https://github.com/ryu1845/hyperframes/releases/latest"><img src="https://img.shields.io/github/v/release/ryu1845/hyperframes?style=flat" alt="Latest release"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-blue.svg" alt="License"></a>
-  <a href="https://nodejs.org"><img src="https://img.shields.io/badge/node-%3E%3D22-brightgreen" alt="Node.js"></a>
 </p>
 
 <p align="center"><b>Write HTML. Render video. Built for agents.</b></p>
@@ -24,6 +23,14 @@
 HyperFrames is an open-source framework for turning HTML, CSS, media, and seekable animations into deterministic MP4 videos. Use it locally with the CLI, from AI coding agents with skills, or as the rendering core behind hosted authoring workflows.
 
 ## Quick Start
+
+### Install the CLI
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/ryu1845/hyperframes/main/install.sh | sh
+```
+
+That puts the standalone `hyperframes` binary in `~/.local/bin` (macOS on Apple Silicon, Linux x64 and arm64). It carries its own runtime, so Node.js is not needed; re-run the line to upgrade.
 
 ### With an AI coding agent
 
@@ -44,9 +51,9 @@ For standalone skills (including OpenCode), use:
 npx skills add ryu1845/hyperframes
 ```
 
-> The picker opens with nothing pre-selected — the **Core Skills** group is all you need: the `/hyperframes` router installs each creation workflow on demand. Agents and non-interactive runs should use `npx @ryu1845/hyperframes skills update` instead — it installs exactly the core set, whereas `skills add --all` installs all 21 published skills. The six repo-internal skills under `.claude/skills` / `.agents/skills` are excluded by default. For the full published set use `npx @ryu1845/hyperframes skills`.
+> The picker opens with nothing pre-selected — the **Core Skills** group is all you need: the `/hyperframes` router installs each creation workflow on demand. Agents and non-interactive runs should use `hyperframes skills update` instead — it installs exactly the core set, whereas `skills add --all` installs all 21 published skills. The six repo-internal skills under `.claude/skills` / `.agents/skills` are excluded by default. For the full published set use `hyperframes skills`.
 >
-> `skills add` resolves the skills.sh registry blob, which can lag `main` by hours. `npx @ryu1845/hyperframes skills update` installs from the current `main`, so reach for it when you need the newest copy of a skill.
+> `skills add` resolves the skills.sh registry blob, which can lag `main` by hours. `hyperframes skills update` installs from the current `main`, so reach for it when you need the newest copy of a skill.
 
 Try a prompt like:
 
@@ -58,9 +65,9 @@ The skills teach agents the HyperFrames production loop: plan the video, write v
 
 HyperFrames ships 21 skills agents load on demand. Read `/hyperframes` first — it's the router and capability map; it picks a workflow for any "make me a…" request — video, deck, or composition port — and points to the domain skills below.
 
-For standalone installation, default to the **core set** — the router installs each creation workflow on demand. `npx @ryu1845/hyperframes skills update` installs exactly that from anywhere; the interactive picker (`npx skills add ryu1845/hyperframes`) lists it as the "Core Skills" group, nothing pre-selected. The picker is interactive-only — a non-interactive or agent run without `--skill` installs all 21. Use `npx skills add ryu1845/hyperframes --all` to install the complete published set deliberately (skips the picker), or `npx skills add ryu1845/hyperframes --skill <name>` for just one (bare name, no leading `/`).
+For standalone installation, default to the **core set** — the router installs each creation workflow on demand. `hyperframes skills update` installs exactly that from anywhere; the interactive picker (`npx skills add ryu1845/hyperframes`) lists it as the "Core Skills" group, nothing pre-selected. The picker is interactive-only — a non-interactive or agent run without `--skill` installs all 21. Use `npx skills add ryu1845/hyperframes --all` to install the complete published set deliberately (skips the picker), or `npx skills add ryu1845/hyperframes --skill <name>` for just one (bare name, no leading `/`).
 
-Standalone installs stay lean after that: `npx @ryu1845/hyperframes init` keeps the **core set** fresh (the router, the `hyperframes-*` domain skills, and `media-use` — plus whatever is already installed; `/figma` stays on demand) and never expands a partial install; the creation workflows install **on demand** — the router runs `npx @ryu1845/hyperframes skills update <workflow>` before entering one. Nothing re-pulls the full set behind your back.
+Standalone installs stay lean after that: `hyperframes init` keeps the **core set** fresh (the router, the `hyperframes-*` domain skills, and `media-use` — plus whatever is already installed; `/figma` stays on demand) and never expands a partial install; the creation workflows install **on demand** — the router runs `hyperframes skills update <workflow>` before entering one. Nothing re-pulls the full set behind your back.
 
 ### Plugin packages
 
@@ -120,13 +127,13 @@ For visual design handoff workflows, see the [Claude Design guide](https://githu
 ### Manually with the CLI
 
 ```bash
-npx @ryu1845/hyperframes init my-video
+hyperframes init my-video
 cd my-video
-npx @ryu1845/hyperframes preview      # preview in browser with live reload
-npx @ryu1845/hyperframes render       # render to MP4
+hyperframes preview      # preview in browser with live reload
+hyperframes render       # render to MP4
 ```
 
-**Requirements:** Node.js 22+, FFmpeg
+**Requirements:** FFmpeg.
 
 ## What You Can Build
 
@@ -204,9 +211,9 @@ HyperFrames is the open-source rendering engine, plus a growing set of tools aro
 Install ready-to-use blocks and components:
 
 ```bash
-npx @ryu1845/hyperframes add flash-through-white   # shader transition
-npx @ryu1845/hyperframes add instagram-follow      # social overlay
-npx @ryu1845/hyperframes add data-chart            # animated chart
+hyperframes add flash-through-white   # shader transition
+hyperframes add instagram-follow      # social overlay
+hyperframes add data-chart            # animated chart
 ```
 
 Browse the catalog at [docs/catalog/index.mdx](https://github.com/ryu1845/hyperframes/blob/main/docs/catalog/blocks/data-chart.mdx).

@@ -5,7 +5,7 @@
 # user's `npx` install, with BOTH channels coming from the working tree:
 #   • skills → installed from skills/ via `npx skills add <repo>` (exactly what
 #             `npx skills add ryu1845/hyperframes` does for a real user)
-#   • CLI    → wired via a `file:` dep so `npx @ryu1845/hyperframes` resolves to the LOCAL
+#   • CLI    → wired via a `file:` dep so `hyperframes` resolves to the LOCAL
 #             build, which carries this branch's packages/cli/src/capture changes.
 # It adds NO CLAUDE.md / AGENTS.md — it mirrors the plain install, nothing more.
 # You then launch your agent in the sandbox and type whatever request you want.
@@ -36,10 +36,10 @@
 #      is newer than the built bundle (so your capture edits are never tested stale).
 #   3. Creates a fresh WORKSPACE ROOT under /tmp/skills-fresh-<timestamp>/ with a
 #      package.json (`file:` CLI dep). It does NOT init a hyperframes project here
-#      — the video workflows run `npx @ryu1845/hyperframes init` inside their own subdirs.
+#      — the video workflows run `hyperframes init` inside their own subdirs.
 #   4. Runs npm install (file: dep), then installs the CLI into a sandbox-private
 #      npm global prefix ($TEST_DIR/.npm-global). npx checks that prefix before its
-#      ~/.npm/_npx cache, so `npx @ryu1845/hyperframes` resolves to the LOCAL build from any
+#      ~/.npm/_npx cache, so `hyperframes` resolves to the LOCAL build from any
 #      cwd — agents run it from scratchpads / home after shell resets, where the
 #      file: dep is invisible and npx would silently use the published CLI.
 #   5. Installs the full skills tree from the LOCAL repo via `npx skills add
@@ -176,9 +176,9 @@ cd "$TEST_PARENT"
 [[ -e "$TEST_NAME" ]] && fail "$TEST_DIR already exists. Wait 1s and re-run."
 
 # WORKSPACE ROOT, not a hyperframes project: the video workflows run
-# `npx @ryu1845/hyperframes init` inside their own subdirs, so a project at the root would
+# `hyperframes init` inside their own subdirs, so a project at the root would
 # make a skill find a stray composition here. We only need a package.json with the
-# `file:` CLI dep so `npx @ryu1845/hyperframes` (and the skills' init/render calls from
+# `file:` CLI dep so `hyperframes` (and the skills' init/render calls from
 # subdirs) resolve to the local build.
 mkdir -p "$TEST_NAME"
 cd "$TEST_NAME"
@@ -206,7 +206,7 @@ npm install --no-audit --no-fund --silent || fail "npm install failed."
 ok "node_modules/.bin/hyperframes → local CLI"
 
 # --------- step 4.5: sandbox-private npm global prefix (npx-leak guard) ---------
-# The file: dep only covers `npx @ryu1845/hyperframes` run somewhere UNDER $TEST_DIR — npx
+# The file: dep only covers `hyperframes` run somewhere UNDER $TEST_DIR — npx
 # walks up from cwd looking for node_modules/.bin. Agents routinely run it from
 # OUTSIDE the tree (session scratchpads, home after a shell cwd reset); there the
 # walk finds nothing, npx falls back to ~/.npm/_npx, and the run silently tests
@@ -219,7 +219,7 @@ NPM_GLOBAL_PREFIX="$TEST_DIR/.npm-global"
 npm install -g "@ryu1845/hyperframes@file:$HF_CLI_PKG" --prefix "$NPM_GLOBAL_PREFIX" --no-audit --no-fund --silent \
   || fail "global-prefix install failed."
 [[ -x "$NPM_GLOBAL_PREFIX/bin/hyperframes" ]] || fail "$NPM_GLOBAL_PREFIX/bin/hyperframes missing after install."
-ok "npx @ryu1845/hyperframes now resolves to the local build from ANY directory (launch with the env below)"
+ok "hyperframes now resolves to the local build from ANY directory (launch with the env below)"
 
 # --------- step 5: install skills from the local repo, then prune _meta ---------
 say "Installing skills from the local repo (--agent $AGENT) ..."

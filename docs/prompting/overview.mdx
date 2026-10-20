@@ -6,7 +6,7 @@ description: "How to prompt AI agents to author HyperFrames videos — setup, th
 HyperFrames is built for AI agents — compositions are plain HTML, the CLI is non-interactive, and the framework ships [skills](https://github.com/vercel-labs/skills) that teach agents the patterns docs alone don't cover. This guide shows how to prompt agents effectively once skills are installed — the vocabulary that changes output, the iteration patterns that save time, and the rules that prevent breakage.
 
 <Note>
-  **Before you prompt**, have three things in place: the skills installed (below), a scaffolded project (`npx @ryu1845/hyperframes init my-video`), and the live preview running (`npx @ryu1845/hyperframes preview`) so you can judge each render the moment it lands. Prompting without the preview open turns every iteration into a blind guess.
+  **Before you prompt**, have three things in place: the skills installed (below), a scaffolded project (`hyperframes init my-video`), and the live preview running (`hyperframes preview`) so you can judge each render the moment it lands. Prompting without the preview open turns every iteration into a blind guess.
 </Note>
 
 ## The level ladder
@@ -63,7 +63,7 @@ The installer shows a picker. Select the **core skills** below — every project
 | `/figma`                 | A Figma file / frame / URL → imported assets, brand tokens, and reconstructed motion |
 
 <Tip>
-  To skip the picker and install everything (core + every workflow) in one shot, run `npx @ryu1845/hyperframes skills`. And start HyperFrames prompts with `/hyperframes` (or invoke the skill another way for non-Claude agents) — it loads the routing + composition context explicitly so the agent picks the right workflow and gets the rules right the first time.
+  To skip the picker and install everything (core + every workflow) in one shot, run `hyperframes skills`. And start HyperFrames prompts with `/hyperframes` (or invoke the skill another way for non-Claude agents) — it loads the routing + composition context explicitly so the agent picks the right workflow and gets the rules right the first time.
 </Tip>
 
 ## Claude Design
@@ -79,7 +79,7 @@ Traction: 200+ teams, $1.2M ARR, 18% MoM growth.
 CTA: autocrmhq.com
 ```
 
-Claude Design produces a valid first draft (brand identity, scene content, animations, transitions). Download the ZIP and refine in any AI coding agent with `npx @ryu1845/hyperframes preview` running. See the [Claude Design guide](/guides/design-tools) for the full workflow.
+Claude Design produces a valid first draft (brand identity, scene content, animations, transitions). Download the ZIP and refine in any AI coding agent with `hyperframes preview` running. See the [Claude Design guide](/guides/design-tools) for the full workflow.
 
 ## The two prompt shapes
 
@@ -122,13 +122,13 @@ Everything the interview settles is written to **`BRIEF.md`** in the project roo
 
 ## Recommended workflow
 
-1. `npx @ryu1845/hyperframes init my-video` — scaffold a project (skills install automatically)
+1. `hyperframes init my-video` — scaffold a project (skills install automatically)
 2. Open the project in Claude Code (or Cursor / Codex)
 3. Prompt with `/hyperframes` and one of the shapes above
-4. `npx @ryu1845/hyperframes preview` — watch in the browser as the agent edits
+4. `hyperframes preview` — watch in the browser as the agent edits
 5. Iterate with small targeted prompts
-6. `npx @ryu1845/hyperframes lint && npx @ryu1845/hyperframes check` — the gate: structure, runtime errors, layout collisions, motion, and contrast. Both must pass before you render
-7. `npx @ryu1845/hyperframes render --output final.mp4` when you're happy
+6. `hyperframes lint && hyperframes check` — the gate: structure, runtime errors, layout collisions, motion, and contrast. Both must pass before you render
+7. `hyperframes render --output final.mp4` when you're happy
 
 `check` is the step people skip and regret. It runs the composition in a headless browser and reports what a still frame can't tell you — an element overflowing its region, two text blocks colliding, a runtime error that only fires mid-timeline, contrast below WCAG AA. It is fast and it is not optional: a render that took ten minutes will happily contain a defect `check` would have named in seconds.
 

@@ -637,9 +637,7 @@ async function keepSkillsCurrent(destDir: string): Promise<void> {
       // "up to date"; the engine already reported what it could verify or
       // blind-install. Point at the recovery command instead.
       console.log(
-        c.dim(
-          "Skills freshness unverified — run `npx @ryu1845/hyperframes skills update` when online.",
-        ),
+        c.dim("Skills freshness unverified — run `hyperframes skills update` when online."),
       );
     } else if (result.installed.length === 0) {
       console.log(c.success("AI coding skills are already up to date."));
@@ -746,7 +744,7 @@ export default defineCommand({
       // command copy-pasteable.
       console.error(
         c.error(
-          `The --template flag was renamed to --example. Example:\n  npx @ryu1845/hyperframes init ${args.name ?? "my-video"} --example "${args.template}"`,
+          `The --template flag was renamed to --example. Example:\n  hyperframes init ${args.name ?? "my-video"} --example "${args.template}"`,
         ),
       );
       failCommand();
@@ -754,7 +752,7 @@ export default defineCommand({
     if (args["video-legacy"] !== undefined) {
       console.error(
         c.error(
-          `The -V short flag no longer maps to --video. Use --video (or -v). Example:\n  npx @ryu1845/hyperframes init ${args.name ?? "my-video"} --video "${args["video-legacy"]}"`,
+          `The -V short flag no longer maps to --video. Use --video (or -v). Example:\n  hyperframes init ${args.name ?? "my-video"} --video "${args["video-legacy"]}"`,
         ),
       );
       failCommand();
@@ -769,8 +767,8 @@ export default defineCommand({
     // NOT dodge the GitHub skills freshness check. The "don't pass --skip-skills"
     // guidance lives in SKILL.md, which ships through the same laggy skills.sh
     // channel and can't be relied on to reach the agent — so the guarantee has to
-    // live in the CLI, the one channel that updates promptly (`npx
-    // @ryu1845/hyperframes@latest`). CI and unit tests still opt out via the
+    // live in the CLI, the one channel that updates promptly (re-running
+    // install.sh). CI and unit tests still opt out via the
     // HYPERFRAMES_SKIP_SKILLS=1 env var, which the agent/user CLI path never sets.
     // Revert to `args["skip-skills"] === true` once skills.sh catches up.
     const skipSkills = process.env.HYPERFRAMES_SKIP_SKILLS === "1";
@@ -941,7 +939,7 @@ export default defineCommand({
         console.log(
           `  ${c.accent("1.")} Use your HyperFrames plugin, or install standalone skills:`,
         );
-        console.log(`     ${c.accent("npx @ryu1845/hyperframes skills update")}`);
+        console.log(`     ${c.accent("hyperframes skills update")}`);
       } else {
         console.log(
           `  ${c.accent("1.")} Restart your AI agent (new session) so it loads the skills.`,

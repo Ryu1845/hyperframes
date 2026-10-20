@@ -27,7 +27,7 @@ Start a fresh agent chat after installation, then ask it to use `/hyperframes`.
 For a non-interactive agent or CI environment, use:
 
 ```bash
-npx @ryu1845/hyperframes skills update
+hyperframes skills update
 ```
 
 This installs or refreshes the core set and any HyperFrames skills already present in the global install, then links those bundles into compatible installed agents. It does not add every optional workflow.
@@ -35,18 +35,18 @@ This installs or refreshes the core set and any HyperFrames skills already prese
 Check freshness without changing anything:
 
 ```bash
-npx @ryu1845/hyperframes skills check
+hyperframes skills check
 ```
 
 Install or refresh one workflow explicitly:
 
 ```bash
-npx @ryu1845/hyperframes skills update pr-to-video
+hyperframes skills update pr-to-video
 ```
 
 ## Use the skills in GitHub Copilot CLI
 
-Run `npx @ryu1845/hyperframes skills update`, open the project, and start Copilot:
+Run `hyperframes skills update`, open the project, and start Copilot:
 
 ```bash
 copilot
@@ -83,7 +83,7 @@ before managing that directory by hand.
 
 ## Use the skills in IBM Bob
 
-Run `npx @ryu1845/hyperframes skills update`, then open or restart Bob Shell in the
+Run `hyperframes skills update`, then open or restart Bob Shell in the
 project folder so it discovers the skills linked under `~/.bob/skills`:
 
 ```bash
@@ -116,7 +116,7 @@ You can invoke a workflow directly when you already know it is the right one, bu
 Install the complete published set deliberately with:
 
 ```bash
-npx @ryu1845/hyperframes skills
+hyperframes skills
 ```
 
 `npx skills add ryu1845/hyperframes --all` also installs the complete published set. Repo-internal skills are excluded by default.
@@ -133,8 +133,8 @@ Use the full set for an environment that must work across many HyperFrames tasks
 
 1. Start a new agent session.
 2. Confirm that the project or global skill directory belongs to the agent you are using.
-3. Run `npx @ryu1845/hyperframes skills check`.
-4. Run `npx @ryu1845/hyperframes skills update` when the check reports a missing or stale core skill.
+3. Run `hyperframes skills check`.
+4. Run `hyperframes skills update` when the check reports a missing or stale core skill.
 
 The individual skill definitions remain the source of truth for agents and are
 available in the [HyperFrames repository](https://github.com/ryu1845/hyperframes/tree/main/skills).

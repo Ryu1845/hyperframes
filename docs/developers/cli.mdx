@@ -5,39 +5,39 @@ description: "Find the HyperFrames command for creating, checking, rendering, an
 
 Use this page to choose a command. The [CLI reference](/packages/cli) contains
 detailed flags, examples, and environment settings. The installed version
-remains authoritative: run `npx @ryu1845/hyperframes <command> --help`.
+remains authoritative: run `hyperframes <command> --help`.
 
 ## Everyday project loop
 
 | Task | Command |
 | --- | --- |
-| Create a project | `npx @ryu1845/hyperframes init my-video` |
-| Open Studio | `npx @ryu1845/hyperframes preview` |
-| Check HTML structure | `npx @ryu1845/hyperframes lint` |
-| Run browser, layout, motion, and contrast checks | `npx @ryu1845/hyperframes check` |
-| Capture review frames | `npx @ryu1845/hyperframes snapshot --at 0,2,5` |
-| Render a video | `npx @ryu1845/hyperframes render --output output.mp4` |
-| Diagnose the machine | `npx @ryu1845/hyperframes doctor` |
-| Free disk space HyperFrames used | `npx @ryu1845/hyperframes clean` |
+| Create a project | `hyperframes init my-video` |
+| Open Studio | `hyperframes preview` |
+| Check HTML structure | `hyperframes lint` |
+| Run browser, layout, motion, and contrast checks | `hyperframes check` |
+| Capture review frames | `hyperframes snapshot --at 0,2,5` |
+| Render a video | `hyperframes render --output output.mp4` |
+| Diagnose the machine | `hyperframes doctor` |
+| Free disk space HyperFrames used | `hyperframes clean` |
 
 ## Work with media
 
 | Task | Command |
 | --- | --- |
-| Inspect project metadata | `npx @ryu1845/hyperframes info` |
-| Transcribe speech | `npx @ryu1845/hyperframes transcribe <file>` |
-| Generate narration | `npx @ryu1845/hyperframes tts <script>` |
-| Capture a website | `npx @ryu1845/hyperframes capture <url>` |
+| Inspect project metadata | `hyperframes info` |
+| Transcribe speech | `hyperframes transcribe <file>` |
+| Generate narration | `hyperframes tts <script>` |
+| Capture a website | `hyperframes capture <url>` |
 
 ## Reuse and inspect
 
 | Task | Command |
 | --- | --- |
-| Add a Catalog item | `npx @ryu1845/hyperframes add <name>` |
-| List compositions | `npx @ryu1845/hyperframes compositions` |
-| Print tracks and clips | `npx @ryu1845/hyperframes timeline` (`--json` for agents) |
-| Inspect keyframe behavior | `npx @ryu1845/hyperframes keyframes` |
-| Compare two or more versions | `npx @ryu1845/hyperframes compare v1/ v2/` |
+| Add a Catalog item | `hyperframes add <name>` |
+| List compositions | `hyperframes compositions` |
+| Print tracks and clips | `hyperframes timeline` (`--json` for agents) |
+| Inspect keyframe behavior | `hyperframes keyframes` |
+| Compare two or more versions | `hyperframes compare v1/ v2/` |
 
 `hyperframes timeline` also accepts agent editing verbs. Use `move`, `trim`, `split`, or `delete` with a row ref; add `--plan` to inspect the before/after rows and diff without writing, or `--json` for a machine-readable receipt. Time values accept seconds, relative offsets, frames, and anchors such as `after:#intro`.
 
@@ -49,7 +49,7 @@ several video formats, and runs in the cloud on AWS Lambda or Google Cloud Run. 
 Start with the simple command, then open the [full reference](/packages/cli) for the exact options needed by automation or infrastructure.
 
 <Tip>
-  Run `npx @ryu1845/hyperframes <command> --help` for the installed version’s exact syntax.
+  Run `hyperframes <command> --help` for the installed version’s exact syntax.
 </Tip>
 
 ## Related topics

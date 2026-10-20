@@ -133,9 +133,9 @@ Do not manually add the child timeline to the parent's GSAP timeline. HyperFrame
 ## Verify the motion
 
 ```bash
-npx @ryu1845/hyperframes lint
-npx @ryu1845/hyperframes check
-npx @ryu1845/hyperframes snapshot --at 0,0.6,2.9
+hyperframes lint
+hyperframes check
+hyperframes snapshot --at 0,0.6,2.9
 ```
 
 Check the first frame, the moving state, and the end state. A timeline that looks correct only during continuous browser playback may still fail when the renderer seeks directly to a frame.

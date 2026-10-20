@@ -12,7 +12,7 @@ Use it when the visual treatment depends on both real HTML and GPU effects—for
 The fastest path is to install a Catalog block that already handles capability detection and fallback behavior:
 
 ```bash
-npx @ryu1845/hyperframes add vfx-iphone-device
+hyperframes add vfx-iphone-device
 ```
 
 Other relevant examples include [Portal](/catalog/blocks/vfx-portal), [Shatter](/catalog/blocks/vfx-shatter), and [Liquid Glass Notification](/catalog/blocks/liquid-glass-notification).
@@ -20,7 +20,7 @@ Other relevant examples include [Portal](/catalog/blocks/vfx-portal), [Shatter](
 Install every block tagged `html-in-canvas` only when you want to compare the full set:
 
 ```bash
-npx @ryu1845/hyperframes add html-in-canvas
+hyperframes add html-in-canvas
 ```
 
 ## Browser support
@@ -32,7 +32,7 @@ HyperFrames enables `CanvasDrawElement` when it launches Chrome and checks wheth
 To refresh the browser used by the CLI:
 
 ```bash
-npx @ryu1845/hyperframes browser ensure --force
+hyperframes browser ensure --force
 ```
 
 For a normal browser preview, enable `chrome://flags/#canvas-draw-element` in a compatible Chrome or Brave build and restart it. Keep a visual fallback because collaborators may open the composition in a browser without the feature.
@@ -85,9 +85,9 @@ The browser's paint-record path does not reproduce every compositor effect. Filt
 That fallback protects the final result, but it also means HTML in Canvas is not a promise of universal CSS support or faster rendering. Test the actual composition:
 
 ```bash
-npx @ryu1845/hyperframes lint
-npx @ryu1845/hyperframes check
-npx @ryu1845/hyperframes render --output html-in-canvas.mp4
+hyperframes lint
+hyperframes check
+hyperframes render --output html-in-canvas.mp4
 ```
 
 Review transition frames and effects in the rendered file, not only in a live preview.

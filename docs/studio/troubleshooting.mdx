@@ -31,7 +31,7 @@ Undo, zoom in, place the playhead more precisely, and retry. Check whether snapp
 - Wait for the project refresh.
 - Check the terminal running `hyperframes preview`.
 - Reload Studio if the preview process is still healthy.
-- Restart `npx @ryu1845/hyperframes preview` when the server stopped.
+- Restart `hyperframes preview` when the server stopped.
 
 ## Media is missing or slow
 
@@ -46,8 +46,8 @@ Keep the error visible, avoid stacking more edits on top of it, and undo if avai
 Keep the complete error. Run the project checks, confirm FFmpeg and source media are available, then retry:
 
 ```bash
-npx @ryu1845/hyperframes lint
-npx @ryu1845/hyperframes check
+hyperframes lint
+hyperframes check
 ```
 
 For lower-level failures, continue to [general troubleshooting](/guides/troubleshooting).

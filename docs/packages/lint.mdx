@@ -12,7 +12,7 @@ npm install @hyperframes/lint
 ## When to Use
 
 <Tip>
-  This package is the payoff of running validation **as a library** instead of shelling out to the CLI. A Node app (an agent harness, a CI step, an editor plugin) can `import { lintProject } from '@hyperframes/lint'` and lint a composition directory directly — no `npx @ryu1845/hyperframes lint` subprocess, no stdout parsing.
+  This package is the payoff of running validation **as a library** instead of shelling out to the CLI. A Node app (an agent harness, a CI step, an editor plugin) can `import { lintProject } from '@hyperframes/lint'` and lint a composition directory directly — no `hyperframes lint` subprocess, no stdout parsing.
 </Tip>
 
 **Use `@hyperframes/lint` when you need to:**
@@ -140,7 +140,7 @@ Detected issues include:
     Types and runtime; re-exports the linter for back-compat.
   </Card>
   <Card title="CLI" icon="terminal" href="/packages/cli">
-    `npx @ryu1845/hyperframes lint` wraps this package.
+    `hyperframes lint` wraps this package.
   </Card>
   <Card title="Studio" icon="palette" href="/packages/studio">
     Surfaces lint findings in the editor.

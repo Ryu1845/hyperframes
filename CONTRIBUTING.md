@@ -135,7 +135,7 @@ before merge, listed at the end.
 
 1. Create `registry/<blocks|components>/<name>/registry-item.json` following the [schema](packages/core/schemas/registry-item.json)
 2. For components: include a `demo.html`
-3. Run `npx @ryu1845/hyperframes lint` and `npx @ryu1845/hyperframes validate` on your HTML
+3. Run `hyperframes lint` and `hyperframes validate` on your HTML
 4. Test the install flow: `hyperframes add <name> --dir /tmp/test-project`
 5. Generate and validate the catalog: `bun run check:catalog-drift`
 

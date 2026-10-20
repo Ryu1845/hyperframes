@@ -13,7 +13,7 @@ export HF_TOOL_CONTEXT='{"version":1,"capabilities":{
   "events": {"transport": {"type": "ndjson-file", "path": "/tmp/call-42/events.ndjson"}},
   "project-lock": {"waitMs": 90000}
 }}'
-npx @ryu1845/hyperframes snapshot --at 1,3
+hyperframes snapshot --at 1,3
 ```
 
 The harness sets the variable for one tool call, reads what the call produced, and removes its files.

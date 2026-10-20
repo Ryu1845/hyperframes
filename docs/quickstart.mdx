@@ -19,15 +19,24 @@ preview — you only change the URL.
 ```text
 Set this folder up for HyperFrames and make me a video.
 
-1. If the HyperFrames plugin is installed, use its bundled skills and launcher. Otherwise run: npx @ryu1845/hyperframes skills update
-2. Then, using /hyperframes, make a 10-second product intro for https://example.com
-3. Open the local preview when it is done and tell me the project folder.
+1. If `hyperframes --version` fails, install the CLI: curl -fsSL https://raw.githubusercontent.com/ryu1845/hyperframes/main/install.sh | sh
+2. If the HyperFrames plugin is installed, use its bundled skills and launcher. Otherwise run: hyperframes skills update
+3. Then, using /hyperframes, make a 10-second product intro for https://example.com
+4. Open the local preview when it is done and tell me the project folder.
 ```
 
 Swap `https://example.com` for the page you want the video to show. Everything
 below is the same thing done by hand, if you would rather see each step.
 
-## 1. Install the plugin or skills
+## 1. Install the CLI, then the plugin or skills
+
+Install the standalone `hyperframes` binary (macOS on Apple Silicon, Linux x64 and
+arm64). It lands in `~/.local/bin`, needs no Node.js, and upgrades when you run the
+same line again:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/ryu1845/hyperframes/main/install.sh | sh
+```
 
 For Claude Code, Copilot, VS Code, Cursor, or Gemini CLI, start with the
 [plugin installation guide](/guides/plugins). It includes update settings for
@@ -54,7 +63,7 @@ specification.
 ## 3. Continue from the first version
 
 The agent leaves you with an editable project folder and opens its local preview.
-To reopen that preview later, run `npx @ryu1845/hyperframes preview` inside the project
+To reopen that preview later, run `hyperframes preview` inside the project
 folder. Watch the first version once and check the story, facts, readable text,
 and sound; it is not a guaranteed final cut. All three paths below work with
 the same project.

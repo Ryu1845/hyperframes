@@ -7,13 +7,13 @@ Scaffolding commands. Use these instead of creating files by hand — they set u
 ## init
 
 ```bash
-npx @ryu1845/hyperframes init my-video                                    # centered blank (TTY: wizard)
-npx @ryu1845/hyperframes init my-video --example warm-grain               # pick an example
-npx @ryu1845/hyperframes init my-video --resolution portrait
-npx @ryu1845/hyperframes init my-video --video clip.mp4                   # with video file
-npx @ryu1845/hyperframes init my-video --audio track.mp3                  # with audio file
-npx @ryu1845/hyperframes init my-video --tailwind                         # Tailwind v4 browser runtime
-npx @ryu1845/hyperframes init my-video --non-interactive                  # CI — flag-only, same blank
+hyperframes init my-video                                    # centered blank (TTY: wizard)
+hyperframes init my-video --example warm-grain               # pick an example
+hyperframes init my-video --resolution portrait
+hyperframes init my-video --video clip.mp4                   # with video file
+hyperframes init my-video --audio track.mp3                  # with audio file
+hyperframes init my-video --tailwind                         # Tailwind v4 browser runtime
+hyperframes init my-video --non-interactive                  # CI — flag-only, same blank
 ```
 
 **Default depends on TTY**: in a terminal, the CLI prompts for example/options (default: centered blank). Outside a TTY (CI, agents, piped output) it auto-switches to non-interactive and scaffolds that blank. Pass `--example` only to start from a named example. Pass `--non-interactive` to force flag-only mode on a TTY.
@@ -34,14 +34,14 @@ When `--audio` or `--video` is supplied, `init` transcribes the file with Whispe
 ## capture
 
 ```bash
-npx @ryu1845/hyperframes capture https://stripe.com                  # scaffold from a website
-npx @ryu1845/hyperframes capture https://linear.app -o linear-video  # custom output directory
-npx @ryu1845/hyperframes capture https://example.com --json          # JSON output for agents
-npx @ryu1845/hyperframes capture https://example.com --skip-assets   # skip image/SVG download
-npx @ryu1845/hyperframes capture https://example.com --skip-vision   # skip optional AI captions
-npx @ryu1845/hyperframes capture https://example.com --max-screenshots 12
-npx @ryu1845/hyperframes capture https://example.com --timeout 60000 # page-load timeout in ms
-npx @ryu1845/hyperframes capture https://example.com --capture-budget 90000 # post-navigation budget
+hyperframes capture https://stripe.com                  # scaffold from a website
+hyperframes capture https://linear.app -o linear-video  # custom output directory
+hyperframes capture https://example.com --json          # JSON output for agents
+hyperframes capture https://example.com --skip-assets   # skip image/SVG download
+hyperframes capture https://example.com --skip-vision   # skip optional AI captions
+hyperframes capture https://example.com --max-screenshots 12
+hyperframes capture https://example.com --timeout 60000 # page-load timeout in ms
+hyperframes capture https://example.com --capture-budget 90000 # post-navigation budget
 ```
 
 Captures a live URL as an editable HyperFrames project: screenshots become layered scenes, assets are downloaded locally, and the result is a normal project you can `lint` / `preview` / `render`. Use this when the user supplies a URL as the starting point for a video.
@@ -67,7 +67,7 @@ into a fresh output directory; never merge or reuse a blocked attempt's partial 
 ## skills
 
 ```bash
-npx @ryu1845/hyperframes skills    # install HyperFrames skills for AI coding tools
+hyperframes skills    # install HyperFrames skills for AI coding tools
 ```
 
 One-time setup that adds the HyperFrames skill pack (`hyperframes-core`, `-creative`, `-animation`, `-cli`, `-registry`, `-media`, plus the `product-launch-video` and `hyperframes` orchestrators) to the local AI coding environment so agents follow the framework conventions. Re-run after major HyperFrames upgrades.

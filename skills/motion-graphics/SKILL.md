@@ -13,7 +13,7 @@ description: >
 
 **Plugin installs:** Before setup or freshness commands, follow [plugin execution rules](../hyperframes/references/plugin-installation.md) when this skill is inside a HyperFrames plugin. Standalone installs keep the update instructions below.
 
-> **First, keep this skill fresh — confirm with the user before running:** `npx @ryu1845/hyperframes skills update motion-graphics`. A fast no-op when everything is current; otherwise it refreshes this skill plus the core domain skills it depends on before you rely on them.
+> **First, keep this skill fresh — confirm with the user before running:** `hyperframes skills update motion-graphics`. A fast no-op when everything is current; otherwise it refreshes this skill plus the core domain skills it depends on before you rely on them.
 
 > **figma source**: If the logo/asset/animation to build from comes from a figma.com URL, run `/figma` first — asset export, brand tokens, and Motion→GSAP translation if the graphic is a Figma Motion import — then build from its output. Don't drive Figma via raw MCP tools directly: that skips SVG sanitization, `.media/manifest.jsonl` provenance, and brand-token `var()` binding, so a later brand change can't propagate without a full re-import.
 
@@ -66,7 +66,7 @@ Build order: one at a time, coverage-first (rough is fine). `kinetic-type` porte
 
 ## Prerequisites
 
-macOS Apple Silicon or Linux x64. System tools: `brew install node ffmpeg`. `npx @ryu1845/hyperframes doctor` once. macOS GPU render: `export PRODUCER_BROWSER_GPU_MODE=hardware`.
+macOS Apple Silicon or Linux x64. System tools: `brew install node ffmpeg`. `hyperframes doctor` once. macOS GPU render: `export PRODUCER_BROWSER_GPU_MODE=hardware`.
 
 Optional keys (local fallbacks if unset) — only needed by categories that source/generate assets via media-use:
 
@@ -86,7 +86,7 @@ Only when `$PROJECT_DIR/hyperframes.json` is absent:
 ```bash
 PROJECT_DIR="${MOTION_GRAPHICS_DIR:-videos/<project-name>}"
 mkdir -p "$(dirname "$PROJECT_DIR")"
-npx @ryu1845/hyperframes init "$PROJECT_DIR" --non-interactive --example=blank
+hyperframes init "$PROJECT_DIR" --non-interactive --example=blank
 ```
 
 `init` checks the installed skills against the latest on GitHub and updates the global set if any are out of date.
@@ -118,13 +118,13 @@ Dispatch a subagent (prompt = `agents/director.md` Part 2 + dispatch context inc
 
 Include the shared [motion principles](../hyperframes-creative/references/motion-principles.md) in the Builder's dispatch context. For `charts` and `stat`, also include [data in motion](../hyperframes-creative/references/data-in-motion.md). The Builder reads these guides before writing the timeline.
 
-Dispatch a subagent. prompt = full `agents/builder.md` + dispatch context (`shot-plan.json`, `catalog-map.md`, the category's `module.md`, `references/motion-vocabulary.md`, `references/builder-contract.md`). **Reuse-first**: `npx @ryu1845/hyperframes add <block>` + customize in place; hand-author only gaps + the asset-fusion affordance. Output `compositions/index.html` honoring the HF contract (paused GSAP timeline on `window.__timelines`, `class="clip"` + stable ids, `tl.seek(0)`, deterministic).
+Dispatch a subagent. prompt = full `agents/builder.md` + dispatch context (`shot-plan.json`, `catalog-map.md`, the category's `module.md`, `references/motion-vocabulary.md`, `references/builder-contract.md`). **Reuse-first**: `hyperframes add <block>` + customize in place; hand-author only gaps + the asset-fusion affordance. Output `compositions/index.html` honoring the HF contract (paused GSAP timeline on `window.__timelines`, `class="clip"` + stable ids, `tl.seek(0)`, deterministic).
 
 ### Step 5 — Verify (Bash → repair subagent on failure)
 
 ```bash
-(cd "$PROJECT_DIR" && npx @ryu1845/hyperframes check .)
-(cd "$PROJECT_DIR" && npx @ryu1845/hyperframes snapshot --at <proof-times>)
+(cd "$PROJECT_DIR" && hyperframes check .)
+(cd "$PROJECT_DIR" && hyperframes snapshot --at <proof-times>)
 ```
 
 Choose proof times that show the opening state, signature move, and final hold. Inspect the generated contact or snapshot sheet before continuing. On `lint`, `check`, or snapshot failure, dispatch the repair subagent (`agents/finalize.md`) for one in-place fix pass, then rerun the failed gate. Never change a fixed duration merely to hide a defect.
@@ -134,13 +134,13 @@ Choose proof times that show the opening state, signature move, and final hold. 
 Open Studio, then ask one question: “render now, or what changes?” After revisions, return to the same gate:
 
 ```bash
-(cd "$PROJECT_DIR" && npx @ryu1845/hyperframes preview --background)
+(cd "$PROJECT_DIR" && hyperframes preview --background)
 ```
 
 Render only after an explicit render answer:
 
 ```bash
-(cd "$PROJECT_DIR" && npx @ryu1845/hyperframes render . -q high -o ./renders/video.mp4)
+(cd "$PROJECT_DIR" && hyperframes render . -q high -o ./renders/video.mp4)
 # transparent overlay variant: --format webm  (or mov)
 ```
 

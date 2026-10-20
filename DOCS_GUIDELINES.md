@@ -90,7 +90,7 @@ window.__timelines["my-video"] = tl;
 After CLI commands, show what the user should see:
 
 ```bash
-npx @ryu1845/hyperframes preview
+hyperframes preview
 # Studio running at http://localhost:3002
 ```
 

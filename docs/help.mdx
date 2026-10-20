@@ -11,7 +11,7 @@ Find the symptom that looks like yours below.
 The browser never opens, the page is unreachable, or the project does not load.
 
 1. Open a terminal in the HyperFrames project folder.
-2. Run `npx @ryu1845/hyperframes preview`.
+2. Run `hyperframes preview`.
 3. Keep that process running while Studio is open.
 4. Use the local URL printed in the terminal.
 
@@ -28,8 +28,8 @@ application, save that file first.
 3. Run the project checks:
 
 ```bash
-npx @ryu1845/hyperframes lint
-npx @ryu1845/hyperframes check
+hyperframes lint
+hyperframes check
 ```
 
 `lint` checks the composition structure. `check` opens the project in a browser gate and catches runtime, layout, motion, and contrast problems.
@@ -68,14 +68,14 @@ Motion jumps, drifts, starts at the wrong time, or changes after seeking. First 
 
 That distinction separates a timeline mistake from non-deterministic animation. HyperFrames animation must be seekable: the same frame should look the same every time it is requested.
 
-Run `npx @ryu1845/hyperframes check`, then give your agent the smallest affected scene and the exact timestamp.
+Run `hyperframes check`, then give your agent the smallest affected scene and the exact timestamp.
 
 ## Render failed or differs from preview
 
 Export stops, produces the wrong result, or disagrees with Studio.
 
 1. Preserve the complete render error.
-2. Run `npx @ryu1845/hyperframes check`.
+2. Run `hyperframes check`.
 3. Confirm fonts and media are local and load before capture.
 4. Check the affected timestamp in Studio.
 5. Try the normal MP4 preset before changing codecs or advanced flags.

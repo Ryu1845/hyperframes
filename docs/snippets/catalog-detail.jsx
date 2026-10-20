@@ -1949,7 +1949,7 @@ export const CatalogDetail = ({
   })();
   const agentRequest = (() => {
     const changed = changedValues();
-    const base = `Install the HyperFrames catalog item "${compositionId}" (${title || compositionId}) into my project with \`npx @ryu1845/hyperframes add ${compositionId}\`, mount it at the point of my composition where it should play, and verify with \`npx @ryu1845/hyperframes check\`.`;
+    const base = `Install the HyperFrames catalog item "${compositionId}" (${title || compositionId}) into my project with \`hyperframes add ${compositionId}\`, mount it at the point of my composition where it should play, and verify with \`hyperframes check\`.`;
     const set = Object.entries(changed).map(([id, value]) => `${id} = ${JSON.stringify(value)}`);
     return set.length ? `${base} Set ${set.join(", ")}; keep the other variables at their defaults.` : `${base} Keep the default variables unless I say otherwise.`;
   })();

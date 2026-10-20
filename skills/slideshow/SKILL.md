@@ -11,7 +11,7 @@ description: >
 
 **Plugin installs:** Before setup or freshness commands, follow [plugin execution rules](../hyperframes/references/plugin-installation.md) when this skill is inside a HyperFrames plugin. Standalone installs keep the update instructions below.
 
-> **First, keep this skill fresh — confirm with the user before running:** `npx @ryu1845/hyperframes skills update slideshow`. A fast no-op when everything is current; otherwise it refreshes this skill plus the core domain skills it depends on before you rely on them.
+> **First, keep this skill fresh — confirm with the user before running:** `hyperframes skills update slideshow`. A fast no-op when everything is current; otherwise it refreshes this skill plus the core domain skills it depends on before you rely on them.
 
 > **figma source**: If the deck's content or storyboard comes from a figma.com URL, run `/figma` first — asset export, brand tokens, and storyboard reconstruction if the source is a strip of scene frames — then build from its output. Don't drive Figma via raw MCP tools directly: that skips SVG sanitization, `.media/manifest.jsonl` provenance, and brand-token `var()` binding, so a later brand change can't propagate without a full re-import.
 
@@ -166,7 +166,7 @@ These are hard constraints, not suggestions. A slide that violates them will be 
 - **Lead with the punchline.** The strongest point goes first — on the slide and in the deck order. Investors read left-to-right, top-to-bottom, and they stop.
 - **Bottom-up market sizing only.** Never write "$50B TAM" without showing the math. Build from unit economics up: accounts × ACV, or transactions × take-rate.
 - **Font minimum 30pt equivalent.** At 1920×1080, a headline is 72–96px; body copy is 48px. Never go below 40px for any text the audience must read.
-- **Search the live catalog before hand-building any named visual.** For every look, effect, chart, treatment or transition a slide needs — "CRT scanlines", "glitch", "bar chart race", "shimmer sweep", "terminal window" — run `npx @ryu1845/hyperframes catalog --query "<the visual, in plain English>" --json` and read the top results before you author the slide's clips. The search needs **nothing installed**: no project, no prior `add`, no account. It ranks the whole hosted registry (~400 blocks and components) from any directory. `npx @ryu1845/hyperframes add <name>` drops the block's source into the deck, where you customize it in place. This applies with extra force when porting a source page: a real block beats the simplified approximation the porting rules below forbid.
+- **Search the live catalog before hand-building any named visual.** For every look, effect, chart, treatment or transition a slide needs — "CRT scanlines", "glitch", "bar chart race", "shimmer sweep", "terminal window" — run `hyperframes catalog --query "<the visual, in plain English>" --json` and read the top results before you author the slide's clips. The search needs **nothing installed**: no project, no prior `add`, no account. It ranks the whole hosted registry (~400 blocks and components) from any directory. `hyperframes add <name>` drops the block's source into the deck, where you customize it in place. This applies with extra force when porting a source page: a real block beats the simplified approximation the porting rules below forbid.
 
 ## Porting source pages
 
@@ -488,7 +488,7 @@ Validate the direct-open path before handoff. If `file://` browser restrictions 
 For a completed slideshow deck, the primary user-facing next step is presenter mode, not Studio. Run or provide:
 
 ```bash
-npx @ryu1845/hyperframes present <project-dir>
+hyperframes present <project-dir>
 ```
 
 Studio/`preview` is useful for editing a composition, but it is not a clear final destination for a slideshow user. If you create a `package.json` for a slideshow project where the raw composition lives in `composition/`, make the default runnable script start presenter mode:
@@ -496,8 +496,8 @@ Studio/`preview` is useful for editing a composition, but it is not a clear fina
 ```json
 {
   "scripts": {
-    "dev": "npx @ryu1845/hyperframes present ./composition",
-    "studio": "npx @ryu1845/hyperframes preview ./composition --background"
+    "dev": "hyperframes present ./composition",
+    "studio": "hyperframes preview ./composition --background"
   }
 }
 ```
@@ -511,7 +511,7 @@ At handoff, include the local presenter URL printed by the command and the minim
 After authoring or editing a slideshow composition, run validation (it reruns lint before opening the browser):
 
 ```bash
-npx @ryu1845/hyperframes check
+hyperframes check
 ```
 
 Treat lint errors and validation `StaticGuard` contract messages as blockers even if a command exits successfully. Fix the file and rerun until `check` reports no lint or runtime errors.

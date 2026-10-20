@@ -5,7 +5,7 @@ description: 'Port an existing Remotion (React) composition''s source to HyperFr
 
 **Plugin installs:** Before setup or freshness commands, follow [plugin execution rules](../hyperframes/references/plugin-installation.md) when this skill is inside a HyperFrames plugin. Standalone installs keep the update instructions below.
 
-> **First, keep this skill fresh — confirm with the user before running:** `npx @ryu1845/hyperframes skills update remotion-to-hyperframes`. A fast no-op when everything is current; otherwise it refreshes this skill plus the core domain skills it depends on before you rely on them.
+> **First, keep this skill fresh — confirm with the user before running:** `hyperframes skills update remotion-to-hyperframes`. A fast no-op when everything is current; otherwise it refreshes this skill plus the core domain skills it depends on before you rely on them.
 
 # Remotion to HyperFrames
 
@@ -69,7 +69,7 @@ Read [`references/api-map.md`](references/api-map.md) — the index of every Rem
 
 Don't load all of them — load only what the specific source needs.
 
-**Search the live catalog for any visual effect the table does not map.** When the source paints a look with no HF API equivalent — a scanline/CRT overlay, a glitch or chromatic-aberration pass, a shader wipe, a film-grain treatment — run `npx @ryu1845/hyperframes catalog --query "<the effect, in plain English>" --json` before hand-writing it in GSAP. The search needs **nothing installed**: no project, no prior `add`, no account. It ranks the whole hosted registry (~400 blocks and components) from any directory, and `transitions.md` already takes this route for `clockWipe()` / `iris()` via `npx @ryu1845/hyperframes add sdf-iris`. A real component is closer to the source than a hand-approximation, so it usually raises the SSIM rather than lowering it — but the render diff in Step 4 is still the arbiter. Hand-write the effect when a search returns nothing that fits, and record the substitution in `TRANSLATION_NOTES.md` either way.
+**Search the live catalog for any visual effect the table does not map.** When the source paints a look with no HF API equivalent — a scanline/CRT overlay, a glitch or chromatic-aberration pass, a shader wipe, a film-grain treatment — run `hyperframes catalog --query "<the effect, in plain English>" --json` before hand-writing it in GSAP. The search needs **nothing installed**: no project, no prior `add`, no account. It ranks the whole hosted registry (~400 blocks and components) from any directory, and `transitions.md` already takes this route for `clockWipe()` / `iris()` via `hyperframes add sdf-iris`. A real component is closer to the source than a hand-approximation, so it usually raises the SSIM rather than lowering it — but the render diff in Step 4 is still the arbiter. Hand-write the effect when a search returns nothing that fits, and record the substitution in `TRANSLATION_NOTES.md` either way.
 
 ### Step 3: Generate the HF composition
 
@@ -91,7 +91,7 @@ Run the eval harness — [`references/eval.md`](references/eval.md) for the full
 cd remotion-src && npx remotion render <CompositionId> out/baseline.mp4
 
 # Render HF translation
-cd ../hf-src && npx @ryu1845/hyperframes render --output ../hf.mp4
+cd ../hf-src && hyperframes render --output ../hf.mp4
 
 # SSIM diff
 ../../scripts/render_diff.sh ./remotion-src/out/baseline.mp4 ./hf.mp4 ./diff

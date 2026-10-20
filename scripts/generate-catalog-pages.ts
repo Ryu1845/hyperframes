@@ -376,7 +376,7 @@ function generateTextureAgentUsage(
     `Use the ${manifest.title} catalog component.`,
     "",
     "1. From the project root, run:",
-    `   npx @ryu1845/hyperframes add ${manifest.name}`,
+    `   hyperframes add ${manifest.name}`,
     "2. That command creates this installed snippet:",
     `   ${installedSnippet}`,
     "3. Open that file and paste the real <style> block",
@@ -1062,7 +1062,7 @@ function generateItemMdx(
   carried: CarriedContent = { sections: [], hasCustomUsage: false },
 ): string {
   const tags = manifest.tags ?? [];
-  const installCmd = `npx @ryu1845/hyperframes add ${manifest.name}`;
+  const installCmd = `hyperframes add ${manifest.name}`;
   const source = manifest as RegistryItem & SourceMetadata;
   const textureGroups = textureGroupsFor(manifest);
   const primaryTarget = primaryFileFor(manifest)?.target ?? `compositions/${manifest.name}.html`;

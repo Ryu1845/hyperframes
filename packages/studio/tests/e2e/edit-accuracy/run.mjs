@@ -42,7 +42,7 @@ const runId = new Date().toISOString().replace(/[:.]/g, "-");
 const out = resolve(opt.out ?? join(HERE, "../evidence/edit-accuracy", runId));
 const chrome = resolveHeadlessShellPath();
 if (!chrome)
-  throw new Error("no chrome-headless-shell: run `npx @ryu1845/hyperframes browser ensure`");
+  throw new Error("no chrome-headless-shell: run `hyperframes browser ensure`");
 mkdirSync(out, { recursive: true });
 
 /** Evidence for a failing case only: the Studio screens at each stage and the saved files. */

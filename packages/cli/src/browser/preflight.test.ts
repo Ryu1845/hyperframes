@@ -214,7 +214,7 @@ describe("runEnvironmentChecks", () => {
         ok: false,
         title: "Chrome not found",
         detail: "ENOTDIR: not a directory, scandir 'chrome-headless-shell'",
-        hint: "Run: npx @ryu1845/hyperframes browser ensure",
+        hint: "Run: hyperframes browser ensure",
       });
       expect(result.browser).toBeUndefined();
     } finally {
@@ -356,7 +356,7 @@ describe("runEnvironmentChecks — Chrome shared libraries (Linux/WSL)", () => {
   it("resolveRenderBrowser refuses with the Chrome check's own message when none resolves", async () => {
     vi.spyOn(manager, "findBrowser").mockResolvedValue(undefined);
     await expect(resolveRenderBrowser()).rejects.toThrow(
-      /Chrome not found: Chrome Headless Shell is required.*npx @ryu1845\/hyperframes browser ensure/,
+      /Chrome not found: Chrome Headless Shell is required.*hyperframes browser ensure/,
     );
   });
 });

@@ -205,11 +205,7 @@ async function ensureRenderBrowser(plan: RenderPlan, signal?: AbortSignal): Prom
   } catch (error: unknown) {
     browserSpinner?.stop(c.error("Browser not available"));
     if (signal?.aborted) signal.throwIfAborted();
-    errorBox(
-      "Chrome not found",
-      normalizeErrorMessage(error),
-      "Run: npx @ryu1845/hyperframes browser ensure",
-    );
+    errorBox("Chrome not found", normalizeErrorMessage(error), "Run: hyperframes browser ensure");
     failCommand();
   }
 }

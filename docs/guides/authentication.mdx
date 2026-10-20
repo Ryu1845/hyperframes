@@ -23,7 +23,7 @@ are skipped when no supported vision key is available.
 | **Sound effects** | Openverse → bundled library | None (CC0 and CC BY only) | bundled — no deps |
 | **Capture descriptions** | OpenRouter → Gemini | `OPENROUTER_API_KEY` → `GEMINI_API_KEY` | None; optional for [website capture](/guides/product-launch-video) |
 
-Run `npx @ryu1845/hyperframes doctor` to check which local dependencies are installed.
+Run `hyperframes doctor` to check which local dependencies are installed.
 Before generating a voiceover, the media workflows tell you which engine will run.
 
 For Gemini narration, explicitly ask your agent to use Gemini TTS. The shared
@@ -55,7 +55,7 @@ not user ADC files or metadata-server credentials.
 See [Gemini voiceover](/prompting/media-and-audio#gemini-voiceover).
 
 <Note>
-  `npx @ryu1845/hyperframes tts` itself is the local Kokoro CLI. ElevenLabs and Gemini
+  `hyperframes tts` itself is the local Kokoro CLI. ElevenLabs and Gemini
   voices are selected by the bundled media workflow helpers, not by that command.
 </Note>
 

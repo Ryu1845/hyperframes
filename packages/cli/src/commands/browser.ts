@@ -161,10 +161,10 @@ ${c.bold("SUBCOMMANDS:")}
   ${c.accent("clear")}    ${c.dim("Remove cached Chrome download")}
 
 ${c.bold("EXAMPLES:")}
-  ${c.accent("npx @ryu1845/hyperframes browser ensure")}           ${c.dim("Download Chrome if needed")}
-  ${c.accent("npx @ryu1845/hyperframes browser ensure --force")}   ${c.dim("Purge a stale/partial download and re-download")}
-  ${c.accent("npx @ryu1845/hyperframes browser path")}             ${c.dim("Print path for scripts")}
-  ${c.accent("npx @ryu1845/hyperframes browser clear")}            ${c.dim("Remove cached browser")}
+  ${c.accent("hyperframes browser ensure")}           ${c.dim("Download Chrome if needed")}
+  ${c.accent("hyperframes browser ensure --force")}   ${c.dim("Purge a stale/partial download and re-download")}
+  ${c.accent("hyperframes browser path")}             ${c.dim("Print path for scripts")}
+  ${c.accent("hyperframes browser clear")}            ${c.dim("Remove cached browser")}
 `);
       return;
     }

@@ -3,13 +3,13 @@
 Make a transparent overlay (typical: a talking head over an arbitrary scene). Uses `u2net_human_seg` (Apache-2.0).
 
 ```bash
-npx @ryu1845/hyperframes remove-background subject.mp4 -o transparent.webm          # default: VP9 + alpha
-npx @ryu1845/hyperframes remove-background subject.mp4 -o transparent.mov           # ProRes 4444 (editing)
-npx @ryu1845/hyperframes remove-background portrait.jpg -o cutout.png               # single-image cutout
-npx @ryu1845/hyperframes remove-background subject.mp4 -o subject.webm \
+hyperframes remove-background subject.mp4 -o transparent.webm          # default: VP9 + alpha
+hyperframes remove-background subject.mp4 -o transparent.mov           # ProRes 4444 (editing)
+hyperframes remove-background portrait.jpg -o cutout.png               # single-image cutout
+hyperframes remove-background subject.mp4 -o subject.webm \
   --background-output plate.webm                                           # both layers, one pass
-npx @ryu1845/hyperframes remove-background subject.mp4 -o transparent.webm --device cpu
-npx @ryu1845/hyperframes remove-background --info                                   # detected providers
+hyperframes remove-background subject.mp4 -o transparent.webm --device cpu
+hyperframes remove-background --info                                   # detected providers
 ```
 
 ## Output Format

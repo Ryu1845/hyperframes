@@ -3,7 +3,7 @@ name: hyperframes-handoff
 description: |
   Produce a HyperFrames-valid HTML composition — paused GSAP timeline, data
   attributes, scene structure — that any AI coding agent can immediately
-  refine with `npx @ryu1845/hyperframes lint` and `npx @ryu1845/hyperframes preview`. Use when
+  refine with `hyperframes lint` and `hyperframes preview`. Use when
   the brief mentions "video", "reel", "motion graphic", "title card",
   "animated explainer", or pairs Open Design with HyperFrames for export.
 triggers:
@@ -38,7 +38,7 @@ od:
 
 This skill teaches Open Design to emit a **valid first draft** of a
 [HyperFrames](https://github.com/ryu1845/hyperframes) composition — plain
-HTML + CSS + a paused GSAP timeline. The CLI (`npx @ryu1845/hyperframes render`, run
+HTML + CSS + a paused GSAP timeline. The CLI (`hyperframes render`, run
 from the project directory) turns the HTML into an MP4. You author the HTML;
 the user runs the render locally.
 
@@ -67,8 +67,8 @@ The user's workflow:
    mid-scene activity, pick shader transitions for 2–3 key moments
 2. **Save to disk** — Open Design writes the project into
    `.od/projects/<id>/` (real `cwd`, agent-ready)
-3. **Any AI coding agent** (Claude Code, Codex, Cursor, …) — `npx @ryu1845/hyperframes
-   lint`, `npx @ryu1845/hyperframes preview`, then iterate timing, eases, shader
+3. **Any AI coding agent** (Claude Code, Codex, Cursor, …) — `hyperframes
+   lint`, `hyperframes preview`, then iterate timing, eases, shader
    choices, pacing
 
 Your output must be a **valid starting point a coding agent can open and
@@ -81,7 +81,7 @@ refine immediately** — no structural fixes needed.
 - Strong visual layout per scene (hierarchy, spacing, readability at video
   size — 60px+ headlines, 20px+ body)
 - Scene content that tells the story (headlines, stats, copy, imagery)
-- Structural validity (passes `npx @ryu1845/hyperframes lint` with zero errors)
+- Structural validity (passes `hyperframes lint` with zero errors)
 - Appropriate shader choices for the mood (use the catalog at
   [docs/catalog/index.mdx](https://github.com/ryu1845/hyperframes/blob/main/docs/catalog/index.mdx))
 - Reasonable scene count and durations for the video type
@@ -376,9 +376,9 @@ Save both files into the project's `cwd` (Open Design has already set this
 to `.od/projects/<id>/`). The agent can immediately run:
 
 ```bash
-npx @ryu1845/hyperframes lint        # should pass with zero errors
-npx @ryu1845/hyperframes preview     # opens the studio
-npx @ryu1845/hyperframes render      # writes MP4
+hyperframes lint        # should pass with zero errors
+hyperframes preview     # opens the studio
+hyperframes render      # writes MP4
 ```
 
 ---

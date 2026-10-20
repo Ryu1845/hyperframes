@@ -7,8 +7,8 @@ Open-source video rendering framework: write HTML, render video.
 This repo ships 21 AI agent skills via [vercel-labs/skills](https://github.com/vercel-labs/skills). Install them before writing compositions — they encode framework-specific patterns that generic docs don't cover. **Default to the core set**: the `/hyperframes` router installs each creation workflow on demand; install all 21 only when the user explicitly asks for the full set.
 
 ```bash
-npx @ryu1845/hyperframes skills update                         # default: installs/refreshes the core set — workflows install on demand
-npx @ryu1845/hyperframes skills                                # all 21 published skills at once — only on explicit request
+hyperframes skills update                         # default: installs/refreshes the core set — workflows install on demand
+hyperframes skills                                # all 21 published skills at once — only on explicit request
 npx skills add ryu1845/hyperframes                 # interactive picker; internal skills require INSTALL_INTERNAL_SKILLS=1 for discovery
 npx skills add ryu1845/hyperframes --all           # excludes internal skills unless INSTALL_INTERNAL_SKILLS=1
 npx skills add ryu1845/hyperframes --skill <name>  # a named match installs regardless of metadata.internal (bare name, no leading slash)
@@ -16,7 +16,7 @@ npx skills add ryu1845/hyperframes --skill <name>  # a named match installs rega
 
 > **Warning:** Never run `npx skills add ... --all` from inside a HyperFrames checkout: it selects the OpenClaw target, whose `skills/` directory is the repo's own `skills/`, and removes each existing `skills/<name>` destination before linking. A fresh clone restores tracked source, but uncommitted work under `skills/` does not recover. Run it from an empty directory or from your own project root. This happens regardless of `metadata.internal`.
 
-`skills add` resolves the skills.sh registry blob, which can lag `main` by hours, so a freshly added skill may be a little behind. `npx @ryu1845/hyperframes skills update` installs from the current `main`; prefer it when freshness matters.
+`skills add` resolves the skills.sh registry blob, which can lag `main` by hours, so a freshly added skill may be a little behind. `hyperframes skills update` installs from the current `main`; prefer it when freshness matters.
 
 **`/hyperframes` is the entry skill — read it first.** It's the capability map for the domain skills below, the intent layer that confirms every creation brief up front, AND the intent router for the creation workflows. The full README skills section mirrors this list; keep them in sync (see "Skill catalog maintenance" below).
 
@@ -84,8 +84,8 @@ Always lint and format changed files before committing. Lefthook pre-commit hook
 After creating or editing any `.html` composition:
 
 ```bash
-npx @ryu1845/hyperframes lint       # Static HTML structure check
-npx @ryu1845/hyperframes check      # Browser gate (headless Chrome — runtime errors, layout, motion, WCAG contrast)
+hyperframes lint       # Static HTML structure check
+hyperframes check      # Browser gate (headless Chrome — runtime errors, layout, motion, WCAG contrast)
 ```
 
 Both must pass before previewing or considering work complete.
