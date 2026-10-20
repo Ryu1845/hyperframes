@@ -5,6 +5,7 @@ import * as clack from "@clack/prompts";
 import { c } from "../ui/colors.js";
 import { diag } from "../ui/diagnostics.js";
 import { buildNpxCommand } from "../utils/npxCommand.js";
+import { bunCliInvocation, standaloneBinary } from "../utils/selfRuntime.js";
 import { withMeta } from "../utils/jsonMeta.js";
 import {
   checkSkills,
@@ -28,7 +29,19 @@ export const examples: Example[] = [
   ["Also install one workflow (on-demand install)", "hyperframes skills update pr-to-video"],
 ];
 
+// The standalone binary carries Bun, whose bunx runs the skills CLI without Node.
+function packageRunner(args: string[]): {
+  command: string;
+  args: string[];
+  env: NodeJS.ProcessEnv;
+} {
+  const binary = standaloneBinary();
+  if (binary) return bunCliInvocation(binary, ["x", "--bun", ...args]);
+  return { ...buildNpxCommand(args), env: process.env };
+}
+
 function hasNpx(): boolean {
+  if (standaloneBinary()) return true;
   const npx = buildNpxCommand(["--version"]);
   try {
     execFileSync(npx.command, npx.args, { stdio: "ignore", timeout: 5000 });
@@ -53,7 +66,7 @@ function hasGit(): boolean {
 }
 
 function spawnNpx(args: string[], opts: { cwd?: string } = {}): Promise<void> {
-  const npx = buildNpxCommand(args);
+  const npx = packageRunner(args);
   return new Promise((resolve, reject) => {
     const child = spawn(npx.command, npx.args, {
       // Route the child's stdout to the parent's stderr (fd 2), keeping stdin
@@ -68,7 +81,7 @@ function spawnNpx(args: string[], opts: { cwd?: string } = {}): Promise<void> {
       timeout: 300_000,
       cwd: opts.cwd,
       env: {
-        ...process.env,
+        ...npx.env,
         // GH #316 — the upstream `skills` CLI shells out to `git clone`. When
         // Git's clone-hook protection is active (default in 2.45.1, reverted in
         // 2.45.2, still present on many corporate/CI setups), a globally

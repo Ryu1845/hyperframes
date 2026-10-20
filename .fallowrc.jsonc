@@ -57,6 +57,9 @@
     "packages/cli/src/renderSetupWorker.ts",
     // Parakeet decode worker, spawned by path from whisper/sherpa.ts.
     "packages/cli/src/whisper/sherpaWorker.ts",
+    // Standalone binary entry, compiled by build-binary.ts with `bun build --compile`.
+    "packages/cli/src/binary/launcher.ts",
+    "packages/cli/scripts/build-binary.ts",
     // Test fixture worker, spawned by path via the pools' workerEntryPath
     // option from the crash-recovery tests; has no import-graph referrer.
     "packages/producer/src/services/__fixtures__/crashOnMessageWorker.mjs",

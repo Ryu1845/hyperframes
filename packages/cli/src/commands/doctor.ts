@@ -16,6 +16,7 @@ import { KOKORO_MODULES, KOKORO_PIP, MUSICGEN_MODULES, MUSICGEN_PIP } from "../a
 import { hasPythonModules, describeRejectedPythonOverride } from "../tts/python.js";
 import { VERSION } from "../version.js";
 import { withMeta } from "../utils/jsonMeta.js";
+import { standaloneBinary } from "../utils/selfRuntime.js";
 import {
   OPTIONAL_PACKAGES,
   installedOptionalPackageVersion,
@@ -73,11 +74,13 @@ function checkDockerRunning(): CheckResult {
 }
 
 function checkVersion(): CheckResult {
-  return { ok: true, detail: VERSION };
+  const binary = standaloneBinary();
+  return { ok: true, detail: binary ? `${VERSION} (standalone binary: ${binary})` : VERSION };
 }
 
 function checkNode(): CheckResult {
-  return { ok: true, detail: `${process.version} (${process.platform} ${process.arch})` };
+  const runtime = standaloneBinary() ? `Bun ${process.versions.bun}` : process.version;
+  return { ok: true, detail: `${runtime} (${process.platform} ${process.arch})` };
 }
 
 // ── Hardware & Environment Checks ──────────────────────────────────────────
@@ -362,7 +365,7 @@ export default defineCommand({
     const environment = await runEnvironmentChecks({ includeBrowser: true });
     const checks: Check[] = [
       { name: "Version", run: checkVersion },
-      { name: "Node.js", run: checkNode },
+      { name: standaloneBinary() ? "Runtime" : "Node.js", run: checkNode },
       { name: "CPU", run: checkCPU },
       { name: "Memory", run: checkMemory },
       { name: "Disk", run: checkDisk },

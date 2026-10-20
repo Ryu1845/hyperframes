@@ -6,6 +6,7 @@ import { join } from "node:path";
 import { createInterface } from "node:readline";
 import { fileURLToPath } from "node:url";
 import { downloadToFile } from "../utils/downloadToFile.js";
+import { scriptRunEnv } from "../utils/selfRuntime.js";
 import { verifies, type ModelFile } from "./modelFile.js";
 import { stoppedByCancelSignal } from "../utils/renderCancellation.js";
 import {
@@ -141,7 +142,7 @@ function runtimeLoadError(
     return Promise.reject(new DecodeCancelled("Parakeet runtime check cancelled"));
   return new Promise((resolve, reject) => {
     const probe = spawn(process.execPath, ["-e", LOAD_RUNTIME], {
-      env: { ...process.env, HF_SHERPA_RUNTIME_PATH: runtimePath },
+      env: scriptRunEnv({ ...process.env, HF_SHERPA_RUNTIME_PATH: runtimePath }),
       stdio: ["ignore", "ignore", "pipe"],
       timeout: timeoutMs,
       signal,
@@ -395,7 +396,7 @@ function decode(
       process.execPath,
       args,
       {
-        env: { ...process.env, HYPERFRAMES_PARAKEET_INPUT: JSON.stringify(input) },
+        env: scriptRunEnv({ ...process.env, HYPERFRAMES_PARAKEET_INPUT: JSON.stringify(input) }),
         maxBuffer: 256 * 1024 * 1024,
         timeout: decodeTimeoutMs(getPreparedWavDurationSeconds(wavPath) ?? 0),
         signal,

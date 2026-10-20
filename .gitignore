@@ -3,6 +3,8 @@ node_modules/
 
 # Build output
 dist/
+# Standalone CLI binary build output (packages/cli/scripts/build-binary.ts).
+packages/cli/.binary/
 *.tsbuildinfo
 
 # Environment
