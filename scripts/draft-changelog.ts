@@ -21,7 +21,7 @@ import { CHANGELOG_REVIEW_TODO, CHANGELOG_STYLE_NOTE, compareSemver } from "./se
 const REVIEW_SUMMARY_BLOCK = [CHANGELOG_REVIEW_TODO, CHANGELOG_STYLE_NOTE].join("\n");
 
 const ROOT = join(import.meta.dirname, "..");
-const REPO_URL = "https://github.com/heygen-com/hyperframes";
+const REPO_URL = "https://github.com/ryu1845/hyperframes";
 const DOCS_MARKER =
   "{/* New release entries are prepended by `bun run changelog:draft <version> --write`. */}";
 

@@ -132,12 +132,14 @@ describe("registry types", () => {
 
   describe("schema files", () => {
     it("registry.json has the expected $id", () => {
-      expect(registrySchema.$id).toBe("https://hyperframes.heygen.com/schema/registry.json");
+      expect(registrySchema.$id).toBe(
+        "https://raw.githubusercontent.com/ryu1845/hyperframes/main/docs/schema/registry.json",
+      );
     });
 
     it("registry-item.json has the expected $id", () => {
       expect(registryItemSchema.$id).toBe(
-        "https://hyperframes.heygen.com/schema/registry-item.json",
+        "https://raw.githubusercontent.com/ryu1845/hyperframes/main/docs/schema/registry-item.json",
       );
     });
   });
@@ -145,9 +147,10 @@ describe("registry types", () => {
   describe("type-level sanity", () => {
     it("RegistryManifest accepts well-formed shape", () => {
       const m: RegistryManifest = {
-        $schema: "https://hyperframes.heygen.com/schema/registry.json",
+        $schema:
+          "https://raw.githubusercontent.com/ryu1845/hyperframes/main/docs/schema/registry.json",
         name: "hyperframes",
-        homepage: "https://hyperframes.heygen.com",
+        homepage: "https://github.com/ryu1845/hyperframes",
         items: [
           { name: "warm-grain", type: "hyperframes:example" },
           { name: "linkedin-post-card", type: "hyperframes:block" },
@@ -218,8 +221,8 @@ describe("registry types", () => {
         type: "hyperframes:component",
         title: "Shader Wipe",
         description: "d",
-        author: "heygen",
-        authorUrl: "https://example.com/heygen",
+        author: "acme",
+        authorUrl: "https://example.com/acme",
         sourcePrompt: "Create a shader wipe.",
         license: "Apache-2.0",
         minCliVersion: "0.4.0",
@@ -232,8 +235,8 @@ describe("registry types", () => {
           },
         ],
       };
-      expect(item.author).toBe("heygen");
-      expect(item.authorUrl).toBe("https://example.com/heygen");
+      expect(item.author).toBe("acme");
+      expect(item.authorUrl).toBe("https://example.com/acme");
       expect(item.sourcePrompt).toBe("Create a shader wipe.");
     });
   });

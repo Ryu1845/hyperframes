@@ -10,7 +10,13 @@ import { resolveNpxInvocation } from "./lib/npx-sync.mjs";
 const pluginVersion = process.env.HYPERFRAMES_PLUGIN_VERSION;
 if (pluginVersion) {
   const invocation = resolveNpxInvocation(
-    ["--yes", `hyperframes@${pluginVersion}`, "media-use", "resolve", ...process.argv.slice(2)],
+    [
+      "--yes",
+      `@ryu1845/hyperframes@${pluginVersion}`,
+      "media-use",
+      "resolve",
+      ...process.argv.slice(2),
+    ],
     { stdio: "inherit" },
   );
   const result = spawnSync(invocation.cmd, invocation.args, invocation.opts);

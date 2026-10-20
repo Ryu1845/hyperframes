@@ -9,7 +9,7 @@ export function hasCliCommand(helpText, command) {
 }
 
 export function runCliPreflight({ command = "check", spawn = spawnSync } = {}) {
-  const result = spawn("npx", ["hyperframes", "--help"], {
+  const result = spawn("npx", ["@ryu1845/hyperframes", "--help"], {
     encoding: "utf8",
     shell: process.platform === "win32",
   });

@@ -230,7 +230,7 @@ test("a sentence that names another repo is not this repo's to resolve", (t) => 
 
 test("a sentence that names this repo is still resolved", (t) => {
   const { failures } = checkSubject(t, {
-    "src/subject.ts": oneLiner("// Mirrors `publish.yml` in heygen-com/hyperframes."),
+    "src/subject.ts": oneLiner("// Mirrors `publish.yml` in ryu1845/hyperframes."),
   });
   assert.equal(failures.length, 1);
   assert.match(failures[0].why, /no such file/);

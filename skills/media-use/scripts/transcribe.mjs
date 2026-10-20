@@ -48,7 +48,7 @@ Usage:
 
 Parakeet (default) beats whisper.cpp on accuracy + speed for English/European
 languages; whisper.cpp (99 languages) is the fallback. Install Parakeet once:
-  npx hyperframes models install parakeet   (macOS, Windows, Linux with glibc 2.32+)
+  npx @ryu1845/hyperframes models install parakeet   (macOS, Windows, Linux with glibc 2.32+)
   uv venv ~/.venvs/parakeet && VIRTUAL_ENV=~/.venvs/parakeet uv pip install parakeet-mlx   (Apple Silicon)`);
   process.exit(0);
 }
@@ -133,7 +133,16 @@ function runCli(cliEngine) {
     // mechanism as the audio engine's TTS spawns.
     // Under auto or parakeet the CLI may run its own Parakeet; --json says which engine ran.
     const resolved = resolveNpxInvocation(
-      ["hyperframes", "transcribe", inputPath, "--dir", workDir, "--engine", cliEngine, "--json"],
+      [
+        "@ryu1845/hyperframes",
+        "transcribe",
+        inputPath,
+        "--dir",
+        workDir,
+        "--engine",
+        cliEngine,
+        "--json",
+      ],
       { stdio: ["ignore", "pipe", "pipe"], timeout: 1_800_000 },
     );
     let stdout;

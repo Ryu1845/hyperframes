@@ -17,20 +17,20 @@ Signing in is the same OAuth step as creating an account — new users land on t
     The default flow opens your browser for OAuth and captures the token on a loopback port:
 
     ```bash
-    npx hyperframes auth login
+    npx @ryu1845/hyperframes auth login
     # ✓ Signed in.
     ```
 
     For CI or headless machines, save a long-lived API key instead:
 
     ```bash
-    npx hyperframes auth login --api-key            # hidden-input prompt
-    echo "$HEYGEN_API_KEY" | npx hyperframes auth login --api-key   # from stdin
+    npx @ryu1845/hyperframes auth login --api-key            # hidden-input prompt
+    echo "$HEYGEN_API_KEY" | npx @ryu1845/hyperframes auth login --api-key   # from stdin
     ```
   </Step>
   <Step title="Confirm what's configured">
     ```bash
-    npx hyperframes auth status
+    npx @ryu1845/hyperframes auth status
     ```
 
     Shows the active credential's source and verified identity, and — when you're signed out — which local engines voice and music will use. Add `--json` for `{ configured, recommended_action, offline_engines }` in scripts.
@@ -75,7 +75,7 @@ vision key is available.
 | **Sound effects** | HeyGen library → bundled library | HeyGen credential (above) | bundled — no deps |
 | **Capture descriptions** | OpenRouter → Gemini | `OPENROUTER_API_KEY` → `GEMINI_API_KEY` | None; optional for [website capture](/guides/product-launch-video) |
 
-Run `npx hyperframes doctor` to check which local dependencies are installed.
+Run `npx @ryu1845/hyperframes doctor` to check which local dependencies are installed.
 The media workflows run `hyperframes auth status` before generation and tell
 you which path they will use.
 
@@ -108,7 +108,7 @@ not user ADC files or metadata-server credentials.
 See [Gemini voiceover](/prompting/media-and-audio#gemini-voiceover).
 
 <Note>
-  `npx hyperframes tts` itself is the local Kokoro CLI. Hosted HeyGen and
+  `npx @ryu1845/hyperframes tts` itself is the local Kokoro CLI. Hosted HeyGen and
   ElevenLabs and Gemini voices are selected by the bundled media workflow helpers, not by
   that command.
 </Note>
@@ -128,11 +128,11 @@ library; sign in when you want those services or cloud rendering.
 
 ## Publishing without an account
 
-`npx hyperframes publish` works while signed out. It uploads the project and
+`npx @ryu1845/hyperframes publish` works while signed out. It uploads the project and
 prints a URL containing a claim token. Open that URL and authenticate in the web
 app to claim the project.
 
-Sign in with `npx hyperframes auth login` before publishing when you want the CLI
+Sign in with `npx @ryu1845/hyperframes auth login` before publishing when you want the CLI
 to own the project immediately, update the same URL with `--update`, or publish
 to a shared space with `--space`.
 

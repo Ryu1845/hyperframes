@@ -240,11 +240,11 @@ export async function synthesizeOne({
   // kokoro — via the published CLI; --output is relative to the project dir.
   const wavRel = relTo(hyperframesDir, wavAbs);
   return withTmpText(text, async (textPath) => {
-    const args = ["hyperframes", "tts", textPath, "--voice", voiceId, "--output", wavRel];
+    const args = ["@ryu1845/hyperframes", "tts", textPath, "--voice", voiceId, "--output", wavRel];
     if (lang !== "en") args.push("--lang", lang);
     if (speed !== 1) args.push("--speed", String(speed));
     const r = await spawnP("npx", args, { cwd: hyperframesDir });
-    return synthResult(r, wavAbs, "kokoro (npx hyperframes tts)");
+    return synthResult(r, wavAbs, "kokoro (npx @ryu1845/hyperframes tts)");
   });
 }
 
@@ -263,7 +263,7 @@ export function synthResult(r, wavAbs, label) {
 export async function transcribeWav({ wavRel, lang = "en", hyperframesDir }) {
   const model = lang === "en" ? "small.en" : "small";
   const td = mkdtempSync(join(tmpdir(), "hf-trans-"));
-  const args = ["hyperframes", "transcribe", wavRel, "--model", model, "--dir", td];
+  const args = ["@ryu1845/hyperframes", "transcribe", wavRel, "--model", model, "--dir", td];
   if (lang !== "en") args.push("--language", lang);
   const r = await spawnP("npx", args, { cwd: hyperframesDir });
   let words = null;

@@ -16,7 +16,7 @@ Building something with HyperFrames? We would love to understand what you are cr
 From a HyperFrames project, run:
 
 ```bash
-npx hyperframes feedback --rating 7 --comment "The render finished, but the captions were missing."
+npx @ryu1845/hyperframes feedback --rating 7 --comment "The render finished, but the captions were missing."
 ```
 
 The rating is from 0 to 10. The comment is optional, but a specific example is usually more useful than a score alone.
@@ -24,7 +24,7 @@ The rating is from 0 to 10. The comment is optional, but a specific example is u
 A comment with no rating is a report with no score, for something you needed that HyperFrames cannot do yet. It never counts in the rating:
 
 ```bash
-npx hyperframes feedback --comment "MISSING FEATURE: trim a clip from the timeline | WORKAROUND: none"
+npx @ryu1845/hyperframes feedback --comment "MISSING FEATURE: trim a clip from the timeline | WORKAROUND: none"
 ```
 
 ## Report a reproducible bug
@@ -32,7 +32,7 @@ npx hyperframes feedback --comment "MISSING FEATURE: trim a clip from the timeli
 Use `--file-issue` when the project can be shared publicly:
 
 ```bash
-npx hyperframes feedback \
+npx @ryu1845/hyperframes feedback \
   --rating 3 \
   --comment "The timeline freezes when this GSAP scene is opened." \
   --file-issue
@@ -47,7 +47,7 @@ npx hyperframes feedback \
 
 HyperFrames then opens a prepared GitHub issue in your browser. Review it before submitting; the issue is not posted automatically.
 
-You can also [open a GitHub issue directly](https://github.com/heygen-com/hyperframes/issues).
+You can also [open a GitHub issue directly](https://github.com/ryu1845/hyperframes/issues).
 
 ## Include enough evidence
 
@@ -73,7 +73,7 @@ Feedback can include the rating, an optional comment, and basic environment info
 To turn off CLI telemetry:
 
 ```bash
-npx hyperframes telemetry disable
+npx @ryu1845/hyperframes telemetry disable
 ```
 
 That also stops the feedback prompt and takes the install out of any
@@ -86,4 +86,4 @@ Studio feedback is controlled separately from the CLI setting.
 
 - [Get unstuck](/help)
 - [Diagnose common project and render problems](/guides/troubleshooting)
-- [Search or open a GitHub issue](https://github.com/heygen-com/hyperframes/issues)
+- [Search or open a GitHub issue](https://github.com/ryu1845/hyperframes/issues)

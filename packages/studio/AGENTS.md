@@ -123,7 +123,7 @@ the unit test on the pure function underneath.
 `tests/e2e/edit-accuracy/` performs real gestures in the built CLI's Studio and
 checks the saved file, the reloaded preview, undo and a producer frame. It
 needs the built CLI (`packages/cli/dist/cli.js`, from `bun run build`) and
-`chrome-headless-shell` (`npx hyperframes browser ensure`):
+`chrome-headless-shell` (`npx @ryu1845/hyperframes browser ensure`):
 
 ```bash
 bun run --cwd packages/studio test:edit-accuracy -- --grid pr --filter '^resize-' --jobs 1

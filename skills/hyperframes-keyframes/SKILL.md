@@ -211,14 +211,14 @@ Keyframe camera position, camera target, object transform, material opacity, sha
 ## CLI Proof
 
 ```bash
-npx hyperframes check
-npx hyperframes keyframes .
-npx hyperframes keyframes . --json
-npx hyperframes keyframes . --runtime all
-npx hyperframes keyframes . --selector "<selector>" --shot "<file>" --samples <n>
-npx hyperframes keyframes . --selector "<selector>" --shot "<file>" --layout strip --from <t0> --to <t1>
-npx hyperframes keyframes . --shot "<file>" --ghost --angle <angle>
-npx hyperframes snapshot . --at <times>
+npx @ryu1845/hyperframes check
+npx @ryu1845/hyperframes keyframes .
+npx @ryu1845/hyperframes keyframes . --json
+npx @ryu1845/hyperframes keyframes . --runtime all
+npx @ryu1845/hyperframes keyframes . --selector "<selector>" --shot "<file>" --samples <n>
+npx @ryu1845/hyperframes keyframes . --selector "<selector>" --shot "<file>" --layout strip --from <t0> --to <t1>
+npx @ryu1845/hyperframes keyframes . --shot "<file>" --ghost --angle <angle>
+npx @ryu1845/hyperframes snapshot . --at <times>
 ```
 
 Choose `<selector>` for the real animated subject. Choose `<times>` for first frame, proof poses, final-minus-hold, and exact final. Choose `<angle>` only when depth must be proven.

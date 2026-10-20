@@ -58,7 +58,7 @@ export function invocation(
     if (!args[1]) throw new Error("--script requires a Node script path.");
     return { command: node, args: args.slice(1), env: childEnv };
   }
-  const cliArgs = ["--yes", `hyperframes@${version}`, ...args];
+  const cliArgs = ["--yes", `@ryu1845/hyperframes@${version}`, ...args];
   if (platform !== "win32") return { command: "npx", args: cliArgs, env: childEnv };
   const candidates = [
     env.npm_execpath && win32.join(win32.dirname(env.npm_execpath), "npx-cli.js"),

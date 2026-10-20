@@ -41,7 +41,7 @@ export async function localTtsGenerate(
 ) {
   const ffprobe = ffprobeBinary();
   const outPath = join(tmpdir(), `media-use-kokoro-${process.pid}-${Date.now()}.wav`);
-  const argv = ["hyperframes", "tts", intent, "--output", outPath];
+  const argv = ["@ryu1845/hyperframes", "tts", intent, "--output", outPath];
   if (ctx?.voice) argv.push("--voice", ctx.voice);
   if (ctx?.lang && ctx.lang !== "en") argv.push("--lang", ctx.lang);
   // On Windows a bare "npx" is npx.cmd, which execFileSync cannot exec

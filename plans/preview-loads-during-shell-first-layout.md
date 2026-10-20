@@ -1,7 +1,7 @@
 # Preview loads during the shell's first layout
 
 **Path:** `plans/preview-loads-during-shell-first-layout.md`
-**Repo:** heygen-com/hyperframes · measured against v0.8.35
+**Repo:** ryu1845/hyperframes · measured against v0.8.35
 **Status:** proposal, needs owner decisions (see Open questions)
 
 Every claim below is tagged **[fact]** (read from the code or the trace), **[inference]** (reasoning from those facts, falsifiable), or **[recommendation]**.

@@ -18,11 +18,11 @@
 
 <p align="center">
   <a href="https://www.hyperframes.dev/studio">Studio</a> |
-  <a href="https://hyperframes.heygen.com/quickstart">Quickstart</a> |
-  <a href="https://hyperframes.heygen.com/showcase">Showcase</a> |
+  <a href="https://github.com/ryu1845/hyperframes/blob/main/docs/quickstart.mdx">Quickstart</a> |
+  <a href="https://github.com/ryu1845/hyperframes/blob/main/docs/examples.mdx">Showcase</a> |
   <a href="https://www.hyperframes.dev/">Playground</a> |
-  <a href="https://hyperframes.heygen.com/catalog/blocks/data-chart">Catalog</a> |
-  <a href="https://hyperframes.heygen.com/introduction">Docs</a> |
+  <a href="https://github.com/ryu1845/hyperframes/blob/main/docs/catalog/blocks/data-chart.mdx">Catalog</a> |
+  <a href="https://github.com/ryu1845/hyperframes/blob/main/docs/introduction.mdx">Docs</a> |
   <a href="https://discord.gg/EbK98HBPdk">Discord</a>
 </p>
 
@@ -39,7 +39,7 @@ HyperFrames is an open-source framework for turning HTML, CSS, media, and seekab
 For Claude Code, install the versioned plugin:
 
 ```bash
-claude plugin marketplace add heygen-com/hyperframes
+claude plugin marketplace add ryu1845/hyperframes
 claude plugin install hyperframes@hyperframes
 ```
 
@@ -50,12 +50,12 @@ for Copilot, VS Code, Cursor, Gemini CLI, updates, and migration.
 For standalone skills (including OpenCode), use:
 
 ```bash
-npx skills add heygen-com/hyperframes
+npx skills add ryu1845/hyperframes
 ```
 
-> The picker opens with nothing pre-selected — the **Core Skills** group is all you need: the `/hyperframes` router installs each creation workflow on demand. Agents and non-interactive runs should use `npx hyperframes skills update` instead — it installs exactly the core set, whereas `skills add --all` installs all 21 published skills. The six repo-internal skills under `.claude/skills` / `.agents/skills` are excluded by default. For the full published set use `npx hyperframes skills`.
+> The picker opens with nothing pre-selected — the **Core Skills** group is all you need: the `/hyperframes` router installs each creation workflow on demand. Agents and non-interactive runs should use `npx @ryu1845/hyperframes skills update` instead — it installs exactly the core set, whereas `skills add --all` installs all 21 published skills. The six repo-internal skills under `.claude/skills` / `.agents/skills` are excluded by default. For the full published set use `npx @ryu1845/hyperframes skills`.
 >
-> `skills add` resolves the skills.sh registry blob, which can lag `main` by hours. `npx hyperframes skills update` installs from the current `main`, so reach for it when you need the newest copy of a skill.
+> `skills add` resolves the skills.sh registry blob, which can lag `main` by hours. `npx @ryu1845/hyperframes skills update` installs from the current `main`, so reach for it when you need the newest copy of a skill.
 
 Try a prompt like:
 
@@ -67,9 +67,9 @@ The skills teach agents the HyperFrames production loop: plan the video, write v
 
 HyperFrames ships 21 skills agents load on demand. Read `/hyperframes` first — it's the router and capability map; it picks a workflow for any "make me a…" request — video, deck, or composition port — and points to the domain skills below.
 
-For standalone installation, default to the **core set** — the router installs each creation workflow on demand. `npx hyperframes skills update` installs exactly that from anywhere; the interactive picker (`npx skills add heygen-com/hyperframes`) lists it as the "Core Skills" group, nothing pre-selected. The picker is interactive-only — a non-interactive or agent run without `--skill` installs all 21. Use `npx skills add heygen-com/hyperframes --all` to install the complete published set deliberately (skips the picker), or `npx skills add heygen-com/hyperframes --skill <name>` for just one (bare name, no leading `/`).
+For standalone installation, default to the **core set** — the router installs each creation workflow on demand. `npx @ryu1845/hyperframes skills update` installs exactly that from anywhere; the interactive picker (`npx skills add ryu1845/hyperframes`) lists it as the "Core Skills" group, nothing pre-selected. The picker is interactive-only — a non-interactive or agent run without `--skill` installs all 21. Use `npx skills add ryu1845/hyperframes --all` to install the complete published set deliberately (skips the picker), or `npx skills add ryu1845/hyperframes --skill <name>` for just one (bare name, no leading `/`).
 
-Standalone installs stay lean after that: `npx hyperframes init` keeps the **core set** fresh (the router, the `hyperframes-*` domain skills, and `media-use` — plus whatever is already installed; `/figma` stays on demand) and never expands a partial install; the creation workflows install **on demand** — the router runs `npx hyperframes skills update <workflow>` before entering one. Nothing re-pulls the full set behind your back.
+Standalone installs stay lean after that: `npx @ryu1845/hyperframes init` keeps the **core set** fresh (the router, the `hyperframes-*` domain skills, and `media-use` — plus whatever is already installed; `/figma` stays on demand) and never expands a partial install; the creation workflows install **on demand** — the router runs `npx @ryu1845/hyperframes skills update <workflow>` before entering one. Nothing re-pulls the full set behind your back.
 
 ### Plugin packages
 
@@ -124,22 +124,22 @@ Atomic capabilities the creation workflows compose against — pull one when you
 | `/hyperframes-registry`  | Search, install and wire registry blocks and components into compositions via `hyperframes catalog` / `hyperframes add`. Load before hand-building any named look, effect, treatment or transition. Authoring a new block or component to contribute upstream.                                                                                                                                                                                                                       |
 | `/figma`                 | Import Figma assets, tokens, components, and storyboard sections → reconstructed motion (frames read as states, not slides) (REST/CLI) plus Motion animations (MCP) and shaders (MCP source / native export) into a composition.                                                                                                                                                                                                                                                     |
 
-For visual design handoff workflows, see the [Claude Design guide](https://hyperframes.heygen.com/guides/claude-design) and [Open Design guide](https://hyperframes.heygen.com/guides/open-design).
+For visual design handoff workflows, see the [Claude Design guide](https://github.com/ryu1845/hyperframes/blob/main/docs/guides/design-tools.mdx) and [Open Design guide](https://github.com/ryu1845/hyperframes/blob/main/docs/guides/design-tools.mdx).
 
 ### Manually with the CLI
 
 ```bash
-npx hyperframes init my-video
+npx @ryu1845/hyperframes init my-video
 cd my-video
-npx hyperframes preview      # preview in browser with live reload
-npx hyperframes render       # render to MP4
+npx @ryu1845/hyperframes preview      # preview in browser with live reload
+npx @ryu1845/hyperframes render       # render to MP4
 ```
 
 **Requirements:** Node.js 22+, FFmpeg
 
 ## What You Can Build
 
-Need ideas? Browse the [Showcase](https://hyperframes.heygen.com/showcase) for finished videos you can watch, read, run, and remix.
+Need ideas? Browse the [Showcase](https://github.com/ryu1845/hyperframes/blob/main/docs/examples.mdx) for finished videos you can watch, read, run, and remix.
 
 - Product launch videos and feature announcements
 - PR walkthroughs with animated code diffs, narration, and captions
@@ -269,12 +269,12 @@ HyperFrames is the open-source rendering engine, plus a growing set of tools aro
 Install ready-to-use blocks and components:
 
 ```bash
-npx hyperframes add flash-through-white   # shader transition
-npx hyperframes add instagram-follow      # social overlay
-npx hyperframes add data-chart            # animated chart
+npx @ryu1845/hyperframes add flash-through-white   # shader transition
+npx @ryu1845/hyperframes add instagram-follow      # social overlay
+npx @ryu1845/hyperframes add data-chart            # animated chart
 ```
 
-Browse the catalog at [hyperframes.heygen.com/catalog](https://hyperframes.heygen.com/catalog/blocks/data-chart).
+Browse the catalog at [docs/catalog/index.mdx](https://github.com/ryu1845/hyperframes/blob/main/docs/catalog/blocks/data-chart.mdx).
 
 ## Why HyperFrames?
 
@@ -298,19 +298,19 @@ HyperFrames is inspired by [Remotion](https://www.remotion.dev). Both tools rend
 | Distributed rendering    | Local and AWS Lambda render paths     | Remotion Lambda, mature cloud renderer  |
 | License                  | Apache 2.0                            | Source-available Remotion License       |
 
-Read the full comparison in the [HyperFrames vs Remotion guide](https://hyperframes.heygen.com/guides/hyperframes-vs-remotion).
+Read the full comparison in the [HyperFrames vs Remotion guide](https://github.com/ryu1845/hyperframes/blob/main/docs/guides/hyperframes-vs-remotion.mdx).
 
 ## Documentation
 
-Full documentation: [hyperframes.heygen.com/introduction](https://hyperframes.heygen.com/introduction)
+Full documentation: [docs/introduction.mdx](https://github.com/ryu1845/hyperframes/blob/main/docs/introduction.mdx)
 
-- [Quickstart](https://hyperframes.heygen.com/quickstart)
-- [Showcase](https://hyperframes.heygen.com/showcase)
-- [Guides](https://hyperframes.heygen.com/guides/gsap-animation)
-- [API Reference](https://hyperframes.heygen.com/packages/core)
-- [Catalog](https://hyperframes.heygen.com/catalog/blocks/data-chart)
-- [Examples](https://hyperframes.heygen.com/examples)
-- [AWS Lambda rendering](https://hyperframes.heygen.com/deploy/aws-lambda)
+- [Quickstart](https://github.com/ryu1845/hyperframes/blob/main/docs/quickstart.mdx)
+- [Showcase](https://github.com/ryu1845/hyperframes/blob/main/docs/examples.mdx)
+- [Guides](https://github.com/ryu1845/hyperframes/blob/main/docs/guides/gsap-animation.mdx)
+- [API Reference](https://github.com/ryu1845/hyperframes/blob/main/docs/packages/core.mdx)
+- [Catalog](https://github.com/ryu1845/hyperframes/blob/main/docs/catalog/blocks/data-chart.mdx)
+- [Examples](https://github.com/ryu1845/hyperframes/blob/main/docs/examples.mdx)
+- [AWS Lambda rendering](https://github.com/ryu1845/hyperframes/blob/main/docs/deploy/aws-lambda.mdx)
 
 ## Packages
 
@@ -330,7 +330,7 @@ Full documentation: [hyperframes.heygen.com/introduction](https://hyperframes.he
 HyperFrames is used in production at [HeyGen](https://www.heygen.com), with community examples from teams like [tldraw](https://tldraw.com), [TanStack](https://tanstack.com), and others in [ADOPTERS.md](ADOPTERS.md). Open a PR if your team is using HyperFrames.
 
 - Questions and ideas: [Discord](https://discord.gg/EbK98HBPdk)
-- Bugs and feature requests: [GitHub Issues](https://github.com/heygen-com/hyperframes/issues)
+- Bugs and feature requests: [GitHub Issues](https://github.com/ryu1845/hyperframes/issues)
 - User research: [Book a casual 30-minute conversation with the HyperFrames team](https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ2cSpKoDgmcmRrgekrnrgqmvPT8W6F2Zg6e7MY7IJqaZKwpn_I0NdTHkN390iguMepE_NVg8ezb?gv=true) — no preparation or sales pitch
 - Security reports: [SECURITY.md](SECURITY.md)
 - Contributions: [CONTRIBUTING.md](CONTRIBUTING.md)
@@ -356,7 +356,7 @@ git lfs install
 If you only need source files, you can skip LFS content:
 
 ```bash
-GIT_LFS_SKIP_SMUDGE=1 git clone https://github.com/heygen-com/hyperframes.git
+GIT_LFS_SKIP_SMUDGE=1 git clone https://github.com/ryu1845/hyperframes.git
 ```
 
 ## License

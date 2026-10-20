@@ -76,7 +76,7 @@ node <SKILL_DIR>/scripts/dither.mjs \
   --palette '#0f380f,#306230,#8bac0f,#9bbc0f' \
   --point-size 3
 
-npx hyperframes media-use resolve \
+npx @ryu1845/hyperframes media-use resolve \
   --from source.atkinson.mp4 --type video --project .
 ```
 
@@ -110,8 +110,8 @@ engine directly.
 node <SKILL_DIR>/scripts/transcribe.mjs --input talk.mp4 --out talk.transcribe.json
 
 # the hyperframes CLI runs Parakeet on macOS, Linux and Windows once it is installed:
-npx hyperframes models install parakeet                 # once, ~640 MB, ask the user first
-npx hyperframes transcribe talk.mp4 --engine parakeet   # or --engine auto (default)
+npx @ryu1845/hyperframes models install parakeet                 # once, ~640 MB, ask the user first
+npx @ryu1845/hyperframes transcribe talk.mp4 --engine parakeet   # or --engine auto (default)
 ```
 
 VERIFIED on 24GB: accurate, ~3s (cached) for 8s audio. Parakeet covers 25

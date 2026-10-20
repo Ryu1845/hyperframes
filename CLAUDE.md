@@ -7,16 +7,16 @@ Open-source video rendering framework: write HTML, render video.
 This repo ships 21 AI agent skills via [vercel-labs/skills](https://github.com/vercel-labs/skills). Install them before writing compositions — they encode framework-specific patterns that generic docs don't cover. **Default to the core set**: the `/hyperframes` router installs each creation workflow on demand; install all 21 only when the user explicitly asks for the full set.
 
 ```bash
-npx hyperframes skills update                         # default: installs/refreshes the core set — workflows install on demand
-npx hyperframes skills                                # all 21 published skills at once — only on explicit request
-npx skills add heygen-com/hyperframes                 # interactive picker; internal skills require INSTALL_INTERNAL_SKILLS=1 for discovery
-npx skills add heygen-com/hyperframes --all           # excludes internal skills unless INSTALL_INTERNAL_SKILLS=1
-npx skills add heygen-com/hyperframes --skill <name>  # a named match installs regardless of metadata.internal (bare name, no leading slash)
+npx @ryu1845/hyperframes skills update                         # default: installs/refreshes the core set — workflows install on demand
+npx @ryu1845/hyperframes skills                                # all 21 published skills at once — only on explicit request
+npx skills add ryu1845/hyperframes                 # interactive picker; internal skills require INSTALL_INTERNAL_SKILLS=1 for discovery
+npx skills add ryu1845/hyperframes --all           # excludes internal skills unless INSTALL_INTERNAL_SKILLS=1
+npx skills add ryu1845/hyperframes --skill <name>  # a named match installs regardless of metadata.internal (bare name, no leading slash)
 ```
 
 > **Warning:** Never run `npx skills add ... --all` from inside a HyperFrames checkout: it selects the OpenClaw target, whose `skills/` directory is the repo's own `skills/`, and removes each existing `skills/<name>` destination before linking. A fresh clone restores tracked source, but uncommitted work under `skills/` does not recover. Run it from an empty directory or from your own project root. This happens regardless of `metadata.internal`.
 
-`skills add` resolves the skills.sh registry blob, which can lag `main` by hours, so a freshly added skill may be a little behind. `npx hyperframes skills update` installs from the current `main`; prefer it when freshness matters.
+`skills add` resolves the skills.sh registry blob, which can lag `main` by hours, so a freshly added skill may be a little behind. `npx @ryu1845/hyperframes skills update` installs from the current `main`; prefer it when freshness matters.
 
 **`/hyperframes` is the entry skill — read it first.** It's the capability map for the domain skills below, the intent layer that confirms every creation brief up front, AND the intent router for the creation workflows. The full README skills section mirrors this list; keep them in sync (see "Skill catalog maintenance" below).
 
@@ -51,7 +51,7 @@ Atomic capabilities the creation workflows compose against — pull one when you
 
 When adding a new skill, or substantially renaming / repurposing an existing one, update all agent-facing discoverability surfaces in lockstep:
 
-1. The skill list above (CLAUDE.md) AND the workflow list in the root `AGENTS.md` (it carries workflows only, no domain-skill section) AND the `## Skills` section in `README.md` AND `docs/guides/skills.mdx` (rendered at [hyperframes.heygen.com/guides/skills](https://hyperframes.heygen.com/guides/skills)) AND the two setup tables that compress the same descriptions — `docs/prompting/overview.mdx` ("One-time setup") and `docs/quickstart.mdx`. Out-of-date entries silently kill discovery. This list is also the sync set for a **changed contract**, not just an added or renamed skill: a reworded `description:` has to be pushed to every surface or the compressed copies start asserting the opposite of the skill.
+1. The skill list above (CLAUDE.md) AND the workflow list in the root `AGENTS.md` (it carries workflows only, no domain-skill section) AND the `## Skills` section in `README.md` AND `docs/guides/skills.mdx` (rendered at [docs/guides/skills.mdx](https://github.com/ryu1845/hyperframes/blob/main/docs/guides/skills.mdx)) AND the two setup tables that compress the same descriptions — `docs/prompting/overview.mdx` ("One-time setup") and `docs/quickstart.mdx`. Out-of-date entries silently kill discovery. This list is also the sync set for a **changed contract**, not just an added or renamed skill: a reworded `description:` has to be pushed to every surface or the compressed copies start asserting the opposite of the skill.
 2. The scaffolded project template `packages/cli/src/templates/_shared/CLAUDE.md` + `AGENTS.md` — written into every `hyperframes init` project, so a stale entry there ships to users. The two template files must stay byte-identical.
 3. If the skill changes the routing surface for "make a video" requests, also update the routing table + intent layer in `skills/hyperframes/SKILL.md` AND that workflow's own route file, `skills/hyperframes/references/routes/<workflow>.md`. One file carries both halves: the input/output/trigger contract the router reads before the workflow is installed, and its interview entry (must-haves, conditionals, deferred asks, run-shape). The older `references/workflow-catalog.md` and `references/route-briefs.md` are now "moved" stubs pointing at `routes/` — don't edit them.
 4. Mirror the Router / Creation workflows / Domain skills grouping across all surfaces so a skill always lives in the same column.
@@ -84,8 +84,8 @@ Always lint and format changed files before committing. Lefthook pre-commit hook
 After creating or editing any `.html` composition:
 
 ```bash
-npx hyperframes lint       # Static HTML structure check
-npx hyperframes check      # Browser gate (headless Chrome — runtime errors, layout, motion, WCAG contrast)
+npx @ryu1845/hyperframes lint       # Static HTML structure check
+npx @ryu1845/hyperframes check      # Browser gate (headless Chrome — runtime errors, layout, motion, WCAG contrast)
 ```
 
 Both must pass before previewing or considering work complete.
@@ -105,7 +105,7 @@ registry/
   blocks/               → Installable sub-composition scenes (50+)
   components/           → Installable effects and snippets
   examples/             → Starter project templates
-docs/                   → Mintlify documentation site (hyperframes.heygen.com)
+docs/                   → Mintlify documentation site (https://github.com/ryu1845/hyperframes)
 skills/                 → AI agent skill definitions
 ```
 
@@ -120,5 +120,5 @@ skills/                 → AI agent skill definitions
 
 ## Documentation
 
-- Docs: https://hyperframes.heygen.com/introduction
-- Catalog (50+ blocks): https://hyperframes.heygen.com/catalog/blocks/data-chart
+- Docs: https://github.com/ryu1845/hyperframes/blob/main/docs/introduction.mdx
+- Catalog (50+ blocks): https://github.com/ryu1845/hyperframes/blob/main/docs/catalog/blocks/data-chart.mdx

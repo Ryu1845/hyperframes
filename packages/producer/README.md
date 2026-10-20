@@ -206,7 +206,7 @@ primitives are engine services (see `packages/engine/README.md`).
 
 ## Documentation
 
-Full documentation: [hyperframes.heygen.com/packages/producer](https://hyperframes.heygen.com/packages/producer)
+Full documentation: [docs/packages/producer.mdx](https://github.com/ryu1845/hyperframes/blob/main/docs/packages/producer.mdx)
 
 ## Related packages
 

@@ -10,8 +10,8 @@ separate namespaces, on purpose:
   (doctrine-heavy authoring flows). Codex CLI's
   project-local skill dir.
 - `skills/` — **marketplace-distributable**, installed into other
-  projects via `npx hyperframes skills` or `npx skills add
-heygen-com/hyperframes`.
+  projects via `npx @ryu1845/hyperframes skills` or `npx skills add
+ryu1845/hyperframes`.
 
 The parallel set at `.claude/skills/` is a byte-identical copy so
 Claude Code users get the same auto-discover behaviour — keep the two

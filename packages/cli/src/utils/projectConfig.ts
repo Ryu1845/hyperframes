@@ -13,7 +13,8 @@ import { DEFAULT_REGISTRY_URL } from "../registry/index.js";
 import { writeNewFileSync } from "./writeNewFile.js";
 
 export const PROJECT_CONFIG_FILENAME = "hyperframes.json";
-const PROJECT_CONFIG_SCHEMA_URL = "https://hyperframes.heygen.com/schema/hyperframes.json";
+const PROJECT_CONFIG_SCHEMA_URL =
+  "https://raw.githubusercontent.com/ryu1845/hyperframes/main/docs/schema/hyperframes.json";
 
 export interface ProjectConfigPaths {
   /** Where `hyperframes:block` items land, relative to project root. */

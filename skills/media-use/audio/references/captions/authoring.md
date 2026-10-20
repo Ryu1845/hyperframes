@@ -2,7 +2,7 @@
 
 <!-- registry-items: allow=max-width,data-composition-src,hyperframes-registry,blend-mode,caption-style,font-family -->
 
-**The live search is the source of truth for what the registry has.** The table(s) below are a hand-maintained sample and under-cover by design: run `npx hyperframes catalog --query "<what you want>" --json` — it needs nothing installed — before concluding the registry lacks something. Item names here are checked against `registry/registry.json` by `bun run lint:skills`.
+**The live search is the source of truth for what the registry has.** The table(s) below are a hand-maintained sample and under-cover by design: run `npx @ryu1845/hyperframes catalog --query "<what you want>" --json` — it needs nothing installed — before concluding the registry lacks something. Item names here are checked against `registry/registry.json` by `bun run lint:skills`.
 
 Before authoring: confirm the transcript came from the right Whisper model. CLI default `small.en` silently translates non-English audio — see [`../transcribe.md`](../transcribe.md) → "Language Rule" and [`transcript-handling.md`](transcript-handling.md) for the mandatory quality check.
 
@@ -117,11 +117,11 @@ tl.seek(0);
 
 ## Pre-Built Caption Components
 
-Before building caption styles from scratch, check the registry — 15 ready-to-use caption components cover the most common styles. Install with `npx hyperframes add <name>` and wire as a sub-composition via `data-composition-src` (see `hyperframes-registry`).
+Before building caption styles from scratch, check the registry — 15 ready-to-use caption components cover the most common styles. Install with `npx @ryu1845/hyperframes add <name>` and wire as a sub-composition via `data-composition-src` (see `hyperframes-registry`).
 
 ```bash
-npx hyperframes catalog --tag caption-style   # list all caption components
-npx hyperframes add caption-highlight         # install a specific one
+npx @ryu1845/hyperframes catalog --tag caption-style   # list all caption components
+npx @ryu1845/hyperframes add caption-highlight         # install a specific one
 ```
 
 | Style                     | Component                    | Best for                     |
@@ -144,7 +144,7 @@ npx hyperframes add caption-highlight         # install a specific one
 
 Related: `caption-blend-difference` (tagged `text` / `blend-mode`, not `caption-style`, so it won't appear under the filter above) auto-inverts text against any background via `mix-blend-mode: difference` — useful when the background is busy or unpredictable.
 
-Browse all with previews: [hyperframes.heygen.com/catalog](https://hyperframes.heygen.com/catalog)
+Browse all with previews: [docs/catalog/index.mdx](https://github.com/ryu1845/hyperframes/blob/main/docs/catalog/index.mdx)
 
 Caption components ship with transparent backgrounds — they're pure overlays. If the underlying video is bright or busy, add a contrast layer (e.g. a semi-transparent dark div) in the host composition beneath the caption sub-composition, not inside the component itself.
 

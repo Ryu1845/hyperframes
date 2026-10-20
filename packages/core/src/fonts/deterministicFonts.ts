@@ -1077,7 +1077,7 @@ function warnUnresolvedFonts(unresolved: string[], log: FontLogger): void {
       `    2. Add a @font-face block in your HTML with a local or hosted font file\n` +
       `    3. Install the font locally on the render machine (Docker: add to Dockerfile)\n` +
       `    4. Add an alias to FONT_ALIAS_MAP in packages/core/src/fonts/aliases.ts (for contributors)\n` +
-      `  Docs: https://hyperframes.heygen.com/docs/fonts`,
+      `  Docs: https://github.com/ryu1845/hyperframes/blob/main/docs/concepts/determinism.mdx`,
   );
 }
 

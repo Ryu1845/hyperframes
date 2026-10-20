@@ -23,8 +23,8 @@ before spending time on small visual details.
 Run the checks in Studio, ask your agent to run them, or use:
 
 ```bash
-npx hyperframes lint
-npx hyperframes check
+npx @ryu1845/hyperframes lint
+npx @ryu1845/hyperframes check
 ```
 
 `lint` catches composition-structure mistakes. `check` runs lint plus browser,
@@ -70,12 +70,12 @@ download.
 ### Use the CLI
 
 ```bash
-npx hyperframes render --output renders/final.mp4
+npx @ryu1845/hyperframes render --output renders/final.mp4
 ```
 
 Use the CLI for a direct local render, a script, CI, or a repeatable batch. The
 installed version remains authoritative: run
-`npx hyperframes render --help` for every available option.
+`npx @ryu1845/hyperframes render --help` for every available option.
 
 ## 4. Choose what the destination needs
 
@@ -121,7 +121,7 @@ is correct.
 Publish the project when a browser link is more useful than a file:
 
 ```bash
-npx hyperframes publish
+npx @ryu1845/hyperframes publish
 ```
 
 The command uploads the project and returns a stable URL. An anonymous first
@@ -137,9 +137,9 @@ timing, facts, or final approval.
 Keep the first exact error and run:
 
 ```bash
-npx hyperframes doctor
-npx hyperframes lint
-npx hyperframes check
+npx @ryu1845/hyperframes doctor
+npx @ryu1845/hyperframes lint
+npx @ryu1845/hyperframes check
 ```
 
 Use [Troubleshooting](/guides/troubleshooting) for project and render failures,

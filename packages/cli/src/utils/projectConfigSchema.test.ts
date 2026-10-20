@@ -32,7 +32,8 @@ const SCHEMA_PATH = resolve(REPO_ROOT, "docs/schema/hyperframes.json");
  * and then a validation failure until it is declared in the schema.
  */
 const EVERY_WRITTEN_KEY: Required<ProjectConfig> = {
-  $schema: "https://hyperframes.heygen.com/schema/hyperframes.json",
+  $schema:
+    "https://raw.githubusercontent.com/ryu1845/hyperframes/main/docs/schema/hyperframes.json",
   registry: "https://example.test/registry",
   paths: DEFAULT_PROJECT_CONFIG.paths,
   media: { autoProxy: true } satisfies Required<ProjectConfigMedia>,

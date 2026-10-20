@@ -16,7 +16,7 @@ import {
 import { CHANGELOG_STYLE_NOTE } from "./set-version.ts";
 
 const ROOT = join(import.meta.dirname, "..");
-const REPO_URL = "https://github.com/heygen-com/hyperframes";
+const REPO_URL = "https://github.com/ryu1845/hyperframes";
 const DOCS_MARKER =
   "{/* New weekly digest entries are prepended by `bun run changelog:weekly --from YYYY-MM-DD --to YYYY-MM-DD --write`. */}";
 /**

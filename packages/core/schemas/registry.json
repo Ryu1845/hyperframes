@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://hyperframes.heygen.com/schema/registry.json",
+  "$id": "https://raw.githubusercontent.com/ryu1845/hyperframes/main/docs/schema/registry.json",
   "title": "Hyperframes Registry Manifest",
   "description": "Top-level manifest describing all items in a Hyperframes registry.",
   "type": "object",

@@ -46,10 +46,10 @@ The agent may ask you to sign in to HeyGen before it generates the clip. Check
 the active account first:
 
 ```bash
-npx hyperframes auth status
+npx @ryu1845/hyperframes auth status
 ```
 
-Run `npx hyperframes auth login` if no account is active. Avatar generation can
+Run `npx @ryu1845/hyperframes auth login` if no account is active. Avatar generation can
 use the allowance or credits attached to that account; confirm the account and
 usage before starting a long or repeated run.
 
@@ -68,7 +68,7 @@ file. If the presenter must sit over a designed background, create a transparent
 version locally:
 
 ```bash
-npx hyperframes remove-background assets/presenter.mp4 \
+npx @ryu1845/hyperframes remove-background assets/presenter.mp4 \
   -o assets/presenter-transparent.webm
 ```
 

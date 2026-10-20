@@ -220,7 +220,7 @@ describe("hyperframes skills", () => {
       [
         "skills",
         "add",
-        "https://github.com/heygen-com/hyperframes",
+        "https://github.com/ryu1845/hyperframes",
         "--skill",
         "hyperframes",
         "--skill",
@@ -237,7 +237,7 @@ describe("hyperframes skills", () => {
       [
         "skills",
         "add",
-        "https://github.com/heygen-com/hyperframes",
+        "https://github.com/ryu1845/hyperframes",
         "--skill",
         "hyperframes",
         "--skill",
@@ -258,7 +258,7 @@ describe("hyperframes skills", () => {
         "npx.cmd",
         "skills",
         "add",
-        "https://github.com/heygen-com/hyperframes",
+        "https://github.com/ryu1845/hyperframes",
         "--skill",
         "hyperframes",
         "--skill",
@@ -299,7 +299,7 @@ describe("hyperframes skills", () => {
     expect(await commandExitCode()).toBe(0);
     const args = state.spawnCalls[0]?.args ?? [];
     // straight from GitHub, globally, as a faithful clone
-    expect(args).toContain("https://github.com/heygen-com/hyperframes");
+    expect(args).toContain("https://github.com/ryu1845/hyperframes");
     expect(args).toContain("--global");
     expect(args).toContain("--copy");
     expect(args).toContain("--full-depth");
@@ -429,7 +429,7 @@ describe("hyperframes skills", () => {
   // "no longer published" must therefore come from the canonical repo, never
   // from resolveLatestManifest's findRepoManifest shortcut, which accepts any
   // `skills-manifest.json` within 16 parent directories of cwd. HyperFrames'
-  // own manifest declares `source: heygen-com/hyperframes`, so such a file
+  // own manifest declares `source: ryu1845/hyperframes`, so such a file
   // matches lock attribution, and every published skill missing from it is
   // removed from every agent dir on the machine.
   //

@@ -22,7 +22,7 @@ resolution, frame rate, quality.
 From the project folder:
 
 ```bash
-npx hyperframes render --output final.mp4
+npx @ryu1845/hyperframes render --output final.mp4
 ```
 
 If you omit `--output`, HyperFrames writes the result under `renders/`.
@@ -30,9 +30,9 @@ If you omit `--output`, HyperFrames writes the result under `renders/`.
 The normal workflow is:
 
 ```bash
-npx hyperframes lint
-npx hyperframes check
-npx hyperframes render --output final.mp4
+npx @ryu1845/hyperframes lint
+npx @ryu1845/hyperframes check
+npx @ryu1845/hyperframes render --output final.mp4
 ```
 
 `lint` checks the project structure. `check` opens the project in a browser and looks for runtime, layout, motion, media, and contrast problems.
@@ -52,19 +52,19 @@ Examples:
 
 ```bash
 # Transparent web overlay
-npx hyperframes render --format webm --output overlay.webm
+npx @ryu1845/hyperframes render --format webm --output overlay.webm
 
 # ProRes editing file
-npx hyperframes render --format mov --output master.mov
+npx @ryu1845/hyperframes render --format mov --output master.mov
 
 # Short looping preview
-npx hyperframes render --format gif --fps 15 --output preview.gif
+npx @ryu1845/hyperframes render --format gif --fps 15 --output preview.gif
 
 # RGBA frames in a directory
-npx hyperframes render --format png-sequence --output frames
+npx @ryu1845/hyperframes render --format png-sequence --output frames
 
 # HLS VOD stream in a directory
-npx hyperframes render --format hls --output stream
+npx @ryu1845/hyperframes render --format hls --output stream
 ```
 
 GIF has no audio and limited transparency. Prefer MP4 or WebM for normal playback.
@@ -77,8 +77,8 @@ must remain transparent; an opaque `html`, `body`, or full-frame background
 will be encoded as visible pixels.
 
 ```bash
-npx hyperframes render --format webm --output overlay.webm
-npx hyperframes render --format mov --output overlay.mov
+npx @ryu1845/hyperframes render --format webm --output overlay.webm
+npx @ryu1845/hyperframes render --format mov --output overlay.mov
 ```
 
 MP4 is the normal opaque delivery format. After rendering transparency, inspect
@@ -107,8 +107,8 @@ are identical to MP4; only the delivery container differs, and packaging is a
 stream copy rather than a second encode.
 
 ```bash
-npx hyperframes render --format hls --output stream
-npx hyperframes render --format hls --hls-segment-seconds 6 --output stream
+npx @ryu1845/hyperframes render --format hls --output stream
+npx @ryu1845/hyperframes render --format hls --hls-segment-seconds 6 --output stream
 ```
 
 Segments are exactly `--hls-segment-seconds` long (default 4) except the last,
@@ -125,7 +125,7 @@ HEVC and ProRes inputs. The original file stays in the project and remains the
 render source.
 
 If a clip is black only in preview, keep automatic proxying enabled, confirm the
-source is local, and run `npx hyperframes check`. Disable proxying only when the
+source is local, and run `npx @ryu1845/hyperframes check`. Disable proxying only when the
 browser already supports the source or you are diagnosing the proxy itself.
 
 ## Choose quality and frame rate
@@ -137,13 +137,13 @@ and are rejected for MOV; choose MP4 or WebM when you need those controls.
 
 ```bash
 # Faster review version
-npx hyperframes render --quality draft --output review.mp4
+npx @ryu1845/hyperframes render --quality draft --output review.mp4
 
 # Larger final master
-npx hyperframes render --quality high --output master.mp4
+npx @ryu1845/hyperframes render --quality high --output master.mp4
 
 # Explicit frame rate
-npx hyperframes render --fps 60 --output final-60fps.mp4
+npx @ryu1845/hyperframes render --fps 60 --output final-60fps.mp4
 ```
 
 Use a higher frame rate only when the source or destination needs it. It creates more frames, so rendering takes longer.
@@ -155,7 +155,7 @@ The CLI uses the composition’s `data-fps` when present and otherwise defaults 
 Local rendering is the normal choice:
 
 ```bash
-npx hyperframes render --output final.mp4
+npx @ryu1845/hyperframes render --output final.mp4
 ```
 
 It starts quickly and can use the computer’s browser GPU.
@@ -165,7 +165,7 @@ On WSL2, Chrome may not reach the GPU; see
 Use Docker when a controlled Chrome, FFmpeg, and font environment matters:
 
 ```bash
-npx hyperframes render --docker --output final.mp4
+npx @ryu1845/hyperframes render --docker --output final.mp4
 ```
 
 Docker adds startup and infrastructure overhead. It is useful for CI and repeatable production environments, not a requirement for every final render.
@@ -175,7 +175,7 @@ Docker adds startup and infrastructure overhead. It is useful for CI and repeata
 The root `index.html` is rendered by default. To target another standalone composition:
 
 ```bash
-npx hyperframes render \
+npx @ryu1845/hyperframes render \
   --composition compositions/intro.html \
   --output intro.mp4
 ```
@@ -227,9 +227,9 @@ ffmpeg -i out.mp4 -map_metadata -1 -c copy clean.mp4
 Run:
 
 ```bash
-npx hyperframes doctor
-npx hyperframes lint
-npx hyperframes check
+npx @ryu1845/hyperframes doctor
+npx @ryu1845/hyperframes lint
+npx @ryu1845/hyperframes check
 ```
 
 Keep the first exact error rather than only the final “render failed” message. See [Troubleshooting](/guides/troubleshooting) for the next checks.

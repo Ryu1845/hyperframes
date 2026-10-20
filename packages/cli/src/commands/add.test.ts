@@ -22,7 +22,7 @@ import { trackCommandFailures } from "../utils/command-failure-tracking.js";
 // ── Fixtures ────────────────────────────────────────────────────────────────
 
 const MANIFEST: RegistryManifest = {
-  $schema: "https://hyperframes.heygen.com/schema/registry.json",
+  $schema: "https://raw.githubusercontent.com/ryu1845/hyperframes/main/docs/schema/registry.json",
   name: "test",
   homepage: "https://example.com",
   items: [
@@ -37,7 +37,8 @@ const MANIFEST: RegistryManifest = {
 };
 
 const BLOCK_ITEM: RegistryItem = {
-  $schema: "https://hyperframes.heygen.com/schema/registry-item.json",
+  $schema:
+    "https://raw.githubusercontent.com/ryu1845/hyperframes/main/docs/schema/registry-item.json",
   name: "my-block",
   type: "hyperframes:block",
   title: "My Block",
@@ -54,7 +55,8 @@ const BLOCK_ITEM: RegistryItem = {
 };
 
 const COMPONENT_ITEM: RegistryItem = {
-  $schema: "https://hyperframes.heygen.com/schema/registry-item.json",
+  $schema:
+    "https://raw.githubusercontent.com/ryu1845/hyperframes/main/docs/schema/registry-item.json",
   name: "my-component",
   type: "hyperframes:component",
   title: "My Component",
@@ -107,7 +109,8 @@ const FUTURE_BLOCK_ITEM: RegistryItem = {
 };
 
 const BASE_COMPONENT_ITEM: RegistryItem = {
-  $schema: "https://hyperframes.heygen.com/schema/registry-item.json",
+  $schema:
+    "https://raw.githubusercontent.com/ryu1845/hyperframes/main/docs/schema/registry-item.json",
   name: "base-component",
   type: "hyperframes:component",
   title: "Base Component",
@@ -137,7 +140,8 @@ const DEP_BLOCK_ITEM: RegistryItem = {
 };
 
 const EXAMPLE_ITEM: RegistryItem = {
-  $schema: "https://hyperframes.heygen.com/schema/registry-item.json",
+  $schema:
+    "https://raw.githubusercontent.com/ryu1845/hyperframes/main/docs/schema/registry-item.json",
   name: "my-example",
   type: "hyperframes:example",
   title: "My Example",
@@ -209,7 +213,8 @@ function writeRegistryConfig(
   writeFileSync(
     join(dir, "hyperframes.json"),
     JSON.stringify({
-      $schema: "https://hyperframes.heygen.com/schema/hyperframes.json",
+      $schema:
+        "https://raw.githubusercontent.com/ryu1845/hyperframes/main/docs/schema/hyperframes.json",
       registry: uniqueBase(),
       paths,
     }),
@@ -558,7 +563,7 @@ describe("describeInstallFailure", () => {
   it("stays quiet about the registry when it is the default one", () => {
     const message = describeInstallFailure(
       new Error("fetch failed"),
-      "https://raw.githubusercontent.com/heygen-com/hyperframes/main/registry",
+      "https://raw.githubusercontent.com/ryu1845/hyperframes/main/registry",
     );
 
     expect(message).not.toContain("not the public registry");

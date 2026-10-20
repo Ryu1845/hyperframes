@@ -21,7 +21,7 @@ import {
 
 describe("HYPERFRAMES_PIN_RE", () => {
   it("matches a hyperframes@<semver> token and captures the version", () => {
-    const match = "npx --yes hyperframes@1.2.3 render".match(HYPERFRAMES_PIN_RE);
+    const match = "npx --yes @ryu1845/hyperframes@1.2.3 render".match(HYPERFRAMES_PIN_RE);
     expect(match?.[0]).toBe("hyperframes@1.2.3");
   });
 });
@@ -30,9 +30,9 @@ describe("readPinnedHyperframesVersions", () => {
   it("reads distinct pinned versions across scripts", () => {
     expect(
       readPinnedHyperframesVersions({
-        a: "npx --yes hyperframes@0.7.48 render",
-        b: "npx hyperframes@0.7.50 check",
-        c: "npx hyperframes render",
+        a: "npx --yes @ryu1845/hyperframes@0.7.48 render",
+        b: "npx @ryu1845/hyperframes@0.7.50 check",
+        c: "npx @ryu1845/hyperframes render",
       }),
     ).toEqual(["0.7.48", "0.7.50"]);
   });
@@ -61,19 +61,19 @@ describe("printOlderThanPinNotice", () => {
     runningVersion = "0.7.71";
     writeFileSync(
       join(dir, "package.json"),
-      JSON.stringify({ scripts: { check: "npx --yes hyperframes@0.8.66 check" } }),
+      JSON.stringify({ scripts: { check: "npx --yes @ryu1845/hyperframes@0.8.66 check" } }),
     );
     printOlderThanPinNotice(dir);
     printOlderThanPinNotice(dir);
     const mismatch = writes.filter((w) => w.includes("This is hyperframes 0.7.71"));
     expect(mismatch.length).toBe(2);
-    expect(mismatch[0]).toContain("npx hyperframes@0.8.66");
+    expect(mismatch[0]).toContain("npx @ryu1845/hyperframes@0.8.66");
   });
 
   it("is silent when the pin is not newer than the running CLI", () => {
     writeFileSync(
       join(dir, "package.json"),
-      JSON.stringify({ scripts: { render: "npx --yes hyperframes@0.7.48 render" } }),
+      JSON.stringify({ scripts: { render: "npx --yes @ryu1845/hyperframes@0.7.48 render" } }),
     );
     printOlderThanPinNotice(dir);
     expect(writes.join("")).toBe("");
@@ -84,7 +84,7 @@ describe("printOlderThanPinNotice", () => {
     runningVersion = "0.7.0";
     writeFileSync(
       join(dir, "package.json"),
-      JSON.stringify({ scripts: { render: "npx --yes hyperframes@0.7.48 render" } }),
+      JSON.stringify({ scripts: { render: "npx --yes @ryu1845/hyperframes@0.7.48 render" } }),
     );
     printOlderThanPinNotice(dir);
     expect(writes.join("")).toBe("");

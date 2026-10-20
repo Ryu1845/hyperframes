@@ -46,7 +46,7 @@ export function printOlderThanPinNotice(cwd: string = process.cwd()): void {
     .sort(compareVersions);
   if (newerPins.length === 0) return;
   process.stderr.write(
-    `\n  This is hyperframes ${VERSION}, but this project pins hyperframes@${newerPins.join(", ")}.\n` +
-      `  Run it through the project's npm scripts, or npx hyperframes@${newerPins.at(-1)}.\n\n`,
+    `\n  This is hyperframes ${VERSION}, but this project pins @ryu1845/hyperframes@${newerPins.join(", ")}.\n` +
+      `  Run it through the project's npm scripts, or npx @ryu1845/hyperframes@${newerPins.at(-1)}.\n\n`,
   );
 }

@@ -96,12 +96,12 @@ test("synthesizeOne(elevenlabs) creates the output dir before writing", async ()
 });
 
 test("synthResult names a non-zero subprocess exit", () => {
-  const res = synthResult({ status: 2 }, "/tmp/none.wav", "kokoro (npx hyperframes tts)");
+  const res = synthResult({ status: 2 }, "/tmp/none.wav", "kokoro (npx @ryu1845/hyperframes tts)");
   assert.equal(res.ok, false);
   assert.match(res.error, /kokoro .* exited with status 2/);
 });
 
-// Kokoro shells out to `npx hyperframes tts`; a fake npx on PATH records the argv
+// Kokoro shells out to `npx @ryu1845/hyperframes tts`; a fake npx on PATH records the argv
 // synthesizeOne really builds, so a dropped flag fails here. Windows runs npx via
 // node directly, so the stub never resolves there.
 async function kokoroArgv(options) {
@@ -146,8 +146,8 @@ test(
 
 test("pickProvider refuses a provider the engine no longer has, naming the valid ones", () => {
   assert.throws(
-    () => pickProvider("heygen"),
-    /invalid provider "heygen" \(elevenlabs \| kokoro \| gemini\)/,
+    () => pickProvider("bogus"),
+    /invalid provider "bogus" \(elevenlabs \| kokoro \| gemini\)/,
   );
 });
 

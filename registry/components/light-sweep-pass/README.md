@@ -68,7 +68,7 @@ Opting elements into the light:
 ## Worked example
 
 ```bash
-npx hyperframes add light-sweep-pass
+npx @ryu1845/hyperframes add light-sweep-pass
 ```
 
 In `compositions/components/light-sweep-pass.html`, replace the slot's

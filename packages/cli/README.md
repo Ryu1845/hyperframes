@@ -5,13 +5,13 @@ CLI for creating, previewing, and rendering HTML video compositions.
 ## Install
 
 ```bash
-npm install -g hyperframes
+npm install -g @ryu1845/hyperframes
 ```
 
 Or use directly with npx:
 
 ```bash
-npx hyperframes <command>
+npx @ryu1845/hyperframes <command>
 ```
 
 **Requirements:** Node.js >= 22, FFmpeg
@@ -23,7 +23,7 @@ npx hyperframes <command>
 Scaffold a new Hyperframes project from a template:
 
 ```bash
-npx hyperframes init my-video
+npx @ryu1845/hyperframes init my-video
 cd my-video
 ```
 
@@ -32,11 +32,11 @@ cd my-video
 Start the live preview studio in your browser:
 
 ```bash
-npx hyperframes preview
+npx @ryu1845/hyperframes preview
 # Studio: http://localhost:3002/#project/my-video
 # Server: http://localhost:3002
 
-npx hyperframes preview --port 4567
+npx @ryu1845/hyperframes preview --port 4567
 ```
 
 In an interactive terminal, the preview stays attached until you press
@@ -53,8 +53,8 @@ Measure where sounds land: onsets, the moment each sound peaks, loudness and
 silence. Give files, or query the film's own clips in film time:
 
 ```bash
-npx hyperframes audio sfx/whoosh.mp3
-npx hyperframes audio --at 12 --json
+npx @ryu1845/hyperframes audio sfx/whoosh.mp3
+npx @ryu1845/hyperframes audio --at 12 --json
 ```
 
 ### `normalize-audio`
@@ -63,8 +63,8 @@ Measure two local authored audio clips with integrated LUFS and match the target
 to the unchanged reference. The command is a dry run unless `--write` is passed:
 
 ```bash
-npx hyperframes normalize-audio --reference target-audio --target user-audio
-npx hyperframes normalize-audio --reference target-audio --target user-audio --write
+npx @ryu1845/hyperframes normalize-audio --reference target-audio --target user-audio
+npx @ryu1845/hyperframes normalize-audio --reference target-audio --target user-audio --write
 ```
 
 It updates only the target element's `data-volume` and refuses unsafe boosts
@@ -77,13 +77,13 @@ argument is the project directory (not a file), so render the project's
 `index.html` directly, or point at a specific composition file with `-c`:
 
 ```bash
-npx hyperframes render -o output.mp4
-npx hyperframes render -c ./my-composition.html -o output.mp4
+npx @ryu1845/hyperframes render -o output.mp4
+npx @ryu1845/hyperframes render -c ./my-composition.html -o output.mp4
 ```
 
 A render stops when the process that started it exits. To keep one running after
 its launcher exits, set `HYPERFRAMES_RENDER_DETACHED=1` and start it in its own
-process group, e.g. `bash -c 'set -m; HYPERFRAMES_RENDER_DETACHED=1 npx hyperframes render -o out.mp4 < /dev/null > render.log 2>&1 &'`.
+process group, e.g. `bash -c 'set -m; HYPERFRAMES_RENDER_DETACHED=1 npx @ryu1845/hyperframes render -o out.mp4 < /dev/null > render.log 2>&1 &'`.
 
 Piped, non-quiet renders emit a single `@hf-diagnostic ` JSON line when an audio
 failure reaches the CLI error handler. Version 1 has `operation: "render"` and
@@ -105,15 +105,15 @@ Upload a project directory and get a hosted URL that keeps working after the CLI
 Published projects are private by default:
 
 ```bash
-npx hyperframes publish
-npx hyperframes publish ./my-video
-npx hyperframes publish --public
-npx hyperframes publish --yes
+npx @ryu1845/hyperframes publish
+npx @ryu1845/hyperframes publish ./my-video
+npx @ryu1845/hyperframes publish --public
+npx @ryu1845/hyperframes publish --yes
 ```
 
 Signed-out publishing returns an authentication-required claim URL; opening it
 lets someone sign in and claim the project. Sign in first with
-`npx hyperframes auth login` to publish an owned project you can update. Use
+`npx @ryu1845/hyperframes auth login` to publish an owned project you can update. Use
 `--public` to make the claimed project visible to anyone. `--yes` only skips the
 confirmation prompt and does not change visibility.
 
@@ -122,7 +122,7 @@ or `--space <space-id>` to publish into a shared team space. If the requested
 project is missing or inaccessible, publishing can create a new project instead;
 check the printed URL and status.
 
-See the [publish reference](https://hyperframes.heygen.com/packages/cli#publish)
+See the [publish reference](https://github.com/ryu1845/hyperframes/blob/main/docs/packages/cli.mdx#publish)
 for all options, including video proxy settings.
 
 ### `lint`
@@ -130,9 +130,9 @@ for all options, including video proxy settings.
 Validate your Hyperframes HTML:
 
 ```bash
-npx hyperframes lint ./my-composition
-npx hyperframes lint ./my-composition --json      # JSON output for CI/tooling
-npx hyperframes lint ./my-composition --verbose   # Include info-level findings
+npx @ryu1845/hyperframes lint ./my-composition
+npx @ryu1845/hyperframes lint ./my-composition --json      # JSON output for CI/tooling
+npx @ryu1845/hyperframes lint ./my-composition --verbose   # Include info-level findings
 ```
 
 By default only errors and warnings are shown. Use `--verbose` to also display informational findings (e.g., external script dependency notices). Use `--json` for machine-readable output with `errorCount`, `warningCount`, `infoCount`, and a `findings` array.
@@ -142,7 +142,7 @@ By default only errors and warnings are shown. Use `--verbose` to also display i
 List compositions found in the current project:
 
 ```bash
-npx hyperframes compositions
+npx @ryu1845/hyperframes compositions
 ```
 
 ### `benchmark`
@@ -150,7 +150,7 @@ npx hyperframes compositions
 Run rendering benchmarks:
 
 ```bash
-npx hyperframes benchmark ./my-composition.html
+npx @ryu1845/hyperframes benchmark ./my-composition.html
 ```
 
 ### `doctor`
@@ -158,7 +158,7 @@ npx hyperframes benchmark ./my-composition.html
 Check your environment for required dependencies (Chrome, FFmpeg, Node.js):
 
 ```bash
-npx hyperframes doctor
+npx @ryu1845/hyperframes doctor
 ```
 
 ### `browser`
@@ -166,7 +166,7 @@ npx hyperframes doctor
 Manage the bundled Chrome/Chromium installation:
 
 ```bash
-npx hyperframes browser
+npx @ryu1845/hyperframes browser
 ```
 
 ### `info`
@@ -174,7 +174,7 @@ npx hyperframes browser
 Print version and environment info:
 
 ```bash
-npx hyperframes info
+npx @ryu1845/hyperframes info
 ```
 
 ### `docs`
@@ -182,7 +182,7 @@ npx hyperframes info
 Open the documentation in your browser:
 
 ```bash
-npx hyperframes docs
+npx @ryu1845/hyperframes docs
 ```
 
 ### `upgrade`
@@ -190,13 +190,13 @@ npx hyperframes docs
 Check for updates and show upgrade instructions:
 
 ```bash
-npx hyperframes upgrade
-npx hyperframes upgrade --check --json  # machine-readable for agents
+npx @ryu1845/hyperframes upgrade
+npx @ryu1845/hyperframes upgrade --check --json  # machine-readable for agents
 ```
 
 ## Documentation
 
-Full documentation: [hyperframes.heygen.com/packages/cli](https://hyperframes.heygen.com/packages/cli)
+Full documentation: [docs/packages/cli.mdx](https://github.com/ryu1845/hyperframes/blob/main/docs/packages/cli.mdx)
 
 ## Related packages
 

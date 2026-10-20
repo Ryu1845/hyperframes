@@ -18,7 +18,8 @@ vi.mock("node:fs", async (importOriginal) => {
   return { ...actual, writeFileSync: vi.fn(actual.writeFileSync) };
 });
 
-const SCHEMA = "https://hyperframes.heygen.com/schema/registry-item.json";
+const SCHEMA =
+  "https://raw.githubusercontent.com/ryu1845/hyperframes/main/docs/schema/registry-item.json";
 // Names no other test uses: the registry cache is shared by every test in a run.
 const block = (name: string, dependencies?: string[]) => ({
   $schema: SCHEMA,
@@ -81,7 +82,8 @@ function projectWithRegistry(onItemFetch?: () => void): {
       if (!url.startsWith(registry)) return new Response("not found", { status: 404 });
       if (url.endsWith("/registry.json")) {
         const items = ITEMS.map(({ name, type }) => ({ name, type }));
-        const $schema = "https://hyperframes.heygen.com/schema/registry.json";
+        const $schema =
+          "https://raw.githubusercontent.com/ryu1845/hyperframes/main/docs/schema/registry.json";
         return new Response(
           JSON.stringify({ $schema, name: "t", homepage: "https://example.com", items }),
         );

@@ -1,7 +1,7 @@
 # Lottie translation: @remotion/lottie → HF lottie adapter
 
 Lottie animations are a clean translation case — HF has a built-in
-[Lottie adapter](https://github.com/heygen-com/hyperframes/blob/main/packages/core/src/runtime/adapters/lottie.ts)
+[Lottie adapter](https://github.com/ryu1845/hyperframes/blob/main/packages/core/src/runtime/adapters/lottie.ts)
 that supports both `lottie-web` and `@lottiefiles/dotlottie-web`. The
 adapter auto-discovers animations registered on `window.__hfLottie`
 and seeks them per-frame via `goToAndStop`.
@@ -112,7 +112,7 @@ Lottie asset and verify the rendered output.
 
 ## Performance note
 
-Per the [Lottie adapter](https://github.com/heygen-com/hyperframes/blob/main/packages/core/src/runtime/adapters/lottie.ts)
+Per the [Lottie adapter](https://github.com/ryu1845/hyperframes/blob/main/packages/core/src/runtime/adapters/lottie.ts)
 docs: lottie-web's `goToAndStop(time, isFrame=false)` takes time in ms;
 the adapter passes `time * 1000` for precision. This is more accurate
 than passing frame numbers (especially for animations whose internal

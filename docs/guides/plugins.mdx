@@ -30,7 +30,7 @@ Install on each machine you use; a plugin does not synchronize your machines.
 Run in your terminal:
 
 ```bash
-claude plugin marketplace add heygen-com/hyperframes
+claude plugin marketplace add ryu1845/hyperframes
 claude plugin install hyperframes@hyperframes
 claude plugin details hyperframes
 ```
@@ -62,7 +62,7 @@ for project-wide installation and managed update policies.
 ## GitHub Copilot CLI
 
 ```bash
-copilot plugin marketplace add heygen-com/hyperframes
+copilot plugin marketplace add ryu1845/hyperframes
 copilot plugin install hyperframes@hyperframes
 copilot plugin list
 ```
@@ -81,7 +81,7 @@ schedule. See [Copilot's plugin guide](https://docs.github.com/en/copilot/how-to
 ## VS Code
 
 Open the Extensions view and search `@agentPlugins`. Add
-`heygen-com/hyperframes` as a marketplace using the plugin marketplace command,
+`ryu1845/hyperframes` as a marketplace using the plugin marketplace command,
 then install **hyperframes** and verify its skills in Agent Customizations.
 Agent plugins must be enabled in VS Code settings.
 
@@ -92,7 +92,7 @@ for the current UI and workspace recommendations.
 
 ## Cursor
 
-For a team marketplace, import `heygen-com/hyperframes` in **Dashboard → Plugins &
+For a team marketplace, import `ryu1845/hyperframes` in **Dashboard → Plugins &
 MCPs** and add the HyperFrames plugin. Teammates install it from **Customize**.
 GitHub marketplace auto-refresh requires the Cursor GitHub App and the marketplace's
 **Enable Auto Refresh** setting.
@@ -110,7 +110,7 @@ guide](https://cursor.com/docs/plugins) for marketplace and local-install contro
 ## Gemini CLI
 
 ```bash
-gemini extensions install https://github.com/heygen-com/hyperframes --auto-update
+gemini extensions install https://github.com/ryu1845/hyperframes --auto-update
 gemini extensions list
 ```
 
@@ -135,7 +135,7 @@ itself remains read-only and does not include browsers or model weights.
 
 The plugin bundles workflows from one source snapshot and runs the CLI version
 recorded in its manifest. Your agent should use its bundled plugin launcher;
-it should not run `npx hyperframes skills update` during a plugin workflow.
+it should not run `npx @ryu1845/hyperframes skills update` during a plugin workflow.
 Existing project dependencies, downloaded media, and external services have their
 own versions and are not frozen by the plugin.
 

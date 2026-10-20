@@ -58,7 +58,7 @@ test("pins CLI, suppresses standalone refresh, preserves unrelated environment",
   assert.equal(result.command, "npx");
   assert.deepEqual(result.args, [
     "--yes",
-    "hyperframes@1.2.3",
+    "@ryu1845/hyperframes@1.2.3",
     "init",
     "project with spaces",
     "--non-interactive",
@@ -85,7 +85,7 @@ test("Windows launches npx through Node without shell argument interpretation", 
   assert.deepEqual(result.args, [
     String.raw`C:\Program Files\nodejs\node_modules\npm\bin\npx-cli.js`,
     "--yes",
-    "hyperframes@1.2.3",
+    "@ryu1845/hyperframes@1.2.3",
     "render",
     "a & b",
   ]);

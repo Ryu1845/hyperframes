@@ -15,10 +15,10 @@ When the composition is animation-driven, run the checks before you reach for `p
 ## lint
 
 ```bash
-npx hyperframes lint                  # current directory
-npx hyperframes lint ./my-project     # specific project
-npx hyperframes lint --verbose        # info-level findings
-npx hyperframes lint --json           # machine-readable
+npx @ryu1845/hyperframes lint                  # current directory
+npx @ryu1845/hyperframes lint ./my-project     # specific project
+npx @ryu1845/hyperframes lint --verbose        # info-level findings
+npx @ryu1845/hyperframes lint --json           # machine-readable
 ```
 
 Lints `index.html` and all files in `compositions/`. Reports errors (must fix), warnings (should fix), and info (with `--verbose`). Catches missing `data-composition-id`, overlapping tracks on the same `data-track-index`, unregistered timelines, and GSAP/CSS transform conflicts.
@@ -28,17 +28,17 @@ Lints `index.html` and all files in `compositions/`. Reports errors (must fix), 
 ## check
 
 ```bash
-npx hyperframes check                    # current directory: the full browser gate
-npx hyperframes check ./my-project       # specific project
-npx hyperframes check --json             # agent-readable envelope {ok, browserSkipped, lint, runtime, layout, motion, contrast, hdr, snapshots}
-npx hyperframes check --snapshots        # also write overview frames (annotated) + per-finding crops
-npx hyperframes check --samples 15       # denser timeline sweep (default 9)
-npx hyperframes check --at 1.5,4,7.25    # explicit hero-frame timestamps
-npx hyperframes check --at-transitions   # also sample every tween start/end boundary
-npx hyperframes check --tolerance 4      # allowed overflow px before reporting (default 2)
-npx hyperframes check --timeout 30000    # initial render-ready + navigation minimum in ms (defaults: 3000 / 10000)
-npx hyperframes check --no-contrast      # skip the WCAG audit while iterating
-npx hyperframes check --strict           # exit non-zero on warnings too (default: only errors)
+npx @ryu1845/hyperframes check                    # current directory: the full browser gate
+npx @ryu1845/hyperframes check ./my-project       # specific project
+npx @ryu1845/hyperframes check --json             # agent-readable envelope {ok, browserSkipped, lint, runtime, layout, motion, contrast, hdr, snapshots}
+npx @ryu1845/hyperframes check --snapshots        # also write overview frames (annotated) + per-finding crops
+npx @ryu1845/hyperframes check --samples 15       # denser timeline sweep (default 9)
+npx @ryu1845/hyperframes check --at 1.5,4,7.25    # explicit hero-frame timestamps
+npx @ryu1845/hyperframes check --at-transitions   # also sample every tween start/end boundary
+npx @ryu1845/hyperframes check --tolerance 4      # allowed overflow px before reporting (default 2)
+npx @ryu1845/hyperframes check --timeout 30000    # initial render-ready + navigation minimum in ms (defaults: 3000 / 10000)
+npx @ryu1845/hyperframes check --no-contrast      # skip the WCAG audit while iterating
+npx @ryu1845/hyperframes check --strict           # exit non-zero on warnings too (default: only errors)
 ```
 
 One command, one Chrome boot. `check` runs the linter first and skips the browser entirely when lint reports errors. When the browser never ran (lint errors, a linter crash, or a browser launch failure), `browserSkipped` is `true` and the `layout`, `motion` and `contrast` sections are empty, not clean. Otherwise it loads the bundled composition once, wires runtime listeners before navigation, and sweeps one seek grid running every audit per sample:
@@ -63,8 +63,8 @@ Every finding carries a selector, the element's `data-*` identity, the compositi
 **Opt-in pipeline gates** (used by orchestrators; off by default):
 
 ```bash
-npx hyperframes check --caption-zone "x0=0;y0=.82;x1=1;y1=1;severity=error;seek=.25,1"
-npx hyperframes check --frame-check     # media (img/svg/video/canvas) out-of-frame detection
+npx @ryu1845/hyperframes check --caption-zone "x0=0;y0=.82;x1=1;y1=1;severity=error;seek=.25,1"
+npx @ryu1845/hyperframes check --frame-check     # media (img/svg/video/canvas) out-of-frame detection
 ```
 
 `--caption-zone` takes fractional band geometry (`x0/y0/x1/y1` required, 0-1 fractions of the composition's own canvas, portrait included) with optional `severity` and comma-separated `seek` fractions; it flags a text element's DOM box (`getBoundingClientRect`) that overlaps the band. Waive intentional lower-third copy with `data-layout-allow-caption-zone` on the element or its nearest wrapper (see Escape hatches). `--frame-check` reports media elements breaching the canvas beyond `max(120px, 6% of the min canvas dimension)`.
@@ -101,11 +101,11 @@ Drop a `*.motion.json` sidecar next to the composition (matching the html basena
 ## snapshot
 
 ```bash
-npx hyperframes snapshot                       # 5 key frames as PNG
-npx hyperframes snapshot ./my-project          # specific project
-npx hyperframes snapshot --frames 10           # evenly-spaced N frames
-npx hyperframes snapshot --range 3:5 --frames 8 # 8 frames within root-timeline seconds 3–5
-npx hyperframes snapshot --composition intro --frames 8 # 8 frames within this data-composition-id
+npx @ryu1845/hyperframes snapshot                       # 5 key frames as PNG
+npx @ryu1845/hyperframes snapshot ./my-project          # specific project
+npx @ryu1845/hyperframes snapshot --frames 10           # evenly-spaced N frames
+npx @ryu1845/hyperframes snapshot --range 3:5 --frames 8 # 8 frames within root-timeline seconds 3–5
+npx @ryu1845/hyperframes snapshot --composition intro --frames 8 # 8 frames within this data-composition-id
 ```
 
 Still PNGs. Each run writes `.hyperframes/artifacts/snapshots/<id>/` unless `--output` is set. `snapshot` is the standalone capture; `check --snapshots` is the gate.
@@ -125,11 +125,11 @@ For disposable checks, allocate a temporary output folder and remove that folder
 `hyperframes check --snapshots` already writes a `finding-NN-<code>.png` crop for every error finding that carries a bbox, but the same zoom is available standalone once you know what to look at:
 
 ```bash
-npx hyperframes check --snapshots               # reports a finding, e.g. content_overlap on "#cta"
-npx hyperframes snapshot --zoom "#cta"           # crop the element to verify the defect, at 3x density
-npx hyperframes snapshot --zoom "100,50,400,300" --zoom-scale 2   # or an exact pixel region
+npx @ryu1845/hyperframes check --snapshots               # reports a finding, e.g. content_overlap on "#cta"
+npx @ryu1845/hyperframes snapshot --zoom "#cta"           # crop the element to verify the defect, at 3x density
+npx @ryu1845/hyperframes snapshot --zoom "100,50,400,300" --zoom-scale 2   # or an exact pixel region
 # fix the composition HTML, then re-check:
-npx hyperframes check
+npx @ryu1845/hyperframes check
 ```
 
 `--zoom` takes a CSS selector or an exact `x,y,w,h` pixel region and always produces a real high-density crop (a raised `deviceScaleFactor`, never CSS zoom or a viewport resize), so the composition's layout — and its render determinism — is untouched. A selector matching nothing is a loud error, not a silent full-frame fallback, and a frame where the target has no visible box (collapsed or animated off-canvas) is skipped with a note instead of written as a sliver.

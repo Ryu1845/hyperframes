@@ -67,7 +67,7 @@ Rules:
 Install, then fill the slots with two visuals:
 
 ```bash
-npx hyperframes add morph-swap
+npx @ryu1845/hyperframes add morph-swap
 ```
 
 In `compositions/components/morph-swap.html`, replace each slot's default

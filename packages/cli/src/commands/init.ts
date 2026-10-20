@@ -280,7 +280,7 @@ function toPackageName(projectName: string): string {
 }
 
 function getHyperframesPackageSpecifier(): string {
-  return VERSION === "0.0.0-dev" ? "hyperframes" : `hyperframes@${VERSION}`;
+  return VERSION === "0.0.0-dev" ? "@ryu1845/hyperframes" : `@ryu1845/hyperframes@${VERSION}`;
 }
 
 function hyperframesScript(command: string): string {
@@ -645,7 +645,9 @@ async function keepSkillsCurrent(destDir: string): Promise<void> {
       // "up to date"; the engine already reported what it could verify or
       // blind-install. Point at the recovery command instead.
       console.log(
-        c.dim("Skills freshness unverified — run `npx hyperframes skills update` when online."),
+        c.dim(
+          "Skills freshness unverified — run `npx @ryu1845/hyperframes skills update` when online.",
+        ),
       );
     } else if (result.installed.length === 0) {
       console.log(c.success("AI coding skills are already up to date."));
@@ -752,7 +754,7 @@ export default defineCommand({
       // command copy-pasteable.
       console.error(
         c.error(
-          `The --template flag was renamed to --example. Example:\n  npx hyperframes init ${args.name ?? "my-video"} --example "${args.template}"`,
+          `The --template flag was renamed to --example. Example:\n  npx @ryu1845/hyperframes init ${args.name ?? "my-video"} --example "${args.template}"`,
         ),
       );
       failCommand();
@@ -760,7 +762,7 @@ export default defineCommand({
     if (args["video-legacy"] !== undefined) {
       console.error(
         c.error(
-          `The -V short flag no longer maps to --video. Use --video (or -v). Example:\n  npx hyperframes init ${args.name ?? "my-video"} --video "${args["video-legacy"]}"`,
+          `The -V short flag no longer maps to --video. Use --video (or -v). Example:\n  npx @ryu1845/hyperframes init ${args.name ?? "my-video"} --video "${args["video-legacy"]}"`,
         ),
       );
       failCommand();
@@ -776,7 +778,7 @@ export default defineCommand({
     // guidance lives in SKILL.md, which ships through the same laggy skills.sh
     // channel and can't be relied on to reach the agent — so the guarantee has to
     // live in the CLI, the one channel that updates promptly (`npx
-    // hyperframes@latest`). CI and unit tests still opt out via the
+    // @ryu1845/hyperframes@latest`). CI and unit tests still opt out via the
     // HYPERFRAMES_SKIP_SKILLS=1 env var, which the agent/user CLI path never sets.
     // Revert to `args["skip-skills"] === true` once skills.sh catches up.
     const skipSkills = process.env.HYPERFRAMES_SKIP_SKILLS === "1";
@@ -947,7 +949,7 @@ export default defineCommand({
         console.log(
           `  ${c.accent("1.")} Use your HyperFrames plugin, or install standalone skills:`,
         );
-        console.log(`     ${c.accent("npx hyperframes skills update")}`);
+        console.log(`     ${c.accent("npx @ryu1845/hyperframes skills update")}`);
       } else {
         console.log(
           `  ${c.accent("1.")} Restart your AI agent (new session) so it loads the skills.`,
@@ -963,7 +965,9 @@ export default defineCommand({
       console.log(
         `     ${c.dim('"Using /hyperframes, create a 15-second intro about [your topic]"')}`,
       );
-      console.log(`     ${c.dim("More patterns: hyperframes.heygen.com/prompting/overview")}`);
+      console.log(
+        `     ${c.dim("More patterns: https://github.com/ryu1845/hyperframes/blob/main/docs/prompting/overview.mdx")}`,
+      );
       console.log();
       console.log(`  ${c.accent("4.")} Preview in the browser:`);
       console.log(`     ${c.accent(`cd ${name}`)} && ${c.accent("npm run dev")}`);
@@ -974,7 +978,7 @@ export default defineCommand({
       console.log(`  ${c.accent("6.")} Render to MP4 when ready:`);
       console.log(`     ${c.accent(`cd ${name}`)} && ${c.accent("npm run render")}`);
       console.log();
-      console.log(`  ${c.dim("Full docs: hyperframes.heygen.com")}`);
+      console.log(`  ${c.dim("Full docs: https://github.com/ryu1845/hyperframes")}`);
       return;
     }
 

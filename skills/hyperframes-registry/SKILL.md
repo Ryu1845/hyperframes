@@ -35,7 +35,7 @@ These paths are configurable in `hyperframes.json`:
 
 ```json
 {
-  "registry": "https://raw.githubusercontent.com/heygen-com/hyperframes/main/registry",
+  "registry": "https://raw.githubusercontent.com/ryu1845/hyperframes/main/registry",
   "paths": {
     "blocks": "compositions",
     "components": "compositions/components",
@@ -91,8 +91,8 @@ Use the CLI as the primary discovery surface. **Search by intent before browsing
 
 ```bash
 # Rank the whole catalog against what the beat should do
-npx hyperframes catalog --query "reveal a headline one line at a time"
-npx hyperframes add caption-clip-wipe
+npx @ryu1845/hyperframes catalog --query "reveal a headline one line at a time"
+npx @ryu1845/hyperframes add caption-clip-wipe
 ```
 
 Search is local and sends nothing. By default it ranks on vocabulary shared with the item's name, title and description, so it only finds items that reuse your words; `--on-device` ranks by meaning instead, after a one-time model download. With `--json` the envelope names which tier answered, so check that rather than assuming a ranking happened.
@@ -104,12 +104,12 @@ Installability is applied after ranking, not before it: a name the vectors carry
 To browse or filter instead of search:
 
 ```bash
-npx hyperframes catalog
-npx hyperframes catalog --type block
-npx hyperframes catalog --type component
-npx hyperframes catalog --type block --tag social
-npx hyperframes catalog --json
-npx hyperframes catalog --human-friendly
+npx @ryu1845/hyperframes catalog
+npx @ryu1845/hyperframes catalog --type block
+npx @ryu1845/hyperframes catalog --type component
+npx @ryu1845/hyperframes catalog --type block --tag social
+npx @ryu1845/hyperframes catalog --json
+npx @ryu1845/hyperframes catalog --human-friendly
 ```
 
 The normal table and `--json` modes only list matches; install a selected name with `hyperframes add <name>`. `--human-friendly` opens an interactive picker and installs the selected item immediately. In CI or agent workflows, prefer `--json` followed by an explicit `add`.
@@ -119,7 +119,7 @@ This is the whole demand signal for the catalog. Skipping it means the gap you h
 If the CLI cannot reach the configured registry, inspect the raw manifest as a fallback:
 
 ```bash
-curl -s https://raw.githubusercontent.com/heygen-com/hyperframes/main/registry/registry.json
+curl -s https://raw.githubusercontent.com/ryu1845/hyperframes/main/registry/registry.json
 ```
 
 A registry the CLI cannot reach does **not** empty the catalog for **discovery**: a previously fetched manifest keeps serving past its 24h refresh window whenever revalidation fails, so `catalog` and `catalog --query` still list and rank against the last copy on disk.

@@ -5,7 +5,7 @@ The calm breather titlecard (intros and reveals). An optional mono kicker fades 
 ## Install
 
 ```bash
-npx hyperframes add titlecard-lockup
+npx @ryu1845/hyperframes add titlecard-lockup
 ```
 
 ## Mount

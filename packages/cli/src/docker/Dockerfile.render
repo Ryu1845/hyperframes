@@ -62,7 +62,7 @@ RUN if [ "$TARGETARCH" = "amd64" ]; then \
       npx --yes playwright-core@${PLAYWRIGHT_VERSION} install chromium-headless-shell; \
     fi
 
-RUN npm install -g hyperframes@${HYPERFRAMES_VERSION}
+RUN npm install -g @ryu1845/hyperframes@${HYPERFRAMES_VERSION}
 
 # Wrapper script: resolves the chrome-headless-shell path installed above and
 # exports it as PRODUCER_HEADLESS_SHELL_PATH so the engine uses BeginFrame

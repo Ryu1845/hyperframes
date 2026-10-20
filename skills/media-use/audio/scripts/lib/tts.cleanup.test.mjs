@@ -93,7 +93,7 @@ if (["allocation", "write", "spawn-throw"].includes(mode)) {
   assert.equal(fs.readFileSync(slowWav, "utf8"), "slow");
 } else {
   const result = await request();
-  const label = provider === "elevenlabs" ? "elevenlabs (python)" : "kokoro (npx hyperframes tts)";
+  const label = provider === "elevenlabs" ? "elevenlabs (python)" : "kokoro (npx @ryu1845/hyperframes tts)";
   if (["nonzero", "enoent", "no-output"].includes(mode)) {
     const error = mode === "no-output" ? label + " produced no wav file" :
       label + " exited with status " + (mode === "enoent" ? -1 : 7);

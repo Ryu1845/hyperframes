@@ -13,7 +13,8 @@ export interface AudioStreamInfo {
 
 function requiredBinary(name: "ffmpeg" | "ffprobe"): string {
   const path = findFfBinary(name, { configuredMustExist: true });
-  if (!path) throw new Error(`${name} is required to analyze audio; run: npx hyperframes doctor`);
+  if (!path)
+    throw new Error(`${name} is required to analyze audio; run: npx @ryu1845/hyperframes doctor`);
   return path;
 }
 

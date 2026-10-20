@@ -14,7 +14,7 @@
     "measured_p05_ssim": 0.973,
     "measured_p95_ssim": 0.984,
     "measured_at": "2026-09-18",
-    "measured_against": "remotion@4.0 (PNG output, BT.709) vs hyperframes@0.7.71 (sub-composition fixtures)"
+    "measured_against": "remotion@4.0 (PNG output, BT.709) vs @ryu1845/hyperframes@0.7.71 (sub-composition fixtures)"
   },
   "translation_notes": [
     "Remotion: AbsoluteFill → HF: position:absolute;inset:0 div",

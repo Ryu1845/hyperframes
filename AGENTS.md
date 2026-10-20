@@ -7,9 +7,9 @@ Open-source video rendering framework: write HTML, render video.
 This repo ships AI agent skills via [vercel-labs/skills](https://github.com/vercel-labs/skills). Install them before writing compositions — they encode framework-specific patterns that generic docs don't cover. **Default to the core set** — the `/hyperframes` router installs each creation workflow on demand; install everything only when the user explicitly asks for the full set.
 
 ```bash
-npx hyperframes skills update           # default: installs/refreshes the core set — workflows install on demand
-npx hyperframes skills                  # all 21 published skills at once
-npx skills add heygen-com/hyperframes   # interactive picker (terminal only; repo-internal skills are excluded by default)
+npx @ryu1845/hyperframes skills update           # default: installs/refreshes the core set — workflows install on demand
+npx @ryu1845/hyperframes skills                  # all 21 published skills at once
+npx skills add ryu1845/hyperframes   # interactive picker (terminal only; repo-internal skills are excluded by default)
 ```
 
 **Creation workflows** route through one entry skill — read `/hyperframes` first: it orients you to the whole surface, confirms the brief up front (the intent layer), and maps "make me a…" intent — usually a video, but also a navigable deck (`/slideshow`) or a composition port (`/remotion-to-hyperframes`) — to a concrete workflow. Consult it before invoking a specific workflow:
@@ -71,8 +71,8 @@ Always lint and format changed files before committing. Lefthook pre-commit hook
 After creating or editing any `.html` composition:
 
 ```bash
-npx hyperframes lint       # Static HTML structure check
-npx hyperframes check      # Browser gate (headless Chrome — runtime errors, layout, motion, WCAG contrast)
+npx @ryu1845/hyperframes lint       # Static HTML structure check
+npx @ryu1845/hyperframes check      # Browser gate (headless Chrome — runtime errors, layout, motion, WCAG contrast)
 ```
 
 Both must pass before previewing or considering work complete.
@@ -92,7 +92,7 @@ registry/
   blocks/               → Installable sub-composition scenes (50+)
   components/           → Installable effects and snippets
   examples/             → Starter project templates
-docs/                   → Mintlify documentation site (hyperframes.heygen.com)
+docs/                   → Mintlify documentation site (https://github.com/ryu1845/hyperframes)
 skills/                 → AI agent skill definitions
 ```
 
@@ -107,5 +107,5 @@ skills/                 → AI agent skill definitions
 
 ## Documentation
 
-- Docs: https://hyperframes.heygen.com/introduction
-- Catalog (50+ blocks): https://hyperframes.heygen.com/catalog/blocks/data-chart
+- Docs: https://github.com/ryu1845/hyperframes/blob/main/docs/introduction.mdx
+- Catalog (50+ blocks): https://github.com/ryu1845/hyperframes/blob/main/docs/catalog/blocks/data-chart.mdx

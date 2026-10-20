@@ -1,6 +1,6 @@
 # Text To Speech
 
-`npx hyperframes tts` synthesizes locally with Kokoro. It does not accept a
+`npx @ryu1845/hyperframes tts` synthesizes locally with Kokoro. It does not accept a
 `--provider` or `--words` flag. For ElevenLabs or Gemini, and for word timings
 in the same step, use the shared audio engine (`scripts/audio.mjs`, see
 [Engine voiceover](#engine-voiceover) below).
@@ -48,7 +48,7 @@ its credential requirement.
 
 ```bash
 # Local Kokoro CLI
-npx hyperframes tts "Welcome to HyperFrames" -o narration.wav
+npx @ryu1845/hyperframes tts "Welcome to HyperFrames" -o narration.wav
 ```
 
 ## Engine voiceover
@@ -178,7 +178,7 @@ Default `af_heart`. Curated picks:
 | Documentation     | `bf_emma`, `bm_george` |
 | Casual / social   | `af_heart`, `af_sky`   |
 
-Run `npx hyperframes tts --list` for the bundled set.
+Run `npx @ryu1845/hyperframes tts --list` for the bundled set.
 
 ## Multilingual (Kokoro voice prefix → language)
 
@@ -197,8 +197,8 @@ The first letter of a Kokoro voice ID picks the phonemizer language; `--lang` ov
 | `z`    | Mandarin             |
 
 ```bash
-npx hyperframes tts "La reunión empieza a las nueve" --voice ef_dora
-npx hyperframes tts "Today is a nice day" --voice af_heart
+npx @ryu1845/hyperframes tts "La reunión empieza a las nueve" --voice ef_dora
+npx @ryu1845/hyperframes tts "Today is a nice day" --voice af_heart
 ```
 
 Valid `--lang` codes (only needed to override the voice's auto-detected language): `en-us`, `en-gb`, `es`, `fr-fr`, `hi`, `it`, `pt-br`, `ja`, `zh`.
@@ -230,4 +230,4 @@ The engine writes `voices[].words` in the same flat shape `transcribe` produces 
 ]
 ```
 
-For ElevenLabs / Kokoro, run `npx hyperframes transcribe narration.wav --model small.en` to get the same shape.
+For ElevenLabs / Kokoro, run `npx @ryu1845/hyperframes transcribe narration.wav --model small.en` to get the same shape.

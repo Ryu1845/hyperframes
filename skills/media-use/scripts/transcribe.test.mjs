@@ -6,7 +6,7 @@ import { join } from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
 
-// The stub stands in for `npx hyperframes transcribe <in> --dir <dir> ...`: it records its args,
+// The stub stands in for `npx @ryu1845/hyperframes transcribe <in> --dir <dir> ...`: it records its args,
 // writes the CLI's flat array and prints the CLI's --json line naming `cliEngine`.
 function runScript(engine, cliEngine) {
   const root = mkdtempSync(join(tmpdir(), "media-use-transcribe-"));

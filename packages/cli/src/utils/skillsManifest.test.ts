@@ -468,17 +468,13 @@ describe("skillsAttributedToSource", () => {
   it("matches by slug or git clone URL and ignores other sources", () => {
     const lock = {
       skills: {
-        a: { source: "heygen-com/hyperframes" },
-        b: { sourceUrl: "https://github.com/heygen-com/hyperframes.git" },
-        c: { source: "https://github.com/heygen-com/hyperframes" },
+        a: { source: "ryu1845/hyperframes" },
+        b: { sourceUrl: "https://github.com/ryu1845/hyperframes.git" },
+        c: { source: "https://github.com/ryu1845/hyperframes" },
         d: { source: "greensock/gsap-skills" },
       },
     };
-    expect(skillsAttributedToSource(lock, "heygen-com/hyperframes").sort()).toEqual([
-      "a",
-      "b",
-      "c",
-    ]);
+    expect(skillsAttributedToSource(lock, "ryu1845/hyperframes").sort()).toEqual(["a", "b", "c"]);
   });
 
   it("returns [] for a null/empty lock or empty source", () => {
@@ -775,7 +771,7 @@ describe("checkSkills canonical bypass of the in-repo manifest shortcut", () => 
     writeFileSync(
       join(project, MANIFEST_FILE),
       JSON.stringify({
-        source: "heygen-com/hyperframes",
+        source: "ryu1845/hyperframes",
         skills: { "retired-skill": { hash: "x", files: 1 } },
       }),
     );
@@ -792,13 +788,13 @@ describe("checkSkills canonical bypass of the in-repo manifest shortcut", () => 
     writeFileSync(
       join(project, MANIFEST_FILE),
       JSON.stringify({
-        source: "heygen-com/hyperframes",
+        source: "ryu1845/hyperframes",
         skills: { "retired-skill": { hash: "x", files: 1 }, kept: { hash: "y", files: 1 } },
       }),
     );
     // The canonical (fetched) manifest no longer ships `retired-skill`.
     stubFetchedManifest({
-      source: "heygen-com/hyperframes",
+      source: "ryu1845/hyperframes",
       skills: { kept: { hash: "y", files: 1 } },
     });
 
@@ -849,9 +845,9 @@ describe("pruneOrphanedLockEntries", () => {
     mkdirSync(join(home, ".agents"), { recursive: true });
     const lockPath = join(home, ".agents", ".skill-lock.json");
     writeLock(lockPath, {
-      a: { source: "heygen-com/hyperframes" },
-      b: { source: "heygen-com/hyperframes" },
-      c: { source: "heygen-com/hyperframes" },
+      a: { source: "ryu1845/hyperframes" },
+      b: { source: "ryu1845/hyperframes" },
+      c: { source: "ryu1845/hyperframes" },
     });
 
     const pruned = pruneOrphanedLockEntries(["a", "b"], "global", { home });
@@ -866,7 +862,7 @@ describe("pruneOrphanedLockEntries", () => {
     const home = join(root, "home");
     mkdirSync(join(home, ".agents"), { recursive: true });
     const lockPath = join(home, ".agents", ".skill-lock.json");
-    writeLock(lockPath, { a: { source: "heygen-com/hyperframes" } });
+    writeLock(lockPath, { a: { source: "ryu1845/hyperframes" } });
 
     const first = pruneOrphanedLockEntries(["a"], "global", { home });
     expect(first).toEqual(["a"]);
@@ -883,8 +879,8 @@ describe("pruneOrphanedLockEntries", () => {
     mkdirSync(join(home, ".agents"), { recursive: true });
     const lockPath = join(home, ".agents", ".skill-lock.json");
     writeLock(lockPath, {
-      a: { source: "heygen-com/hyperframes" },
-      b: { source: "heygen-com/hyperframes" },
+      a: { source: "ryu1845/hyperframes" },
+      b: { source: "ryu1845/hyperframes" },
     });
     chmodSync(lockPath, 0o640);
 
@@ -893,7 +889,7 @@ describe("pruneOrphanedLockEntries", () => {
     expect(pruned).toEqual(["a"]);
     const raw = readFileSync(lockPath, "utf8");
     expect(raw.endsWith("\n")).toBe(false);
-    expect(JSON.parse(raw).skills).toEqual({ b: { source: "heygen-com/hyperframes" } });
+    expect(JSON.parse(raw).skills).toEqual({ b: { source: "ryu1845/hyperframes" } });
     // No `.tmp` sibling left behind by the temp-file + rename.
     expect(readdirSync(join(home, ".agents"))).toEqual([".skill-lock.json"]);
     // Original permissions survive the rewrite (POSIX only — Windows's fs
@@ -914,8 +910,8 @@ describe("pruneOrphanedLockEntries", () => {
     const project = join(root, "project");
     mkdirSync(project, { recursive: true });
     writeLock(join(project, "skills-lock.json"), {
-      a: { source: "heygen-com/hyperframes" },
-      b: { source: "heygen-com/hyperframes" },
+      a: { source: "ryu1845/hyperframes" },
+      b: { source: "ryu1845/hyperframes" },
     });
 
     const pruned = pruneOrphanedLockEntries(["a"], "project", { cwd: project });

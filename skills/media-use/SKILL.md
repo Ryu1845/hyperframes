@@ -9,7 +9,7 @@ description: Agent Media OS for a HyperFrames project. Resolve BGM, SFX, image, 
 
 The media OS for HyperFrames: resolve · generate · operate · remember — every media type, one skill, zero context noise.
 
-First run: verify the local setup with `npx hyperframes media-use resolve --doctor` (it checks `ffmpeg`, `ffprobe`, Node and the bundled SFX). Every generator is local-first and opt-in; providers, keys and installs: `references/setup-providers.md`.
+First run: verify the local setup with `npx @ryu1845/hyperframes media-use resolve --doctor` (it checks `ffmpeg`, `ffprobe`, Node and the bundled SFX). Every generator is local-first and opt-in; providers, keys and installs: `references/setup-providers.md`.
 
 Music and sound effects inside a host app: when the app you run in gives you its own music or sound-effect tools, use those. Otherwise music has no catalog: generate the bed with the audio engine (`audio/references/bgm.md` — Lyria with `GEMINI_API_KEY`, else local MusicGen) and `resolve --type bgm` records it with `--from`. `resolve --type sfx` searches Openverse (CC0 and CC BY only, no account) and falls back to its bundled library offline; credit CC BY sounds as `audio/references/sfx.md` says.
 
@@ -18,7 +18,7 @@ Before generating a voiceover, tell the person which engine will run: ElevenLabs
 ## Resolve — the one verb
 
 ```bash
-npx hyperframes media-use resolve --type <type> --intent "<description>" --project <dir>
+npx @ryu1845/hyperframes media-use resolve --type <type> --intent "<description>" --project <dir>
 ```
 
 Returns one line: `resolved <id> → <path> (<type>, <metadata>)`. All search noise stays on disk.

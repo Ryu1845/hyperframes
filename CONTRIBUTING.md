@@ -11,7 +11,7 @@ Thanks for your interest in contributing to Hyperframes! This guide will help yo
 
 ## Choosing work
 
-Start with [available newcomer issues](https://github.com/heygen-com/hyperframes/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22+no%3Aassignee) or [help-wanted issues](https://github.com/heygen-com/hyperframes/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22+no%3Aassignee). Read the discussion and check existing PRs before starting; an unassigned issue may already have work in progress. Comment with your intended approach and coordinate a claim with a maintainer.
+Start with [available newcomer issues](https://github.com/ryu1845/hyperframes/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22+no%3Aassignee) or [help-wanted issues](https://github.com/ryu1845/hyperframes/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22+no%3Aassignee). Read the discussion and check existing PRs before starting; an unassigned issue may already have work in progress. Comment with your intended approach and coordinate a claim with a maintainer.
 
 `difficulty/easy`, `difficulty/medium`, and `difficulty/hard` describe the work. `triage/ready` means the scope is accepted; `help wanted` means it is available. A `good first issue` also has a testing path and a maintainer willing to help. See [TRIAGE.md](TRIAGE.md) for the full definitions and ways to discover useful issues yourself.
 
@@ -135,7 +135,7 @@ before merge, listed at the end.
 
 1. Create `registry/<blocks|components>/<name>/registry-item.json` following the [schema](packages/core/schemas/registry-item.json)
 2. For components: include a `demo.html`
-3. Run `npx hyperframes lint` and `npx hyperframes validate` on your HTML
+3. Run `npx @ryu1845/hyperframes lint` and `npx @ryu1845/hyperframes validate` on your HTML
 4. Test the install flow: `hyperframes add <name> --dir /tmp/test-project`
 5. Generate and validate the catalog: `bun run check:catalog-drift`
 
@@ -242,7 +242,7 @@ bun run set-version 0.2.0 --no-tag   # updates package.json files only
 
 ## Reporting Issues
 
-- Use [GitHub Issues](https://github.com/heygen-com/hyperframes/issues) for bug reports and feature requests
+- Use [GitHub Issues](https://github.com/ryu1845/hyperframes/issues) for bug reports and feature requests
 - Search existing issues before creating a new one
 - Include reproduction steps for bugs
 

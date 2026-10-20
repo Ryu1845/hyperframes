@@ -224,4 +224,4 @@ Untracked scratch; will not land in a PR.
 - Do not push or update PRs unless asked.
 - Signed commits are required; `filter-branch` strips signatures and the push is
   rejected with GH013.
-- Composition changes: `npx hyperframes lint` then `npx hyperframes check`.
+- Composition changes: `npx @ryu1845/hyperframes lint` then `npx @ryu1845/hyperframes check`.

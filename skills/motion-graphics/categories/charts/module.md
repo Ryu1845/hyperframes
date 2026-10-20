@@ -12,12 +12,12 @@ Read [data in motion](../../../hyperframes-creative/references/data-in-motion.md
 
 - Block: **`data-chart`** (animated **bar + line**, staggered reveal, value labels — proven: borrowed + customized + rendered to MP4 in the prototype `charts-demo`).
 - Also in the registry: **`bar-chart-race`** — install it rather than hand-authoring a race.
-- Gaps (hand-author): **pie / donut, ring/%** — no registry block covers these. Search first (`npx hyperframes catalog --query "pie chart reveal" --json`), then use SVG/CSS for data→geometry + GSAP for motion.
+- Gaps (hand-author): **pie / donut, ring/%** — no registry block covers these. Search first (`npx @ryu1845/hyperframes catalog --query "pie chart reveal" --json`), then use SVG/CSS for data→geometry + GSAP for motion.
 - Signature animations: bar stagger-grow · line `stroke-dashoffset` draw-on · pie radial sweep · ring fill · KPI count-up · race reorder.
 
 ## Build (reuse-first)
 
-Reuse `data-chart`: `npx hyperframes add data-chart` → edit the data arrays + scales + headline/labels + palette in place (its data is baked in the script, not a `--variables` flag). Axes hidden by default; show muted only when magnitude is the message. Determinism: drive any animation from the seek clock, never wall-clock.
+Reuse `data-chart`: `npx @ryu1845/hyperframes add data-chart` → edit the data arrays + scales + headline/labels + palette in place (its data is baked in the script, not a `--variables` flag). Axes hidden by default; show muted only when magnitude is the message. Determinism: drive any animation from the seek clock, never wall-clock.
 
 ## Dashboard-skeleton variant
 

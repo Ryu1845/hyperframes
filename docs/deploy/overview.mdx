@@ -24,8 +24,8 @@ The CLI owns the complete normal pipeline: project loading, checks, browser
 capture, audio mixing, and encoding.
 
 ```bash
-npx hyperframes check
-npx hyperframes render --output video.mp4
+npx @ryu1845/hyperframes check
+npx @ryu1845/hyperframes render --output video.mp4
 ```
 
 Start here unless an application—not a person or CI job—must initiate the
@@ -63,7 +63,7 @@ Managed cloud rendering accepts a project, runs the render, and returns the
 finished file without requiring local Chrome or FFmpeg.
 
 ```bash
-npx hyperframes cloud render ./project --output video.mp4
+npx @ryu1845/hyperframes cloud render ./project --output video.mp4
 ```
 
 Authentication, variables, webhooks, and job management are covered in

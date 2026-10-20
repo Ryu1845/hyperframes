@@ -49,22 +49,22 @@ Transcription creates timed words from an audio or video file. Start with the
 automatic engine: it uses Parakeet when installed and falls back to Whisper.
 
 ```bash
-npx hyperframes transcribe interview.mp4
+npx @ryu1845/hyperframes transcribe interview.mp4
 ```
 
 Pass the spoken language when you know it. This filters non-target speech and
 lets the Whisper fallback choose a multilingual model when needed.
 
 ```bash
-npx hyperframes transcribe interview.mp4 --language es
+npx @ryu1845/hyperframes transcribe interview.mp4 --language es
 ```
 
 For difficult English audio, force the larger English Whisper model. For an
 unknown language, use multilingual `large-v3` and let Whisper detect it.
 
 ```bash
-npx hyperframes transcribe interview.mp4 --engine whisper --model medium.en
-npx hyperframes transcribe interview.mp4 --engine whisper --model large-v3
+npx @ryu1845/hyperframes transcribe interview.mp4 --engine whisper --model medium.en
+npx @ryu1845/hyperframes transcribe interview.mp4 --engine whisper --model large-v3
 ```
 
 Larger models take longer and do not remove the need to read the result.
@@ -73,7 +73,7 @@ The command can also import an existing `.srt`, `.vtt`, or supported transcript
 JSON file:
 
 ```bash
-npx hyperframes transcribe subtitles.srt
+npx @ryu1845/hyperframes transcribe subtitles.srt
 ```
 
 ## Turn the transcript into captions

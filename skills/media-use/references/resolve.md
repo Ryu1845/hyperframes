@@ -1,7 +1,7 @@
 # Resolve — command, flags, reuse, adopt, inventory
 
 ```bash
-npx hyperframes media-use resolve --type <type> --intent "<description>" --project <dir>
+npx @ryu1845/hyperframes media-use resolve --type <type> --intent "<description>" --project <dir>
 ```
 
 Returns one line: `resolved <id> → <path> (<type>, <metadata>)`
@@ -31,31 +31,31 @@ record it with `--from <file> --type <bgm|icon> --source generated`. Reuse
 
 ```bash
 # Background music: record a track the audio engine generated
-npx hyperframes media-use resolve --type bgm --from assets/bgm/track.wav --source generated --intent "upbeat tech launch" --project .
+npx @ryu1845/hyperframes media-use resolve --type bgm --from assets/bgm/track.wav --source generated --intent "upbeat tech launch" --project .
 # → resolved bgm_001 → assets/bgm/track.wav (bgm, 25s)
 
 # Sound effect
-npx hyperframes media-use resolve --type sfx --intent "whoosh" --project .
+npx @ryu1845/hyperframes media-use resolve --type sfx --intent "whoosh" --project .
 # → resolved sfx_001 → .media/audio/sfx/sfx_001.mp3 (sfx, 0.57s)
 
 # Image (generated locally with mflux, or with codex)
-npx hyperframes media-use resolve --type image --intent "gradient tech background" --project .
+npx @ryu1845/hyperframes media-use resolve --type image --intent "gradient tech background" --project .
 # → resolved image_001 → .media/images/image_001.png (image)
 
 # Icon: record an SVG you authored
-npx hyperframes media-use resolve --type icon --from ./rocket.svg --project .
+npx @ryu1845/hyperframes media-use resolve --type icon --from ./rocket.svg --project .
 # → resolved icon_001 → .media/images/icon_001.svg (icon)
 
 # Brand logo (official mark — never redrawn by hand)
-npx hyperframes media-use resolve --type logo --entity linkedin --intent "LinkedIn logo" --project .
+npx @ryu1845/hyperframes media-use resolve --type logo --entity linkedin --intent "LinkedIn logo" --project .
 # → resolved logo_001 → .media/images/logo_001.svg (logo, official mark)
 
 # Color grade block
-npx hyperframes media-use resolve --type grade --intent "warm daylight" --project . --json
+npx @ryu1845/hyperframes media-use resolve --type grade --intent "warm daylight" --project . --json
 # → {"ok":true,"preset":"warm-daylight","grading":{"preset":"warm-daylight","intensity":1},...}
 
 # LUT file
-npx hyperframes media-use resolve --type lut --intent "teal orange blockbuster" --project .
+npx @ryu1845/hyperframes media-use resolve --type lut --intent "teal orange blockbuster" --project .
 # → resolved lut_001 → .media/luts/lut_001.cube (lut)
 ```
 
@@ -85,7 +85,7 @@ npx hyperframes media-use resolve --type lut --intent "teal orange blockbuster" 
 Before resolving bgm/sfx/image/icon/logo/grade/lut, **check what already exists and reuse it when it fits.** media-use does not semantically match for you — you are the judge. It surfaces candidates; you decide.
 
 ```bash
-npx hyperframes media-use resolve --type bgm --intent "upbeat tech launch" --candidates --project .
+npx @ryu1845/hyperframes media-use resolve --type bgm --intent "upbeat tech launch" --candidates --project .
 #   [project] upbeat tech launch (25s, musicgen)
 #           .media/audio/bgm/bgm_001.wav
 #   [global]  energetic tech intro (22s, lyria)
@@ -119,7 +119,7 @@ Steps 1 and 3 are the **deterministic floor**: they only auto-reuse an exact-nor
 Most HyperFrames projects already have assets in `assets/`. media-use adopts them:
 
 ```bash
-npx hyperframes media-use resolve --adopt --project .
+npx @ryu1845/hyperframes media-use resolve --adopt --project .
 # → adopted 9 assets from assets/
 #   bgm_001 → assets/bgm/mango-fizz.mp3 (bgm, 146.6s)
 #   image_001 → assets/images/avatar.jpg (image, 400×400)

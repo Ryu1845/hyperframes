@@ -8,14 +8,14 @@ This page lists every command and every flag. If you are still deciding which
 command you need, the [CLI guide](/developers/cli) is the shorter route.
 
 The installed version is always the authority. Run
-`npx hyperframes <command> --help` to see exactly what your copy accepts.
+`npx @ryu1845/hyperframes <command> --help` to see exactly what your copy accepts.
 
 ```bash
 # No install needed
-npx hyperframes <command>
+npx @ryu1845/hyperframes <command>
 
 # Or install once
-npm install -g hyperframes
+npm install -g @ryu1845/hyperframes
 ```
 
 ## Find your command
@@ -40,7 +40,7 @@ npm install -g hyperframes
 Read this once and skip the repetition below.
 
 **The project directory.** Most commands take it as the first argument and
-default to the current directory: `npx hyperframes check ./my-video`. A few
+default to the current directory: `npx @ryu1845/hyperframes check ./my-video`. A few
 take it as a flag instead — `add`, `transcribe`, `feedback`, `skills`, `history`, and
 the `timeline` edit commands use `--dir`.
 
@@ -78,7 +78,7 @@ it cannot install — `npx`, an unknown installer — you get a notice instead:
 
 ```
   Update available: 0.1.4 → 0.1.5
-  Run: npx hyperframes@latest
+  Run: npx @ryu1845/hyperframes@latest
 ```
 
 Both stay silent in CI and non-TTY shells. `HYPERFRAMES_NO_UPDATE_CHECK=1` turns
@@ -92,13 +92,13 @@ Scaffold a new composition project from an example.
 
 ```bash
 # Default: centered Inter blank. Non-TTY skips the wizard.
-npx hyperframes init my-video
+npx @ryu1845/hyperframes init my-video
 
 # Start from a video file
-npx hyperframes init my-video --video video.mp4 --non-interactive
+npx @ryu1845/hyperframes init my-video --video video.mp4 --non-interactive
 
 # With the Tailwind browser runtime
-npx hyperframes init my-video --tailwind
+npx @ryu1845/hyperframes init my-video --tailwind
 ```
 
 | Flag                | Description                                                                                                                                                                                                                                                                          |
@@ -136,11 +136,11 @@ Install one item from the registry into a project you already have.
 sub-composition scene) or a **component** (an effect or snippet).
 
 ```bash
-npx hyperframes add claude-code-window          # a block
-npx hyperframes add shader-wipe                 # a component
-npx hyperframes add captions                    # every block with this tag
-npx hyperframes add shader-wipe --dir ./my-video
-npx hyperframes add shader-wipe --no-clipboard --json   # headless / CI
+npx @ryu1845/hyperframes add claude-code-window          # a block
+npx @ryu1845/hyperframes add shader-wipe                 # a component
+npx @ryu1845/hyperframes add captions                    # every block with this tag
+npx @ryu1845/hyperframes add shader-wipe --dir ./my-video
+npx @ryu1845/hyperframes add shader-wipe --no-clipboard --json   # headless / CI
 ```
 
 The positional name is a registry item, or a tag — a tag installs every block
@@ -167,10 +167,10 @@ installation.
 Browse the registry.
 
 ```bash
-npx hyperframes catalog                          # table of everything
-npx hyperframes catalog --type block --tag social
-npx hyperframes catalog --json
-npx hyperframes catalog --human-friendly         # picker; installs on select
+npx @ryu1845/hyperframes catalog                          # table of everything
+npx @ryu1845/hyperframes catalog --type block --tag social
+npx @ryu1845/hyperframes catalog --json
+npx @ryu1845/hyperframes catalog --human-friendly         # picker; installs on select
 ```
 
 Filter with `--type` (`block` or `component`) and `--tag` (`social`,
@@ -192,9 +192,9 @@ what stays on your machine: [How catalog search works](/developers/catalog-searc
 Pull a real website into a working folder an agent can build from.
 
 ```bash
-npx hyperframes capture https://stripe.com
-npx hyperframes capture https://linear.app -o linear-capture
-npx hyperframes capture https://example.com --json
+npx @ryu1845/hyperframes capture https://stripe.com
+npx @ryu1845/hyperframes capture https://linear.app -o linear-capture
+npx @ryu1845/hyperframes capture https://example.com --json
 ```
 
 ```
@@ -288,16 +288,16 @@ already have.
 
 ```bash
 # Local transcription
-npx hyperframes transcribe audio.mp3
-npx hyperframes transcribe video.mp4 --model medium.en --language en
+npx @ryu1845/hyperframes transcribe audio.mp3
+npx @ryu1845/hyperframes transcribe video.mp4 --model medium.en --language en
 
 # Import from another tool
-npx hyperframes transcribe subtitles.srt
-npx hyperframes transcribe openai-response.json
+npx @ryu1845/hyperframes transcribe subtitles.srt
+npx @ryu1845/hyperframes transcribe openai-response.json
 
 # Export a caption sidecar, from a transcript or straight from the media
-npx hyperframes transcribe transcript.json --to srt
-npx hyperframes transcribe video.mp4 --to vtt
+npx @ryu1845/hyperframes transcribe transcript.json --to srt
+npx @ryu1845/hyperframes transcribe video.mp4 --to vtt
 ```
 
 | Flag              | Description                                                                                                                                                                                       |
@@ -341,10 +341,10 @@ List or download on-device models. Only asked-for installs happen; nothing downl
 on first use.
 
 ```bash
-npx hyperframes models list                      # Parakeet and any downloaded whisper models
-npx hyperframes models list --json               # { ok, models: [{ engine, model, installed, runner, path }] }
-npx hyperframes models install parakeet          # progress on stderr
-npx hyperframes models install parakeet --json   # one JSON result
+npx @ryu1845/hyperframes models list                      # Parakeet and any downloaded whisper models
+npx @ryu1845/hyperframes models list --json               # { ok, models: [{ engine, model, installed, runner, path }] }
+npx @ryu1845/hyperframes models install parakeet          # progress on stderr
+npx @ryu1845/hyperframes models install parakeet --json   # one JSON result
 ```
 
 `list` reports Parakeet as installed only when `transcribe` would use it, through
@@ -368,11 +368,11 @@ Generate speech with a local model (Kokoro-82M). No API key, nothing leaves the
 machine.
 
 ```bash
-npx hyperframes tts "Welcome to HyperFrames"
-npx hyperframes tts "Intro" --voice bf_emma --output narration.wav
-npx hyperframes tts "Slow and clear" --speed 0.8
-npx hyperframes tts script.txt
-npx hyperframes tts --list
+npx @ryu1845/hyperframes tts "Welcome to HyperFrames"
+npx @ryu1845/hyperframes tts "Intro" --voice bf_emma --output narration.wav
+npx @ryu1845/hyperframes tts "Slow and clear" --speed 0.8
+npx @ryu1845/hyperframes tts script.txt
+npx @ryu1845/hyperframes tts --list
 ```
 
 | Flag           | Description                                                                                                                             |
@@ -403,19 +403,19 @@ screen.
 
 ```bash
 # Default: VP9-with-alpha WebM, plays natively in HTML5
-npx hyperframes remove-background avatar.mp4 -o transparent.webm
+npx @ryu1845/hyperframes remove-background avatar.mp4 -o transparent.webm
 
 # ProRes 4444 for an editing round-trip
-npx hyperframes remove-background avatar.mp4 -o transparent.mov
+npx @ryu1845/hyperframes remove-background avatar.mp4 -o transparent.mov
 
 # One image → transparent PNG
-npx hyperframes remove-background portrait.jpg -o cutout.png
+npx @ryu1845/hyperframes remove-background portrait.jpg -o cutout.png
 
 # Cutout and inverse-alpha background plate in one pass
-npx hyperframes remove-background avatar.mp4 -o subject.webm --background-output plate.webm
+npx @ryu1845/hyperframes remove-background avatar.mp4 -o subject.webm --background-output plate.webm
 
 # What providers does this machine have?
-npx hyperframes remove-background --info
+npx @ryu1845/hyperframes remove-background --info
 ```
 
 | Flag                      | Description                                                                                                                                                                                                                            |
@@ -460,18 +460,18 @@ Read or edit the colour and effect treatment stored on images and videos.
 
 ```bash
 # Find out what exists, then look at one family or effect
-npx hyperframes media-treatment --capabilities --json
-npx hyperframes media-treatment --capability kuwahara --json
+npx @ryu1845/hyperframes media-treatment --capabilities --json
+npx @ryu1845/hyperframes media-treatment --capability kuwahara --json
 
 # Measure a selected local source
-npx hyperframes media-treatment --selector '#hero' --analyze --json
+npx @ryu1845/hyperframes media-treatment --selector '#hero' --analyze --json
 
 # Apply, preview, or clear
-npx hyperframes media-treatment --selector '#hero' \
+npx @ryu1845/hyperframes media-treatment --selector '#hero' \
   --grading '{"preset":"skin-soft","intensity":0.6}' --apply
-npx hyperframes media-treatment --file compositions/scene.html --selector 'video' \
+npx @ryu1845/hyperframes media-treatment --file compositions/scene.html --selector 'video' \
   --grading '{"preset":"warm-daylight"}' --dry-run --json
-npx hyperframes media-treatment --selector '#hero' --clear
+npx @ryu1845/hyperframes media-treatment --selector '#hero' --clear
 ```
 
 | Flag                   | Description                                                           |
@@ -502,8 +502,8 @@ Find the beats in a composition's music and write them where Studio expects
 them.
 
 ```bash
-npx hyperframes beats [dir]
-npx hyperframes beats [dir] --json   # { ok, file, count, bpm }
+npx @ryu1845/hyperframes beats [dir]
+npx @ryu1845/hyperframes beats [dir] --json   # { ok, file, count, bpm }
 ```
 
 `beats` finds the music track — an `<audio>` element with
@@ -534,11 +534,11 @@ at a different sample rate, which can shift a beat slightly.
 Measure how sound moves in time, so a cut or an animation can land on it.
 
 ```bash
-npx hyperframes audio sfx/whoosh.mp3                  # one file, in file seconds
-npx hyperframes audio sfx/hit.wav --place-at 4.2      # not in the film yet: where it lands if it starts at 4.2 s
-npx hyperframes audio --element '#riser'              # one clip of the film, in film seconds
-npx hyperframes audio --at 12                         # every sound playing at 12 s
-npx hyperframes audio --range 10,14 --only onsets     # every hit between 10 and 14 s
+npx @ryu1845/hyperframes audio sfx/whoosh.mp3                  # one file, in file seconds
+npx @ryu1845/hyperframes audio sfx/hit.wav --place-at 4.2      # not in the film yet: where it lands if it starts at 4.2 s
+npx @ryu1845/hyperframes audio --element '#riser'              # one clip of the film, in film seconds
+npx @ryu1845/hyperframes audio --at 12                         # every sound playing at 12 s
+npx @ryu1845/hyperframes audio --range 10,14 --only onsets     # every hit between 10 and 14 s
 ```
 
 Each sound reports:
@@ -624,13 +624,13 @@ and FFmpeg's integrated EBU R128 loudness measurement.
 
 ```bash
 # Measure only (the default)
-npx hyperframes normalize-audio --reference target-audio --target user-audio
+npx @ryu1845/hyperframes normalize-audio --reference target-audio --target user-audio
 
 # Persist the computed gain on #user-audio
-npx hyperframes normalize-audio --reference target-audio --target user-audio --write
+npx @ryu1845/hyperframes normalize-audio --reference target-audio --target user-audio --write
 
 # Agent-readable result
-npx hyperframes normalize-audio --reference target-audio --target user-audio --json
+npx @ryu1845/hyperframes normalize-audio --reference target-audio --target user-audio --json
 ```
 
 `--reference` and `--target` are `<audio>` element ids, with or without `#`.
@@ -646,12 +646,12 @@ is deliberate: inspect the measurement before passing `--write`. Use
 Start a live preview server with hot reload.
 
 ```bash
-npx hyperframes preview [dir]
-npx hyperframes preview --port 4567
-npx hyperframes preview --background     # keep running after the command exits
-npx hyperframes preview --foreground     # stay attached in a non-interactive shell
-npx hyperframes preview --status --json  # inspect a managed preview from an agent
-npx hyperframes preview --list           # every running preview
+npx @ryu1845/hyperframes preview [dir]
+npx @ryu1845/hyperframes preview --port 4567
+npx @ryu1845/hyperframes preview --background     # keep running after the command exits
+npx @ryu1845/hyperframes preview --foreground     # stay attached in a non-interactive shell
+npx @ryu1845/hyperframes preview --status --json  # inspect a managed preview from an agent
+npx @ryu1845/hyperframes preview --list           # every running preview
 ```
 
 | Flag                                 | Description                                                                                               |
@@ -705,8 +705,8 @@ The server picks one of three modes by itself: **embedded** (the default for
 audience views stay in sync for as long as the command runs.
 
 ```bash
-npx hyperframes present [dir]
-npx hyperframes present [dir] --port 3004
+npx @ryu1845/hyperframes present [dir]
+npx @ryu1845/hyperframes present [dir] --port 3004
 ```
 
 `--port` defaults to 3004. `--open` / `--no-open` controls the browser, and
@@ -722,10 +722,10 @@ editor, just playback. Same flags, `--port` defaults to 3003, plus `--proxy` /
 Upload the project and get back a stable `hyperframes.dev` URL.
 
 ```bash
-npx hyperframes publish [dir]
-npx hyperframes publish --yes
-npx hyperframes publish --update <url-or-id>
-npx hyperframes publish --space <space-id>
+npx @ryu1845/hyperframes publish [dir]
+npx @ryu1845/hyperframes publish --yes
+npx @ryu1845/hyperframes publish --update <url-or-id>
+npx @ryu1845/hyperframes publish --space <space-id>
 ```
 
 | Flag                     | Description                                                        |
@@ -744,7 +744,7 @@ You can publish while signed out. The printed URL then carries a claim token:
 whoever opens it on `hyperframes.dev` can sign in, claim the project, and keep
 editing in the web app.
 
-Sign in with `npx hyperframes auth login` first when you want an owned, stable
+Sign in with `npx @ryu1845/hyperframes auth login` first when you want an owned, stable
 link you can publish to again. `--update` and `--space` both need that
 ownership.
 
@@ -755,9 +755,9 @@ ownership.
 Read the HTML and report common mistakes. No browser, so it is fast.
 
 ```bash
-npx hyperframes lint [dir]
-npx hyperframes lint [dir] --verbose   # include info-level findings
-npx hyperframes lint [dir] --json
+npx @ryu1845/hyperframes lint [dir]
+npx @ryu1845/hyperframes lint [dir] --verbose   # include info-level findings
+npx @ryu1845/hyperframes lint [dir] --json
 ```
 
 ```
@@ -784,11 +784,11 @@ The browser gate. Everything the old `validate` → `inspect` → `snapshot` loo
 did, in one command and one browser session.
 
 ```bash
-npx hyperframes check [dir]
-npx hyperframes check [dir] --json         # {ok, browserSkipped, scope, lint, runtime, layout, motion, contrast, hdr, snapshots}
-npx hyperframes check [dir] --snapshots
-npx hyperframes check [dir] --at 1.5,4,7.25
-npx hyperframes check [dir] --strict       # warnings fail too
+npx @ryu1845/hyperframes check [dir]
+npx @ryu1845/hyperframes check [dir] --json         # {ok, browserSkipped, scope, lint, runtime, layout, motion, contrast, hdr, snapshots}
+npx @ryu1845/hyperframes check [dir] --snapshots
+npx @ryu1845/hyperframes check [dir] --at 1.5,4,7.25
+npx @ryu1845/hyperframes check [dir] --strict       # warnings fail too
 ```
 
 `check` runs the linter first and skips the browser entirely on a lint error.
@@ -932,10 +932,10 @@ nothing reports `motion_selector_missing` rather than quietly passing.
 Capture specific frames as PNGs, without waiting for a full render.
 
 ```bash
-npx hyperframes snapshot my-project --at 2.9,10.4,18.7
-npx hyperframes snapshot my-project --frames 10
-npx hyperframes snapshot my-project --zoom '#headline'
-npx hyperframes snapshot my-project --at 1.5,4.3 --against ref.mp4
+npx @ryu1845/hyperframes snapshot my-project --at 2.9,10.4,18.7
+npx @ryu1845/hyperframes snapshot my-project --frames 10
+npx @ryu1845/hyperframes snapshot my-project --zoom '#headline'
+npx @ryu1845/hyperframes snapshot my-project --at 1.5,4.3 --against ref.mp4
 ```
 
 ```
@@ -974,8 +974,8 @@ Show the GSAP, CSS, and Anime.js keyframes actually detected in a composition �
 or render an onion-skin diagnostic of one element's motion.
 
 ```bash
-npx hyperframes keyframes [dir]
-npx hyperframes keyframes [dir] --selector "#card" --shot card-motion.png
+npx @ryu1845/hyperframes keyframes [dir]
+npx @ryu1845/hyperframes keyframes [dir] --selector "#card" --shot card-motion.png
 ```
 
 | Flag                 | Description                                                                                                                    |
@@ -999,7 +999,7 @@ has nothing to draw.
 `compare` renders two or more independent variants into one labelled PNG.
 
 ```bash
-npx hyperframes compare ./variant-a ./variant-b --labels "A,B"
+npx @ryu1845/hyperframes compare ./variant-a ./variant-b --labels "A,B"
 ```
 
 | Flag        | Description                                        |
@@ -1015,7 +1015,7 @@ npx hyperframes compare ./variant-a ./variant-b --labels "A,B"
 one reference frame.
 
 ```bash
-npx hyperframes grade-compare --for frame.png --luts warm.cube,cool.cube
+npx @ryu1845/hyperframes grade-compare --for frame.png --luts warm.cube,cool.cube
 ```
 
 | Flag                           | Description                                              |
@@ -1036,7 +1036,7 @@ All three still run, and all three print a deprecation line on stderr and set
 browser check; `inspect` (and its alias `layout`) was the layout sweep and
 motion-sidecar pass. [`check`](#check) does everything they did, in one browser
 session, and it is where new work should go. Their flags are unchanged — run
-`npx hyperframes inspect --help` if you are maintaining automation that still
+`npx @ryu1845/hyperframes inspect --help` if you are maintaining automation that still
 calls them.
 
 ## Edit from the command line
@@ -1046,8 +1046,8 @@ calls them.
 Print the project's tracks and clips, or edit one clip.
 
 ```bash
-npx hyperframes timeline [dir]
-npx hyperframes timeline --json
+npx @ryu1845/hyperframes timeline [dir]
+npx @ryu1845/hyperframes timeline --json
 ```
 
 ```
@@ -1068,14 +1068,14 @@ The edit commands take a clip ref, such as `#outro`, and write the change to the
 file that holds the clip:
 
 ```bash
-npx hyperframes timeline move '#outro' +1 --plan   # show the result and diff, write nothing
-npx hyperframes timeline move '#outro' after:#intro
-npx hyperframes timeline trim '#intro' --duration 2
-npx hyperframes timeline split '#outro' 6.5
-npx hyperframes timeline set '#music' volume=0.5
-npx hyperframes timeline duplicate '#intro' --at 3
-npx hyperframes timeline delete '#outro' --json
-npx hyperframes timeline delete '#outro' --start 6 --end 7   # cut one second out
+npx @ryu1845/hyperframes timeline move '#outro' +1 --plan   # show the result and diff, write nothing
+npx @ryu1845/hyperframes timeline move '#outro' after:#intro
+npx @ryu1845/hyperframes timeline trim '#intro' --duration 2
+npx @ryu1845/hyperframes timeline split '#outro' 6.5
+npx @ryu1845/hyperframes timeline set '#music' volume=0.5
+npx @ryu1845/hyperframes timeline duplicate '#intro' --at 3
+npx @ryu1845/hyperframes timeline delete '#outro' --json
+npx @ryu1845/hyperframes timeline delete '#outro' --start 6 --end 7   # cut one second out
 ```
 
 | Command                     | What it does                                                                                                                              |
@@ -1113,11 +1113,11 @@ List, undo and restore the project's recorded changes. Each change is an entry
 with who made it, a label and the files it touched.
 
 ```bash
-npx hyperframes history                              # newest 20 entries
-npx hyperframes history --since mine --who claude    # what changed since your last entry
-npx hyperframes history begin --who claude --label "Bigger title"
-npx hyperframes history end
-npx hyperframes history undo --who claude            # undo your newest turn
+npx @ryu1845/hyperframes history                              # newest 20 entries
+npx @ryu1845/hyperframes history --since mine --who claude    # what changed since your last entry
+npx @ryu1845/hyperframes history begin --who claude --label "Bigger title"
+npx @ryu1845/hyperframes history end
+npx @ryu1845/hyperframes history undo --who claude            # undo your newest turn
 ```
 
 | Flag      | Description                                       |
@@ -1160,19 +1160,19 @@ Render a composition to MP4, WebM, MOV, GIF, or an RGBA PNG sequence.
 
 ```bash
 # Fast iteration
-npx hyperframes render --output output.mp4
+npx @ryu1845/hyperframes render --output output.mp4
 
 # Deterministic output
-npx hyperframes render --docker --output output.mp4
+npx @ryu1845/hyperframes render --docker --output output.mp4
 
 # Transparent, for overlays and lower thirds
-npx hyperframes render --format webm --output overlay.webm
+npx @ryu1845/hyperframes render --format webm --output overlay.webm
 
 # HLS VOD stream (output is a directory of playlists and .ts segments)
-npx hyperframes render --format hls --output stream
+npx @ryu1845/hyperframes render --format hls --output stream
 
-npx hyperframes render --output output.mp4 --fps 60 --quality high
-npx hyperframes render --gpu --output gpu.mp4
+npx @ryu1845/hyperframes render --output output.mp4 --fps 60 --quality high
+npx @ryu1845/hyperframes render --gpu --output gpu.mp4
 ```
 
 The flags that come up most:
@@ -1335,12 +1335,12 @@ override them at render time.
 
 ```bash
 # Declared defaults — preview uses these too
-npx hyperframes render --output default.mp4
+npx @ryu1845/hyperframes render --output default.mp4
 
 # Override; missing keys fall through to the defaults
-npx hyperframes render --variables '{"title":"Q4 Report","theme":"dark"}' --output q4.mp4
+npx @ryu1845/hyperframes render --variables '{"title":"Q4 Report","theme":"dark"}' --output q4.mp4
 
-npx hyperframes render --variables-file ./vars.json --output out.mp4
+npx @ryu1845/hyperframes render --variables-file ./vars.json --output out.mp4
 ```
 
 `getVariables()` returns the declared defaults merged with any overrides, so the
@@ -1354,7 +1354,7 @@ at once, `--batch` renders one file per row of a JSON array. See
 overlayable video.
 
 ```bash
-npx hyperframes render --format webm --output captions.webm
+npx @ryu1845/hyperframes render --format webm --output captions.webm
 
 ffmpeg -c:v libvpx-vp9 -i captions.webm -i background.mp4 \
   -filter_complex "[1:v][0:v]overlay=0:0" -y composited.mp4
@@ -1373,7 +1373,7 @@ ffmpeg -c:v libvpx-vp9 -i captions.webm -i background.mp4 \
 Find good render settings for this machine.
 
 ```bash
-npx hyperframes benchmark [dir]
+npx @ryu1845/hyperframes benchmark [dir]
 ```
 
 It runs several configurations — varying fps, quality, and worker count — and
@@ -1387,8 +1387,8 @@ default 3); `--json` prints the results as JSON.
 Check the machine for everything a render needs.
 
 ```bash
-npx hyperframes doctor
-npx hyperframes doctor --json
+npx @ryu1845/hyperframes doctor
+npx @ryu1845/hyperframes doctor --json
 ```
 
 ```
@@ -1433,10 +1433,10 @@ report or an agent context.
 Find and remove what HyperFrames left on disk.
 
 ```bash
-npx hyperframes clean --dry-run   # list it, remove nothing
-npx hyperframes clean
-npx hyperframes clean --snapshots # also remove snapshots and saved check reports
-npx hyperframes clean --json
+npx @ryu1845/hyperframes clean --dry-run   # list it, remove nothing
+npx @ryu1845/hyperframes clean
+npx @ryu1845/hyperframes clean --snapshots # also remove snapshots and saved check reports
+npx @ryu1845/hyperframes clean --json
 ```
 
 It looks in the current project (not its subfolders) and every project the Studio history knows, and removes:
@@ -1451,19 +1451,19 @@ files, the browser download and models are never touched.
 
 ### `info` and `compositions`
 
-`npx hyperframes info [dir]` prints project metadata: name, resolution,
+`npx @ryu1845/hyperframes info [dir]` prints project metadata: name, resolution,
 duration, element counts by type, track count, and total size.
-`npx hyperframes compositions` lists every composition in the project with its
+`npx @ryu1845/hyperframes compositions` lists every composition in the project with its
 ID, duration, resolution, and element count. Both take `--json`.
 
 ### `upgrade`
 
 ```bash
-npx hyperframes upgrade
-npx hyperframes upgrade --check         # check and exit, no prompt
-npx hyperframes upgrade --check --json  # for agents
-npx hyperframes upgrade --yes           # upgrade a global install without prompting
-npx hyperframes upgrade --project       # bump pinned CLI scripts in package.json
+npx @ryu1845/hyperframes upgrade
+npx @ryu1845/hyperframes upgrade --check         # check and exit, no prompt
+npx @ryu1845/hyperframes upgrade --check --json  # for agents
+npx @ryu1845/hyperframes upgrade --yes           # upgrade a global install without prompting
+npx @ryu1845/hyperframes upgrade --project       # bump pinned CLI scripts in package.json
 ```
 
 `upgrade` compares your installed version against npm. `--check` exits without
@@ -1486,14 +1486,14 @@ the right `npx` command), and `--project [dir]` rewrites
 Manage the Chrome that rendering uses.
 
 ```bash
-npx hyperframes browser ensure           # find it, or download it
-npx hyperframes browser ensure --force   # discard any cached download and re-fetch
-npx hyperframes browser path             # print the executable path
-npx hyperframes browser clear            # remove the cached download
+npx @ryu1845/hyperframes browser ensure           # find it, or download it
+npx @ryu1845/hyperframes browser ensure --force   # discard any cached download and re-fetch
+npx @ryu1845/hyperframes browser path             # print the executable path
+npx @ryu1845/hyperframes browser clear            # remove the cached download
 ```
 
 `path` prints only the path, so it composes:
-`$(npx hyperframes browser path)`. Use `--force` when a download was
+`$(npx @ryu1845/hyperframes browser path)`. Use `--force` when a download was
 interrupted and left a partial file behind.
 
 ### `docs`
@@ -1501,7 +1501,7 @@ interrupted and left a partial file behind.
 Read documentation in the terminal.
 
 ```bash
-npx hyperframes docs [topic]
+npx @ryu1845/hyperframes docs [topic]
 ```
 
 Topics: `data-attributes`, `examples`, `rendering`, `gsap`, `troubleshooting`,
@@ -1513,10 +1513,10 @@ Send feedback about how it went. It is anonymous unless the app that launched
 the CLI attaches your email (below).
 
 ```bash
-npx hyperframes feedback --rating 10
-npx hyperframes feedback --rating 7 --comment "render succeeded but GSAP timeline didn't animate"
-npx hyperframes feedback --rating 3 --comment "GSAP timeline froze on seek" --file-issue
-npx hyperframes feedback --comment "MISSING FEATURE: trim a clip from the timeline | WORKAROUND: none"
+npx @ryu1845/hyperframes feedback --rating 10
+npx @ryu1845/hyperframes feedback --rating 7 --comment "render succeeded but GSAP timeline didn't animate"
+npx @ryu1845/hyperframes feedback --rating 3 --comment "GSAP timeline froze on seek" --file-issue
+npx @ryu1845/hyperframes feedback --comment "MISSING FEATURE: trim a clip from the timeline | WORKAROUND: none"
 ```
 
 `--rating` is 0–10. `--comment` adds free text; a `--comment` with no `--rating` is a report with no score (a missing feature, or friction in the app that launched the CLI), kept out of the rating metric. `--source person`
@@ -1544,9 +1544,9 @@ telemetry disabled it prints
 ### `telemetry`
 
 ```bash
-npx hyperframes telemetry enable
-npx hyperframes telemetry disable
-npx hyperframes telemetry status
+npx @ryu1845/hyperframes telemetry enable
+npx @ryu1845/hyperframes telemetry disable
+npx @ryu1845/hyperframes telemetry status
 ```
 
 Telemetry collects command names, render performance, render checkpoint and
@@ -1586,17 +1586,17 @@ Install or refresh the HyperFrames skills that AI coding tools read.
 
 ```bash
 # Install the complete published set and link it into installed agents
-npx hyperframes skills
+npx @ryu1845/hyperframes skills
 
 # What is installed?
-npx hyperframes skills check
-npx hyperframes skills check --json
+npx @ryu1845/hyperframes skills check
+npx @ryu1845/hyperframes skills check --json
 
 # Refresh the core set and everything already installed
-npx hyperframes skills update
+npx @ryu1845/hyperframes skills update
 
 # Refresh, and also install one workflow on demand
-npx hyperframes skills update pr-to-video
+npx @ryu1845/hyperframes skills update pr-to-video
 ```
 
 Bare `skills` installs everything. `skills update` keeps a deliberate partial
@@ -1632,17 +1632,17 @@ variable.
 If you called the upstream command directly instead, set it yourself:
 
 ```bash
-GIT_CLONE_PROTECTION_ACTIVE=0 npx skills add heygen-com/hyperframes
+GIT_CLONE_PROTECTION_ACTIVE=0 npx skills add ryu1845/hyperframes
 ```
 
 ### `figma` and `events`
 
-`npx hyperframes figma` imports through the Figma REST API, with three
+`npx @ryu1845/hyperframes figma` imports through the Figma REST API, with three
 subcommands: `asset` (export an image or SVG), `tokens` (pull design tokens),
 and `component` (import an editable component). Run it bare for usage. See
 [Figma integration](/guides/figma) for setup and examples.
 
-`npx hyperframes events` lets an installed workflow skill emit an anonymous
+`npx @ryu1845/hyperframes events` lets an installed workflow skill emit an anonymous
 usage event (`--skill`, `--event`, `--outcome`). Nothing calls it by hand.
 
 ## hyperframes auth
@@ -2112,8 +2112,8 @@ delete it to fall back to the defaults.
 
 ```json
 {
-  "$schema": "https://hyperframes.heygen.com/schema/hyperframes.json",
-  "registry": "https://raw.githubusercontent.com/heygen-com/hyperframes/main/registry",
+  "$schema": "https://raw.githubusercontent.com/ryu1845/hyperframes/main/docs/schema/hyperframes.json",
+  "registry": "https://raw.githubusercontent.com/ryu1845/hyperframes/main/registry",
   "paths": {
     "blocks": "compositions",
     "components": "compositions/components",

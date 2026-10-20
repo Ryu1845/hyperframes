@@ -6,7 +6,7 @@ description: Author at 4K or supersample an existing composition at render time.
 ## Render an existing project in 4K
 
 ```bash
-npx hyperframes render --resolution 4k --output final-4k.mp4
+npx @ryu1845/hyperframes render --resolution 4k --output final-4k.mp4
 ```
 
 HyperFrames keeps the composition's layout unchanged and captures it at a higher device-pixel ratio. A 1920×1080 composition becomes a 3840×2160 file.
@@ -24,7 +24,7 @@ Use the matching preset for portrait or square work:
 If the project should use a 4K canvas from the start:
 
 ```bash
-npx hyperframes init my-video --resolution 4k
+npx @ryu1845/hyperframes init my-video --resolution 4k
 ```
 
 Choose this when canvas or WebGL code, fixed-resolution media, or layout decisions need to know the final pixel dimensions while you author.

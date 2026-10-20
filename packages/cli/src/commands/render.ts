@@ -739,7 +739,7 @@ async function renderDocker(
   // Dev mode (tsx/ts-node) uses "latest" since the local version isn't on npm
   const dockerVersion = isDevMode() ? "latest" : VERSION;
   if (!options.quiet && isDevMode()) {
-    console.log(c.dim("  Dev mode: using hyperframes@latest in Docker image"));
+    console.log(c.dim("  Dev mode: using @ryu1845/hyperframes@latest in Docker image"));
   }
 
   const platform = resolveDockerHostPlatform(options);

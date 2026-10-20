@@ -3,7 +3,7 @@
   "version": "0.8.177",
   "repository": {
     "type": "git",
-    "url": "https://github.com/heygen-com/hyperframes",
+    "url": "https://github.com/ryu1845/hyperframes",
     "directory": "packages/parsers"
   },
   "files": [

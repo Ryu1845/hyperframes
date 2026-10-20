@@ -280,7 +280,7 @@ test("missing bundled SFX install returns a typed recovery command", () => {
   const parsed = JSON.parse(result.stdout);
   assert.equal(parsed.ok, false);
   assert.equal(parsed.code, "bundled_sfx_assets_missing");
-  assert.equal(parsed.fix, "npx hyperframes skills update media-use");
+  assert.equal(parsed.fix, "npx @ryu1845/hyperframes skills update media-use");
   assert.match(parsed.error, /bundled SFX assets are missing or incomplete/);
   assert.match(parsed.error, /manifest not found/);
   cleanup();

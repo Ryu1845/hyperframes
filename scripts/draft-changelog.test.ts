@@ -12,7 +12,7 @@ import {
   type RawCommit,
 } from "./draft-changelog.ts";
 
-const REPO_URL = "https://github.com/heygen-com/hyperframes";
+const REPO_URL = "https://github.com/ryu1845/hyperframes";
 
 function commit(subject: string): RawCommit {
   return {

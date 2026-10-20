@@ -96,7 +96,7 @@ Reads every GSAP timeline registered on `window.__timelines`, enumerates tweens,
 
 - `hyperframes-core` — composition structure, data attributes, sub-compositions, deterministic render contract
 - `hyperframes-creative` — palettes, typography, narration, beat planning (non-animation creative direction)
-- `hyperframes-cli` — `npx hyperframes lint / check / snapshot / preview / render`
+- `hyperframes-cli` — `npx @ryu1845/hyperframes lint / check / snapshot / preview / render`
 
 ## Reference files
 

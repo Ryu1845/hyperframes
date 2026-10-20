@@ -59,7 +59,7 @@ export interface SkillEntry {
 }
 
 export interface SkillsManifest {
-  /** Source repo, e.g. "heygen-com/hyperframes". */
+  /** Source repo, e.g. "ryu1845/hyperframes". */
   source: string;
   /** Per-skill fingerprint, keyed by skill name. */
   skills: Record<string, SkillEntry>;
@@ -109,7 +109,7 @@ export interface SkillsCheckResult {
   lockMissing: boolean;
 }
 
-const DEFAULT_REPO_SLUG = "heygen-com/hyperframes";
+const DEFAULT_REPO_SLUG = "ryu1845/hyperframes";
 /** Manifest filename, published at the repo root. */
 export const MANIFEST_FILE = "skills-manifest.json";
 const FETCH_TIMEOUT_MS = 4000;

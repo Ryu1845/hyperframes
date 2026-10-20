@@ -2,7 +2,7 @@
 
 Use these copyable contracts after `tracks-and-clips.md`. Global math: **consumed source = timeline duration × rate**; **natural timeline duration = remaining source / rate**.
 
-Before any edit, run `npx hyperframes timeline` (add `--json` for a machine-readable list) to see the project's tracks and clips instead of reading the HTML.
+Before any edit, run `npx @ryu1845/hyperframes timeline` (add `--json` for a machine-readable list) to see the project's tracks and clips instead of reading the HTML.
 
 These recipes keep a video's sound on the `<video>` (`data-has-audio="true"`, no `muted`), so cutting the video cuts its sound. Use a separate `<audio>` only when picture and sound must be cut independently (J/L cuts, replacement audio) or for other sound (music, voiceover) — the recipes that do say so. Silent footage or b-roll: replace `data-has-audio="true"` with `muted` in these blocks.
 
