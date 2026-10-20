@@ -6,7 +6,7 @@ description: How HyperFrames drafts, reviews, and publishes release notes.
 HyperFrames changelogs have two audiences:
 
 - Developers reading the docs changelog for user-facing changes, migration notes, and reasons to upgrade.
-- Maintainers publishing GitHub Releases during the npm release process.
+- Maintainers publishing GitHub Releases.
 
 The release workflow keeps both audiences in sync while preserving a human editing step.
 
@@ -57,11 +57,13 @@ The docs changelog lives in `docs/changelog.mdx` and uses Mintlify `<Update>` en
     The release commit can include the version bump, `releases/v0.6.53.md`, and the docs changelog update.
   </Step>
   <Step title="Publish">
-    Push the `release/v0.6.53` branch without its local tag, open a PR to `main`, and merge it after approval and CI. The publish workflow pins its checkout to the exact merge SHA, verifies that SHA, creates `v0.6.53`, and uses `releases/v0.6.53.md` as the GitHub Release body. If no reviewed release file is present, it falls back to GitHub-generated notes.
+    Push the release commit without its local tag, open a PR to `main`, and merge it after CI. Then publish the release on `main`:
+    ```bash
+    gh release create v0.6.53 --target main --notes-file releases/v0.6.53.md
+    ```
+    The Release workflow checks that the tag matches the package version, then attaches the binaries and the agent plugin. See [Release channels](/contributing/release-channels). To rebuild a release's assets, run the Release workflow manually with its tag.
 
-    To recover a failed publish, rerun the original merged-PR workflow. Do not push the stable tag or use a manual dispatch; those paths are intentionally disabled so recovery cannot publish a different commit.
-
-    The generated compare link points to the future `v0.6.53` tag. It may not resolve until the release PR merges and the publish workflow creates the tag.
+    The generated compare link points to the future `v0.6.53` tag. It resolves once the release is published.
   </Step>
 </Steps>
 

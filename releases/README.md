@@ -5,9 +5,9 @@ Reviewed GitHub Release bodies live here.
 Create the next draft with:
 
 ```bash
-bun run release:prepare <version>
+bun run changelog:draft <version> --write
 ```
 
-The first run drafts missing changelog artifacts and exits non-zero for review. After rewriting the generated TODO summary, rerun the same command to create the release commit and tag.
+It drafts `releases/v<version>.md` and the matching `docs/changelog.mdx` entry. Rewrite the generated TODO summary, then bump the versions with `bun run set-version <version> --no-tag`.
 
-The publish workflow uses `releases/v<version>.md` as the GitHub Release body when the file exists. Keep these notes user-facing; implementation details can stay in pull requests.
+Pass the file as the release body when you publish: `gh release create v<version> --notes-file releases/v<version>.md`. Keep these notes user-facing; implementation details can stay in pull requests. See [Release channels](../docs/contributing/release-channels.mdx).

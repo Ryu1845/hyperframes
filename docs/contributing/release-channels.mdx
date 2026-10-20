@@ -1,70 +1,40 @@
 ---
 title: Release channels
-description: How HyperFrames keeps alpha-only work out of stable releases.
+description: How a HyperFrames release is cut and what it ships.
 ---
 
 HyperFrames publishes two release channels:
 
-- Stable releases use versions like `0.4.24` and become the GitHub release that `install.sh` installs by default.
-- Prereleases use versions like `0.4.24-alpha.1` and are marked as GitHub prereleases, so only an explicit `HYPERFRAMES_VERSION` installs them.
+- Stable releases use versions like `0.9.0` and become the GitHub release that `install.sh` installs by default.
+- Prereleases use versions like `0.9.1-rc.1` and are marked as GitHub prereleases, so only an explicit `HYPERFRAMES_VERSION` installs them.
 
-## Branch policy
+## Cutting a release
 
-Use branch separation to decide what code is eligible for each release channel.
-The prerelease flag only controls what `install.sh` picks by default; it does not remove code from a release.
+Publishing a GitHub release is the trigger. The Release workflow then builds, smoke-tests and attaches the standalone binaries (darwin-arm64, linux-x64, linux-arm64, each with a `.sha256`) and the portable agent plugin.
 
-- `main` is stable/releasable. Anything merged to `main` is eligible for `latest`.
-- `release/v*` branches are for stable patch releases and hotfixes.
-- `next`, `alpha`, `beta`, `rc`, `canary`, and `prerelease/*` branches are for prerelease integration.
+1. Bump every package and plugin manifest to the new version, then merge it to `main`:
 
-If a feature should ship in alpha only, merge or retarget that PR to a prerelease branch instead of `main`.
+   ```bash
+   bun run set-version 0.9.0 --no-tag
+   ```
 
-## Stable release
+   To write reviewed release notes, first run `bun run changelog:draft 0.9.0 --write`. It drafts `releases/v0.9.0.md` and the `docs/changelog.mdx` entry; replace their TODO summaries before merging. See [Changelog process](/contributing/changelog-process).
 
-Stable releases publish only when a reviewed `release/vX.Y.Z` PR merges into protected `main`.
-Prepare and review release notes before creating the release commit:
+2. Publish the release on that commit, from the GitHub UI or with:
 
-```bash
-bun run release:prepare <version>
-```
+   ```bash
+   gh release create v0.9.0 --target main --generate-notes
+   # or: --notes-file releases/v0.9.0.md
+   ```
 
-On the first run, `release:prepare` drafts missing changelog artifacts and exits non-zero for review so chained release commands stop before tagging. After the generated TODO summary is rewritten, rerun the same command to create the release commit and tag.
+   For a prerelease, tick "Set as a pre-release", or pass `--prerelease`.
 
-See [Changelog process](/contributing/changelog-process) for the full workflow. For stable releases, `bun run set-version <version>` still enforces this checkpoint when maintainers run the lower-level release command directly.
+The workflow fails before building anything if the tag's version differs from `packages/cli/package.json`. A binary reports its package version, and `render --docker` downloads the release named after it, so the two must agree. To fix a mismatch, delete the release and its tag, merge the version bump, and publish again.
 
-Push the release branch without its local tag, open a PR to `main`, and merge it after approval and CI. The publish workflow checks out the exact PR merge SHA, verifies it before publishing, creates the stable tag at that commit, creates the GitHub release, and attaches the standalone binaries.
+To rebuild the assets of an existing release, run the Release workflow manually with its tag. Uploads use `--clobber`, so a re-run replaces them.
 
-If that workflow needs recovery, rerun its original merged-PR event. Stable tag pushes and manual dispatches do not publish, so recovery cannot select a different commit.
-
-For hotfixes, branch from the last stable tag, cherry-pick only the fix, publish the patch release, then merge or cherry-pick the same fix back into the prerelease branch.
-
-## Alpha release
-
-Alpha releases must be reachable from a prerelease branch such as `origin/next` or `origin/alpha`.
-Use the same changelog draft workflow when the prerelease contains changes that users should know about.
+## Installing a prerelease
 
 ```bash
-git checkout next
-bun run set-version 0.4.25-alpha.1
-git push origin next
-git push origin v0.4.25-alpha.1
+HYPERFRAMES_VERSION=0.9.1-rc.1 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ryu1845/hyperframes/main/install.sh)"
 ```
-
-Consumers install a prerelease binary by naming its version:
-
-```bash
-HYPERFRAMES_VERSION=0.4.25-alpha.1 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ryu1845/hyperframes/main/install.sh)"
-```
-
-## CI guardrails
-
-The publish workflow validates release channel boundaries before publishing:
-
-- Stable versions must publish with `latest`.
-- Prerelease versions must publish with the prerelease dist-tag, such as `alpha`.
-- Stable releases must come from a merged, reviewed `release/vX.Y.Z` PR.
-- Prerelease tags must be reachable from a prerelease branch.
-- Merged `release/vX.Y.Z` PRs publish stable releases only.
-- Every publish job verifies that its checkout matches the immutable event SHA.
-
-This prevents an alpha-only feature from being included in a stable hotfix by accident.
