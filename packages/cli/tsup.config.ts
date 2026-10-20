@@ -13,12 +13,10 @@ const producerPkg = JSON.parse(
 export default defineConfig({
   entry: {
     cli: "src/cli.ts",
-    fontLocalizeCli: "src/fontLocalizeCli.ts",
     runtimeVersion: "src/runtimeVersion.ts",
     renderSetupWorker: "src/renderSetupWorker.ts",
     sherpaWorker: "src/whisper/sherpaWorker.ts",
     shaderTransitionWorker: "../producer/src/services/shaderTransitionWorker.ts",
-    api: "src/api.ts",
   },
   format: ["esm"],
   outDir: "dist",
@@ -27,8 +25,6 @@ export default defineConfig({
   bundle: true,
   splitting: true,
   sourcemap: false,
-  // Types for the `./api` export only; the other entries are programs, not libraries.
-  dts: { entry: { api: "src/api.ts" } },
   clean: true,
   banner: {
     js: `import { createRequire as __hf_createRequire } from "node:module";

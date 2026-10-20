@@ -48,7 +48,6 @@ import { DEFAULT_MODEL, hasFFmpeg } from "../whisper/manager.js";
 import { TRANSCRIPT_FILE } from "../whisper/transcriptFile.js";
 import { initialModelForLanguage } from "../whisper/transcribe.js";
 import { findFFmpeg, findFFprobe, getFFmpegInstallHint } from "../browser/ffmpeg.js";
-import { VERSION } from "../version.js";
 import {
   CANVAS_DIMENSIONS,
   normalizeResolutionFlag,
@@ -279,19 +278,12 @@ function toPackageName(projectName: string): string {
   return normalized || "hyperframes-project";
 }
 
-function getHyperframesPackageSpecifier(): string {
-  return VERSION === "0.0.0-dev" ? "@ryu1845/hyperframes" : `@ryu1845/hyperframes@${VERSION}`;
-}
-
-function hyperframesScript(command: string): string {
-  return `npx --yes ${getHyperframesPackageSpecifier()} ${command}`;
-}
-
+// The CLI is a standalone binary on PATH, so the scripts call it directly.
 function buildPackageScripts(): Record<string, string> {
   return {
-    dev: hyperframesScript("preview"),
-    check: hyperframesScript("check"),
-    render: hyperframesScript("render"),
+    dev: "hyperframes preview",
+    check: "hyperframes check",
+    render: "hyperframes render",
   };
 }
 

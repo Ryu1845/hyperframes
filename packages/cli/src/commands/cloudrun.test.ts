@@ -83,10 +83,10 @@ describe("Cloud Run adapter preflight", () => {
     expect(isMissingCloudRunAdapterError(transitiveError)).toBe(false);
   });
 
-  it("provides global and project-local install recovery commands", () => {
+  it("points at the source checkout that provides the adapter", () => {
     const message = missingCloudRunAdapterMessage("deploy");
     expect(message).toContain("hyperframes cloudrun deploy");
-    expect(message).toContain("npm install -g @hyperframes/gcp-cloud-run");
-    expect(message).toContain("npm install @hyperframes/gcp-cloud-run");
+    expect(message).toContain("git clone https://github.com/ryu1845/hyperframes");
+    expect(message).not.toContain("npm install");
   });
 });

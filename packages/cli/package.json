@@ -9,8 +9,7 @@
     "directory": "packages/cli"
   },
   "bin": {
-    "hyperframes": "./bin/hyperframes.mjs",
-    "hyperframes-localize-fonts": "./bin/hyperframes-localize-fonts.mjs"
+    "hyperframes": "./bin/hyperframes.mjs"
   },
   "files": [
     "bin",
@@ -18,10 +17,6 @@
   ],
   "type": "module",
   "exports": {
-    "./api": {
-      "import": "./dist/api.js",
-      "types": "./dist/api.d.ts"
-    },
     "./package.json": "./package.json"
   },
   "scripts": {

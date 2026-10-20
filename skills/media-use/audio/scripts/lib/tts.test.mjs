@@ -96,22 +96,24 @@ test("synthesizeOne(elevenlabs) creates the output dir before writing", async ()
 });
 
 test("synthResult names a non-zero subprocess exit", () => {
-  const res = synthResult({ status: 2 }, "/tmp/none.wav", "kokoro (npx @ryu1845/hyperframes tts)");
+  const res = synthResult({ status: 2 }, "/tmp/none.wav", "kokoro (hyperframes tts)");
   assert.equal(res.ok, false);
   assert.match(res.error, /kokoro .* exited with status 2/);
 });
 
-// Kokoro shells out to `npx @ryu1845/hyperframes tts`; a fake npx on PATH records the argv
-// synthesizeOne really builds, so a dropped flag fails here. Windows runs npx via
-// node directly, so the stub never resolves there.
+// Kokoro shells out to `hyperframes tts`; a fake hyperframes on PATH records the argv
+// synthesizeOne really builds, so a dropped flag fails here. The stub is a shell
+// script, so Windows skips it.
 async function kokoroArgv(options) {
   const dir = mkdtempSync(join(tmpdir(), "tts-kokoro-argv-"));
   const argvLog = join(dir, "argv.txt");
-  writeFileSync(join(dir, "npx"), `#!/bin/sh\nprintf '%s\\n' "$@" > "${argvLog}"\n`);
-  chmodSync(join(dir, "npx"), 0o755);
+  writeFileSync(join(dir, "hyperframes"), `#!/bin/sh\nprintf '%s\\n' "$@" > "${argvLog}"\n`);
+  chmodSync(join(dir, "hyperframes"), 0o755);
   const originalPath = process.env.PATH;
+  const originalBinary = process.env.HYPERFRAMES_BINARY;
   try {
     process.env.PATH = dir;
+    delete process.env.HYPERFRAMES_BINARY;
     await synthesizeOne({
       provider: "kokoro",
       text: "hi",
@@ -123,6 +125,7 @@ async function kokoroArgv(options) {
     return readFileSync(argvLog, "utf8").trim().split("\n");
   } finally {
     process.env.PATH = originalPath;
+    if (originalBinary !== undefined) process.env.HYPERFRAMES_BINARY = originalBinary;
     rmSync(dir, { recursive: true, force: true });
   }
 }

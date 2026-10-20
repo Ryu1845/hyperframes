@@ -62,6 +62,7 @@ preview_round_trip() {
   hyperframes preview --background --no-open --port "$port" || return 1
   hyperframes preview --status &&
     curl -fsS "http://127.0.0.1:$port/" >/dev/null &&
+    [ -n "$(curl -fsS "http://127.0.0.1:$port/api/runtime.js" | head -c 200)" ] &&
     {
       curl -sN --max-time 8 "http://127.0.0.1:$port/api/events" >"$events" &
       local reader=$!

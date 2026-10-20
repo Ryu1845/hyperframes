@@ -237,15 +237,21 @@ export async function synthesizeOne({
       return synthResult(r, wavAbs, "elevenlabs (python)");
     });
   }
-  // kokoro — via the published CLI; --output is relative to the project dir.
+  // kokoro — via the hyperframes binary; --output is relative to the project dir.
   const wavRel = relTo(hyperframesDir, wavAbs);
   return withTmpText(text, async (textPath) => {
-    const args = ["@ryu1845/hyperframes", "tts", textPath, "--voice", voiceId, "--output", wavRel];
+    const args = ["tts", textPath, "--voice", voiceId, "--output", wavRel];
     if (lang !== "en") args.push("--lang", lang);
     if (speed !== 1) args.push("--speed", String(speed));
-    const r = await spawnP("npx", args, { cwd: hyperframesDir });
-    return synthResult(r, wavAbs, "kokoro (npx @ryu1845/hyperframes tts)");
+    const r = await spawnP(hyperframesBinary(), args, { cwd: hyperframesDir });
+    return synthResult(r, wavAbs, "kokoro (hyperframes tts)");
   });
+}
+
+// The CLI ships as a standalone binary: the one that started this script when
+// there is one, else the one on PATH.
+export function hyperframesBinary(env = process.env) {
+  return env.HYPERFRAMES_BINARY || "hyperframes";
 }
 
 // Shape a spawn result into { ok, words, error }, naming why on failure so the
@@ -263,9 +269,9 @@ export function synthResult(r, wavAbs, label) {
 export async function transcribeWav({ wavRel, lang = "en", hyperframesDir }) {
   const model = lang === "en" ? "small.en" : "small";
   const td = mkdtempSync(join(tmpdir(), "hf-trans-"));
-  const args = ["@ryu1845/hyperframes", "transcribe", wavRel, "--model", model, "--dir", td];
+  const args = ["transcribe", wavRel, "--model", model, "--dir", td];
   if (lang !== "en") args.push("--language", lang);
-  const r = await spawnP("npx", args, { cwd: hyperframesDir });
+  const r = await spawnP(hyperframesBinary(), args, { cwd: hyperframesDir });
   let words = null;
   if (r.status === 0) {
     const src = join(td, "transcript.json");

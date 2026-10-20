@@ -3,22 +3,16 @@ import { spawnSync } from "node:child_process";
 import { existsSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { resolveNpxInvocation } from "./lib/npx-sync.mjs";
+import { resolveCliInvocation } from "./lib/cli-invocation.mjs";
 
 // Installed plugins have no monorepo packages/ tree. The plugin launcher passes
-// the release version and suppression environment through to this legacy shim.
+// the release version and suppression environment through to this legacy shim,
+// which hands off to the installed hyperframes binary.
 const pluginVersion = process.env.HYPERFRAMES_PLUGIN_VERSION;
 if (pluginVersion) {
-  const invocation = resolveNpxInvocation(
-    [
-      "--yes",
-      `@ryu1845/hyperframes@${pluginVersion}`,
-      "media-use",
-      "resolve",
-      ...process.argv.slice(2),
-    ],
-    { stdio: "inherit" },
-  );
+  const invocation = resolveCliInvocation(["media-use", "resolve", ...process.argv.slice(2)], {
+    stdio: "inherit",
+  });
   const result = spawnSync(invocation.cmd, invocation.args, invocation.opts);
   if (result.error) console.error(result.error.message);
   process.exit(result.status ?? 1);

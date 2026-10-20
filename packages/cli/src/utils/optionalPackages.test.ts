@@ -69,6 +69,19 @@ describe("loadOptionalPackage", () => {
     expect(log.mock.calls).toEqual([["installing onnxruntime-node for background removal, once"]]);
   });
 
+  it("never installs from npm under the standalone binary, which ships the package", async () => {
+    vi.stubEnv("HYPERFRAMES_BINARY", "/opt/hyperframes");
+    try {
+      const { deps, install } = fakeDeps();
+      await expect(
+        loadOptionalPackage("onnxruntime-node", "on-device search", deps),
+      ).rejects.toThrow(/ships inside the hyperframes binary.*\n.*install\.sh/s);
+      expect(install).not.toHaveBeenCalled();
+    } finally {
+      vi.unstubAllEnvs();
+    }
+  });
+
   it("uses the pinned copy installed beside the CLI, without installing", async () => {
     const beside = { beside: "module" };
     const { deps, install, log } = fakeDeps({ loadBesideCli: () => beside });

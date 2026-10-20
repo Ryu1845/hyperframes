@@ -15,6 +15,7 @@ import { createRequire } from "node:module";
 import { homedir } from "node:os";
 import { basename, dirname, join, sep } from "node:path";
 import { buildNpmCommand } from "./npxCommand.js";
+import { standaloneBinary } from "./selfRuntime.js";
 
 /** Module type of each optional package; the keys are the only names the loader accepts. */
 export interface OptionalPackageModules {
@@ -77,6 +78,17 @@ export function loadInstalledOptionalPackage<N extends OptionalPackage>(
 }
 
 /**
+ * The standalone binary ships every pinned package beside the CLI, so one that
+ * does not load means a damaged install, never a reason to reach for npm.
+ */
+export function embeddedPackageMissing(name: string): Error {
+  return new Error(
+    `${name} ships inside the hyperframes binary but did not load. Reinstall hyperframes:\n` +
+      "  curl -fsSL https://raw.githubusercontent.com/ryu1845/hyperframes/main/install.sh | sh",
+  );
+}
+
+/**
  * Load an optional package, installing it once on first use. No prompt: agents run headless.
  * Throws an error that names the manual command when the install cannot complete.
  */
@@ -87,6 +99,7 @@ export async function loadOptionalPackage<N extends OptionalPackage>(
 ): Promise<OptionalPackageModules[N]> {
   const present = loadInstalledOptionalPackage(name, deps);
   if (present !== null) return present;
+  if (standaloneBinary()) throw embeddedPackageMissing(name);
   const dir = optionalPackageDir(name, deps.cacheDir);
 
   const version = OPTIONAL_PACKAGES[name];

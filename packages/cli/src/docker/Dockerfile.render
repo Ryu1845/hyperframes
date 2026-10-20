@@ -62,7 +62,32 @@ RUN if [ "$TARGETARCH" = "amd64" ]; then \
       npx --yes playwright-core@${PLAYWRIGHT_VERSION} install chromium-headless-shell; \
     fi
 
-RUN npm install -g @ryu1845/hyperframes@${HYPERFRAMES_VERSION}
+# The standalone CLI binary for the container's arch. The CLI puts its own binary
+# in the build context when it already is the right one (a Linux host of the same
+# arch); otherwise it comes from the GitHub release, checksum-verified. Running it
+# once unpacks its runtime into the image.
+COPY . /tmp/hf-context/
+RUN case "$TARGETARCH" in \
+      amd64) HF_TARGET=linux-x64 ;; \
+      arm64) HF_TARGET=linux-arm64 ;; \
+      *) echo "unsupported TARGETARCH '$TARGETARCH'" >&2; exit 1 ;; \
+    esac \
+    && if [ -f /tmp/hf-context/hyperframes ]; then \
+      install -m 0755 /tmp/hf-context/hyperframes /usr/local/bin/hyperframes; \
+    else \
+      if [ "$HYPERFRAMES_VERSION" = "latest" ]; then \
+        HF_BASE=https://github.com/ryu1845/hyperframes/releases/latest/download; \
+      else \
+        HF_BASE="https://github.com/ryu1845/hyperframes/releases/download/v${HYPERFRAMES_VERSION}"; \
+      fi \
+      && curl -fsSL -o /tmp/hyperframes "$HF_BASE/hyperframes-$HF_TARGET" \
+      && curl -fsSL -o /tmp/hyperframes.sha256 "$HF_BASE/hyperframes-$HF_TARGET.sha256" \
+      && echo "$(cut -d ' ' -f 1 /tmp/hyperframes.sha256)  /tmp/hyperframes" | sha256sum -c - \
+      && install -m 0755 /tmp/hyperframes /usr/local/bin/hyperframes \
+      && rm -f /tmp/hyperframes /tmp/hyperframes.sha256; \
+    fi \
+    && rm -rf /tmp/hf-context \
+    && hyperframes --version
 
 # Wrapper script: resolves the chrome-headless-shell path installed above and
 # exports it as PRODUCER_HEADLESS_SHELL_PATH so the engine uses BeginFrame

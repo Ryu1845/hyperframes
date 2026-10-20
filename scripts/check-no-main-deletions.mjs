@@ -81,6 +81,9 @@ const CANARY_REASON =
 const HEYGEN_DOCS_REASON =
   "owner-directed removal of docs pages that only described HeyGen-hosted services (avatars, cloud render, feedback, hosted MCP, deploy templates, the HeyGen social series) and of docs snippets left without callers once HeyGen CDN media was dropped";
 
+const NPM_DISTRIBUTION_REASON =
+  "owner-directed move from npm to standalone release binaries: the npx version pin notice, the npm-only library export and second bin, and the npx resolution the media-use scripts used to reach the CLI";
+
 /** Many paths removed for one reason. */
 const group = (reason, paths) => paths.map((path) => [path, reason]);
 
@@ -1572,6 +1575,18 @@ export const ALLOWED_DELETIONS = new Map([
     "docs/snippets/hover-video.jsx",
     "docs/snippets/replica-compare.jsx",
     "docs/thirty-days.mdx",
+  ]),
+  ...group(NPM_DISTRIBUTION_REASON, [
+    "packages/cli/bin/hyperframes-localize-fonts.mjs",
+    "packages/cli/src/api.ts",
+    "packages/cli/src/fontLocalize.test.ts",
+    "packages/cli/src/fontLocalize.ts",
+    "packages/cli/src/fontLocalizeCli.ts",
+    "packages/cli/src/media-use/lib/npx-sync.mjs",
+    "packages/cli/src/media-use/lib/npx-sync.test.mjs",
+    "packages/cli/src/utils/projectPin.test.ts",
+    "packages/cli/src/utils/projectPin.ts",
+    "skills/media-use/scripts/lib/npx-sync.mjs",
   ]),
   ...group(CANARY_REASON, [
     ".github/workflows/canary-sunset.yml",

@@ -3,7 +3,15 @@ import { recordRenderSuccess, registerRenderOutput } from "@hyperframes/studio-s
 import { failCommand, requestCliExit } from "../utils/commandResult.js";
 import { defineCommand } from "citty";
 import type { Example } from "./_examples.js";
-import { mkdtempSync, readdirSync, readFileSync, statSync, writeFileSync, rmSync } from "node:fs";
+import {
+  copyFileSync,
+  mkdtempSync,
+  readdirSync,
+  readFileSync,
+  statSync,
+  writeFileSync,
+  rmSync,
+} from "node:fs";
 import { createRenderPlan, resolveBrowserGpuForCli, type RenderFormat } from "./render/plan.js";
 import { presentRenderPlan } from "./render/present.js";
 import { executeRenderPlan, renderLintContinuationHint, runRenderLint } from "./render/execute.js";
@@ -61,6 +69,7 @@ import { tmpdir } from "node:os";
 import { resolve, dirname, join, basename } from "node:path";
 import { execFileSync, spawn } from "node:child_process";
 import { loadProducer } from "../utils/producer.js";
+import { standaloneBinary } from "../utils/selfRuntime.js";
 import { c } from "../ui/colors.js";
 import {
   formatBytes,
@@ -602,6 +611,13 @@ function resolveDockerfilePath(): string {
   throw new Error("Dockerfile.render not found — CLI package may be corrupted");
 }
 
+/** The running standalone binary, when it can run as is in a `platform` container. */
+function hostBinaryForDocker(platform: string): string | undefined {
+  const binary = standaloneBinary();
+  if (!binary || process.platform !== "linux") return undefined;
+  return process.arch === (platform === "linux/arm64" ? "arm64" : "x64") ? binary : undefined;
+}
+
 function dockerImageExists(tag: string): boolean {
   try {
     execFileSync("docker", ["image", "inspect", tag], { stdio: "pipe", timeout: 10_000 });
@@ -638,6 +654,8 @@ function ensureDockerImage(version: string, platform: string, quiet: boolean): s
   // own Dockerfile or symlink the path (CodeQL js/insecure-temporary-file).
   const tmpDir = mkdtempSync(join(tmpdir(), "hyperframes-docker-"));
   writeFileSync(join(tmpDir, "Dockerfile"), readFileSync(dockerfilePath));
+  const hostBinary = hostBinaryForDocker(platform);
+  if (hostBinary) copyFileSync(hostBinary, join(tmpDir, "hyperframes"));
 
   // Platform is now derived from the host arch (see resolveDockerPlatform).
   // Apple Silicon and other arm64 hosts get a native linux/arm64 build; the
@@ -736,10 +754,10 @@ async function renderDocker(
   const capture = await captureArtifactRevision(projectDir).catch(() => undefined);
   const startTime = Date.now();
 
-  // Dev mode (tsx/ts-node) uses "latest" since the local version isn't on npm
+  // Dev mode (tsx/ts-node) uses "latest": the local version has no release binary
   const dockerVersion = isDevMode() ? "latest" : VERSION;
   if (!options.quiet && isDevMode()) {
-    console.log(c.dim("  Dev mode: using @ryu1845/hyperframes@latest in Docker image"));
+    console.log(c.dim("  Dev mode: using the latest release binary in the Docker image"));
   }
 
   const platform = resolveDockerHostPlatform(options);

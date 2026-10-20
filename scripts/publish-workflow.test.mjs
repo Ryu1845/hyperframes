@@ -131,3 +131,18 @@ test("stable release tag creation survives retries and rejects a mismatched comm
     rmSync(root, { recursive: true, force: true });
   }
 });
+
+test("releases ship standalone binaries for every target and nothing goes to npm", () => {
+  const binaries = config.jobs.binaries;
+  assert.equal(binaries.needs, "publish");
+  assert.deepEqual(
+    binaries.strategy.matrix.include.map((entry) => entry.target),
+    ["darwin-arm64", "linux-x64", "linux-arm64"],
+  );
+  const steps = binaries.steps.map((step) => step.run ?? "").join("\n");
+  assert.match(steps, /build-binary\.ts --target \$\{\{ matrix\.target \}\}/);
+  assert.match(steps, /binary-smoke\.sh packages\/cli\/\.binary\/hyperframes-/);
+  assert.match(steps, /gh release upload/);
+  assert.doesNotMatch(workflow, /npm publish|NODE_AUTH_TOKEN|NPM_TOKEN|registry-url/);
+  assert.equal(publish.environment, undefined);
+});

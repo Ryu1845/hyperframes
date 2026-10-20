@@ -79,7 +79,6 @@ if (!captureEnv || process.env.HYPERFRAMES_NO_CAPTURE_DOTENV !== "1") {
 import { defineCommand, runCommand } from "citty";
 import type { ArgsDef, CommandDef } from "citty";
 import { trackCommandFailures } from "./utils/command-failure-tracking.js";
-import { printOlderThanPinNotice } from "./utils/projectPin.js";
 import { isRenderSucceeded } from "./utils/render-success-state.js";
 import { resolveCommandUsage } from "./utils/commandUsageResolution.js";
 import { isDevMode } from "./utils/env.js";
@@ -173,12 +172,9 @@ const main = defineCommand({
   subCommands,
 });
 
-const cliCommandArg = process.argv[2];
-const command: string = cliCommandArg && cliCommandArg in subCommands ? cliCommandArg : "unknown";
-const hasJsonFlag = process.argv.includes("--json");
 let finalized = false;
 
-// Root-only lifecycle fan-in: notices, then exit code.
+// Root-only lifecycle fan-in: the exit code.
 function finalizeCli(result: CommandResult): void {
   if (finalized) return;
   finalized = true;
@@ -190,7 +186,6 @@ function finalizeCli(result: CommandResult): void {
   // CommandResult, and a valid render is reported as a failure. Sanitizing
   // here, once, is what those handlers cannot cover.
   const exitCode = isRenderSucceeded() ? 0 : result.exitCode;
-  if (!isHelp && !hasJsonFlag && command !== "usage") printOlderThanPinNotice();
   process.exitCode = exitCode;
 }
 

@@ -9,9 +9,8 @@ export function hasCliCommand(helpText, command) {
 }
 
 export function runCliPreflight({ command = "check", spawn = spawnSync } = {}) {
-  const result = spawn("npx", ["@ryu1845/hyperframes", "--help"], {
+  const result = spawn(process.env.HYPERFRAMES_BINARY || "hyperframes", ["--help"], {
     encoding: "utf8",
-    shell: process.platform === "win32",
   });
   const output = `${result.stdout ?? ""}\n${result.stderr ?? ""}`;
   if (result.status !== 0) {
@@ -19,7 +18,7 @@ export function runCliPreflight({ command = "check", spawn = spawnSync } = {}) {
   }
   if (!hasCliCommand(output, command)) {
     throw new Error(
-      `the installed HyperFrames CLI does not provide \`${command}\`, but the current pr-to-video skill requires it. Upgrade the CLI before starting frame work.`,
+      `the installed HyperFrames CLI does not provide \`${command}\`, but the current pr-to-video skill requires it. Upgrade the CLI (re-run install.sh) before starting frame work.`,
     );
   }
   return true;

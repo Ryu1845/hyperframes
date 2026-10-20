@@ -26,10 +26,10 @@ describe("isMissingPackageError", () => {
 });
 
 describe("missingPackageMessage", () => {
-  it("names the command and both install commands", () => {
+  it("names the command and the source checkout that provides it", () => {
     const message = missingPackageMessage("@hyperframes/aws-lambda", "hyperframes lambda deploy");
     expect(message).toContain("hyperframes lambda deploy");
-    expect(message).toContain("npm install -g @hyperframes/aws-lambda");
-    expect(message).toContain("npm install @hyperframes/aws-lambda");
+    expect(message).toContain("git clone https://github.com/ryu1845/hyperframes");
+    expect(message).not.toContain("npm install");
   });
 });

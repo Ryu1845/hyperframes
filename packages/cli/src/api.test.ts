@@ -16,13 +16,11 @@ import * as pipeline from "./background-removal/pipeline.js";
 import * as manager from "./whisper/manager.js";
 import * as sherpa from "./whisper/sherpa.js";
 import * as whisper from "./whisper/transcribe.js";
-import {
-  RemoveBackgroundError,
-  TranscribeError,
-  removeBackground,
-  transcribe,
-  type TranscribeOptions,
-} from "./api.js";
+import { RemoveBackgroundError, removeBackground } from "./api/removeBackground.js";
+import { TranscribeError, runTranscribe, type TranscribeOptions } from "./api/transcribe.js";
+
+// The typed entry the CLI's API modules offer: plain JavaScript callers get no compile-time check.
+const transcribe = (options: TranscribeOptions) => runTranscribe(options);
 
 const SRT = `1
 00:00:01,000 --> 00:00:03,500
@@ -348,7 +346,7 @@ describe("transcribe", () => {
   // Spelled so that this file's own source, which it also reads, does not match.
   const localLoad = /\bimport\(|\bimport[OAM](?:riginal|ctual|ock)\b/;
 
-  it("keeps every module load at module scope, in the API, the code it runs and their tests", () => {
+  it("keeps every module load at module scope, in the API modules, the code they run and their tests", () => {
     for (const sample of [
       "await import" + "('x')",
       "vi.import" + "Actual('x')",
@@ -359,7 +357,6 @@ describe("transcribe", () => {
     const here = dirname(fileURLToPath(import.meta.url));
     const api = readdirSync(join(here, "api")).map((f) => join("api", f));
     const files = [
-      "api.ts",
       ...api,
       "api.test.ts",
       "commands/remove-background.ts",
