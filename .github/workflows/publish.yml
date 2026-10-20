@@ -110,6 +110,18 @@ jobs:
       - run: bash scripts/ci/install-workspace-dependencies.sh
       - run: bun run build
       - run: bun packages/cli/scripts/build-binary.ts --target ${{ matrix.target }}
+      # Chrome for Testing publishes no linux-arm64 build, so the CLI there renders
+      # only with a browser it is pointed at. Use the pinned Playwright headless
+      # shell that Dockerfile.render installs for arm64 containers.
+      - name: Provide a headless shell (linux-arm64)
+        if: matrix.target == 'linux-arm64'
+        run: |
+          PLAYWRIGHT_VERSION="$(sed -n 's/^ARG PLAYWRIGHT_VERSION=//p' packages/cli/src/docker/Dockerfile.render)"
+          export PLAYWRIGHT_BROWSERS_PATH="$RUNNER_TEMP/ms-playwright"
+          npx --yes "playwright-core@${PLAYWRIGHT_VERSION}" install --with-deps chromium-headless-shell
+          SHELL_PATH="$(find "$PLAYWRIGHT_BROWSERS_PATH" \( -name headless_shell -o -name chrome-headless-shell \) -type f | head -1)"
+          test -x "$SHELL_PATH"
+          echo "HYPERFRAMES_BROWSER_PATH=$SHELL_PATH" >> "$GITHUB_ENV"
       - name: Smoke-test the binary without Node, npm or Bun
         run: bash scripts/ci/binary-smoke.sh packages/cli/.binary/hyperframes-${{ matrix.target }}
       - name: Attach the binary to the release
