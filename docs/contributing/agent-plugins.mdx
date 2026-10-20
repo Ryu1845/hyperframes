@@ -26,8 +26,8 @@ The portable builder writes these files under `dist/`:
   archive size, and SHA-256.
 - `hyperframes-agent-plugin.sha256`: the archive checksum.
 
-The publish workflow attaches the portable files to the GitHub release after npm
-publication. The Codex ZIP remains a separate submission artifact. Building it
+The Release workflow attaches the portable files when a GitHub release is
+published. The Codex ZIP remains a separate submission artifact. Building it
 does not update the OpenAI directory listing.
 
 ## Verify before advertising support

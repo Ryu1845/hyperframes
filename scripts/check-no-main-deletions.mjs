@@ -84,6 +84,9 @@ const HEYGEN_DOCS_REASON =
 const NPM_DISTRIBUTION_REASON =
   "owner-directed move from npm to standalone release binaries: the npx version pin notice, the npm-only library export and second bin, and the npx resolution the media-use scripts used to reach the CLI";
 
+const RELEASE_FLOW_REASON =
+  "owner-directed switch to publishing a GitHub release as the release trigger; the upstream release-PR and prerelease-branch channel gate no longer applies";
+
 /** Many paths removed for one reason. */
 const group = (reason, paths) => paths.map((path) => [path, reason]);
 
@@ -1595,6 +1598,10 @@ export const ALLOWED_DELETIONS = new Map([
     "packages/core/src/canary.ts",
     "packages/core/src/canaryRegistry.ts",
     "scripts/check-canary-sunset.ts",
+  ]),
+  ...group(RELEASE_FLOW_REASON, [
+    "scripts/validate-release-channel.mjs",
+    "scripts/validate-release-channel.test.mjs",
   ]),
 ]);
 

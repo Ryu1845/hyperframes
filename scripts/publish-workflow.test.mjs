@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { execFileSync, spawnSync } from "node:child_process";
-import { mkdtempSync, readFileSync, rmSync } from "node:fs";
+import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
@@ -8,133 +8,75 @@ import { parse } from "yaml";
 
 const workflow = readFileSync(new URL("../.github/workflows/publish.yml", import.meta.url), "utf8");
 const config = parse(workflow);
-const publish = config.jobs.publish;
-const checkout = publish.steps.find((step) => step.uses?.startsWith("actions/checkout@"));
-const checkoutGuard = publish.steps.find(
-  (step) => step.name === "Verify immutable release checkout",
+const prepare = config.jobs.prepare;
+const versionGate = prepare.steps.find(
+  (step) => step.name === "Require the tag to match the package version",
 );
-const createReleaseTag = publish.steps.find((step) => step.name === "Create release tag");
 
-const normalizeExpression = (expression) => expression.replace(/\s+/g, " ").trim();
-
-function git(cwd, ...args) {
-  return execFileSync("git", args, {
-    cwd,
-    encoding: "utf8",
-    stdio: "pipe",
-    timeout: 5_000,
-  }).trim();
-}
-
-function runCreateReleaseTag(cwd, version) {
-  return spawnSync("bash", ["-euo", "pipefail", "-c", createReleaseTag.run], {
-    cwd,
-    encoding: "utf8",
-    env: { ...process.env, VERSION: version },
-    timeout: 5_000,
-  });
-}
-
-test("stable publishing has one reviewed immutable event path", () => {
-  assert.deepEqual(config.on.push.tags, ["v*-*"]);
-  assert.equal(config.on.workflow_dispatch, undefined);
-  assert.equal(
-    normalizeExpression(publish.if),
-    "github.event_name == 'push' || (github.event.pull_request.merged == true && startsWith(github.event.pull_request.head.ref, 'release/v'))",
-  );
-  assert.equal(
-    normalizeExpression(publish.env.EXPECTED_RELEASE_SHA),
-    "${{ github.event_name == 'pull_request' && github.event.pull_request.merge_commit_sha || github.sha }}",
-  );
-  assert.equal(checkout.with.ref, "${{ env.EXPECTED_RELEASE_SHA }}");
-});
-
-test("the executable checkout guard cannot be conditionally disabled", () => {
-  assert.ok(checkoutGuard);
-  assert.equal(checkoutGuard.if, undefined);
-  assert.equal(checkoutGuard["continue-on-error"], undefined);
-  assert.equal(
-    checkoutGuard.run.trim(),
-    [
-      'ACTUAL_SHA="$(git rev-parse HEAD)"',
-      'EXPECTED_COMMIT_SHA="$(git rev-parse "${EXPECTED_RELEASE_SHA}^{commit}")"',
-      'if [ "$ACTUAL_SHA" != "$EXPECTED_COMMIT_SHA" ]; then',
-      '  echo "::error::Expected release commit $EXPECTED_COMMIT_SHA, checked out $ACTUAL_SHA"',
-      "  exit 1",
-      "fi",
-    ].join("\n"),
-  );
-});
-
-test("stable release tag recovery is idempotent and immutable", () => {
-  assert.ok(createReleaseTag);
-  assert.equal(createReleaseTag.if, "github.event_name == 'pull_request'");
-  assert.equal(
-    createReleaseTag.run.trim(),
-    [
-      'TAG="v$VERSION"',
-      'EXPECTED_TAG_SHA="$(git rev-parse HEAD)"',
-      "",
-      "verify_remote_tag() {",
-      '  git fetch --force --no-tags origin "+refs/tags/$TAG:refs/tags/$TAG"',
-      '  ACTUAL_TAG_SHA="$(git rev-parse "refs/tags/$TAG^{commit}")"',
-      '  if [ "$ACTUAL_TAG_SHA" != "$EXPECTED_TAG_SHA" ]; then',
-      '    echo "::error::Release tag $TAG points to $ACTUAL_TAG_SHA, expected $EXPECTED_TAG_SHA"',
-      "    exit 1",
-      "  fi",
-      '  echo "Release tag $TAG already exists at the expected commit — skipping"',
-      "}",
-      "",
-      'if [ -n "$(git ls-remote --refs origin "refs/tags/$TAG")" ]; then',
-      "  verify_remote_tag",
-      "else",
-      '  git tag --no-sign "$TAG" "$EXPECTED_TAG_SHA"',
-      '  if ! git push origin "refs/tags/$TAG"; then',
-      "    # A concurrent retry may have created the tag after ls-remote.",
-      '    git tag -d "$TAG"',
-      "    verify_remote_tag",
-      "  fi",
-      "fi",
-    ].join("\n"),
-  );
-});
-
-test("stable release tag creation survives retries and rejects a mismatched commit", () => {
-  const root = mkdtempSync(join(tmpdir(), "hyperframes-release-tag-test-"));
-  const origin = join(root, "origin.git");
-  const checkout = join(root, "checkout");
-
+function runVersionGate(tag, packageVersion) {
+  const root = mkdtempSync(join(tmpdir(), "hyperframes-release-gate-test-"));
   try {
-    execFileSync("git", ["init", "--bare", origin], { stdio: "pipe", timeout: 5_000 });
-    execFileSync("git", ["init", checkout], { stdio: "pipe", timeout: 5_000 });
-    git(checkout, "config", "user.name", "HyperFrames Test");
-    git(checkout, "config", "user.email", "test@hyperframes.invalid");
-    git(checkout, "commit", "--allow-empty", "-m", "release commit");
-    git(checkout, "branch", "-M", "main");
-    git(checkout, "remote", "add", "origin", origin);
-    git(checkout, "push", "-u", "origin", "main");
-
-    const releaseSha = git(checkout, "rev-parse", "HEAD");
-    const firstRun = runCreateReleaseTag(checkout, "9.8.7");
-    assert.equal(firstRun.status, 0, `${firstRun.stdout}\n${firstRun.stderr}`);
-    assert.equal(git(checkout, "rev-parse", "refs/tags/v9.8.7^{commit}"), releaseSha);
-
-    const retry = runCreateReleaseTag(checkout, "9.8.7");
-    assert.equal(retry.status, 0, `${retry.stdout}\n${retry.stderr}`);
-    assert.match(retry.stdout, /already exists at the expected commit/);
-
-    git(checkout, "commit", "--allow-empty", "-m", "different commit");
-    const mismatch = runCreateReleaseTag(checkout, "9.8.7");
-    assert.equal(mismatch.status, 1, `${mismatch.stdout}\n${mismatch.stderr}`);
-    assert.match(mismatch.stdout, /points to .* expected/);
+    mkdirSync(join(root, "packages", "cli"), { recursive: true });
+    writeFileSync(
+      join(root, "packages", "cli", "package.json"),
+      JSON.stringify({ version: packageVersion }),
+    );
+    execFileSync("git", ["init", "-q"], { cwd: root, timeout: 5_000 });
+    execFileSync(
+      "git",
+      [
+        "-c",
+        "user.name=t",
+        "-c",
+        "user.email=t@t.invalid",
+        "commit",
+        "-q",
+        "--allow-empty",
+        "-m",
+        "r",
+      ],
+      { cwd: root, timeout: 5_000 },
+    );
+    return spawnSync("bash", ["-euo", "pipefail", "-c", versionGate.run], {
+      cwd: root,
+      encoding: "utf8",
+      env: { ...process.env, TAG: tag },
+      timeout: 5_000,
+    });
   } finally {
     rmSync(root, { recursive: true, force: true });
   }
+}
+
+test("publishing a release, or a manual re-run for its tag, is the only trigger", () => {
+  assert.deepEqual(Object.keys(config.on).sort(), ["release", "workflow_dispatch"]);
+  assert.deepEqual(config.on.release.types, ["published"]);
+  assert.equal(config.on.workflow_dispatch.inputs.tag.required, true);
+  assert.equal(prepare.env.TAG, "${{ github.event.release.tag_name || inputs.tag }}");
+  const checkout = prepare.steps.find((step) => step.uses?.startsWith("actions/checkout@"));
+  assert.equal(checkout.with.ref, "refs/tags/${{ env.TAG }}");
+});
+
+test("the release tag must match the package version", () => {
+  assert.ok(versionGate);
+  assert.equal(versionGate.if, undefined);
+  assert.equal(versionGate["continue-on-error"], undefined);
+
+  const match = runVersionGate("v9.8.7", "9.8.7");
+  assert.equal(match.status, 0, `${match.stdout}\n${match.stderr}`);
+  assert.match(match.stdout, /Releasing 9\.8\.7 from [0-9a-f]{40}/);
+
+  const mismatch = runVersionGate("v9.8.8", "9.8.7");
+  assert.equal(mismatch.status, 1, `${mismatch.stdout}\n${mismatch.stderr}`);
+  assert.match(mismatch.stdout, /packages\/cli\/package\.json is 9\.8\.7/);
+  assert.match(mismatch.stdout, /bun run set-version 9\.8\.8 --no-tag/);
 });
 
 test("releases ship standalone binaries for every target and nothing goes to npm", () => {
   const binaries = config.jobs.binaries;
-  assert.equal(binaries.needs, "publish");
+  assert.equal(binaries.needs, "prepare");
+  const checkout = binaries.steps.find((step) => step.uses?.startsWith("actions/checkout@"));
+  assert.equal(checkout.with.ref, "${{ needs.prepare.outputs.sha }}");
   assert.deepEqual(
     binaries.strategy.matrix.include.map((entry) => entry.target),
     ["darwin-arm64", "linux-x64", "linux-arm64"],
@@ -142,7 +84,7 @@ test("releases ship standalone binaries for every target and nothing goes to npm
   const steps = binaries.steps.map((step) => step.run ?? "").join("\n");
   assert.match(steps, /build-binary\.ts --target \$\{\{ matrix\.target \}\}/);
   assert.match(steps, /binary-smoke\.sh packages\/cli\/\.binary\/hyperframes-/);
-  assert.match(steps, /gh release upload/);
+  assert.match(steps, /gh release upload "\$TAG"/);
   assert.doesNotMatch(workflow, /npm publish|NODE_AUTH_TOKEN|NPM_TOKEN|registry-url/);
-  assert.equal(publish.environment, undefined);
+  assert.equal(prepare.environment, undefined);
 });
