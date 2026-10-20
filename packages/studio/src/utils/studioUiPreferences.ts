@@ -42,7 +42,6 @@ export interface StudioUiPreferences {
    * intentionally scoped to one mount.
    */
   agentToolsEnabled?: boolean;
-  /** The OpenRouter model id the Agent panel runs on. */
   agentModel?: string;
   theme?: StudioTheme;
   /** The dock's serialized panel tree; parsed by `parseDockLayout` on read. */

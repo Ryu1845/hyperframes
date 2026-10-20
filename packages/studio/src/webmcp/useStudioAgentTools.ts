@@ -309,7 +309,6 @@ export function useStudioAgentTools(deps: StudioAgentToolsDeps): void {
   const depsRef = useRef(deps);
   depsRef.current = deps;
 
-  // In-page callers (the agent panel) use the tools whatever the WebMCP preference says.
   useMountEffect(() => publishStudioTools(buildStudioTools(depsRef)));
 
   // eslint-disable-next-line no-restricted-syntax
