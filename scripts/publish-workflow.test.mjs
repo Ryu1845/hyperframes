@@ -72,6 +72,15 @@ test("the release tag must match the package version", () => {
   assert.match(mismatch.stdout, /bun run set-version 9\.8\.8 --no-tag/);
 });
 
+test("pnpm is ready before the packed-manifest check that shells out to it", () => {
+  const runs = prepare.steps.map((step) => step.run ?? "");
+  const pnpm = runs.findIndex((run) => /corepack prepare pnpm@/.test(run));
+  const verify = runs.indexOf("bun run verify:packed-manifests");
+  assert.ok(verify !== -1);
+  assert.ok(pnpm !== -1 && pnpm < verify);
+  assert.ok(runs.indexOf("corepack enable") < pnpm);
+});
+
 test("releases ship standalone binaries for every target and nothing goes to npm", () => {
   const binaries = config.jobs.binaries;
   assert.equal(binaries.needs, "prepare");
