@@ -44,13 +44,17 @@ function tarball(files: Record<string, string>): Uint8Array {
 describe("runtimeParent", () => {
   it("prefers HYPERFRAMES_RUNTIME_DIR, then XDG_CACHE_HOME, then ~/.cache", () => {
     expect(runtimeParent({ HYPERFRAMES_RUNTIME_DIR: "/r", XDG_CACHE_HOME: "/x" }, "/h")).toBe("/r");
-    expect(runtimeParent({ XDG_CACHE_HOME: "/x" }, "/h")).toBe("/x/hyperframes/runtime");
-    expect(runtimeParent({}, "/h")).toBe("/h/.cache/hyperframes/runtime");
+    expect(runtimeParent({ XDG_CACHE_HOME: "/x" }, "/h")).toBe(
+      join("/x", "hyperframes", "runtime"),
+    );
+    expect(runtimeParent({}, "/h")).toBe(join("/h", ".cache", "hyperframes", "runtime"));
   });
 
   it("keys a runtime by version and payload digest", () => {
     expect(runtimeDirName("1.2.3", "abcdef0123456789")).toBe("1.2.3-abcdef012345");
-    expect(cliEntry("/r")).toBe("/r/node_modules/@hyperframes/cli/dist/cli.js");
+    expect(cliEntry("/r")).toBe(
+      join("/r", "node_modules", "@hyperframes", "cli", "dist", "cli.js"),
+    );
   });
 });
 
