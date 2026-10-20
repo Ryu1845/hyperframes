@@ -2,42 +2,6 @@
 
 @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap");
 
-@font-face {
-  font-family: "TT Norms Pro";
-  src: url("https://www-static-assets.heygen.com/fonts/tt-norms/TT_Norms_Pro_Normal.woff2")
-    format("woff2");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "TT Norms Pro";
-  src: url("https://www-static-assets.heygen.com/fonts/tt-norms/TT_Norms_Pro_Medium.woff2")
-    format("woff2");
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "TT Norms Pro";
-  src: url("https://www-static-assets.heygen.com/fonts/tt-norms/TT_Norms_Pro_DemiBold.woff2")
-    format("woff2");
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "TT Norms Pro";
-  src: url("https://www-static-assets.heygen.com/fonts/tt-norms/TT_Norms_Pro_Bold.woff2")
-    format("woff2");
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
 /* ── Light mode (default) ── */
 /*
  * NOTE: All custom variables are namespaced with `--hf-` to avoid
@@ -119,7 +83,6 @@
 
 body {
   font-family:
-    "TT Norms Pro",
     "Inter",
     -apple-system,
     BlinkMacSystemFont,
@@ -134,7 +97,6 @@ h4,
 h5,
 h6 {
   font-family:
-    "TT Norms Pro",
     "Inter",
     -apple-system,
     BlinkMacSystemFont,
@@ -158,10 +120,7 @@ h3 {
 }
 
 .hf-workflow-route {
-  display: grid;
-  grid-template-columns: 11rem minmax(0, 1fr);
-  gap: 1rem;
-  align-items: center;
+  display: block;
   padding: 1rem 0;
   border-bottom: 1px solid var(--hf-border-color);
   color: inherit;
@@ -171,27 +130,6 @@ h3 {
 .hf-workflow-route:hover .hf-workflow-route-title {
   color: var(--hf-accent-green);
 }
-
-.hf-workflow-route video {
-  display: block;
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  margin: 0;
-  border-radius: 0.5rem;
-  background: #000;
-  object-fit: cover;
-  pointer-events: none;
-}
-/* A route with no preview clip: same box, no black rectangle. */
-.hf-workflow-route-noclip {
-  display: block;
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  margin: 0;
-  border-radius: 0.5rem;
-  background: color-mix(in srgb, currentColor 8%, transparent);
-}
-
 
 .hf-workflow-route-title {
   display: block;
@@ -207,13 +145,6 @@ h3 {
   color: var(--hf-text-secondary);
   font-size: 0.9rem;
   line-height: 1.5;
-}
-
-@media (max-width: 639px) {
-  .hf-workflow-route {
-    grid-template-columns: 7rem minmax(0, 1fr);
-    gap: 0.8rem;
-  }
 }
 
 /* Code font — IBM Plex Mono (loaded via Google Fonts above).
@@ -509,7 +440,7 @@ samp {
   }
 
   /* Keep the repository compact, but retain its useful live star count. */
-  #navbar a[title="heygen-com/hyperframes"] {
+  #navbar a[title="ryu1845/hyperframes"] {
     width: 7.5rem;
     min-width: 7.5rem;
     height: 2.25rem;
@@ -517,11 +448,11 @@ samp {
     justify-content: center;
   }
 
-  #navbar a[title="heygen-com/hyperframes"] > span.truncate {
+  #navbar a[title="ryu1845/hyperframes"] > span.truncate {
     display: none;
   }
 
-  #navbar a[title="heygen-com/hyperframes"] > span:not(.truncate) {
+  #navbar a[title="ryu1845/hyperframes"] > span:not(.truncate) {
     display: flex !important;
     color: var(--hf-heading);
     font-variant-numeric: tabular-nums;
@@ -532,7 +463,7 @@ samp {
    * client-side navigation. Keep a truthful placeholder in its place so the
    * control does not collapse while the live count reloads.
    */
-  #navbar a[title="heygen-com/hyperframes"]:not(:has(> span:not(.truncate)))::after {
+  #navbar a[title="ryu1845/hyperframes"]:not(:has(> span:not(.truncate)))::after {
     color: var(--hf-heading);
     content: "★";
     font-variant-numeric: tabular-nums;

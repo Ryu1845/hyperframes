@@ -64,7 +64,6 @@
             "group": "Explore",
             "pages": [
               "examples",
-              "thirty-days",
               "product-updates",
               "weekly-updates",
               "changelog"
@@ -74,7 +73,6 @@
             "group": "Choose where to create",
             "pages": [
               "guides/choose-creation-path",
-              "guides/mcp",
               "guides/design-tools"
             ]
           },
@@ -178,7 +176,6 @@
               "concepts/index",
               "guides/media",
               "guides/video-components",
-              "guides/avatar-presenter",
               "guides/voice-and-audio",
               "guides/remove-background",
               "guides/color-grading",
@@ -190,8 +187,7 @@
             "group": "Help",
             "pages": [
               "help",
-              "guides/troubleshooting",
-              "guides/feedback"
+              "guides/troubleshooting"
             ]
           }
         ]
@@ -990,9 +986,7 @@
             "group": "Rendering paths",
             "pages": [
               "guides/rendering",
-              "deploy/overview",
-              "deploy/cloud",
-              "guides/deploy"
+              "deploy/overview"
             ]
           },
           {
@@ -1055,9 +1049,7 @@
   },
   "footer": {
     "socials": {
-      "github": "https://github.com/ryu1845/hyperframes",
-      "x": "https://x.com/HeyGen",
-      "instagram": "https://www.instagram.com/heygen_official/"
+      "github": "https://github.com/ryu1845/hyperframes"
     },
     "links": [
       {
@@ -1102,10 +1094,6 @@
             "href": "/product-updates"
           },
           {
-            "label": "Playground",
-            "href": "https://www.hyperframes.dev/"
-          },
-          {
             "label": "GitHub",
             "href": "https://github.com/ryu1845/hyperframes"
           }
@@ -1119,12 +1107,7 @@
         "type": "github",
         "href": "https://github.com/ryu1845/hyperframes"
       }
-    ],
-    "primary": {
-      "type": "button",
-      "label": "Playground",
-      "href": "https://www.hyperframes.dev/"
-    }
+    ]
   },
   "redirects": [
     {
@@ -1255,6 +1238,30 @@
       "source": "/sdk/overview",
       "destination": "/sdk/quickstart",
       "permanent": true
+    },
+    {
+      "source": "/guides/feedback",
+      "destination": "/help"
+    },
+    {
+      "source": "/thirty-days",
+      "destination": "/examples"
+    },
+    {
+      "source": "/deploy/cloud",
+      "destination": "/deploy/overview"
+    },
+    {
+      "source": "/guides/avatar-presenter",
+      "destination": "/guides/choose-creation-path"
+    },
+    {
+      "source": "/guides/mcp",
+      "destination": "/guides/choose-creation-path"
+    },
+    {
+      "source": "/guides/deploy",
+      "destination": "/deploy/overview"
     }
   ]
 }

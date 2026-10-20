@@ -97,33 +97,6 @@ batch JSON mode) emits no diagnostic line.
 This covers audio preparation and mix failures, including the typed external
 interruption path. Probe failures retain their existing stage/reason but do not
 gain subprocess evidence here; browser/FX failures remain classified as internal.
-Desktop ingestion and live report delivery are separate changes.
-
-### `publish`
-
-Upload a project directory and get a hosted URL that keeps working after the CLI exits.
-Published projects are private by default:
-
-```bash
-npx @ryu1845/hyperframes publish
-npx @ryu1845/hyperframes publish ./my-video
-npx @ryu1845/hyperframes publish --public
-npx @ryu1845/hyperframes publish --yes
-```
-
-Signed-out publishing returns an authentication-required claim URL; opening it
-lets someone sign in and claim the project. Sign in first with
-`npx @ryu1845/hyperframes auth login` to publish an owned project you can update. Use
-`--public` to make the claimed project visible to anyone. `--yes` only skips the
-confirmation prompt and does not change visibility.
-
-Signed-in publishers can use `--update <url-or-id>` to target an existing project
-or `--space <space-id>` to publish into a shared team space. If the requested
-project is missing or inaccessible, publishing can create a new project instead;
-check the printed URL and status.
-
-See the [publish reference](https://github.com/ryu1845/hyperframes/blob/main/docs/packages/cli.mdx#publish)
-for all options, including video proxy settings.
 
 ### `lint`
 
@@ -183,15 +156,6 @@ Open the documentation in your browser:
 
 ```bash
 npx @ryu1845/hyperframes docs
-```
-
-### `upgrade`
-
-Check for updates and show upgrade instructions:
-
-```bash
-npx @ryu1845/hyperframes upgrade
-npx @ryu1845/hyperframes upgrade --check --json  # machine-readable for agents
 ```
 
 ## Documentation

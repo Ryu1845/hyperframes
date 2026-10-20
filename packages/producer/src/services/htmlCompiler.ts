@@ -1507,9 +1507,8 @@ export async function localizeRemoteMediaSources(
  * outside `@font-face` are NOT covered — agent-pipeline compositions emit
  * plain `<img src>`, but those are open follow-ups if other shapes appear.
  *
- * This bites agent-pipeline-generated compositions (astral / daphne /
- * hyperion `multi-v2` outputs) which render directly without going through
- * `hyperframes publish`'s archive-time localize step.
+ * This bites agent-generated compositions, which reference remote images and
+ * render directly without any archive-time localize step.
  */
 /** @internal exported for unit testing only */
 export async function localizeRemoteImageSources(

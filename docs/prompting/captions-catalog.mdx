@@ -3,8 +3,6 @@ title: Caption styles
 description: "Map caption tone to named caption components, and prompt per-word emphasis for composed videos."
 ---
 
-import { DocsVideo } from "/snippets/docs-video.jsx";
-
 Your faceless explainer from Level 1 already asked for "embedded captions, keywords highlighted in the accent color" and got a sensible default. This chapter is the catalog behind that ask — the named components you can pin instead, by tone, so the highlight color and the animation are a decision, not a default.
 
 ## What caption styles do and when they trigger
@@ -42,38 +40,13 @@ Three [Text Effects](/catalog/components/morph-text) components do one focused j
 
 > /faceless-explainer 30-second vertical explainer. Add [`caption-highlight`](/catalog/components/caption-highlight) captions, TikTok-style — the visible line stays up, one word highlighted at a time.
 
-<DocsVideo
-  title="HyperFrames video: Validate Captions Catalog"
-  src="https://static.heygen.ai/hyperframes-oss/docs/images/prompting/validate-captions-catalog.mp4#t=0.1"
-  portrait
-  loop
-/>
-*Rendered from the prompt above, unedited.*
-
-
 <Note>
   Caption components ship as demos — a fixed word list, landscape sizing, an 8-second timeline. The agent re-authors the words and timings to your narration and re-sizes for your format; that's expected, not a workaround. If you want one full-screen word at a time (no visible line), that's [`caption-kinetic-slam`](/catalog/components/caption-kinetic-slam), not `caption-highlight`.
 </Note>
 
 > Hype captions with [`caption-kinetic-slam`](/catalog/components/caption-kinetic-slam): one full-screen word per beat, alternating slam-in direction.
 
-<DocsVideo
-  title="HyperFrames video: Caption Kinetic Slam"
-  src="https://static.heygen.ai/hyperframes-oss/docs/images/prompting/caption-kinetic-slam.mp4#t=0.1"
-  loop
-/>
-*Rendered from the prompt above with an authored 24-word line, unedited.*
-
-
 > Neon music-video captions using [`caption-neon-glow`](/catalog/components/caption-neon-glow). Make brand names larger with an accent color and highlight the numbers differently.
-
-<DocsVideo
-  title="HyperFrames video: Caption Neon Glow"
-  src="https://static.heygen.ai/hyperframes-oss/docs/images/prompting/caption-neon-glow.mp4#t=0.1"
-  loop
-/>
-*Rendered from the prompt above, unedited — the brand renders 1.4x in magenta, numbers in amber, distinct from the default cyan.*
-
 
 > Fill the hero word "STONE" with [`texture-mask-text`](/catalog/components/texture-mask-text) using the rock texture.
 
@@ -108,18 +81,11 @@ Three [Text Effects](/catalog/components/morph-text) components do one focused j
 - ✅ describe the tone ("tutorial, monospace, typewriter") or name a real component
 
 <Note>
-**Capstone thread** — in the [Level 7 film](/prompting/capstone)'s Material region, word-synced keywords from the clip's own transcription slam in as display type behind the matted-out speaker — captions as scenography, on real word timings (cut from the film, below).
+**Capstone thread** — in the [Level 7 film](/prompting/capstone)'s Material region, word-synced keywords from the clip's own transcription slam in as display type behind the matted-out speaker — captions as scenography, on real word timings.
 </Note>
 
 This is the clause in the [full capstone prompt](/prompting/capstone#the-prompt-word-for-word) that buys the piece — prompt language you can lift for your own video:
 
 > THEN they speak, and the main **keywords of their own line — derived from the clip's transcription — land word-synced as huge display text BEHIND the cutout**, each keyword slamming in on its spoken moment with the subject's silhouette occluding it (the two-layer text-behind-subject plate); style the keyword type by adapting a bold **catalog caption component** (`caption-kinetic-slam` or similar) at display scale.
-
-<DocsVideo
-  title="HyperFrames video: Capstone Region Material"
-  src="https://static.heygen.ai/hyperframes-oss/docs/images/prompting/capstone-region-material.mp4#t=0.1"
-  loop
-/>
-*That clause, rendered — the region cut from the finished film.*
 
 *Next: [When to generate artwork](/prompting/generated-artwork) — where hand-drawn HTML/CSS/SVG wins, and where a generated image beats it.*

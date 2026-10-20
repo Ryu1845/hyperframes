@@ -3,8 +3,6 @@ title: Media and audio
 description: "Ask for the voiceover, music, sound, captions, cutouts, and assets a composition needs, in phrasing the media pipeline acts on."
 ---
 
-import { DocsVideo } from "/snippets/docs-video.jsx";
-
 Your video moves and reads right. This level gives it a voice.
 
 HyperFrames owns media *playback*. A sibling media pipeline resolves everything
@@ -18,9 +16,9 @@ exactly what the words say.
 
 ## Voiceover (TTS)
 
-The agent picks a voice engine in a fixed order. HeyGen Starfish goes first if
-your HeyGen account is configured. ElevenLabs is next if that key is set.
-Otherwise the local Kokoro model runs, and it needs no API key.
+The agent picks a voice engine in a fixed order. ElevenLabs goes first if that
+key is set. Otherwise the local Kokoro model runs, and it needs no API key.
+Gemini runs only when you ask for it.
 
 Describe the content and let the agent pick a fitting voice. Or name the voice,
 tone, and speed yourself:
@@ -202,15 +200,6 @@ other supplied asset, and describe the composition you want built from it.
 
 > Build a short picture-in-picture piece from `source-hevc.mp4` — inset it bottom-right over a full-bleed background scene, with a soft rounded border.
 
-<DocsVideo
-  title="HyperFrames video: Proxy Footage"
-  src="https://static.heygen.ai/hyperframes-oss/docs/images/prompting/proxy-footage.mp4#t=0.1"
-  loop
-/>
-*Rendered from the prompt above, unedited. The source clip is a plain H.265/HEVC
-file. The render decoded it directly via FFmpeg. Preview would have used the
-automatic H.264 proxy.*
-
 See the [Rendering guide](/guides/rendering#input-video-codecs) for the
 mechanics — proxy generation, caching, and which codecs it covers.
 
@@ -245,24 +234,16 @@ the gap explicitly, because the engine acts on the literal words.
 
 <Note>
 **Capstone thread** — the [Level 7 film](/prompting/capstone)'s Material region
-runs this chapter's entire pipeline on one clip: generated footage → HEVC
+runs this chapter's entire pipeline on one clip: supplied footage → HEVC
 auto-proxy → background removal mid-scene → word-synced captions from the clip's
-own transcription, with the clip's audio ducking the BGM (cut from the film,
-below).
+own transcription, with the clip's audio ducking the BGM.
 </Note>
 
 This is the clause in the [full capstone
 prompt](/prompting/capstone#the-prompt-word-for-word) that buys the piece. It's
 prompt language you can lift for your own video:
 
-> […] a real talking-head clip (generate a short clip of a person speaking one neutral line via the media pipeline's avatar video generation […] **transcode it to HEVC `hvc1`** so the automatic proxy subsystem carries preview) sits as a clip on the wire. The order of operations IS the story: as the camera arrives and BEFORE the person speaks, the framework mattes the footage — **the background peels away via background removal** […] THEN they speak, and the main **keywords of their own line — derived from the clip's transcription — land word-synced** […] The clip's own audio ducks the BGM briefly; the VO resumes as the camera pulls away.
-
-<DocsVideo
-  title="HyperFrames video: Capstone Region Material"
-  src="https://static.heygen.ai/hyperframes-oss/docs/images/prompting/capstone-region-material.mp4#t=0.1"
-  loop
-/>
-*That clause, rendered — the region cut from the finished film.*
+> […] a real talking-head clip (the supplied `./speaker.mp4`, a person speaking one neutral line […] **transcode it to HEVC `hvc1`** so the automatic proxy subsystem carries preview) sits as a clip on the wire. The order of operations IS the story: as the camera arrives and BEFORE the person speaks, the framework mattes the footage — **the background peels away via background removal** […] THEN they speak, and the main **keywords of their own line — derived from the clip's transcription — land word-synced** […] The clip's own audio ducks the BGM briefly; the VO resumes as the camera pulls away.
 
 *Next: [Audio effects and mixing](/prompting/audio-effects) — making the voice,
 music, and effects you just placed sit together.*

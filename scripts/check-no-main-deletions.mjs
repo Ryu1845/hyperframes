@@ -78,6 +78,9 @@ const STUDIO_TELEMETRY_REASON =
 const CANARY_REASON =
   "owner-directed removal of the telemetry-gated canary rollout system; its only consumer was Studio telemetry";
 
+const HEYGEN_DOCS_REASON =
+  "owner-directed removal of docs pages that only described HeyGen-hosted services (avatars, cloud render, feedback, hosted MCP, deploy templates, the HeyGen social series) and of docs snippets left without callers once HeyGen CDN media was dropped";
+
 /** Many paths removed for one reason. */
 const group = (reason, paths) => paths.map((path) => [path, reason]);
 
@@ -1557,6 +1560,18 @@ export const ALLOWED_DELETIONS = new Map([
     "packages/studio/src/utils/sdkResolverShadow.ts",
     "packages/studio/src/utils/studioTelemetry.test.ts",
     "packages/studio/src/utils/studioTelemetry.ts",
+  ]),
+  ...group(HEYGEN_DOCS_REASON, [
+    "docs/deploy/cloud.mdx",
+    "docs/guides/avatar-presenter.mdx",
+    "docs/guides/deploy.mdx",
+    "docs/guides/feedback.mdx",
+    "docs/guides/mcp.mdx",
+    "docs/snippets/docs-video.jsx",
+    "docs/snippets/example-player.jsx",
+    "docs/snippets/hover-video.jsx",
+    "docs/snippets/replica-compare.jsx",
+    "docs/thirty-days.mdx",
   ]),
   ...group(CANARY_REASON, [
     ".github/workflows/canary-sunset.yml",

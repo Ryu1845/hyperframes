@@ -54,13 +54,13 @@ Use the [composition and schema reference](/reference/html-schema) when generati
 | Build an editor                                         | SDK + Player                | Edit the source and reflect it in a live preview |
 | Render from a Node service                              | Producer                    | Turn one composition into an encoded file        |
 | Control frame capture or build rendering infrastructure | Engine                      | Capture exact frames from a seekable page        |
-| Run managed or distributed renders                      | Cloud, Lambda, or Cloud Run | Submit one project and retrieve the result       |
+| Run distributed renders                                 | Lambda or Cloud Run         | Submit one project and retrieve the result       |
 
 Do not start with the rendering engine when the CLI already performs the complete job. Do not add the SDK when the application only needs playback.
 
 ## CLI: operate complete projects
 
-The CLI is the highest-level technical surface. It creates projects, opens Studio, validates compositions, captures review frames, renders files, publishes projects, and drives cloud render backends.
+The CLI is the highest-level technical surface. It creates projects, opens Studio, validates compositions, captures review frames, and renders files, locally or on AWS Lambda and Google Cloud Run.
 
 ```bash
 npx @ryu1845/hyperframes check
@@ -113,7 +113,6 @@ See the [Player reference](/packages/player).
 - **CLI** — complete local and automated rendering.
 - **Producer** — the Node rendering pipeline: capture, encode, and audio mix.
 - **Engine** — lower-level seekable page capture and exact-frame control.
-- **Managed cloud** — hosted rendering without operating Chrome or FFmpeg.
 - **AWS Lambda or Google Cloud Run** — infrastructure you deploy and control.
 
 Most applications should begin with the CLI or Producer. Reach for Engine only when building a specialized capture or rendering system.

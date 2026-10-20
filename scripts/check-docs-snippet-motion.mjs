@@ -35,9 +35,9 @@ const SNIPPETS_DIR = resolve(dirname(fileURLToPath(import.meta.url)), "..", "doc
 /**
  * Split a snippet into its exported components.
  *
- * The invariant is per component, not per file: `docs-video.jsx` already holds
- * two, so a whole-file match lets a second unguarded grid ride in on the first
- * one's guard.
+ * The invariant is per component, not per file: a snippet file can hold two
+ * components, so a whole-file match lets a second unguarded grid ride in on the
+ * first one's guard.
  */
 export function splitComponents(source) {
   const starts = [...source.matchAll(/^(?:export\s+)?(?:const|function)\s+(\w+)\s*[=(]/gm)];
