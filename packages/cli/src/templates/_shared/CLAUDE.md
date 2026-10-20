@@ -43,7 +43,6 @@ npx @ryu1845/hyperframes preview --status      # verify the persistent preview i
 npx @ryu1845/hyperframes preview --stop        # stop it when review is finished
 npm run check        # lint + runtime + layout + motion + contrast (one command)
 npm run render       # render to MP4
-npm run publish      # publish and get a shareable link
 npx @ryu1845/hyperframes lint --verbose  # include info-level findings
 npx @ryu1845/hyperframes lint --json     # machine-readable output for CI
 npx @ryu1845/hyperframes docs <topic> # reference docs in terminal

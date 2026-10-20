@@ -256,7 +256,7 @@ We welcome contributions that use AI tools (GitHub Copilot, Claude, ChatGPT, etc
 
 ## Governance
 
-Hyperframes uses a **BDFL (Benevolent Dictator for Life)** governance model. The core maintainers at HeyGen have final say on the project's direction, API design, and what gets merged. This keeps the project focused and moving fast.
+Hyperframes uses a **BDFL (Benevolent Dictator for Life)** governance model. The fork's maintainer (@ryu1845) has final say on the project's direction, API design, and what gets merged. This keeps the project focused and moving fast.
 
 Community input is valued and encouraged — open issues, propose RFCs, and discuss in PRs. But final decisions rest with the maintainers.
 

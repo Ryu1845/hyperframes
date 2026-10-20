@@ -7,27 +7,18 @@
 </p>
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/hyperframes"><img src="https://img.shields.io/npm/v/hyperframes.svg?style=flat" alt="npm version"></a>
-  <a href="https://www.npmjs.com/package/hyperframes"><img src="https://img.shields.io/npm/dm/hyperframes.svg?style=flat" alt="npm downloads"></a>
+  <a href="https://www.npmjs.com/package/@ryu1845/hyperframes"><img src="https://img.shields.io/npm/v/@ryu1845/hyperframes.svg?style=flat" alt="npm version"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-blue.svg" alt="License"></a>
   <a href="https://nodejs.org"><img src="https://img.shields.io/badge/node-%3E%3D22-brightgreen" alt="Node.js"></a>
-  <a href="https://discord.gg/EbK98HBPdk"><img src="https://img.shields.io/badge/Discord-Join-5865F2?logo=discord&logoColor=white" alt="Discord"></a>
 </p>
 
 <p align="center"><b>Write HTML. Render video. Built for agents.</b></p>
 
 <p align="center">
-  <a href="https://www.hyperframes.dev/studio">Studio</a> |
   <a href="https://github.com/ryu1845/hyperframes/blob/main/docs/quickstart.mdx">Quickstart</a> |
   <a href="https://github.com/ryu1845/hyperframes/blob/main/docs/examples.mdx">Showcase</a> |
-  <a href="https://www.hyperframes.dev/">Playground</a> |
   <a href="https://github.com/ryu1845/hyperframes/blob/main/docs/catalog/blocks/data-chart.mdx">Catalog</a> |
-  <a href="https://github.com/ryu1845/hyperframes/blob/main/docs/introduction.mdx">Docs</a> |
-  <a href="https://discord.gg/EbK98HBPdk">Discord</a>
-</p>
-
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/f6ff9fae-f33d-4f68-bd54-f3ed4ba6473b" alt="HyperFrames app opening from the Dock: native Mac and Linux app now available" width="800">
+  <a href="https://github.com/ryu1845/hyperframes/blob/main/docs/introduction.mdx">Docs</a>
 </p>
 
 HyperFrames is an open-source framework for turning HTML, CSS, media, and seekable animations into deterministic MP4 videos. Use it locally with the CLI, from AI coding agents with skills, or as the rendering core behind hosted authoring workflows.
@@ -119,7 +110,7 @@ Atomic capabilities the creation workflows compose against — pull one when you
 | `/hyperframes-keyframes` | Seek-safe keyframe authoring across runtimes — GSAP timelines, CSS keyframes, Anime.js, WAAPI, FLIP, paths, masks, SVG morph/draw, 3D depth — plus `hyperframes keyframes` diagnostics for rendered motion.                                                                                                                                                                                                                                                                          |
 | `/hyperframes-creative`  | Non-animation creative direction — `frame.md` / `design.md`, palettes, typography, narration, beat planning, audio-reactive visuals, composition patterns.                                                                                                                                                                                                                                                                                                                           |
 | `/media-use`             | The media OS (a host app's own music and sound-effect tools come first for those) — resolve any media need (BGM, SFX, image, icon, logo, voice, color grade, LUT) into a frozen local file or paste-ready block + ledger record, generate via TTS/music/image models when the catalog misses, transcribe, caption, remove backgrounds, and reuse assets across projects. One shared audio engine + manifest tracking.                                                                |
-| `/hyperframes-cli`       | CLI dev loop — `init`, `lint`, `check`, `snapshot`, `preview`, `render`, `publish`, `doctor`, plus HeyGen-hosted cloud rendering (`cloud render`) and AWS Lambda rendering (`lambda deploy / render / progress`).                                                                                                                                                                                                                                                                    |
+| `/hyperframes-cli`       | CLI dev loop — `init`, `add`, `lint`, `check`, `snapshot`, `preview`, `render`, `doctor`, plus AWS Lambda and Google Cloud Run rendering (`lambda deploy / render / progress`, `cloudrun`).                                                                                                                                                                                                                                                                                          |
 | `/hyperframes-audio`     | Mix the audio already placed in a composition — voiceover carve (dip a music bed only in the bands the voice occupies, static or dynamic, level match included), the effect chain (EQ, compressor, limiter, gate, saturation, delay, reverb, chorus, phaser, bitcrush), automation envelopes on volume or any effect parameter, and submix buses (`<hf-audio-group>`) carrying one chain, fader and automation clock for several tracks at once. Sourcing the audio is `/media-use`. |
 | `/hyperframes-registry`  | Search, install and wire registry blocks and components into compositions via `hyperframes catalog` / `hyperframes add`. Load before hand-building any named look, effect, treatment or transition. Authoring a new block or component to contribute upstream.                                                                                                                                                                                                                       |
 | `/figma`                 | Import Figma assets, tokens, components, and storyboard sections → reconstructed motion (frames read as states, not slides) (REST/CLI) plus Motion animations (MCP) and shaders (MCP source / native export) into a composition.                                                                                                                                                                                                                                                     |
@@ -155,61 +146,6 @@ Need ideas? Browse the [Showcase](https://github.com/ryu1845/hyperframes/blob/ma
 Every brand has a `design.md`. None of them were written for a camera. `frame.md` is the missing translation layer: it takes your web-context design spec and inverts it for the frame — the same tokens, the same rules, but rewritten so an AI agent can compose a promo video without guessing at scale or reaching for web chrome.
 
 The output is a `DESIGN.md` superset your whole toolchain can read. Atoms stay sacred. Composition stays free. Numbers come from the script.
-
-<table>
-  <tr>
-    <td width="50%" align="center">
-      <a href="https://www.hyperframes.dev/design/biennale-yellow"><img src="https://static.heygen.ai/hyperframes-oss/docs/images/design-templates/biennale-yellow.png" alt="Biennale Yellow" width="100%"></a>
-      <br><b><a href="https://www.hyperframes.dev/design/biennale-yellow">Biennale Yellow</a></b>
-    </td>
-    <td width="50%" align="center">
-      <a href="https://www.hyperframes.dev/design/blockframe"><img src="https://static.heygen.ai/hyperframes-oss/docs/images/design-templates/blockframe.png" alt="BlockFrame" width="100%"></a>
-      <br><b><a href="https://www.hyperframes.dev/design/blockframe">BlockFrame</a></b>
-    </td>
-  </tr>
-  <tr>
-    <td width="50%" align="center">
-      <a href="https://www.hyperframes.dev/design/blue-professional"><img src="https://static.heygen.ai/hyperframes-oss/docs/images/design-templates/blue-professional.png" alt="Blue Professional" width="100%"></a>
-      <br><b><a href="https://www.hyperframes.dev/design/blue-professional">Blue Professional</a></b>
-    </td>
-    <td width="50%" align="center">
-      <a href="https://www.hyperframes.dev/design/bold-poster"><img src="https://static.heygen.ai/hyperframes-oss/docs/images/design-templates/bold-poster.png" alt="Bold Poster" width="100%"></a>
-      <br><b><a href="https://www.hyperframes.dev/design/bold-poster">Bold Poster</a></b>
-    </td>
-  </tr>
-  <tr>
-    <td width="50%" align="center">
-      <a href="https://www.hyperframes.dev/design/broadside"><img src="https://static.heygen.ai/hyperframes-oss/docs/images/design-templates/broadside.png" alt="Broadside" width="100%"></a>
-      <br><b><a href="https://www.hyperframes.dev/design/broadside">Broadside</a></b>
-    </td>
-    <td width="50%" align="center">
-      <a href="https://www.hyperframes.dev/design/capsule"><img src="https://static.heygen.ai/hyperframes-oss/docs/images/design-templates/capsule.png" alt="Capsule" width="100%"></a>
-      <br><b><a href="https://www.hyperframes.dev/design/capsule">Capsule</a></b>
-    </td>
-  </tr>
-  <tr>
-    <td width="50%" align="center">
-      <a href="https://www.hyperframes.dev/design/cartesian"><img src="https://static.heygen.ai/hyperframes-oss/docs/images/design-templates/cartesian.png" alt="Cartesian" width="100%"></a>
-      <br><b><a href="https://www.hyperframes.dev/design/cartesian">Cartesian</a></b>
-    </td>
-    <td width="50%" align="center">
-      <a href="https://www.hyperframes.dev/design/cobalt-grid"><img src="https://static.heygen.ai/hyperframes-oss/docs/images/design-templates/cobalt-grid.png" alt="Cobalt Grid" width="100%"></a>
-      <br><b><a href="https://www.hyperframes.dev/design/cobalt-grid">Cobalt Grid</a></b>
-    </td>
-  </tr>
-  <tr>
-    <td width="50%" align="center">
-      <a href="https://www.hyperframes.dev/design/coral"><img src="https://static.heygen.ai/hyperframes-oss/docs/images/design-templates/coral.png" alt="Coral" width="100%"></a>
-      <br><b><a href="https://www.hyperframes.dev/design/coral">Coral</a></b>
-    </td>
-    <td width="50%" align="center">
-      <a href="https://www.hyperframes.dev/design/creative-mode"><img src="https://static.heygen.ai/hyperframes-oss/docs/images/design-templates/creative-mode.png" alt="Creative Mode" width="100%"></a>
-      <br><b><a href="https://www.hyperframes.dev/design/creative-mode">Creative Mode</a></b>
-    </td>
-  </tr>
-</table>
-
-Browse and remix them all at [hyperframes.dev/design](https://www.hyperframes.dev/design).
 
 ## How It Works
 
@@ -253,16 +189,15 @@ Preview instantly in the browser. Render locally or in Docker. The renderer seek
 
 HyperFrames is the open-source rendering engine, plus a growing set of tools around HTML-native video creation.
 
-| Piece                                           | Status              | What it does                                                                                      |
-| ----------------------------------------------- | ------------------- | ------------------------------------------------------------------------------------------------- |
-| CLI                                             | Available           | Scaffold, preview, lint, inspect, and render local video projects                                 |
-| Core / Engine / Producer                        | Available           | Parse compositions, drive headless Chrome, encode video, and mix audio                            |
-| Catalog                                         | Available           | Reusable blocks and components for transitions, overlays, captions, charts, maps, and effects     |
-| Agent skills                                    | Available           | Teach coding agents the video-production patterns that generic web docs miss                      |
-| Studio                                          | Available, evolving | Browser surface for previewing and editing compositions                                           |
-| AWS Lambda rendering                            | Available           | Deploy a distributed render stack and drive renders from your laptop or CI                        |
-| [hyperframes.dev](https://www.hyperframes.dev/) | Available           | Community playground for previewing, iterating, sharing, and rendering HTML-native video projects |
-| [frame.md](https://www.hyperframes.dev/design)  | Available           | Invert your design system for the camera — a DESIGN.md superset an agent can compose video from   |
+| Piece                    | Status              | What it does                                                                                    |
+| ------------------------ | ------------------- | ----------------------------------------------------------------------------------------------- |
+| CLI                      | Available           | Scaffold, preview, lint, inspect, and render local video projects                               |
+| Core / Engine / Producer | Available           | Parse compositions, drive headless Chrome, encode video, and mix audio                          |
+| Catalog                  | Available           | Reusable blocks and components for transitions, overlays, captions, charts, maps, and effects   |
+| Agent skills             | Available           | Teach coding agents the video-production patterns that generic web docs miss                    |
+| Studio                   | Available, evolving | Browser surface for previewing and editing compositions                                         |
+| AWS Lambda rendering     | Available           | Deploy a distributed render stack and drive renders from your laptop or CI                      |
+| frame.md                 | Available           | Invert your design system for the camera — a DESIGN.md superset an agent can compose video from |
 
 ## Catalog
 
@@ -327,11 +262,9 @@ Full documentation: [docs/introduction.mdx](https://github.com/ryu1845/hyperfram
 
 ## Community
 
-HyperFrames is used in production at [HeyGen](https://www.heygen.com), with community examples from teams like [tldraw](https://tldraw.com), [TanStack](https://tanstack.com), and others in [ADOPTERS.md](ADOPTERS.md). Open a PR if your team is using HyperFrames.
+HyperFrames has community examples from teams like [tldraw](https://tldraw.com), [TanStack](https://tanstack.com), and others in [ADOPTERS.md](ADOPTERS.md). Open a PR if your team is using HyperFrames.
 
-- Questions and ideas: [Discord](https://discord.gg/EbK98HBPdk)
-- Bugs and feature requests: [GitHub Issues](https://github.com/ryu1845/hyperframes/issues)
-- User research: [Book a casual 30-minute conversation with the HyperFrames team](https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ2cSpKoDgmcmRrgekrnrgqmvPT8W6F2Zg6e7MY7IJqaZKwpn_I0NdTHkN390iguMepE_NVg8ezb?gv=true) — no preparation or sales pitch
+- Questions, ideas, bugs and feature requests: [GitHub Issues](https://github.com/ryu1845/hyperframes/issues)
 - Security reports: [SECURITY.md](SECURITY.md)
 - Contributions: [CONTRIBUTING.md](CONTRIBUTING.md)
 

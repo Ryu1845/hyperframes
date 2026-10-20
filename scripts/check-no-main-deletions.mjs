@@ -1324,6 +1324,8 @@ export const ALLOWED_DELETIONS = new Map([
     "packages/cli/src/utils/submitFeedback.test.ts",
     "packages/cli/src/utils/submitFeedback.ts",
     "skills/hyperframes-cli/references/cloud.md",
+    "docs/guides/claude-design-send-to-hyperframes.md",
+    "packages/cli/src/commands/claude-design/sendToGuideContract.test.ts",
   ]),
   ...group(TELEMETRY_REASON, [
     "packages/cli/src/backgroundChecksWorker.test.ts",
