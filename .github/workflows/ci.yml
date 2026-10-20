@@ -1329,7 +1329,8 @@ jobs:
     # binary's own build or launch path changes, and on manual dispatch.
     name: "CLI: standalone binary (${{ matrix.os }})"
     needs: changes
-    if: needs.changes.outputs.code == 'true'
+    # A manual run on main has no diff to filter, so it would skip; dispatch always builds.
+    if: needs.changes.outputs.code == 'true' || github.event_name == 'workflow_dispatch'
     runs-on: ${{ matrix.os }}
     timeout-minutes: 45
     strategy:
