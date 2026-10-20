@@ -1,0 +1,72 @@
+---
+title: "Change a video with the agent"
+description: "Describe a change in Studio's Agent panel and an OpenRouter model edits the project for you."
+---
+
+The **Agent** panel edits the open project for you. Describe a change, and a model you choose on
+[OpenRouter](https://openrouter.ai) reads the composition, edits it, checks the result, and tells you what it did.
+You watch the preview update while it works.
+
+## Set it up once
+
+1. Create an API key at [openrouter.ai/keys](https://openrouter.ai/keys). Runs bill to that OpenRouter account.
+2. Make the key available to `hyperframes preview`, either in your shell:
+
+   ```bash
+   export OPENROUTER_API_KEY=sk-or-...
+   ```
+
+   or in a `.env` file in the project folder:
+
+   ```bash
+   OPENROUTER_API_KEY=sk-or-...
+   ```
+
+3. Restart `hyperframes preview`.
+
+The key stays on your computer: the preview server adds it to each request, and Studio never sees it.
+
+## Ask for a change
+
+1. Choose **Agent** in the header. The panel opens beside **Compositions**.
+2. Type what you want in **Describe a change**, for example "make the title slide in from the left", and press
+   Enter. Shift+Enter starts a new line.
+3. Each step the agent takes shows as a row: reading or writing a file, editing an element, linting, or looking at a
+   frame. Its reply appears when it is done.
+
+Choose **Stop** to end a run early. Choose **New chat** to start a conversation without the earlier requests.
+
+You can also start from an element: select it, choose **Ask agent about this element** at the bottom of the
+Design panel, type the change, and choose **Send to agent**. The request arrives in the panel
+with the element's details, ready to send.
+
+## What the agent can do
+
+- Read, create, and rewrite project files. It writes against the version it read, so it never overwrites an edit
+  you made while it was working; it reads the file again instead.
+- Edit elements the way the Design panel does: text, style, position, size, and animations.
+- Run lint and fix what it finds.
+- Render a frame and look at it before it finishes.
+
+It cannot run commands, install packages, or reach anything outside the project and OpenRouter.
+
+## Undo a run
+
+Each run has its own **Undo**. It puts the project's files back as they were before that run. If you or another
+run changed files afterwards, Studio asks first, because those changes go too. The run also appears in the project
+history as one entry, so **Cmd+Z** (Ctrl+Z on Windows and Linux) works as usual.
+
+## Choose a model
+
+The field at the top of the panel takes any OpenRouter model id that supports tools. Start typing to pick from the
+list. The default is `anthropic/claude-sonnet-5.5`; set `HYPERFRAMES_AGENT_MODEL` to change the default for every
+project. A model that can read images can also check the frames it renders.
+
+## Troubleshooting
+
+| What you see | What to do |
+| --- | --- |
+| **Set OPENROUTER_API_KEY…** | The preview server started without a key. Add it as above and restart `hyperframes preview`. |
+| **OpenRouter answered 401** | The key is wrong or revoked. Create a new one. |
+| **OpenRouter answered 402** | The OpenRouter account is out of credits. |
+| **Stopped after 25 tool rounds** | The request was too broad for one run. Split it into smaller requests. |
