@@ -2,11 +2,9 @@ import { memo, useContext, type MouseEvent } from "react";
 import { Camera } from "../icons/SystemIcons";
 import { useStudioShellContext } from "../contexts/StudioContext";
 import { usePanelLayoutContext } from "../contexts/PanelLayoutContext";
-import { trackStudioEvent } from "../utils/studioTelemetry";
 import { Button, buttonBase, buttonSizes, buttonVariants, cn, Tooltip } from "./ui";
 import { Dock } from "./dock/Dock";
 import { InspectorIcon } from "./icons/InspectorIcon";
-import { OpenInDesktopButton } from "./OpenInDesktopButton";
 import { HyperframesLogo } from "./ui/HyperframesLogo";
 import { ShowThemeToggle, ThemeToggle } from "./ThemeToggle";
 
@@ -78,7 +76,6 @@ export const StudioHeader = memo(function StudioHeader({
                   e.preventDefault();
                   return;
                 }
-                trackStudioEvent("toolbar_action", { action: "capture_frame" });
                 handleCaptureFrameClick(e);
               }}
               onFocus={refreshCaptureFrameTime}
@@ -135,12 +132,10 @@ export const StudioHeader = memo(function StudioHeader({
               icon={<InspectorIcon size={16} />}
               onClick={() => {
                 if (shouldOpenInspector(rightCollapsed, inspectorPanelActive)) {
-                  trackStudioEvent("panel_toggle", { panel: "inspector", collapsed: false });
                   setRightPanelTab("design");
                   setRightCollapsed(false);
                   return;
                 }
-                trackStudioEvent("panel_toggle", { panel: "inspector", collapsed: true });
                 // Keep the current selection when collapsing the Inspector — closing
                 // the panel shouldn't deselect the element.
                 setRightCollapsed(true);
@@ -152,7 +147,6 @@ export const StudioHeader = memo(function StudioHeader({
         </div>
         {showThemeToggle && <ThemeToggle />}
         <Dock.WindowMenu />
-        <OpenInDesktopButton />
         <Tooltip
           label={
             ffmpegMissing

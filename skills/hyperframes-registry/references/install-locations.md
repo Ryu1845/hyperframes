@@ -20,8 +20,8 @@ Created automatically by `hyperframes init`. If it doesn't exist when you run `a
 
 ```json
 {
-  "$schema": "https://hyperframes.heygen.com/schema/hyperframes.json",
-  "registry": "https://raw.githubusercontent.com/heygen-com/hyperframes/main/registry",
+  "$schema": "https://raw.githubusercontent.com/ryu1845/hyperframes/main/docs/schema/hyperframes.json",
+  "registry": "https://raw.githubusercontent.com/ryu1845/hyperframes/main/registry",
   "paths": {
     "blocks": "compositions",
     "components": "compositions/components",

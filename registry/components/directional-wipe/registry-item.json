@@ -1,5 +1,5 @@
 {
-  "$schema": "https://hyperframes.heygen.com/schema/registry-item.json",
+  "$schema": "https://raw.githubusercontent.com/ryu1845/hyperframes/main/docs/schema/registry-item.json",
   "name": "directional-wipe",
   "type": "hyperframes:component",
   "title": "Directional Wipe",
@@ -57,8 +57,5 @@
       "target": "compositions/components/directional-wipe.html",
       "type": "hyperframes:snippet"
     }
-  ],
-  "preview": {
-    "poster": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/directional-wipe.png"
-  }
+  ]
 }

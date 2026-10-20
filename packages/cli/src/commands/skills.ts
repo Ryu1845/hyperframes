@@ -5,7 +5,8 @@ import * as clack from "@clack/prompts";
 import { c } from "../ui/colors.js";
 import { diag } from "../ui/diagnostics.js";
 import { buildNpxCommand } from "../utils/npxCommand.js";
-import { withMeta } from "../utils/updateCheck.js";
+import { bunCliInvocation, standaloneBinary } from "../utils/selfRuntime.js";
+import { withMeta } from "../utils/jsonMeta.js";
 import {
   checkSkills,
   FALLBACK_CORE_SKILLS,
@@ -18,8 +19,6 @@ import {
   type SkillsCheckResult,
 } from "../utils/skillsManifest.js";
 import { mirrorGlobalSkills } from "../utils/skillsMirror.js";
-import { invalidateSkillsCache } from "../utils/skillsUpdateCheck.js";
-import { trackSkillsInstallSkipped } from "../telemetry/events.js";
 import type { Example } from "./_examples.js";
 
 export const examples: Example[] = [
@@ -30,7 +29,19 @@ export const examples: Example[] = [
   ["Also install one workflow (on-demand install)", "hyperframes skills update pr-to-video"],
 ];
 
+// The standalone binary carries Bun, whose bunx runs the skills CLI without Node.
+function packageRunner(args: string[]): {
+  command: string;
+  args: string[];
+  env: NodeJS.ProcessEnv;
+} {
+  const binary = standaloneBinary();
+  if (binary) return bunCliInvocation(binary, ["x", "--bun", ...args]);
+  return { ...buildNpxCommand(args), env: process.env };
+}
+
 function hasNpx(): boolean {
+  if (standaloneBinary()) return true;
   const npx = buildNpxCommand(["--version"]);
   try {
     execFileSync(npx.command, npx.args, { stdio: "ignore", timeout: 5000 });
@@ -55,7 +66,7 @@ function hasGit(): boolean {
 }
 
 function spawnNpx(args: string[], opts: { cwd?: string } = {}): Promise<void> {
-  const npx = buildNpxCommand(args);
+  const npx = packageRunner(args);
   return new Promise((resolve, reject) => {
     const child = spawn(npx.command, npx.args, {
       // Route the child's stdout to the parent's stderr (fd 2), keeping stdin
@@ -70,7 +81,7 @@ function spawnNpx(args: string[], opts: { cwd?: string } = {}): Promise<void> {
       timeout: 300_000,
       cwd: opts.cwd,
       env: {
-        ...process.env,
+        ...npx.env,
         // GH #316 — the upstream `skills` CLI shells out to `git clone`. When
         // Git's clone-hook protection is active (default in 2.45.1, reverted in
         // 2.45.2, still present on many corporate/CI setups), a globally
@@ -164,7 +175,7 @@ function runSkillsRemove(names: string[], opts: { global: boolean }): Promise<vo
 // freshness comes from --full-depth (see GLOBAL_INSTALL_ARGS_TAIL), which clones the
 // repo at latest `main`; the URL just names what to clone. Our freshness check
 // resolves "latest" straight from GitHub too, so install and check agree.
-const SOURCES = [{ name: "HyperFrames", url: "https://github.com/heygen-com/hyperframes" }];
+const SOURCES = [{ name: "HyperFrames", url: "https://github.com/ryu1845/hyperframes" }];
 
 // Fan HyperFrames' own skills out to every other installed agent. Scope by the
 // lock's source attribution (the same definition prune uses) — NOT by listing
@@ -205,20 +216,16 @@ function mirrorToInstalledAgents(): void {
 const SKILLS_TOOLING: ReadonlyArray<{
   has: () => boolean;
   error: string;
-  // Low-cardinality tag for the skip telemetry event (e.g. "git_missing").
-  reason: string;
   report: () => void;
 }> = [
   {
     has: hasNpx,
     error: "npx not found. Install Node.js and retry.",
-    reason: "npx_missing",
     report: () => clack.log.error(c.error("npx not found. Install Node.js and retry.")),
   },
   {
     has: hasGit,
     error: "git not found. Install git and retry to add AI coding skills.",
-    reason: "git_missing",
     // Skip cleanly rather than letting the upstream clone dump a noisy
     // multi-line `spawn git ENOENT` / "Installation failed" abort.
     report: () => console.log(c.dim("Skipping AI coding skills: git not available.")),
@@ -231,9 +238,6 @@ function skillsToolingReady(strict: boolean): boolean {
     if (tool.has()) continue;
     if (strict) throw new Error(tool.error);
     tool.report();
-    // Surface the rare best-effort skip (init on a box missing git/npx); the
-    // event respects the telemetry opt-out inside trackEvent.
-    trackSkillsInstallSkipped({ reason: tool.reason });
     return false;
   }
   return true;
@@ -410,13 +414,6 @@ export async function updateSkills(
     await installSkills(result.installed, { cwd: opts.cwd, strict });
     verifyInstalled(result.installed, { strict, cwd: opts.cwd });
   }
-  // The install (or the fresh canonical check confirming everything current)
-  // supersedes whatever the background nudge cached before it — drop the
-  // cached verdict so the next command re-checks instead of nagging from the
-  // pre-install snapshot for up to 24h. Deliberately NOT done on the offline
-  // (presence-only) path above: that run never learned anything about
-  // freshness, so the cached verdict is the best information we still have.
-  invalidateSkillsCache();
   return result;
 }
 
@@ -522,7 +519,7 @@ function renderCheck(result: SkillsCheckResult): void {
 
   if (!result.location) {
     console.log(`  ${c.dim("No HyperFrames skills found in the usual locations.")}`);
-    console.log(`  ${c.accent("Install: npx hyperframes skills")}`);
+    console.log(`  ${c.accent("Install: hyperframes skills")}`);
     console.log();
     return;
   }
@@ -578,7 +575,7 @@ function renderCheck(result: SkillsCheckResult): void {
 
   console.log();
   if (result.updateAvailable) {
-    console.log(`  ${c.accent("Update: npx hyperframes skills update")}`);
+    console.log(`  ${c.accent("Update: hyperframes skills update")}`);
   } else {
     console.log(`  ${c.success("◇")}  ${c.success("Installed skills are up to date")}`);
   }
@@ -604,13 +601,8 @@ const checkCommand = defineCommand({
     if (args.json) console.log(JSON.stringify(withMeta(result), null, 2));
     else renderCheck(result);
 
-    // This check just displayed a fresh verdict, superseding whatever the
-    // background nudge cached — invalidate so the next command's nudge agrees
-    // with what the user was just shown instead of a pre-check snapshot.
-    invalidateSkillsCache();
-
     // Exit non-zero when installed skills are stale, so agents and CI can gate:
-    //   hyperframes skills check || npx hyperframes skills update
+    //   hyperframes skills check || hyperframes skills update
     if (result.updateAvailable) setCommandExitCode(1);
   },
 });
@@ -759,7 +751,7 @@ const updateCommand = defineCommand({
     // triggered. This is where `init` and the stale-skills nudge both lead;
     // pulling the complete skill set here is exactly what users complained
     // about. Explicit full set: `hyperframes skills` or `npx skills add
-    // heygen-com/hyperframes --all`.
+    // ryu1845/hyperframes --all`.
     //
     // Note: the upstream `skills add` CLI has no `--dir` flag (it installs into
     // the resolved agent dirs), so `--dir` here scopes only the *prune* detection
@@ -798,7 +790,7 @@ const updateCommand = defineCommand({
       // DELETES. Without it, resolveLatestManifest takes the findRepoManifest
       // shortcut: any `skills-manifest.json` within 16 parent dirs of cwd
       // becomes "latest". HyperFrames' own repo manifest declares
-      // `source: heygen-com/hyperframes`, so a checkout (or any project
+      // `source: ryu1845/hyperframes`, so a checkout (or any project
       // carrying a copy) matches attribution and every published skill absent
       // from that local file is deleted globally as "no longer published".
       // An explicit `--source` still wins — canonical only decides what
@@ -856,9 +848,6 @@ export default defineCommand({
         return;
       }
       await updateSkills({ all: true });
-      // Same as updateSkills: a full install supersedes the background
-      // nudge's cached pre-install verdict.
-      invalidateSkillsCache();
     }
   },
 });

@@ -3,8 +3,6 @@ title: Storyboards
 description: "For multi-scene work, don't prompt the scenes one by one — prompt the plan: the arc, the per-frame beats, and the pacing rule the build follows to fill them in."
 ---
 
-import { DocsVideo } from "/snippets/docs-video.jsx";
-
 [Variables and templating](/prompting/variables-and-templating) was about reusing one composition across many renders. This page is the other axis of scale: one film with many scenes.
 
 Past a handful of beats, describing each scene from a blank page is the slow way. "Then frame 2 shows X, then frame 3 shows Y." It also drifts, because nothing ties the frames to each other.
@@ -111,13 +109,6 @@ State the return explicitly. Otherwise a rebuild is free to treat the early moti
 >
 > Frame 3 — Landing (10.0–15.0s), type: cta, persuasion: callback + distillation, beat: resolve + inevitability, focal: the completed motif. At 10.0s: the accent dot from frames 1–2 expands and fills into the full Fernwell wordmark lockup — same motif, now complete, denser and larger. At 12.0s: tagline "Fernwell. Built for flow." stamps in below it. Hold 13.5–15.0s.
 
-<DocsVideo
-  title="HyperFrames video: Storyboard Mini"
-  src="https://static.heygen.ai/hyperframes-oss/docs/images/prompting/storyboard-mini.mp4#t=0.1"
-  loop
-/>
-*Rendered from the prompt above, unedited — no audio track, exactly as asked.*
-
 ## Related
 
 <CardGroup cols={2}>
@@ -136,18 +127,11 @@ State the return explicitly. Otherwise a rebuild is free to treat the early moti
 </CardGroup>
 
 <Note>
-**Capstone thread** — the [Level 7 film](/prompting/capstone) stretches this chapter's callback device across its whole runtime. The `<div class="clip">` chip typed in the opening rides the wire through every region. It finally snaps into the render slot as the payoff (cut from the film, below).
+**Capstone thread** — the [Level 7 film](/prompting/capstone) stretches this chapter's callback device across its whole runtime. The `<div class="clip">` chip typed in the opening rides the wire through every region. It finally snaps into the render slot as the payoff.
 </Note>
 
 This is the clause in the [full capstone prompt](/prompting/capstone#the-prompt-word-for-word) that buys the piece. It's prompt language you can lift for your own video:
 
 > **The clip card** — the `<div class="clip">` typed in the opening travels the whole journey: it slides onto the wire as a clip chip after being typed, rides ahead of the camera between regions (handing itself off — visible leaving one region and arriving in the next), and is the thing that finally renders at the end. It is the protagonist.
-
-<DocsVideo
-  title="HyperFrames video: Capstone Region Render"
-  src="https://static.heygen.ai/hyperframes-oss/docs/images/prompting/capstone-region-render.mp4#t=0.1"
-  loop
-/>
-*That clause paying off, rendered — the protagonist chip arriving at the render slot after a full minute on the wire.*
 
 *Next: [Editing existing videos](/prompting/editing-existing-videos) — the editor verbs that turn a first render, storyboard or not, into the twenty edits after it.*

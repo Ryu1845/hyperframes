@@ -59,7 +59,7 @@ export interface SkillEntry {
 }
 
 export interface SkillsManifest {
-  /** Source repo, e.g. "heygen-com/hyperframes". */
+  /** Source repo, e.g. "ryu1845/hyperframes". */
   source: string;
   /** Per-skill fingerprint, keyed by skill name. */
   skills: Record<string, SkillEntry>;
@@ -109,7 +109,7 @@ export interface SkillsCheckResult {
   lockMissing: boolean;
 }
 
-const DEFAULT_REPO_SLUG = "heygen-com/hyperframes";
+const DEFAULT_REPO_SLUG = "ryu1845/hyperframes";
 /** Manifest filename, published at the repo root. */
 export const MANIFEST_FILE = "skills-manifest.json";
 const FETCH_TIMEOUT_MS = 4000;
@@ -618,7 +618,7 @@ export function pruneOrphanedLockEntries(
   const pruned = names.filter((name) => name in lock.skills!);
   if (pruned.length === 0) return [];
   for (const name of pruned) delete lock.skills[name];
-  // Atomic write (temp file + rename, same pattern as telemetry/autoUpdate.ts
+  // Atomic write (temp file + rename, same pattern as utils/userConfig.ts
   // and utils/download.ts) so a crash mid-write can never leave a truncated
   // lock behind. `path` is guaranteed to exist here (readSkillLock already
   // returned a non-null lock), so preserving its mode on the temp file before

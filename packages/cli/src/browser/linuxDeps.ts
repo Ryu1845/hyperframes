@@ -1,7 +1,7 @@
 // fallow-ignore-file code-duplication
 import { execFileSync } from "node:child_process";
 import { existsSync, readFileSync } from "node:fs";
-import { detectWSL } from "../telemetry/platform.js";
+import { detectWsl as detectWSL } from "@hyperframes/engine/wsl-host";
 
 /**
  * Linux/WSL Chrome & ffmpeg dependency detection and remediation.
@@ -254,6 +254,7 @@ function execErrorStdout(err: unknown): string | undefined {
  * where `ldd` isn't applicable or the probe can't run, so callers treat it as
  * "inconclusive" rather than "missing".
  */
+// fallow-ignore-next-line unused-export
 export function probeChromeSharedLibs(chromeBinaryPath: string): SharedLibProbeResult {
   if (process.platform !== "linux") {
     return { ok: true, missing: [], probeUnavailable: true };
@@ -345,6 +346,6 @@ export function chromeLaunchRemediation(errorMessage: string): string | undefine
   );
   lines.push("Install the Chrome headless dependencies:");
   lines.push(`  ${chromeDepsInstallCommand(distro.family)}`);
-  lines.push("Then verify with: npx hyperframes doctor");
+  lines.push("Then verify with: hyperframes doctor");
   return lines.join("\n");
 }

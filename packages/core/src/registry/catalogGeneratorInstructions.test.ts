@@ -63,7 +63,7 @@ describe("carriedSectionsFrom preserves hand-written sections", () => {
         "## Install",
         "",
         "```bash Terminal",
-        "npx hyperframes add sample",
+        "hyperframes add sample",
         "```",
         "",
         "## Usage",

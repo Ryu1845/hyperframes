@@ -1,5 +1,5 @@
 {
-  "$schema": "https://hyperframes.heygen.com/schema/registry-item.json",
+  "$schema": "https://raw.githubusercontent.com/ryu1845/hyperframes/main/docs/schema/registry-item.json",
   "name": "chat-thread",
   "type": "hyperframes:component",
   "title": "Chat Thread",
@@ -31,8 +31,8 @@
       "type": "string",
       "role": "content",
       "label": "Messages",
-      "description": "Pipe-separated thread. Each entry picks its type by prefix: recv: or sent: for a text bubble, emoji: for a large emoji row, img for a media placeholder, card:Title~domain for a link card. Example: recv:hey|sent:look 👀|card:HyperFrames~hyperframes.heygen.com|emoji:🤯🤯🤯",
-      "default": "recv:what r u using for the launch video??|sent:wait look 👀|card:HyperFrames — Write HTML, render pixel-perfect video~hyperframes.heygen.com|recv:OMG IT&#39;S HTML|emoji:🤯🤯🤯|sent:renders in 4K. no editor"
+      "description": "Pipe-separated thread. Each entry picks its type by prefix: recv: or sent: for a text bubble, emoji: for a large emoji row, img for a media placeholder, card:Title~domain for a link card. Example: recv:hey|sent:look 👀|card:HyperFrames~github.com/ryu1845/hyperframes|emoji:🤯🤯🤯",
+      "default": "recv:what r u using for the launch video??|sent:wait look 👀|card:HyperFrames — Write HTML, render pixel-perfect video~github.com/ryu1845/hyperframes|recv:OMG IT&#39;S HTML|emoji:🤯🤯🤯|sent:renders in 4K. no editor"
     },
     {
       "id": "beat",

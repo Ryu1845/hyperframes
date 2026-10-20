@@ -41,11 +41,6 @@ const realPrepareWav = whisper.prepareWav;
 const mlxMock = vi.fn();
 const execFileMock = vi.fn();
 
-const trackTranscribeUnavailable = vi.fn();
-vi.mock("../telemetry/events.js", () => ({
-  trackTranscribeUnavailable: (...a: unknown[]) => trackTranscribeUnavailable(...a),
-}));
-
 /** The runners the command reaches, replaced for each test because afterEach restores every spy. */
 function replaceRunners(): void {
   vi.spyOn(whisper, "transcribe").mockImplementation((...a) => transcribeMock(...a));
@@ -105,7 +100,6 @@ describe("transcribe command", () => {
     replaceRunners();
     transcribeMock.mockReset();
     prepareWavMock.mockReset().mockImplementation((input: string) => input);
-    trackTranscribeUnavailable.mockReset();
     mlxMock.mockReset();
     Object.assign(runners, { sherpa: false, mlx: false, whisper: false });
     transcribeMock.mockRejectedValue(
@@ -191,7 +185,7 @@ describe("transcribe command", () => {
     ]);
   });
 
-  it("explicit run exits non-zero and is NOT reported as a command failure", async () => {
+  it("explicit run exits non-zero when the engine is unavailable", async () => {
     const { dir, input } = dummyAudio();
     dirs.push(dir);
     // Pin the engine. `auto` picks Parakeet whenever parakeet-mlx happens to be
@@ -205,7 +199,6 @@ describe("transcribe command", () => {
 
     expect(transcribeMock).toHaveBeenCalled();
     expect(consumeCommandResult().exitCode).toBe(1);
-    expect(trackTranscribeUnavailable).toHaveBeenCalledWith({ optional: false });
   });
 
   it("--optional skips cleanly with exit 0", async () => {
@@ -221,7 +214,6 @@ describe("transcribe command", () => {
     expect(transcribeMock).toHaveBeenCalled();
     expect(prepareWavMock).not.toHaveBeenCalled();
     expect(consumeCommandResult().exitCode).toBe(0);
-    expect(trackTranscribeUnavailable).toHaveBeenCalledWith({ optional: true });
   });
 
   describe("engine selection", () => {

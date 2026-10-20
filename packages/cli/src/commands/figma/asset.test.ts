@@ -277,7 +277,7 @@ describe("runAssetImport", () => {
     expect(readFileSync(join(dir, ".media", "index.md"), "utf8")).toContain("1 asset");
   });
 
-  it("labels a batch-miss RENDER_FAILED with the images endpoint (telemetry parity with client.ts)", async () => {
+  it("labels a batch-miss RENDER_FAILED with the images endpoint (parity with client.ts)", async () => {
     const dir = scratch();
     const missClient = fakeClient({
       renderNodes: (fileKey, nodeIds) =>

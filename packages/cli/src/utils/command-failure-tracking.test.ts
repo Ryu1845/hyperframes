@@ -6,13 +6,7 @@ import { runCommand, type CommandDef } from "citty";
 import { CliUsageError } from "./commandResult.js";
 import { resolveExtraPositionals } from "./reject-extra-positionals.js";
 
-const trackCommandFailure = vi.fn();
-vi.mock("../telemetry/events.js", () => ({
-  trackCommandFailure: (...args: unknown[]) => trackCommandFailure(...args),
-}));
-
-const { trackCommandFailures, reportCommandFailure } =
-  await import("./command-failure-tracking.js");
+const { trackCommandFailures } = await import("./command-failure-tracking.js");
 
 function defineRun(run: CommandDef["run"]): CommandDef {
   return { meta: { name: "test" }, run };
@@ -323,24 +317,5 @@ describe("trackCommandFailures: extra positionals", () => {
     await runCommand(await wrap(group as CommandDef), { rawArgs: ["status", "--json"] });
     expect(sub).toHaveBeenCalledOnce();
     expect(run).toHaveBeenCalledOnce();
-  });
-});
-
-describe("reportCommandFailure", () => {
-  beforeEach(() => {
-    trackCommandFailure.mockReset();
-  });
-
-  it("forwards the command and error to trackCommandFailure", async () => {
-    const err = new Error("ENOENT /Users/me/project/index.html");
-    await reportCommandFailure("info", err);
-    expect(trackCommandFailure).toHaveBeenCalledWith("info", err);
-  });
-
-  it("never throws when the telemetry call throws", async () => {
-    trackCommandFailure.mockImplementationOnce(() => {
-      throw new Error("telemetry blew up");
-    });
-    await expect(reportCommandFailure("browser", new Error("x"))).resolves.toBeUndefined();
   });
 });

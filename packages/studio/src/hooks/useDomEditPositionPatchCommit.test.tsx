@@ -60,7 +60,6 @@ function paramsWith(persistDomEditOperations: () => Promise<undefined>) {
   return {
     showToast,
     params: {
-      activeCompPath: "index.html",
       persistDomEditOperations,
       showToast,
     },

@@ -1,5 +1,5 @@
 {
-  "$schema": "https://hyperframes.heygen.com/schema/registry-item.json",
+  "$schema": "https://raw.githubusercontent.com/ryu1845/hyperframes/main/docs/schema/registry-item.json",
   "name": "starfield",
   "type": "hyperframes:block",
   "title": "Starfield",
@@ -67,9 +67,5 @@
       "target": "compositions/starfield.html",
       "type": "hyperframes:composition"
     }
-  ],
-  "preview": {
-    "poster": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/starfield.png",
-    "video": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/starfield.mp4"
-  }
+  ]
 }

@@ -1949,7 +1949,7 @@ export const CatalogDetail = ({
   })();
   const agentRequest = (() => {
     const changed = changedValues();
-    const base = `Install the HyperFrames catalog item "${compositionId}" (${title || compositionId}) into my project with \`npx hyperframes add ${compositionId}\`, mount it at the point of my composition where it should play, and verify with \`npx hyperframes check\`.`;
+    const base = `Install the HyperFrames catalog item "${compositionId}" (${title || compositionId}) into my project with \`hyperframes add ${compositionId}\`, mount it at the point of my composition where it should play, and verify with \`hyperframes check\`.`;
     const set = Object.entries(changed).map(([id, value]) => `${id} = ${JSON.stringify(value)}`);
     return set.length ? `${base} Set ${set.join(", ")}; keep the other variables at their defaults.` : `${base} Keep the default variables unless I say otherwise.`;
   })();
@@ -2057,14 +2057,21 @@ export const CatalogDetail = ({
   const adapterMissing = webgpu && hasAdapter === false;
   // Edits reach a mounted player only, so the panel waits for the probe and goes when the clip stands in.
   const tunePanel = hasTune && !(webgpu && hasAdapter !== true);
+  const webgpuNotice = (
+    <div className="flex aspect-video w-full items-center justify-center text-sm text-zinc-500">
+      Needs WebGPU to render live
+    </div>
+  );
   let webgpuStage = player;
   if (webgpu && hasAdapter === null) webgpuStage = <div className="aspect-video w-full" />;
-  if (adapterMissing) webgpuStage = recorded;
+  if (adapterMissing) webgpuStage = recorded ?? webgpuNotice;
   const stageNode = webgpu ? webgpuStage : recorded ?? flagNotice ?? player;
 
   let caption = "Live composition · HyperFrames Player";
-  if (adapterMissing) caption = "Recorded preview · live playback needs WebGPU, which this browser does not offer";
-  else if (!webgpu && (video || needsFlag)) caption = "Recorded preview";
+  if (adapterMissing && recorded) caption = "Recorded preview · live playback needs WebGPU, which this browser does not offer";
+  else if (adapterMissing) caption = "Live playback needs WebGPU, which this browser does not offer";
+  else if (!webgpu && video) caption = "Recorded preview";
+  else if (!webgpu && needsFlag) caption = "Live playback needs a browser flag";
 
   // The install command belongs above the preview, so its slot is lifted out of the tab body.
   // Mintlify hands each MDX child over wrapped in a component boundary, so the slot name is found by descending.
@@ -2232,11 +2239,11 @@ export const CatalogDetail = ({
               ) : null}
               Registry item{" "}
               <a
-                href={`https://github.com/heygen-com/hyperframes/tree/main/${attribution.path}`}
+                href={`https://github.com/ryu1845/hyperframes/tree/main/${attribution.path}`}
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                heygen-com/hyperframes
+                ryu1845/hyperframes
               </a>{" "}
               · <code>{attribution.path}</code>
               {attribution.tags.length > 0 ? ` · ${attribution.tags.join(", ")}` : ""}

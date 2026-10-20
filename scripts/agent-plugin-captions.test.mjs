@@ -86,7 +86,7 @@ test("extracted captions helpers invoke the pinned CLI without a checkout", (t) 
     const call = JSON.parse(readFileSync(log, "utf8"));
     assert.deepEqual(
       call.args.slice(0, 3),
-      ["--yes", `hyperframes@${version}`, cliCommand],
+      ["--yes", `@ryu1845/hyperframes@${version}`, cliCommand],
       result.stderr,
     );
     assert.equal(call.skip, "1");

@@ -19,7 +19,7 @@ import { homedir } from "node:os";
 import { join } from "node:path";
 
 import { downloadFile } from "../utils/download.js";
-import { readConfig, updateLocalModelConsent } from "../telemetry/config.js";
+import { readConfig, updateLocalModelConsent } from "../utils/userConfig.js";
 
 /**
  * bge-small-en-v1.5: 62.17 MTEB average against 62.3 for text-embedding-3-small,

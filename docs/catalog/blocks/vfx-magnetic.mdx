@@ -15,10 +15,9 @@ import { InstallCommand } from "/snippets/install-command.jsx";
   variables={[]}
   meta={{"duration":15,"width":1920,"height":1080,"category":"HTML-in-Canvas","badge":"Experimental","codeLines":464}}
   attribution={{"path":"registry/blocks/vfx-magnetic","tags":["html-in-canvas","webgl"]}}
-  video="https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/vfx-magnetic.mp4"
-  poster="https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/vfx-magnetic.png"
+  needsFlag="canvas-draw-element"
   hasCode
-  rawUrl="https://raw.githubusercontent.com/heygen-com/hyperframes/main/registry/blocks/vfx-magnetic/vfx-magnetic.html"
+  rawUrl="https://raw.githubusercontent.com/ryu1845/hyperframes/main/registry/blocks/vfx-magnetic/vfx-magnetic.html"
 >
 
 <CatalogSlot slot="code">
@@ -494,7 +493,7 @@ import { InstallCommand } from "/snippets/install-command.jsx";
 
 <CatalogSlot slot="install">
 
-<InstallCommand command="npx hyperframes add vfx-magnetic" item="vfx-magnetic" />
+<InstallCommand command="hyperframes add vfx-magnetic" item="vfx-magnetic" />
 
 That writes one file: `compositions/vfx-magnetic.html`.
 

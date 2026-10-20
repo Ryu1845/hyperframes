@@ -1,5 +1,4 @@
 // fallow-ignore-file code-duplication
-import { trackStudioEvent } from "../../utils/studioTelemetry";
 // @vitest-environment happy-dom
 import React, { act } from "react";
 import { createRoot } from "react-dom/client";
@@ -498,7 +497,6 @@ describe("useDomEditNudge — a commit that throws", () => {
   });
 });
 
-vi.mock("../../utils/studioTelemetry", () => ({ trackStudioEvent: vi.fn() }));
 describe("nudge usage", () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -523,11 +521,6 @@ describe("nudge usage", () => {
       });
       await act(async () => vi.advanceTimersByTimeAsync(CANVAS_NUDGE_COMMIT_DEBOUNCE_MS + 10));
       expect(commit).toHaveBeenCalledTimes(1);
-      expect(vi.mocked(trackStudioEvent).mock.calls).toEqual(
-        changed
-          ? [["feature_used", { feature: "nudge", surface: "preview", method: "keyboard" }]]
-          : [],
-      );
       act(() => root.unmount());
       element.remove();
     },

@@ -97,9 +97,6 @@ Meaning search runs entirely on your machine: your query is turned into a vector
 with vectors already on disk. The only network traffic is the one-time downloads above and the refresh
 of the catalog vectors, none of which carries your query.
 
-When a search finds nothing useful, the CLI prints a `hyperframes feedback --search-miss` command you
-can run to report the gap. That command sends the query, and only if you run it.
-
 ## How the index is built
 
 The vectors ship with the registry, one row per installable block and component, built by:
@@ -125,5 +122,5 @@ with the rest of the generated catalog, downloading the pinned model first if ne
 publication pull request does the same after source changes merge. Without the model, the build script
 stops and says so rather than failing midway, and the "Catalog: search index covers the registry" CI
 check fails if any searchable item is missing from the index. See
-[`registry/catalog-artifact/README.md`](https://github.com/heygen-com/hyperframes/blob/main/registry/catalog-artifact/README.md)
+[`registry/catalog-artifact/README.md`](https://github.com/ryu1845/hyperframes/blob/main/registry/catalog-artifact/README.md)
 for the file format.

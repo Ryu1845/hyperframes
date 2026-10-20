@@ -133,33 +133,10 @@ everything.
 
 ## 5. Telemetry and dashboard
 
-**[PostHog dashboard 1986431](https://us.posthog.com/project/356858/dashboard/1986431)**
-"Audio FX rack — usage", project **356858**. 12 HogQL tiles, every query verified
-to execute. **Tiles stay empty until a build carrying `studio:audio_fx_*` ships** —
-that is expected, not broken.
-
-Two things to know:
-
-- **`agent_runtime` is on EVERY `studio:*` event**, not just audio. The CLI
-  detects the driving agent from its own env (12 vendors,
-  `cli/src/telemetry/agent_runtime.ts`) and publishes it as
-  `window.__HF_CLI_AGENT_RUNTIME`; studio reads it via
-  `telemetry/agentRuntime.ts`. Encoded as the string `"none"`, never omitted —
-  this project has already produced one wrong conclusion from comparing a
-  populated sentinel against an absence.
-- **Agent-applied effects are only visible via `audio_fx_chain_observed`.** An
-  agent edits the composition HTML or runs `carve.mjs`, so no panel event fires.
-  That event carries `authored_outside` (no panel edits behind the change).
-  `carve.mjs` is deliberately NOT instrumented — its output is already
-  identifiable by the `fromCarve` tag.
-
-**You cannot verify telemetry locally.** `browserTelemetryAllowed()` is false
-under Vite dev, and the CLI's `isDevMode()` is true whenever it runs from `.ts`
-source. Both guards exist to stop developers polluting production. Do not defeat
-them; first real data arrives from a released build.
-
-Read the vault page `posthog-cli-telemetry-query-traps` before writing any HogQL —
-it carries the `is_ci` denominator and clock-boundary traps.
+Removed. The fork ships no CLI or Studio telemetry, so the `studio:audio_fx_*`
+events and their dashboard no longer exist. Agent-applied effects stay
+identifiable in the composition itself: `carve.mjs` output carries the
+`fromCarve` tag.
 
 ---
 
@@ -224,4 +201,4 @@ Untracked scratch; will not land in a PR.
 - Do not push or update PRs unless asked.
 - Signed commits are required; `filter-branch` strips signatures and the push is
   rejected with GH013.
-- Composition changes: `npx hyperframes lint` then `npx hyperframes check`.
+- Composition changes: `hyperframes lint` then `hyperframes check`.

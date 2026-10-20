@@ -9,7 +9,7 @@
 import { copyFileSync, existsSync, mkdirSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { downloadTo } from "./heygen.mjs";
+import { downloadTo } from "./download.mjs";
 import { OpenverseUnavailableError, searchOpenverseSfx, writeSfxCredit } from "./openverse.mjs";
 import { latestRecordFor } from "../../../scripts/lib/manifest.mjs";
 import { agentWritePath } from "./media-record.mjs";

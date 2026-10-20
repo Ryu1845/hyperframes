@@ -11,9 +11,8 @@ import {
 import { c } from "../ui/colors.js";
 import { normalizeErrorMessage } from "../utils/errorMessage.js";
 import { displayPathFromInput, readOptionalString, resolveFromBase } from "../utils/pathArgs.js";
-import { trackCompareSheet } from "../telemetry/events.js";
 import { serveStaticProjectHtml } from "../utils/staticProjectServer.js";
-import { withMeta } from "../utils/updateCheck.js";
+import { withMeta } from "../utils/jsonMeta.js";
 import type { Example } from "./_examples.js";
 
 const MAX_COMPARE_VARIANTS = 16;
@@ -269,17 +268,13 @@ function cleanupPreparedCompareVariants(variants: readonly PreparedCompareVarian
 async function renderCompareVariant(
   variant: PreparedCompareVariant,
   opts: { atSeconds: number; framePath: string; timeoutMs: number },
-): Promise<{ framePath: string; renderReadyTimedOut: boolean }> {
+): Promise<string> {
   try {
     const { bundleToSingleHtml } = await import("@hyperframes/core/compiler");
     const html = await bundleToSingleHtml(variant.projectDir);
     const server = await serveStaticProjectHtml(variant.projectDir, html);
     try {
-      const {
-        browser: chromeBrowser,
-        page,
-        renderReadyTimedOut,
-      } = await openSettledCompositionPage(html, server.url, {
+      const { browser: chromeBrowser, page } = await openSettledCompositionPage(html, server.url, {
         renderReadyTimeoutMs: opts.timeoutMs,
         renderReadyWarningSuffix: `comparison variant "${variant.label}" may be inaccurate`,
       });
@@ -288,7 +283,7 @@ async function renderCompareVariant(
           await seekCompositionTimeline(page, opts.atSeconds);
         }
         await page.screenshot({ path: opts.framePath, type: "png" });
-        return { framePath: opts.framePath, renderReadyTimedOut };
+        return opts.framePath;
       } finally {
         await chromeBrowser.close();
       }
@@ -310,17 +305,15 @@ async function renderCompareSheet(parsed: ParsedCompareArgs): Promise<CompareSuc
   const framePaths: string[] = [];
 
   try {
-    let renderReadyTimedOut = false;
     for (let i = 0; i < prepared.length; i++) {
       const variant = prepared[i]!;
       const framePath = join(frameDir, `variant-${String(i + 1).padStart(2, "0")}.png`);
-      const rendered = await renderCompareVariant(variant, {
+      const renderedPath = await renderCompareVariant(variant, {
         atSeconds: parsed.atSeconds,
         framePath,
         timeoutMs: parsed.timeoutMs,
       });
-      framePaths.push(rendered.framePath);
-      renderReadyTimedOut = renderReadyTimedOut || rendered.renderReadyTimedOut;
+      framePaths.push(renderedPath);
     }
 
     mkdirSync(dirname(parsed.outPath), { recursive: true });
@@ -331,13 +324,6 @@ async function renderCompareSheet(parsed: ParsedCompareArgs): Promise<CompareSuc
       labels: variants.map((variant) => variant.label),
     });
 
-    trackCompareSheet({
-      command: "compare",
-      cells: variants.length,
-      truncated: capResult.truncated,
-      total: capResult.total,
-      renderReadyTimedOut,
-    });
     return buildCompareSuccessPayload(parsed.outPath, variants, capResult);
   } finally {
     cleanupPreparedCompareVariants(prepared);

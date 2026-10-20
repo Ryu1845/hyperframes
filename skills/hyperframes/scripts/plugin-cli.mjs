@@ -2,7 +2,7 @@
 // Run from the user's project; locate the release from this installed file.
 import { spawnSync } from "node:child_process";
 import { existsSync, readFileSync } from "node:fs";
-import { join, win32 } from "node:path";
+import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { isMainModule } from "./lib/main-module.mjs";
 
@@ -33,16 +33,7 @@ export function pluginVersion(pluginRoot = root) {
   );
 }
 
-export function invocation(
-  args,
-  {
-    version = pluginVersion(),
-    env = process.env,
-    platform = process.platform,
-    node = process.execPath,
-    pathExists = existsSync,
-  } = {},
-) {
+export function invocation(args, { version = pluginVersion(), env = process.env } = {}) {
   if (args[0] === "skills")
     throw new Error(
       "Update HyperFrames through your agent's plugin manager; bundled skills are release-managed.",
@@ -52,29 +43,39 @@ export function invocation(
     HYPERFRAMES_SKIP_SKILLS: "1",
     HYPERFRAMES_SKILL_PKG_VERSION: version,
     HYPERFRAMES_PLUGIN_VERSION: version,
-    HYPERFRAMES_NO_UPDATE_CHECK: "1",
   };
   if (args[0] === "--script") {
     if (!args[1]) throw new Error("--script requires a Node script path.");
-    return { command: node, args: args.slice(1), env: childEnv };
+    return { command: process.execPath, args: args.slice(1), env: childEnv };
   }
-  const cliArgs = ["--yes", `hyperframes@${version}`, ...args];
-  if (platform !== "win32") return { command: "npx", args: cliArgs, env: childEnv };
-  const candidates = [
-    env.npm_execpath && win32.join(win32.dirname(env.npm_execpath), "npx-cli.js"),
-    win32.join(win32.dirname(node), "node_modules", "npm", "bin", "npx-cli.js"),
-  ].filter(Boolean);
-  const npx = candidates.find(pathExists);
-  if (!npx)
-    throw new Error(
-      "Cannot find npx-cli.js. Install Node.js with npm or run from an npm environment.",
-    );
-  return { command: node, args: [npx, ...cliArgs], env: childEnv };
+  // The CLI ships as a standalone binary, installed by install.sh onto PATH.
+  return { command: env.HYPERFRAMES_BINARY || "hyperframes", args: [...args], env: childEnv };
+}
+
+const INSTALL_HINT = (version) =>
+  `HYPERFRAMES_VERSION=${version} sh -c "$(curl -fsSL https://raw.githubusercontent.com/ryu1845/hyperframes/main/install.sh)"`;
+
+/** One line when the installed binary is not the release this plugin was built with. */
+export function versionWarning(installed, expected) {
+  if (installed === expected) return null;
+  return `HyperFrames plugin ${expected} runs with CLI ${installed}. To match it: ${INSTALL_HINT(expected)}`;
 }
 
 if (isMainModule(import.meta.url)) {
   try {
     const command = invocation(process.argv.slice(2));
+    if (command.command !== process.execPath) {
+      const probe = spawnSync(command.command, ["--version"], { encoding: "utf8" });
+      if (probe.error) {
+        throw new Error(
+          `The hyperframes CLI is not installed (${probe.error.message}). Install it:\n  ${INSTALL_HINT(
+            command.env.HYPERFRAMES_PLUGIN_VERSION,
+          )}`,
+        );
+      }
+      const warning = versionWarning(probe.stdout.trim(), command.env.HYPERFRAMES_PLUGIN_VERSION);
+      if (warning) console.error(warning);
+    }
     const result = spawnSync(command.command, command.args, {
       env: command.env,
       stdio: "inherit",

@@ -1,5 +1,5 @@
 {
-  "$schema": "https://hyperframes.heygen.com/schema/registry-item.json",
+  "$schema": "https://raw.githubusercontent.com/ryu1845/hyperframes/main/docs/schema/registry-item.json",
   "name": "glass-shard-title",
   "type": "hyperframes:block",
   "title": "Glass Shard Title",
@@ -64,17 +64,12 @@
     {
       "path": "assets/matcap-1.png",
       "target": "compositions/glass-shard-title/assets/matcap-1.png",
-      "type": "hyperframes:asset",
-      "url": "https://static.heygen.ai/hyperframes-oss/registry-assets/8a4ba0deaf2bafb4.png"
+      "type": "hyperframes:asset"
     },
     {
       "path": "SKILL.md",
       "target": "compositions/glass-shard-title/SKILL.md",
       "type": "hyperframes:asset"
     }
-  ],
-  "preview": {
-    "video": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/glass-shard-title.mp4",
-    "poster": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/glass-shard-title.png"
-  }
+  ]
 }

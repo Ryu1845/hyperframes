@@ -39,7 +39,6 @@ import { fileURLToPath } from "node:url";
 import { createRequire } from "node:module";
 import * as clack from "@clack/prompts";
 import { c } from "../ui/colors.js";
-import { desktopHint, insideHostApp } from "../utils/desktopApp.js";
 import { isDevMode } from "../utils/env.js";
 import { normalizeErrorMessage as errorMessage } from "../utils/errorMessage.js";
 import { buildNpxCommand } from "../utils/npxCommand.js";
@@ -366,7 +365,7 @@ export default defineCommand({
           );
           return;
         }
-        printStudioSummary(project.name, previewBaseUrl(status.port), project.dir, {
+        printStudioSummary(project.name, previewBaseUrl(status.port), {
           details: [`Background preview running (PID ${status.pid}).`, `Log: ${status.logPath}`],
         });
         return;
@@ -496,12 +495,6 @@ export default defineCommand({
       localStudio: hasLocalStudio(dir),
     });
 
-    const hostAppError = previewHostAppError(launchMode);
-    if (hostAppError) {
-      reportPreviewFailure(Boolean(args.json), "start", "host-app-owns-preview", hostAppError);
-      return;
-    }
-
     // Runs in the CLI worker while Studio starts, so it never delays the opening; --json skips it.
     const startupLint = args.json ? null : printStartupLint(dir, Boolean(args["lint-verbose"]));
 
@@ -546,7 +539,7 @@ export default defineCommand({
         );
       } else {
         clack.intro(c.bold("hyperframes preview"));
-        printStudioSummary(projectName, url, dir, {
+        printStudioSummary(projectName, url, {
           details: [
             background.type === "reused"
               ? "Reusing the background server already running for this project."
@@ -647,18 +640,6 @@ export function previewLaunchMode(options: {
   if (!options.foreground && !options.interactive) return "background";
   if (options.devMode) return "dev";
   return options.localStudio ? "local" : "embedded";
-}
-
-export function previewHostAppError(
-  mode: PreviewLaunchMode,
-  env: NodeJS.ProcessEnv = process.env,
-): string | null {
-  if (mode !== "background" || !insideHostApp(env)) return null;
-  return (
-    "A host app is running this project and owns its preview, so a background preview " +
-    "here would outlive this run and keep the project's history locked. Use the host " +
-    "app's preview, or run with --foreground to keep a preview attached to this run."
-  );
 }
 
 export function previewLaunchModeError(options: {
@@ -958,7 +939,7 @@ async function printCurrentSelection(
   if (!server) {
     printSelectionFailure(
       "preview-not-running",
-      "No running Studio preview found for this project. Start one with: npx hyperframes preview",
+      "No running Studio preview found for this project. Start one with: hyperframes preview",
       json,
     );
     return;
@@ -1080,7 +1061,7 @@ async function printCurrentContext(
   if (!server) {
     printSelectionFailure(
       "preview-not-running",
-      "No running Studio preview found for this project. Start one with: npx hyperframes preview",
+      "No running Studio preview found for this project. Start one with: hyperframes preview",
       options.json,
     );
     return;
@@ -1301,7 +1282,6 @@ function openStudioBrowser(url: string, projectName: string, options?: BrowserLa
 function printStudioSummary(
   projectName: string,
   serverUrl: string,
-  projectDir: string,
   opts: { details?: string[]; footer?: string } = {},
 ): void {
   const urls = studioSummaryUrls(projectName, serverUrl);
@@ -1309,8 +1289,6 @@ function printStudioSummary(
   console.log(`  ${c.dim("Project")}   ${c.accent(projectName)}`);
   console.log(`  ${c.dim("Studio")}    ${c.accent(urls.studioUrl)}`);
   console.log(`  ${c.dim("Server")}    ${c.accent(urls.serverUrl)}`);
-  const hint = desktopHint(projectDir);
-  if (hint) console.log(`  ${c.dim("Desktop")}   ${hint}`);
   console.log();
   for (const detail of opts.details ?? []) {
     console.log(`  ${c.dim(detail)}`);
@@ -1417,7 +1395,7 @@ function attachStudioReadyHandler(
       );
     } else {
       spinner.stop(c.success("Studio running"));
-      printStudioSummary(projectName, url, projectDir, {
+      printStudioSummary(projectName, url, {
         footer: "Press Ctrl+C to stop",
       });
     }
@@ -1654,7 +1632,7 @@ export async function runEmbeddedMode(
       );
     } else {
       s.stop(c.success("Already running"));
-      printStudioSummary(pName, url, dir, {
+      printStudioSummary(pName, url, {
         details: ["Reusing existing server. Use --force-new to start a fresh instance."],
       });
     }
@@ -1673,7 +1651,7 @@ export async function runEmbeddedMode(
       console.log(`  ${c.warn(`Port ${startPort} is in use, using ${result.port} instead`)}`);
       console.log();
     }
-    printStudioSummary(pName, url, dir, {
+    printStudioSummary(pName, url, {
       details: [
         "Edit with your AI agent — it has HyperFrames skills installed.",
         "Changes reload automatically in the studio.",

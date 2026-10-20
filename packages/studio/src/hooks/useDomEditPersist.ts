@@ -1,6 +1,5 @@
-import { useCallback, useRef } from "react";
+import { useCallback } from "react";
 import { findUnsafeDomPatchValues } from "@hyperframes/core/studio-api/finite-mutation";
-import { trackStudioEvent } from "../utils/studioTelemetry";
 import { buildDomEditPatchTarget, type DomEditSelection } from "../components/editor/domEditing";
 import type { PersistDomEditOperations } from "./domEditCommitTypes";
 import type { PatchOperation } from "../utils/sourcePatcher";
@@ -57,8 +56,6 @@ export function useDomEditPersist({
   forceReloadSdkSession,
   onTrySdkPersist,
 }: UseDomEditPersistParams): PersistDomEditOperations {
-  const reportedUnresolvableRef = useRef(new Set<string>());
-
   // fallow-ignore-next-line complexity
   const performPersistDomEditOperations = useCallback(
     // fallow-ignore-next-line complexity
@@ -179,19 +176,7 @@ export function useDomEditPersist({
       const { patchData, patchedContent, finalContent } = saved;
 
       if (finalContent === null) {
-        if (patchData.matched === false) {
-          const targetKey = selection.selector ?? selection.id ?? "selection";
-          if (!reportedUnresolvableRef.current.has(targetKey)) {
-            reportedUnresolvableRef.current.add(targetKey);
-            trackStudioEvent("save_skipped_unresolvable", {
-              target_id: selection.id ?? undefined,
-              target_selector: selection.selector ?? undefined,
-              target_source_file: selection.sourceFile ?? undefined,
-              composition: activeCompPath ?? undefined,
-            });
-          }
-          throw new DomEditPersistUnresolvableError(targetPath);
-        }
+        if (patchData.matched === false) throw new DomEditPersistUnresolvableError(targetPath);
         warnDomEditPersistNoOp(selection, operations);
         return completePersistence(
           typeof patchData.path === "string" && typeof patchData.version === "string"

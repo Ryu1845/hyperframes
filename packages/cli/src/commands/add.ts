@@ -38,11 +38,9 @@ import {
   DEFAULT_PROJECT_CONFIG,
   loadProjectConfig,
   projectConfigPath,
-  recordProjectRegistryItems,
   createProjectConfig,
 } from "../utils/projectConfig.js";
 import { copyToClipboard } from "../utils/clipboard.js";
-import { trackRegistryItemAdded } from "../telemetry/events.js";
 
 // ── Target-path resolution ──────────────────────────────────────────────────
 // `registry-item.json` files specify `target` paths relative to the project
@@ -184,7 +182,6 @@ export interface RunAddArgs {
   force?: boolean;
   /** Current CLI version used for registry metadata compatibility checks. */
   cliVersion?: string;
-  source?: "cli" | "studio";
 }
 
 export interface RunAddResult {
@@ -380,31 +377,6 @@ export async function addToProject(
     variableValues,
   );
 
-  // Report what landed, not what was asked for: a failed install throws above,
-  // and the bulk `add <tag>` path re-enters here per item, so this one place
-  // covers every way an item reaches a project.
-  for (const planItem of installPlan) {
-    trackRegistryItemAdded({
-      item: planItem.name,
-      itemType: planItem.type,
-      requested: planItem.name === item.name,
-      source: opts.source ?? "cli",
-    });
-  }
-
-  // Persist what came from the registry. Installed files are plain composition
-  // HTML with no provenance marker, so without this a later render cannot tell
-  // a catalog block from one the user wrote — and "did the catalog item survive
-  // into the video?" stays unanswerable.
-  recordProjectRegistryItems(
-    projectDir,
-    installPlan.map((planItem) => ({
-      name: planItem.name,
-      type: planItem.type,
-      target: primaryInstalledTarget(planItem),
-    })),
-  );
-
   // 6. Build include snippet + clipboard copy for the requested item.
   const itemForInstall = installPlan[installPlan.length - 1]!;
   const snippetTargetRel = primaryInstalledTarget(itemForInstall);
@@ -481,10 +453,7 @@ export default defineCommand({
         "Overwrite files you have edited since installing them (they are kept by default)",
     },
   },
-  // `run` is 28 cyclomatic and predates this change, which touches only
-  // `runAdd`. Fallow scores it as new because the file changed. Splitting the
-  // tag-fallback branch out would fix it honestly and is worth doing, but not
-  // inside a telemetry change.
+  // `run` is 28 cyclomatic; splitting the tag-fallback branch out would fix it.
   // fallow-ignore-next-line complexity
   async run({ args }) {
     const projectDir = resolve(args.dir ?? process.cwd());

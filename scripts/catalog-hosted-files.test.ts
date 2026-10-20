@@ -5,13 +5,15 @@ import { join } from "node:path";
 import { test } from "node:test";
 import { fetchHostedFiles } from "./catalog-hosted-files.js";
 
-function fixture(url = "https://static.heygen.ai/asset", path = "asset.bin") {
+const ASSET = "https://raw.githubusercontent.com/ryu1845/hyperframes/main/asset";
+
+function fixture(url = ASSET, path = "asset.bin") {
   const root = mkdtempSync(join(tmpdir(), "hf-hosted-test-"));
   writeFileSync(join(root, "registry-item.json"), JSON.stringify({ files: [{ url, path }] }));
   return root;
 }
 
-test("downloads exact bytes through a relative CDN redirect", async (t) => {
+test("downloads exact bytes through a relative redirect", async (t) => {
   const root = fixture();
   const calls: string[] = [];
   t.mock.method(
@@ -22,13 +24,16 @@ test("downloads exact bytes through a relative CDN redirect", async (t) => {
       assert.equal(options?.redirect, "manual");
       assert.ok(options?.signal);
       return calls.length === 1
-        ? new Response(null, { status: 302, headers: { location: "/final" } })
+        ? new Response(null, { status: 302, headers: { location: "final" } })
         : new Response(new Uint8Array([0, 255, 42]));
     },
   );
   try {
     await fetchHostedFiles(root);
-    assert.deepEqual(calls, ["https://static.heygen.ai/asset", "https://static.heygen.ai/final"]);
+    assert.deepEqual(calls, [
+      ASSET,
+      "https://raw.githubusercontent.com/ryu1845/hyperframes/main/final",
+    ]);
     assert.deepEqual(readFileSync(join(root, "asset.bin")), Buffer.from([0, 255, 42]));
   } finally {
     rmSync(root, { recursive: true, force: true });
@@ -38,8 +43,10 @@ test("downloads exact bytes through a relative CDN redirect", async (t) => {
 for (const location of [
   "http://169.254.169.254/meta",
   "https://localhost/x",
-  "https://static.heygen.ai.evil.test/x",
-  "http://static.heygen.ai/x",
+  "https://raw.githubusercontent.com.evil.test/ryu1845/hyperframes/main/x",
+  "http://raw.githubusercontent.com/ryu1845/hyperframes/main/x",
+  "/other-owner/hyperframes/main/x",
+  "../../../other-owner/other-repo/main/x",
 ]) {
   test(`rejects redirect to ${location} before a second request`, async (t) => {
     const root = fixture();
@@ -49,7 +56,7 @@ for (const location of [
       async () => new Response(null, { status: 302, headers: { location } }),
     );
     try {
-      await assert.rejects(fetchHostedFiles(root), /HTTPS CDN/);
+      await assert.rejects(fetchHostedFiles(root), /registry repository over HTTPS/);
       assert.equal(mock.mock.callCount(), 1);
       assert.deepEqual(readdirSync(root), ["registry-item.json"]);
     } finally {
@@ -60,14 +67,17 @@ for (const location of [
 
 for (const url of [
   "https://127.0.0.1/x",
-  "https://user:pw@static.heygen.ai/x",
-  "https://static.heygen.ai:8443/x",
+  "https://user:pw@raw.githubusercontent.com/ryu1845/hyperframes/main/x",
+  "https://raw.githubusercontent.com:8443/ryu1845/hyperframes/main/x",
+  "https://raw.githubusercontent.com/other-owner/hyperframes/main/x",
+  "https://raw.githubusercontent.com/ryu1845/hyperframes/../other-repo/main/x",
+  "https://raw.githubusercontent.com/ryu1845/hyperframes-evil/main/x",
 ]) {
   test(`rejects disallowed initial URL ${url} without a request`, async (t) => {
     const root = fixture(url);
     const mock = t.mock.method(globalThis, "fetch", async () => assert.fail("unexpected request"));
     try {
-      await assert.rejects(fetchHostedFiles(root), /HTTPS CDN/);
+      await assert.rejects(fetchHostedFiles(root), /registry repository over HTTPS/);
       assert.equal(mock.mock.callCount(), 0);
     } finally {
       rmSync(root, { recursive: true, force: true });
@@ -123,7 +133,7 @@ for (const mode of ["declared oversize", "loop", "HTTP error", "stream error"]) 
         },
       });
       if (mode === "loop")
-        return new Response(body, { status: 302, headers: { location: "/asset" } });
+        return new Response(body, { status: 302, headers: { location: "asset" } });
       if (mode === "HTTP error") return new Response(body, { status: 500 });
       return new Response(body, {
         headers: {
@@ -143,7 +153,7 @@ for (const mode of ["declared oversize", "loop", "HTTP error", "stream error"]) 
 }
 
 test("skips manifest paths outside the copied project before fetching", async (t) => {
-  const root = fixture("https://static.heygen.ai/asset", "../escape.bin");
+  const root = fixture(ASSET, "../escape.bin");
   const mock = t.mock.method(globalThis, "fetch", async () => assert.fail("unexpected request"));
   try {
     await fetchHostedFiles(root);

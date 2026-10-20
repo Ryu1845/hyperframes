@@ -1,5 +1,5 @@
 {
-  "$schema": "https://hyperframes.heygen.com/schema/registry-item.json",
+  "$schema": "https://raw.githubusercontent.com/ryu1845/hyperframes/main/docs/schema/registry-item.json",
   "name": "caption-glitch-rgb",
   "type": "hyperframes:component",
   "title": "Glitch RGB",
@@ -11,9 +11,5 @@
       "target": "compositions/components/caption-glitch-rgb.html",
       "type": "hyperframes:snippet"
     }
-  ],
-  "preview": {
-    "video": "https://static.heygen.ai/hyperframes-oss/registry/components/caption-glitch-rgb/preview-v2.mp4",
-    "poster": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/caption-glitch-rgb.png"
-  }
+  ]
 }

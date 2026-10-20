@@ -111,7 +111,8 @@ function buildItem(entry: LegacyTemplateEntry): RegistryItem {
   const files = collectFiles(exampleDir);
 
   return {
-    $schema: "https://hyperframes.heygen.com/schema/registry-item.json",
+    $schema:
+      "https://raw.githubusercontent.com/ryu1845/hyperframes/main/docs/schema/registry-item.json",
     name: entry.id,
     type: "hyperframes:example",
     title: entry.label,

@@ -163,7 +163,6 @@ export async function commitGsapPositionFromDrag(
         },
         {
           label: "Move layer (new keyframe)",
-          keyframeAction: "add",
           softReload: true,
           beforeReload: restoreOffset,
         },
@@ -210,7 +209,6 @@ export async function commitGsapPositionFromDrag(
       },
       {
         label: "Move layer (new keyframe)",
-        keyframeAction: "add",
         softReload: true,
         beforeReload: restoreOffset,
       },

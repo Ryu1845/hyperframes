@@ -20,7 +20,6 @@ import {
   isLinuxArm,
   type BrowserResult,
 } from "../browser/manager.js";
-import { trackBrowserInstall } from "../telemetry/events.js";
 import { normalizeErrorMessage } from "../utils/errorMessage.js";
 
 function failSpinner(s: ReturnType<typeof clack.spinner>, label: string, err: unknown): never {
@@ -99,7 +98,6 @@ async function runEnsure(options?: { force?: boolean }): Promise<void> {
     failSpinner(s, "Browser not available", err);
   }
 
-  if (result.source === "download") trackBrowserInstall();
   s.stop(c.success(result.source === "download" ? "Download complete" : "Browser found"));
   printBrowser(result);
   clack.outro(c.success("Ready to render."));
@@ -163,10 +161,10 @@ ${c.bold("SUBCOMMANDS:")}
   ${c.accent("clear")}    ${c.dim("Remove cached Chrome download")}
 
 ${c.bold("EXAMPLES:")}
-  ${c.accent("npx hyperframes browser ensure")}           ${c.dim("Download Chrome if needed")}
-  ${c.accent("npx hyperframes browser ensure --force")}   ${c.dim("Purge a stale/partial download and re-download")}
-  ${c.accent("npx hyperframes browser path")}             ${c.dim("Print path for scripts")}
-  ${c.accent("npx hyperframes browser clear")}            ${c.dim("Remove cached browser")}
+  ${c.accent("hyperframes browser ensure")}           ${c.dim("Download Chrome if needed")}
+  ${c.accent("hyperframes browser ensure --force")}   ${c.dim("Purge a stale/partial download and re-download")}
+  ${c.accent("hyperframes browser path")}             ${c.dim("Print path for scripts")}
+  ${c.accent("hyperframes browser clear")}            ${c.dim("Remove cached browser")}
 `);
       return;
     }

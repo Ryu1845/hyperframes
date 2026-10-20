@@ -1241,7 +1241,6 @@ export async function completeDeferredDrawElementInit(session: CaptureSession): 
   session.deInitDeferred = false;
 }
 
-// fallow-ignore-next-line unit-size
 export async function createCaptureSession(
   serverUrl: string,
   outputDir: string,
@@ -1438,7 +1437,7 @@ async function constructCaptureSession(
   //     `bun run --filter @hyperframes/engine test` Vitest path.
   //   - any tsup/esbuild build that explicitly enables keepNames.
   //
-  // The HeyGen CLI (`packages/cli`) bundles this engine via tsup with
+  // The HyperFrames CLI (`packages/cli`) bundles this engine via tsup with
   // keepNames left at its default (false) — verified by grepping
   // `packages/cli/dist/cli.js`, where `__name(...)` call sites are absent.
   // Bun's TS loader also does not currently inject `__name`. Even so,
@@ -2389,7 +2388,6 @@ export function classifyPageError(
   return urls.some(owned) ? `runtime-error:${firstLine}` : null;
 }
 
-// fallow-ignore-next-line unit-size
 export async function initializeSession(session: CaptureSession): Promise<void> {
   const { page, serverUrl } = session;
 

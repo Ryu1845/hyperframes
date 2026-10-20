@@ -13,11 +13,11 @@ import { InstallCommand } from "/snippets/install-command.jsx";
   compositionSrc="compositions/message-thread-reveal.html"
   title="Message Thread Reveal"
   description="A full text conversation plays out on a phone - bubbles popping in, typing indicators, a shared link card, emoji, delivered receipts - with the whole thread scrolling up beat by beat until a closing card lands. The complete chat ad-template, measured message by message"
-  variables={[{"id":"contactName","type":"string","role":"content","label":"Contact name","description":"Name pill in the chat header; the avatar shows its first letter.","default":"Rachel"},{"id":"questionMessage","type":"string","role":"content","label":"Opening question","description":"First incoming message that establishes what the conversation is about.","default":"what r u using for the launch video??"},{"id":"teaserMessage","type":"string","role":"content","label":"Teaser reply","description":"First typed outgoing reply before the shared link card.","default":"wait look 👀"},{"id":"cardImage","type":"image","role":"content","label":"Link card image","description":"Preview image on the shared link card.","default":"assets/card-image.jpg"},{"id":"cardTitle","type":"string","role":"content","label":"Link card title","description":"Title of the shared link card. It leads with the real name of the brand this video promotes.","portrays":["subject_name"],"default":"HyperFrames | Write HTML, render pixel-perfect video"},{"id":"cardDomain","type":"string","role":"content","label":"Link card domain","description":"Domain of the brand this video promotes, under the card title. Use the real domain.","portrays":["subject_domain"],"default":"hyperframes.heygen.com"},{"id":"reactionMessage","type":"string","role":"content","label":"Link reaction","description":"Incoming reaction immediately after the shared link.","default":"OMG IT'S HTML"},{"id":"reactionEmoji","type":"string","role":"content","label":"Reaction emoji","description":"Emoji-only reaction after the shared link.","default":"🤯🤯🤯"},{"id":"benefitMessage","type":"string","role":"content","label":"Benefit reply","description":"Typed outgoing reply that names the primary benefit.","default":"renders in 4K. no editor"},{"id":"discoveryMessage","type":"string","role":"content","label":"Discovery question","description":"Incoming question asking where the product was found.","default":"where did u find this"},{"id":"sourceMessage","type":"string","role":"content","label":"Source reply","description":"Typed outgoing reply naming where to find the brand this video promotes.","default":"on heygen"},{"id":"workflowMessage","type":"string","role":"content","label":"Workflow reply","description":"Typed outgoing reply describing how the product works.","default":"u just write plain html tags"},{"id":"ownershipMessage","type":"string","role":"content","label":"Ownership reply","description":"Typed outgoing reply that closes the product explanation.","default":"the code is yours forever"},{"id":"installMessage","type":"string","role":"content","label":"Intent reply","description":"Incoming message expressing intent to try the product.","default":"installing rn"},{"id":"thanksMessage","type":"string","role":"content","label":"Closing reply","description":"Final incoming message in the conversation.","default":"ty bestie 💚"},{"id":"brandLogo","type":"image","role":"content","label":"Brand logo","description":"Transparent horizontal wordmark of the brand this video promotes, on the closing card.","portrays":["subject_logo"],"default":"assets/hyperframes-logo-black.svg"},{"id":"ecProof","type":"string","role":"content","label":"End-card proof","description":"Social-proof line under the stars. Claim only a figure the brand itself publishes; use neutral copy when there is none.","portrays":["authority_badge"],"default":"12,000+ creators"},{"id":"ecFeature1","type":"string","role":"content","label":"End-card feature 1","description":"First two-line benefit; use | to break the line.","default":"Write|plain HTML"},{"id":"ecFeature2","type":"string","role":"content","label":"End-card feature 2","description":"Second two-line benefit; use | to break the line.","default":"Render|pixel-perfect"},{"id":"ecFeature3","type":"string","role":"content","label":"End-card feature 3","description":"Third two-line benefit; use | to break the line.","default":"Own|every line"},{"id":"ecCta","type":"string","role":"content","label":"End-card CTA","description":"Label on the closing card button.","default":"Start rendering free"}]}
+  variables={[{"id":"contactName","type":"string","role":"content","label":"Contact name","description":"Name pill in the chat header; the avatar shows its first letter.","default":"Rachel"},{"id":"questionMessage","type":"string","role":"content","label":"Opening question","description":"First incoming message that establishes what the conversation is about.","default":"what r u using for the launch video??"},{"id":"teaserMessage","type":"string","role":"content","label":"Teaser reply","description":"First typed outgoing reply before the shared link card.","default":"wait look 👀"},{"id":"cardImage","type":"image","role":"content","label":"Link card image","description":"Preview image on the shared link card.","default":"assets/card-image.jpg"},{"id":"cardTitle","type":"string","role":"content","label":"Link card title","description":"Title of the shared link card. It leads with the real name of the brand this video promotes.","portrays":["subject_name"],"default":"HyperFrames | Write HTML, render pixel-perfect video"},{"id":"cardDomain","type":"string","role":"content","label":"Link card domain","description":"Domain of the brand this video promotes, under the card title. Use the real domain.","portrays":["subject_domain"],"default":"github.com/ryu1845/hyperframes"},{"id":"reactionMessage","type":"string","role":"content","label":"Link reaction","description":"Incoming reaction immediately after the shared link.","default":"OMG IT'S HTML"},{"id":"reactionEmoji","type":"string","role":"content","label":"Reaction emoji","description":"Emoji-only reaction after the shared link.","default":"🤯🤯🤯"},{"id":"benefitMessage","type":"string","role":"content","label":"Benefit reply","description":"Typed outgoing reply that names the primary benefit.","default":"renders in 4K. no editor"},{"id":"discoveryMessage","type":"string","role":"content","label":"Discovery question","description":"Incoming question asking where the product was found.","default":"where did u find this"},{"id":"sourceMessage","type":"string","role":"content","label":"Source reply","description":"Typed outgoing reply naming where to find the brand this video promotes.","default":"on github"},{"id":"workflowMessage","type":"string","role":"content","label":"Workflow reply","description":"Typed outgoing reply describing how the product works.","default":"u just write plain html tags"},{"id":"ownershipMessage","type":"string","role":"content","label":"Ownership reply","description":"Typed outgoing reply that closes the product explanation.","default":"the code is yours forever"},{"id":"installMessage","type":"string","role":"content","label":"Intent reply","description":"Incoming message expressing intent to try the product.","default":"installing rn"},{"id":"thanksMessage","type":"string","role":"content","label":"Closing reply","description":"Final incoming message in the conversation.","default":"ty bestie 💚"},{"id":"brandLogo","type":"image","role":"content","label":"Brand logo","description":"Transparent horizontal wordmark of the brand this video promotes, on the closing card.","portrays":["subject_logo"],"default":"assets/hyperframes-logo-black.svg"},{"id":"ecProof","type":"string","role":"content","label":"End-card proof","description":"Social-proof line under the stars. Claim only a figure the brand itself publishes; use neutral copy when there is none.","portrays":["authority_badge"],"default":"12,000+ creators"},{"id":"ecFeature1","type":"string","role":"content","label":"End-card feature 1","description":"First two-line benefit; use | to break the line.","default":"Write|plain HTML"},{"id":"ecFeature2","type":"string","role":"content","label":"End-card feature 2","description":"Second two-line benefit; use | to break the line.","default":"Render|pixel-perfect"},{"id":"ecFeature3","type":"string","role":"content","label":"End-card feature 3","description":"Third two-line benefit; use | to break the line.","default":"Own|every line"},{"id":"ecCta","type":"string","role":"content","label":"End-card CTA","description":"Label on the closing card button.","default":"Start rendering free"}]}
   meta={{"duration":25.7667,"width":1080,"height":1920,"category":"Showcases","badge":"Stable","codeLines":1623}}
   attribution={{"author":"Miao Yang","path":"registry/blocks/message-thread-reveal","tags":["showcase","mock-ui","chat","vertical","ad-template"]}}
   hasCode
-  rawUrl="https://raw.githubusercontent.com/heygen-com/hyperframes/main/registry/blocks/message-thread-reveal/message-thread-reveal.html"
+  rawUrl="https://raw.githubusercontent.com/ryu1845/hyperframes/main/registry/blocks/message-thread-reveal/message-thread-reveal.html"
 >
 
 <CatalogSlot slot="code">
@@ -32,12 +32,12 @@ import { InstallCommand } from "/snippets/install-command.jsx";
     { "id": "teaserMessage", "type": "string", "role": "content", "label": "Teaser reply", "description": "First typed outgoing reply before the shared link card.", "default": "wait look 👀" },
     { "id": "cardImage", "type": "image", "role": "content", "label": "Link card image", "description": "Preview image on the shared link card.", "default": "assets/card-image.jpg" },
     { "id": "cardTitle", "type": "string", "role": "content", "label": "Link card title", "description": "Title of the shared link card. It leads with the real name of the brand this video promotes.", "portrays": ["subject_name"], "default": "HyperFrames | Write HTML, render pixel-perfect video" },
-    { "id": "cardDomain", "type": "string", "role": "content", "label": "Link card domain", "description": "Domain of the brand this video promotes, under the card title. Use the real domain.", "portrays": ["subject_domain"], "default": "hyperframes.heygen.com" },
+    { "id": "cardDomain", "type": "string", "role": "content", "label": "Link card domain", "description": "Domain of the brand this video promotes, under the card title. Use the real domain.", "portrays": ["subject_domain"], "default": "github.com/ryu1845/hyperframes" },
     { "id": "reactionMessage", "type": "string", "role": "content", "label": "Link reaction", "description": "Incoming reaction immediately after the shared link.", "default": "OMG IT&#39;S HTML" },
     { "id": "reactionEmoji", "type": "string", "role": "content", "label": "Reaction emoji", "description": "Emoji-only reaction after the shared link.", "default": "🤯🤯🤯" },
     { "id": "benefitMessage", "type": "string", "role": "content", "label": "Benefit reply", "description": "Typed outgoing reply that names the primary benefit.", "default": "renders in 4K. no editor" },
     { "id": "discoveryMessage", "type": "string", "role": "content", "label": "Discovery question", "description": "Incoming question asking where the product was found.", "default": "where did u find this" },
-    { "id": "sourceMessage", "type": "string", "role": "content", "label": "Source reply", "description": "Typed outgoing reply naming where to find the brand this video promotes.", "default": "on heygen" },
+    { "id": "sourceMessage", "type": "string", "role": "content", "label": "Source reply", "description": "Typed outgoing reply naming where to find the brand this video promotes.", "default": "on github" },
     { "id": "workflowMessage", "type": "string", "role": "content", "label": "Workflow reply", "description": "Typed outgoing reply describing how the product works.", "default": "u just write plain html tags" },
     { "id": "ownershipMessage", "type": "string", "role": "content", "label": "Ownership reply", "description": "Typed outgoing reply that closes the product explanation.", "default": "the code is yours forever" },
     { "id": "installMessage", "type": "string", "role": "content", "label": "Intent reply", "description": "Incoming message expressing intent to try the product.", "default": "installing rn" },
@@ -663,7 +663,7 @@ import { InstallCommand } from "/snippets/install-command.jsx";
                       <div class="cardtitle">
                         HyperFrames | Write HTML, render pixel-perfect video
                       </div>
-                      <div class="carddomain">hyperframes.heygen.com</div>
+                      <div class="carddomain">github.com/ryu1845/hyperframes</div>
                     </div>
                     <div class="cardchev">›</div>
                   </div>
@@ -774,7 +774,7 @@ import { InstallCommand } from "/snippets/install-command.jsx";
                   data-layout-allow-overlap
                   data-layout-allow-occlusion
                 >
-                  on heygen
+                  on github
                 </div>
               </div>
             </div>
@@ -913,7 +913,7 @@ import { InstallCommand } from "/snippets/install-command.jsx";
             <span class="typed" id="mtr-ty-3-5">on hey<span class="caret"></span></span>
             <span class="typed" id="mtr-ty-3-6">on heyg<span class="caret"></span></span>
             <span class="typed" id="mtr-ty-3-7">on heyge<span class="caret"></span></span>
-            <span class="typed" id="mtr-ty-3-8">on heygen<span class="caret"></span></span>
+            <span class="typed" id="mtr-ty-3-8">on github<span class="caret"></span></span>
             <span class="typed" id="mtr-ty-4-0">u<span class="caret"></span></span>
             <span class="typed" id="mtr-ty-4-1">u <span class="caret"></span></span>
             <span class="typed" id="mtr-ty-4-2">u j<span class="caret"></span></span>
@@ -1173,7 +1173,7 @@ import { InstallCommand } from "/snippets/install-command.jsx";
         }
         var teaserMessage = text(vars.teaserMessage, "wait look 👀", 20);
         var benefitMessage = text(vars.benefitMessage, "renders in 4K. no editor", 32);
-        var sourceMessage = text(vars.sourceMessage, "on heygen", 20);
+        var sourceMessage = text(vars.sourceMessage, "on github", 20);
         var workflowMessage = text(vars.workflowMessage, "u just write plain html tags", 34);
         var ownershipMessage = text(vars.ownershipMessage, "the code is yours forever", 32);
         setText(
@@ -1202,7 +1202,7 @@ import { InstallCommand } from "/snippets/install-command.jsx";
         );
         document.querySelector(".carddomain").textContent = text(
           vars.cardDomain,
-          "hyperframes.heygen.com",
+          "github.com/ryu1845/hyperframes",
           40,
         );
         document.getElementById("mtr-ec-fam").textContent = text(
@@ -1652,7 +1652,7 @@ import { InstallCommand } from "/snippets/install-command.jsx";
 
 <CatalogSlot slot="install">
 
-<InstallCommand command="npx hyperframes add message-thread-reveal" item="message-thread-reveal" />
+<InstallCommand command="hyperframes add message-thread-reveal" item="message-thread-reveal" />
 
 That writes `compositions/message-thread-reveal.html`, plus 3 supporting files under `assets/`.
 
@@ -1691,12 +1691,12 @@ want to change on the element:
 | `teaserMessage` | `wait look 👀` | string | First typed outgoing reply before the shared link card. |
 | `cardImage` | `assets/card-image.jpg` | image | Preview image on the shared link card. |
 | `cardTitle` | `HyperFrames | Write HTML, render pixel-perfect video` | string | Title of the shared link card. It leads with the real name of the brand this video promotes. |
-| `cardDomain` | `hyperframes.heygen.com` | string | Domain of the brand this video promotes, under the card title. Use the real domain. |
+| `cardDomain` | `github.com/ryu1845/hyperframes` | string | Domain of the brand this video promotes, under the card title. Use the real domain. |
 | `reactionMessage` | `OMG IT'S HTML` | string | Incoming reaction immediately after the shared link. |
 | `reactionEmoji` | `🤯🤯🤯` | string | Emoji-only reaction after the shared link. |
 | `benefitMessage` | `renders in 4K. no editor` | string | Typed outgoing reply that names the primary benefit. |
 | `discoveryMessage` | `where did u find this` | string | Incoming question asking where the product was found. |
-| `sourceMessage` | `on heygen` | string | Typed outgoing reply naming where to find the brand this video promotes. |
+| `sourceMessage` | `on github` | string | Typed outgoing reply naming where to find the brand this video promotes. |
 | `workflowMessage` | `u just write plain html tags` | string | Typed outgoing reply describing how the product works. |
 | `ownershipMessage` | `the code is yours forever` | string | Typed outgoing reply that closes the product explanation. |
 | `installMessage` | `installing rn` | string | Incoming message expressing intent to try the product. |
@@ -1715,7 +1715,7 @@ defaults, so this behaves exactly like the preview above until you change one:
 <div
   data-composition-id="message-thread-reveal"
   data-composition-src="compositions/message-thread-reveal.html"
-  data-variable-values='{"contactName":"Rachel","questionMessage":"what r u using for the launch video??","teaserMessage":"wait look 👀","cardImage":"assets/card-image.jpg","cardTitle":"HyperFrames | Write HTML, render pixel-perfect video","cardDomain":"hyperframes.heygen.com","reactionMessage":"OMG IT'S HTML","reactionEmoji":"🤯🤯🤯","benefitMessage":"renders in 4K. no editor","discoveryMessage":"where did u find this","sourceMessage":"on heygen","workflowMessage":"u just write plain html tags","ownershipMessage":"the code is yours forever","installMessage":"installing rn","thanksMessage":"ty bestie 💚","brandLogo":"assets/hyperframes-logo-black.svg","ecProof":"12,000+ creators","ecFeature1":"Write|plain HTML","ecFeature2":"Render|pixel-perfect","ecFeature3":"Own|every line","ecCta":"Start rendering free"}'
+  data-variable-values='{"contactName":"Rachel","questionMessage":"what r u using for the launch video??","teaserMessage":"wait look 👀","cardImage":"assets/card-image.jpg","cardTitle":"HyperFrames | Write HTML, render pixel-perfect video","cardDomain":"github.com/ryu1845/hyperframes","reactionMessage":"OMG IT'S HTML","reactionEmoji":"🤯🤯🤯","benefitMessage":"renders in 4K. no editor","discoveryMessage":"where did u find this","sourceMessage":"on github","workflowMessage":"u just write plain html tags","ownershipMessage":"the code is yours forever","installMessage":"installing rn","thanksMessage":"ty bestie 💚","brandLogo":"assets/hyperframes-logo-black.svg","ecProof":"12,000+ creators","ecFeature1":"Write|plain HTML","ecFeature2":"Render|pixel-perfect","ecFeature3":"Own|every line","ecCta":"Start rendering free"}'
 ></div>
 ```
 

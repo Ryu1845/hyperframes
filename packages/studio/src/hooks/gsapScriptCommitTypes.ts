@@ -4,7 +4,6 @@ import type { DomEditSelection } from "../components/editor/domEditingTypes";
 import type { PublishSdkSession } from "../utils/sdkCutover";
 import type { StudioEditInFlight } from "../utils/studioPendingEdits";
 import type { RuntimeTweenChange } from "./gsapRuntimePatch";
-import type { KeyframeUsageAction } from "../utils/keyframeUsage";
 
 /** The file a selection's GSAP write goes to. */
 export function gsapWriteFile(
@@ -26,9 +25,6 @@ export interface MutationResult {
 
 export interface CommitMutationOptions {
   label: string;
-  keyframeTelemetry?: boolean;
-  keyframeAction?: KeyframeUsageAction;
-  keyframeProperty?: string;
   /** Observe the durable writer result without duplicating the request path. */
   onResult?: (result: MutationResult) => void;
   coalesceKey?: string;
@@ -96,12 +92,8 @@ export type SafeGsapCommitMutation = (
   options: CommitMutationOptions,
 ) => Promise<void>;
 
-export type TrackGsapSaveFailure = (
-  error: unknown,
-  selection: DomEditSelection,
-  mutation: Record<string, unknown>,
-  label?: string,
-) => void;
+/** Reports a GSAP save that failed after the commit path gave up on it. */
+export type GsapSaveFailureHandler = (error: unknown) => void;
 
 export interface GsapScriptCommitsParams {
   projectIdRef: React.MutableRefObject<string | null>;

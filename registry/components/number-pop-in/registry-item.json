@@ -1,5 +1,5 @@
 {
-  "$schema": "https://hyperframes.heygen.com/schema/registry-item.json",
+  "$schema": "https://raw.githubusercontent.com/ryu1845/hyperframes/main/docs/schema/registry-item.json",
   "name": "number-pop-in",
   "type": "hyperframes:component",
   "title": "Number Pop In",
@@ -73,8 +73,5 @@
         }
       ]
     }
-  ],
-  "preview": {
-    "poster": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/number-pop-in.png"
-  }
+  ]
 }

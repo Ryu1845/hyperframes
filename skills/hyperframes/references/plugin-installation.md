@@ -15,18 +15,19 @@ in every workflow and reference:
   of downloading a different release. Resolve all skill references inside this
   bundle, even if a standalone copy is also installed. Claude exposes the router
   as `/hyperframes:hyperframes`; other clients may expose `/hyperframes`.
-- Replace `npx hyperframes` (or bare `hyperframes`) in command examples with:
+- Replace `hyperframes` in command examples with:
 
   ```bash
   node "<PLUGIN_ROOT>/skills/hyperframes/scripts/plugin-cli.mjs" <command> <args...>
   ```
 
   Run in the user's project directory, never in the plugin directory. The launcher
-  selects the manifest's CLI version and disables automatic standalone skill
-  installation, including during `init`. The first call may download that exact
-  CLI version through npm. A download failure is an error, not permission to use
-  latest. Existing project dependency files and lockfiles must not be overwritten
-  to match the plugin; surface a runtime incompatibility before changing them.
+  runs the installed `hyperframes` binary and disables automatic standalone skill
+  installation, including during `init`. When the binary is missing it fails with
+  the install command; when its version differs from the plugin's release it warns
+  once with the command that installs the matching release. Existing project
+  dependency files and lockfiles must not be overwritten to match the plugin;
+  surface a runtime incompatibility before changing them.
 
 - For bundled Node helpers, use the same
   launcher with `--script <absolute-script-path> <args...>`. This passes the
@@ -40,4 +41,4 @@ in every workflow and reference:
 To get newer skills, use the client's plugin update flow and reload the session.
 Do not silently update an installed plugin during a video task.
 
-The launcher suppresses CLI update notices as well as standalone skill refreshes, including when running an older CLI with a stale notice cache. It passes the release as `HYPERFRAMES_PLUGIN_VERSION` for plugin-aware helpers and as `HYPERFRAMES_SKILL_PKG_VERSION` for the existing helper-package bootstrap. Our release process versions those packages together.
+The launcher suppresses standalone skill refreshes. It passes the release as `HYPERFRAMES_PLUGIN_VERSION` for plugin-aware helpers and as `HYPERFRAMES_SKILL_PKG_VERSION` for the existing helper-package bootstrap. Our release process versions those packages together.

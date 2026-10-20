@@ -10,22 +10,22 @@ Start with the symptom you can see. Keep the exact error and note whether the pr
 <Steps>
   <Step title="Check the machine">
     ```bash
-    npx hyperframes doctor
+    hyperframes doctor
     ```
 
     This checks the runtime, browser, FFmpeg, and other local requirements.
   </Step>
   <Step title="Check the project">
     ```bash
-    npx hyperframes lint
-    npx hyperframes check
+    hyperframes lint
+    hyperframes check
     ```
   </Step>
   <Step title="Inspect the visible result">
     Open Studio or capture important frames:
 
     ```bash
-    npx hyperframes snapshot --at 0,3,8
+    hyperframes snapshot --at 0,3,8
     ```
   </Step>
   <Step title="Give the agent useful context">
@@ -45,7 +45,7 @@ The project needs an `index.html` containing a valid composition root with `data
 Create a new project:
 
 ```bash
-npx hyperframes init my-video
+hyperframes init my-video
 ```
 
 Or compare the current source with [Compositions](/concepts/compositions).
@@ -70,7 +70,7 @@ sudo apt install ffmpeg
 ```
 </CodeGroup>
 
-Verify with `ffmpeg -version`, then rerun `npx hyperframes doctor`.
+Verify with `ffmpeg -version`, then rerun `hyperframes doctor`.
 
 ### Docker render will not start
 
@@ -87,8 +87,8 @@ The browser may not decode the source codec even though FFmpeg can.
 HyperFrames normally creates and uses a compatible preview proxy. If the frame remains black:
 
 1. confirm automatic proxying is not disabled;
-2. run `npx hyperframes doctor`;
-3. run `npx hyperframes lint --verbose` to identify affected files;
+2. run `hyperframes doctor`;
+3. run `hyperframes lint --verbose` to identify affected files;
 4. confirm the source file exists and can be read.
 
 ### Video, image, or audio is missing
@@ -139,7 +139,7 @@ HyperFrames owns media playback. Use timing and media attributes to describe whe
 Check the resolved composition duration:
 
 ```bash
-npx hyperframes compositions
+hyperframes compositions
 ```
 
 A short animation timeline can make a project end before the underlying media. Extend the authored root duration or timeline using the correct pattern for that composition.
@@ -154,7 +154,7 @@ Timed visible elements need `class="clip"` as well as their timing attributes.
 </h1>
 ```
 
-`npx hyperframes lint` normally catches this.
+`hyperframes lint` normally catches this.
 
 ### Animation is static
 
@@ -183,7 +183,7 @@ Check fonts, remote media, browser-specific effects, and the actual exported fil
 Use Docker when you need a pinned rendering environment:
 
 ```bash
-npx hyperframes render --docker --output output.mp4
+hyperframes render --docker --output output.mp4
 ```
 
 ### Every render takes about 45 seconds longer than expected
@@ -206,7 +206,7 @@ Declare that the composition has no timeline:
 ></div>
 ```
 
-`npx hyperframes lint` reports the missing attribute as
+`hyperframes lint` reports the missing attribute as
 `missing_data_no_timeline`. Compositions that do register a timeline are
 unaffected: the poll returns as soon as the timeline appears, long before the
 timeout.
@@ -227,7 +227,7 @@ During iteration:
 - simplify expensive filters;
 - avoid increasing resolution or frame rate before needed.
 
-Run `npx hyperframes benchmark` when tuning worker settings.
+Run `hyperframes benchmark` when tuning worker settings.
 
 ### The render is slow under WSL2
 
@@ -254,7 +254,7 @@ a Windows drive (for example `C:\Users\you\renders\my-video`) and run the same
 command from PowerShell, where Chrome uses the graphics card through Direct3D:
 
 ```powershell
-npx hyperframes render --output final.mp4
+hyperframes render --output final.mp4
 ```
 
 Run it from a normal Windows folder, not a `\\wsl.localhost\...` path.
@@ -270,10 +270,10 @@ Use `--hdr` only when the whole source and delivery workflow is intended for HDR
 Run:
 
 ```bash
-npx hyperframes info
+hyperframes info
 ```
 
-Then search [GitHub issues](https://github.com/heygen-com/hyperframes/issues) or open a report with:
+Then search [GitHub issues](https://github.com/ryu1845/hyperframes/issues) or open a report with:
 
 - the exact error;
 - steps to reproduce;
@@ -287,4 +287,4 @@ Do not include secrets, private media, or access tokens.
 
 - [Start with the shortest recovery path](/help)
 - [Recover from a Studio-only problem](/studio/troubleshooting)
-- [Share useful product feedback](/guides/feedback)
+- [Report a bug](https://github.com/ryu1845/hyperframes/issues/new)

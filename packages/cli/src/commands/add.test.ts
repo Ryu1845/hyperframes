@@ -16,19 +16,13 @@ import addCommand, {
   runAdd,
   tagAddJson,
 } from "./add.js";
-import { trackRegistryItemAdded } from "../telemetry/events.js";
 import { CliUsageError } from "../utils/commandResult.js";
 import { trackCommandFailures } from "../utils/command-failure-tracking.js";
-
-// Assert the emitted payload rather than the transport: `shouldTrack()` is
-// already false under test (dev mode / no PostHog key), so a real call would
-// be indistinguishable from no call at all.
-vi.mock("../telemetry/events.js", () => ({ trackRegistryItemAdded: vi.fn() }));
 
 // ── Fixtures ────────────────────────────────────────────────────────────────
 
 const MANIFEST: RegistryManifest = {
-  $schema: "https://hyperframes.heygen.com/schema/registry.json",
+  $schema: "https://raw.githubusercontent.com/ryu1845/hyperframes/main/docs/schema/registry.json",
   name: "test",
   homepage: "https://example.com",
   items: [
@@ -43,7 +37,8 @@ const MANIFEST: RegistryManifest = {
 };
 
 const BLOCK_ITEM: RegistryItem = {
-  $schema: "https://hyperframes.heygen.com/schema/registry-item.json",
+  $schema:
+    "https://raw.githubusercontent.com/ryu1845/hyperframes/main/docs/schema/registry-item.json",
   name: "my-block",
   type: "hyperframes:block",
   title: "My Block",
@@ -60,7 +55,8 @@ const BLOCK_ITEM: RegistryItem = {
 };
 
 const COMPONENT_ITEM: RegistryItem = {
-  $schema: "https://hyperframes.heygen.com/schema/registry-item.json",
+  $schema:
+    "https://raw.githubusercontent.com/ryu1845/hyperframes/main/docs/schema/registry-item.json",
   name: "my-component",
   type: "hyperframes:component",
   title: "My Component",
@@ -113,7 +109,8 @@ const FUTURE_BLOCK_ITEM: RegistryItem = {
 };
 
 const BASE_COMPONENT_ITEM: RegistryItem = {
-  $schema: "https://hyperframes.heygen.com/schema/registry-item.json",
+  $schema:
+    "https://raw.githubusercontent.com/ryu1845/hyperframes/main/docs/schema/registry-item.json",
   name: "base-component",
   type: "hyperframes:component",
   title: "Base Component",
@@ -143,7 +140,8 @@ const DEP_BLOCK_ITEM: RegistryItem = {
 };
 
 const EXAMPLE_ITEM: RegistryItem = {
-  $schema: "https://hyperframes.heygen.com/schema/registry-item.json",
+  $schema:
+    "https://raw.githubusercontent.com/ryu1845/hyperframes/main/docs/schema/registry-item.json",
   name: "my-example",
   type: "hyperframes:example",
   title: "My Example",
@@ -215,7 +213,8 @@ function writeRegistryConfig(
   writeFileSync(
     join(dir, "hyperframes.json"),
     JSON.stringify({
-      $schema: "https://hyperframes.heygen.com/schema/hyperframes.json",
+      $schema:
+        "https://raw.githubusercontent.com/ryu1845/hyperframes/main/docs/schema/hyperframes.json",
       registry: uniqueBase(),
       paths,
     }),
@@ -299,7 +298,6 @@ describe("add command pure helpers", () => {
 
 describe("runAdd (integration, mocked registry)", () => {
   beforeEach(() => {
-    vi.mocked(trackRegistryItemAdded).mockClear();
     mockFetch();
   });
   afterEach(() => {
@@ -365,9 +363,6 @@ describe("runAdd (integration, mocked registry)", () => {
         code: "incompatible-cli",
       });
       expect(existsSync(join(dir, "compositions/future-block.html"))).toBe(false);
-      // Nothing was written, so nothing may be counted: an install count that
-      // also counts refused installs is not a download count.
-      expect(trackRegistryItemAdded).not.toHaveBeenCalled();
     } finally {
       rmSync(dir, { recursive: true, force: true });
     }
@@ -426,33 +421,6 @@ describe("runAdd (integration, mocked registry)", () => {
       expect(result.warnings).toEqual([
         expect.stringContaining("compositions/dep-block.html declares no data-composition-id"),
       ]);
-    } finally {
-      rmSync(dir, { recursive: true, force: true });
-    }
-  });
-
-  it("reports every installed item, marking only the requested one", async () => {
-    const dir = tmp();
-    try {
-      writeRegistryConfig(dir);
-
-      await runAdd({ name: "dep-block", projectDir: dir, skipClipboard: true });
-
-      // A dependency dragged in behind the request must not read as a vote for
-      // itself, or a popular dependency outranks everything that depends on it.
-      expect(trackRegistryItemAdded).toHaveBeenCalledTimes(2);
-      expect(trackRegistryItemAdded).toHaveBeenCalledWith({
-        item: "base-component",
-        itemType: "hyperframes:component",
-        requested: false,
-        source: "cli",
-      });
-      expect(trackRegistryItemAdded).toHaveBeenCalledWith({
-        item: "dep-block",
-        itemType: "hyperframes:block",
-        requested: true,
-        source: "cli",
-      });
     } finally {
       rmSync(dir, { recursive: true, force: true });
     }
@@ -595,7 +563,7 @@ describe("describeInstallFailure", () => {
   it("stays quiet about the registry when it is the default one", () => {
     const message = describeInstallFailure(
       new Error("fetch failed"),
-      "https://raw.githubusercontent.com/heygen-com/hyperframes/main/registry",
+      "https://raw.githubusercontent.com/ryu1845/hyperframes/main/registry",
     );
 
     expect(message).not.toContain("not the public registry");

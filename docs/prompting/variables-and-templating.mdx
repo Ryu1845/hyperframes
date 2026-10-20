@@ -3,8 +3,6 @@ title: Variables and templating
 description: "Ask for the parts that should change to become named slots, then re-render the same composition with different values — one output per record."
 ---
 
-import { DocsVideo } from "/snippets/docs-video.jsx";
-
 [Design systems](/prompting/design-systems) covered the parts of a video that
 should *never* change per render — the brand. This page covers the parts that
 should. A card per customer. A stat per quarter. A name per recipient.
@@ -17,21 +15,6 @@ instead of hardcoded into the HTML.
 The trigger phrase is simple. Call out the slots:
 
 > Build a 6-second title card. Make the **name**, the **logo**, and the **accent color** variables; everything else stays fixed.
-
-<DocsVideo
-  title="HyperFrames video: Validate Variables Default"
-  src="https://static.heygen.ai/hyperframes-oss/docs/images/prompting/validate-variables-default.mp4#t=0.1"
-  loop
-/>
-*Default variable values.*
-<DocsVideo
-  title="HyperFrames video: Validate Variables Variant"
-  src="https://static.heygen.ai/hyperframes-oss/docs/images/prompting/validate-variables-variant.mp4#t=0.1"
-  loop
-/>
-*The same composition re-rendered with `--variables` overrides — different name, logo, and accent, zero re-prompting.*
-
-
 
 The agent declares `data-composition-variables` on the composition root, with
 the right type for each slot. The name is a `string`. The accent is a `color`.
@@ -206,8 +189,7 @@ full list and the compile-time-vs-live-DOM rule behind it.
 **Capstone thread** — the [Level 7 film](/prompting/capstone) is a working
 template. One single-file composition, one variable scope. Its second render is
 nothing but one `--variables` flag: navy ground, acid-green ink, every region
-re-skinned including the generated mural. Both full renders are embedded on the
-capstone page.
+re-skinned including the generated mural.
 </Note>
 
 This is the clause in the [full capstone prompt](/prompting/capstone#the-prompt-word-for-word)

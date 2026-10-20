@@ -7,7 +7,7 @@ import { platform } from "node:os";
 import { dirname } from "node:path";
 import { resolveExtractCacheDir } from "@hyperframes/engine";
 import type { Example } from "./_examples.js";
-import { CONFIG_PATH } from "../telemetry/config.js";
+import { CONFIG_PATH } from "../utils/userConfig.js";
 import { withFileLock } from "../media-use/lib/config-lock.mjs";
 import { normalizeErrorMessage } from "../utils/errorMessage.js";
 import { c } from "../ui/colors.js";
@@ -15,7 +15,8 @@ import { parseToolVersion, runEnvironmentChecks } from "../browser/preflight.js"
 import { KOKORO_MODULES, KOKORO_PIP, MUSICGEN_MODULES, MUSICGEN_PIP } from "../audio/providers.js";
 import { hasPythonModules, describeRejectedPythonOverride } from "../tts/python.js";
 import { VERSION } from "../version.js";
-import { getUpdateMeta, withMeta } from "../utils/updateCheck.js";
+import { withMeta } from "../utils/jsonMeta.js";
+import { standaloneBinary } from "../utils/selfRuntime.js";
 import {
   OPTIONAL_PACKAGES,
   installedOptionalPackageVersion,
@@ -26,7 +27,7 @@ import {
   getShmSizeMb,
   getFreeDiskMb,
   getAvailableMemoryMb,
-} from "../telemetry/system.js";
+} from "../utils/system.js";
 
 export const examples: Example[] = [
   ["Check system dependencies", "hyperframes doctor"],
@@ -73,19 +74,13 @@ function checkDockerRunning(): CheckResult {
 }
 
 function checkVersion(): CheckResult {
-  const meta = getUpdateMeta();
-  if (meta.updateAvailable && meta.latestVersion) {
-    return {
-      ok: false,
-      detail: `${VERSION} \u2192 ${meta.latestVersion} available`,
-      hint: "Run: hyperframes upgrade",
-    };
-  }
-  return { ok: true, detail: `${VERSION} (latest)` };
+  const binary = standaloneBinary();
+  return { ok: true, detail: binary ? `${VERSION} (standalone binary: ${binary})` : VERSION };
 }
 
 function checkNode(): CheckResult {
-  return { ok: true, detail: `${process.version} (${process.platform} ${process.arch})` };
+  const runtime = standaloneBinary() ? `Bun ${process.versions.bun}` : process.version;
+  return { ok: true, detail: `${runtime} (${process.platform} ${process.arch})` };
 }
 
 // ── Hardware & Environment Checks ──────────────────────────────────────────
@@ -370,7 +365,7 @@ export default defineCommand({
     const environment = await runEnvironmentChecks({ includeBrowser: true });
     const checks: Check[] = [
       { name: "Version", run: checkVersion },
-      { name: "Node.js", run: checkNode },
+      { name: standaloneBinary() ? "Runtime" : "Node.js", run: checkNode },
       { name: "CPU", run: checkCPU },
       { name: "Memory", run: checkMemory },
       { name: "Disk", run: checkDisk },
@@ -426,10 +421,7 @@ export default defineCommand({
 
     if (args.json) {
       // Exit code intentionally reflects command success, not environment
-      // health — `checkVersion` returns ok:false when an npm update is
-      // available, which would poison any CI pipeline doing
-      // `hyperframes doctor --json || fail` the next time a new version is
-      // published. Consumers who want a gate can do:
+      // health. Consumers who want a gate can do:
       //   hyperframes doctor --json | jq -e '.ok' > /dev/null || handle_failure
       console.log(JSON.stringify(buildDoctorReport(outcomes, { redact: true }), null, 2));
       return;

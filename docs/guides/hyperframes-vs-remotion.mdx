@@ -91,7 +91,7 @@ browser and inspect with devtools.
 | What you write | HTML, CSS, and JavaScript | React and TypeScript |
 | How motion is timed | The renderer pauses your animation and *seeks* it — jumps it to an exact moment — before capturing each frame | Your code reads the frame number and returns the values for that frame |
 | Existing web material | HTML, CSS, and a GSAP or Lottie animation usually drop in close to as-is | Rewritten as React components |
-| License | [Apache 2.0](https://github.com/heygen-com/hyperframes/blob/main/LICENSE) | Its own license — free for individuals and companies up to three people, paid above that. Check the [current terms](https://www.remotion.pro/license) |
+| License | [Apache 2.0](https://github.com/ryu1845/hyperframes/blob/main/LICENSE) | Its own license — free for individuals and companies up to three people, paid above that. Check the [current terms](https://www.remotion.pro/license) |
 
 The seeking model is the interesting one. Because HyperFrames drives the
 animation rather than watching a clock, GSAP, Web Animations, Lottie, and other
@@ -104,8 +104,8 @@ Both projects ship a visual editor and both save changes back to source.
 Studio edits React compositions. They are not interchangeable, and neither
 replaces editing the source for real structural changes.
 
-Both render on AWS Lambda. HyperFrames also renders locally, on HeyGen's hosted
-cloud, and on Google Cloud Run — see [rendering paths](/deploy/overview).
+Both render on AWS Lambda. HyperFrames also renders locally and on Google
+Cloud Run — see [rendering paths](/deploy/overview).
 
 ## What Remotion does better
 
@@ -142,7 +142,7 @@ And Apache 2.0 means no seat count and no license review.
 There is a real migration path, not a promise. Install the skill:
 
 ```bash
-npx skills add heygen-com/hyperframes --skill remotion-to-hyperframes
+npx skills add ryu1845/hyperframes --skill remotion-to-hyperframes
 ```
 
 Then ask your agent to port the composition. It maps `useCurrentFrame` and

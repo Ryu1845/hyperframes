@@ -29,7 +29,7 @@ export async function commitKeyframeAtTimeImpl(
       await commitMutation(
         selection,
         { type: "convert-to-keyframes", animationId: tween.id },
-        { label: "Convert to keyframes", keyframeTelemetry: false, skipReload: true },
+        { label: "Convert to keyframes", skipReload: true },
       );
     }
 

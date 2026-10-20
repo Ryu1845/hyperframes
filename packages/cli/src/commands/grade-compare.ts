@@ -26,9 +26,8 @@ import { findFFmpeg } from "../browser/ffmpeg.js";
 import { c } from "../ui/colors.js";
 import { normalizeErrorMessage } from "../utils/errorMessage.js";
 import { displayPathFromBase, readOptionalString, resolveFromBase } from "../utils/pathArgs.js";
-import { trackCompareSheet } from "../telemetry/events.js";
 import { serveStaticProjectHtml } from "../utils/staticProjectServer.js";
-import { withMeta } from "../utils/updateCheck.js";
+import { withMeta } from "../utils/jsonMeta.js";
 
 const COMPOSITION_ID = "grade-compare";
 const COMPOSITION_DURATION = "1";
@@ -540,10 +539,7 @@ async function loadReferenceFrame(framePath: string): Promise<ReferenceFrame> {
   };
 }
 
-async function captureGradeCompareSheet(
-  projectDir: string,
-  timeoutMs: number,
-): Promise<{ sheetPath: string; renderReadyTimedOut: boolean }> {
+async function captureGradeCompareSheet(projectDir: string, timeoutMs: number): Promise<string> {
   const { bundleToSingleHtml } = await import("@hyperframes/core/compiler");
 
   const html = await bundleToSingleHtml(projectDir);
@@ -551,18 +547,14 @@ async function captureGradeCompareSheet(
   const sheetPath = join(projectDir, "grade-compare.png");
 
   try {
-    const {
-      browser: chromeBrowser,
-      page,
-      renderReadyTimedOut,
-    } = await openSettledCompositionPage(html, server.url, {
+    const { browser: chromeBrowser, page } = await openSettledCompositionPage(html, server.url, {
       renderReadyTimeoutMs: timeoutMs,
       renderReadyWarningSuffix: "grade comparison may be inaccurate",
     });
 
     try {
       await page.screenshot({ path: sheetPath, type: "png" });
-      return { sheetPath, renderReadyTimedOut };
+      return sheetPath;
     } finally {
       await chromeBrowser.close();
     }
@@ -663,19 +655,9 @@ export default defineCommand({
       });
       preparedDir = prepared.tempDir;
 
-      const { sheetPath: tempSheet, renderReadyTimedOut } = await captureGradeCompareSheet(
-        prepared.tempDir,
-        parsed.timeoutMs,
-      );
+      const tempSheet = await captureGradeCompareSheet(prepared.tempDir, parsed.timeoutMs);
       mkdirSync(dirname(parsed.outPath), { recursive: true });
       copyFileSync(tempSheet, parsed.outPath);
-      trackCompareSheet({
-        command: "grade-compare",
-        cells: prepared.cells.length,
-        truncated: capResult.truncated,
-        total: capResult.total,
-        renderReadyTimedOut,
-      });
 
       const sheet = displayPathFromBase(parsed.projectDir, parsed.outPath);
       if (parsed.json) {

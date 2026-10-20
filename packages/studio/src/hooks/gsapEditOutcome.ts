@@ -10,12 +10,12 @@ export type GsapEditBlockReason =
 /**
  * Which of the nine situations produced a block. The user-facing `reason` stays
  * coarse — three messages — but "source-uneditable" alone covers nine distinct
- * causes, and `edit_blocked` telemetry could not tell them apart. That matters
+ * causes, and the reason alone cannot tell them apart. That matters
  * because the copy ("This animation is computed at runtime") is only literally
  * true for `provenance-runtime-dynamic`; the others are parser or source-match
  * limits, where the animation may well be plain authored source.
  *
- * Telemetry, plus the sharper message a few details get (GSAP_EDIT_DETAIL_COPY).
+ * Drives the sharper message a few details get (GSAP_EDIT_DETAIL_COPY).
  */
 export type GsapEditBlockDetail =
   | "provenance-runtime-dynamic"

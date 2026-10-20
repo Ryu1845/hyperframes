@@ -68,12 +68,12 @@ See [media.md](media.md) for trim, volume ramps, and decoder notes.
 
 See [transitions.md](transitions.md).
 
-| Remotion                                                                       | HyperFrames                                                                                               |
-| ------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------- |
-| `<TransitionSeries>` + `<TransitionSeries.Transition presentation={fade()} />` | manual `gsap.to(scene, {opacity: 0/1, duration})` crossfade at the boundary                               |
-| `slide()`, `wipe()`, `clockWipe()`, `fade()`                                   | HF [shader-transitions](https://hyperframes.heygen.com/catalog/blocks) package presets — pick the closest |
-| `linearTiming({durationInFrames})`                                             | duration in seconds (`/fps`)                                                                              |
-| `springTiming({config})`                                                       | duration in seconds, ease `back.out` — see [timing.md](timing.md)                                         |
+| Remotion                                                                       | HyperFrames                                                                                                                         |
+| ------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------- |
+| `<TransitionSeries>` + `<TransitionSeries.Transition presentation={fade()} />` | manual `gsap.to(scene, {opacity: 0/1, duration})` crossfade at the boundary                                                         |
+| `slide()`, `wipe()`, `clockWipe()`, `fade()`                                   | HF [shader-transitions](https://github.com/ryu1845/hyperframes/blob/main/docs/catalog/index.mdx) package presets — pick the closest |
+| `linearTiming({durationInFrames})`                                             | duration in seconds (`/fps`)                                                                                                        |
+| `springTiming({config})`                                                       | duration in seconds, ease `back.out` — see [timing.md](timing.md)                                                                   |
 
 ## Lottie
 

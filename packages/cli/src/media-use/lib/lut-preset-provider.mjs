@@ -200,7 +200,7 @@ function assertValidCubeFile(path, label) {
 }
 
 function offlineLibraryMiss(match) {
-  const err = new Error(`library LUT "${match.id}" is CDN-only and --local-only is set`);
+  const err = new Error(`library LUT "${match.id}" is url-only and --local-only is set`);
   err.code = LIBRARY_LUT_OFFLINE_CODE;
   return err;
 }
@@ -210,9 +210,10 @@ export async function freezeLibraryLut(match, { projectDir, type, localOnly = fa
     throw new Error("freezeLibraryLut requires a library match");
   }
 
-  // Prefer the CDN url so looks download on-demand (like bgm/image). Fall back
-  // to deterministic buildCube params when offline (--local-only) or if the
-  // download/validation fails, so resolution is never blocked on the network.
+  // An entry with a hosted url downloads it; deterministic buildCube params are
+  // the fallback when offline (--local-only) or if the download/validation
+  // fails, so resolution is never blocked on the network. The bundled looks are
+  // params-only.
   if (match.url && !localOnly) {
     try {
       return await withReservedFile(

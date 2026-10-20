@@ -23,10 +23,9 @@
       "files": [
         "packages/cli/src/capture/**/*.ts",
         "packages/cli/src/registry/**/*.ts",
-        "packages/cli/src/templates/**/*.ts",
-        "packages/cli/src/telemetry/**/*.ts"
+        "packages/cli/src/templates/**/*.ts"
       ],
-      "excludeFiles": ["**/*.test.ts", "**/*.test.tsx", "packages/cli/src/telemetry/feedback.ts"],
+      "excludeFiles": ["**/*.test.ts", "**/*.test.tsx"],
       "rules": {
         "no-console": [
           "error",

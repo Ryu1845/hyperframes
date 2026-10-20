@@ -23,7 +23,7 @@ const {
 
 const MANIFEST = {
   name: "hyperframes",
-  homepage: "https://hyperframes.heygen.com",
+  homepage: "https://github.com/ryu1845/hyperframes",
   items: [{ name: "count-up", type: "hyperframes:component" }],
 };
 const ITEM = {

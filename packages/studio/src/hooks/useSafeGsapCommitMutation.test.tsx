@@ -22,11 +22,11 @@ const selection = { id: "box", selector: "#box" } as unknown as DomEditSelection
 // Mount a hook and capture its return value via a ref.
 function renderSafeCommit(
   commitMutation: CommitMutation,
-  showToast?: (message: string, tone?: "error" | "info") => void,
+  onSaveFailure: (error: unknown) => void = vi.fn(),
 ) {
   const captured: { fn: ReturnType<typeof useSafeGsapCommitMutation> | null } = { fn: null };
   function Probe() {
-    captured.fn = useSafeGsapCommitMutation(commitMutation, vi.fn(), showToast);
+    captured.fn = useSafeGsapCommitMutation(commitMutation, onSaveFailure);
     return null;
   }
   const container = document.createElement("div");
@@ -66,21 +66,22 @@ describe("useSafeGsapCommitMutation — returned promise settles after the commi
     expect(order).toEqual(["commit-settled", "awaiter-resumed"]);
   });
 
-  it("resolves (success-after-handled) after a failed commit, surfacing a toast", async () => {
-    const showToast = vi.fn();
+  it("resolves (success-after-handled) after a failed commit, reporting the failure", async () => {
+    const onSaveFailure = vi.fn();
     const order: string[] = [];
+    const failure = new Error("save failed");
     const commitMutation: CommitMutation = vi.fn(async () => {
       order.push("commit-rejected");
-      throw new Error("save failed");
+      throw failure;
     });
 
-    const safe = renderSafeCommit(commitMutation, showToast);
+    const safe = renderSafeCommit(commitMutation, onSaveFailure);
     await safe(selection, { type: "noop" }, { label: "test" });
     order.push("awaiter-resumed");
 
     // The awaiter resumes AFTER the rejection was handled, and the promise does
-    // not reject (the .catch swallows it for the toast).
+    // not reject (the .catch hands it to the failure handler).
     expect(order).toEqual(["commit-rejected", "awaiter-resumed"]);
-    expect(showToast).toHaveBeenCalledWith(expect.stringContaining("Couldn't save"), "error");
+    expect(onSaveFailure).toHaveBeenCalledExactlyOnceWith(failure);
   });
 });

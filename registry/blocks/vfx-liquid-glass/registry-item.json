@@ -1,5 +1,5 @@
 {
-  "$schema": "https://hyperframes.heygen.com/schema/registry-item.json",
+  "$schema": "https://raw.githubusercontent.com/ryu1845/hyperframes/main/docs/schema/registry-item.json",
   "name": "vfx-liquid-glass",
   "type": "hyperframes:block",
   "title": "Liquid Glass",
@@ -18,10 +18,6 @@
       "type": "hyperframes:composition"
     }
   ],
-  "preview": {
-    "video": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/vfx-liquid-glass.mp4",
-    "poster": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/vfx-liquid-glass.png"
-  },
   "params": [
     {
       "key": "--bg-color",

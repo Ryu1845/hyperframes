@@ -1,5 +1,5 @@
 {
-  "$schema": "https://hyperframes.heygen.com/schema/registry-item.json",
+  "$schema": "https://raw.githubusercontent.com/ryu1845/hyperframes/main/docs/schema/registry-item.json",
   "name": "morph-text",
   "type": "hyperframes:component",
   "title": "Morph Text",
@@ -11,8 +11,5 @@
       "target": "compositions/components/morph-text.html",
       "type": "hyperframes:snippet"
     }
-  ],
-  "preview": {
-    "video": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/morph-text.mp4"
-  }
+  ]
 }

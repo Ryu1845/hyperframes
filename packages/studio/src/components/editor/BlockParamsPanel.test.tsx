@@ -59,7 +59,6 @@ function renderPanel(fileManager: ReturnType<typeof makeFileManager>["value"]) {
       <StudioPlaybackProvider value={playbackValue}>
         <FileManagerProvider value={fileManager}>
           <BlockParamsPanel
-            blockName="vfx-demo"
             blockTitle="VFX Demo"
             params={PARAMS}
             compositionPath="compositions/vfx-demo.html"

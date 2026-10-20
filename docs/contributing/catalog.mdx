@@ -10,7 +10,7 @@ can contribute a visual idea or build an item that anyone can install.
 
 ### Suggest an idea
 
-Open a [GitHub issue](https://github.com/heygen-com/hyperframes/issues) with a
+Open a [GitHub issue](https://github.com/ryu1845/hyperframes/issues) with a
 visual reference and explain where the effect would be useful. A screen
 recording, Figma sketch, or example from another tool is enough to start.
 
@@ -46,12 +46,12 @@ The Catalog preview generator skips a component without `demo.html`.
 ## Define the manifest
 
 `registry-item.json` follows the
-[registry item schema](https://github.com/heygen-com/hyperframes/blob/main/packages/core/schemas/registry-item.json).
+[registry item schema](https://github.com/ryu1845/hyperframes/blob/main/packages/core/schemas/registry-item.json).
 Blocks declare `dimensions` and `duration`; components must not.
 
 ```json
 {
-  "$schema": "https://hyperframes.heygen.com/schema/registry-item.json",
+  "$schema": "https://raw.githubusercontent.com/ryu1845/hyperframes/main/docs/schema/registry-item.json",
   "name": "my-block",
   "type": "hyperframes:block",
   "title": "My Block",
@@ -92,24 +92,11 @@ The registry is served straight out of the repository, so every byte an item
 ships stays in the history forever. Compositions are text and cost nothing;
 images, video, audio and fonts do not.
 
-Commit those assets in your pull request as usual. Before merging, a maintainer
-runs `bun run host:registry-assets <item-name>`, which uploads them to the CDN,
-adds a `url` to each `files[]` entry and removes the bytes from the tree:
-
-```json
-{
-  "path": "assets/carousel-images/one.jpg",
-  "url": "https://static.heygen.ai/hyperframes-oss/registry-assets/deadbeefdeadbeef.jpg",
-  "target": "assets/carousel-images/one.jpg",
-  "type": "hyperframes:asset"
-}
-```
-
-`path` does not change. It is still where the file lands relative to the item,
-so your composition HTML, the Catalog preview renderer and `hyperframes add`
-all behave exactly as they did — only the source of the bytes moves. Keys are
-content-addressed, so an image shared by several items uploads once and a
-changed image gets a new URL rather than a stale cached one.
+Commit those assets in your pull request as ordinary files (not Git LFS):
+`hyperframes add` fetches each `files[].path` from the repository's raw
+GitHub URL, which would serve an LFS pointer instead of the bytes. Keep them
+small: compress images, trim clips, and reuse an asset another item already
+ships when one fits.
 
 ### Installer metadata
 
@@ -149,7 +136,7 @@ A one-off example belongs in [Examples](/examples), not the Catalog.
 ## Validate and preview
 
 Lint the item the way a user receives it — mounted into a real project. A bare
-`npx hyperframes lint` cannot validate a registry directory, because the CLI
+`hyperframes lint` cannot validate a registry directory, because the CLI
 looks for `index.html` and items ship as `<name>.html` or `demo.html`:
 
 ```bash
@@ -159,9 +146,9 @@ bun run lint:registry-items my-block
 To exercise the full gate, install the item into a scratch project and run there:
 
 ```bash
-npx hyperframes init scratch && cd scratch
-npx hyperframes add my-block
-npx hyperframes check
+hyperframes init scratch && cd scratch
+hyperframes add my-block
+hyperframes check
 ```
 
 Generate the Catalog page and preview assets:
@@ -173,7 +160,7 @@ npx tsx scripts/generate-catalog-previews.ts --only my-block
 
 These generators read the item directly from the working tree. The `add`
 command cannot install an unpublished local item by name: it resolves items
-from the registry URL in `hyperframes.json`. Test `npx hyperframes add my-block`
+from the registry URL in `hyperframes.json`. Test `hyperframes add my-block`
 from a clean project after the item is present in that registry manifest.
 
 Do not hand-edit the generated item page. Fix its registry manifest or the
@@ -197,9 +184,5 @@ Include:
 - the item directory;
 - the matching entry in `registry/registry.json`;
 - regenerated Catalog output;
-- a `hyperframes.dev` preview from `npx hyperframes publish`;
+- the preview MP4 from `generate-catalog-previews.ts`, attached to the pull request;
 - when to use it, its useful duration range, and any known pitfalls.
-
-External contributors should attach the preview MP4. A maintainer will publish
-the final Catalog media. HeyGen contributors can use
-`scripts/upload-docs-images.sh` after preview review.

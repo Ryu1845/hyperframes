@@ -33,7 +33,6 @@ import {
 } from "./useTimelineKeyframeHandlers";
 import { useTimelineGapHighlights } from "./useTimelineGapHighlights";
 import { useTimelineRazorInteraction } from "./TimelineRazorInteraction";
-import { useTimelinePerformanceTelemetry } from "./useTimelinePerformanceTelemetry";
 import { getEffectiveTimelineDuration } from "./timelineViewModel";
 import { useTimelineShiftModifier } from "./useTimelineShiftModifier";
 import { useTimelineTicks } from "./useTimelineTicks";
@@ -247,11 +246,6 @@ export function useTimelineProviderState({
   const displayLayout = useTimelineDisplayLayout(draggedClip, trackOrder, rowGeometry);
   const { resizingElementIds, getPreviewElement, draggedElement, multiDragPreview, snapGuide } =
     useTimelineDragPreviewState(draggedClip, resizingClip, selectedElementIds, timelineElements);
-  const { recordTimelineScroll } = useTimelinePerformanceTelemetry({
-    totalClipCount: timelineElements.length,
-    totalRowCount: displayLayout.displayTrackOrder.length,
-    zoomMode,
-  });
   const { viewport, showShortcutHint, setScrollRef, syncScrollViewport } =
     useTimelineScrollViewport(scrollRef, [
       timelineReady,
@@ -570,7 +564,6 @@ export function useTimelineProviderState({
     theme,
     razor: { razorGuideX, updateRazorGuide, clearRazorGuide, splitAllAtPointer },
     lastScrollLeftRef,
-    recordTimelineScroll,
     syncScrollViewport,
   });
   const contextValue: TimelineContextValue = {

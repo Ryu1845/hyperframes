@@ -2,7 +2,7 @@ import { createContext } from "react";
 import { setStudioTheme, useShownStudioTheme } from "../utils/studioTheme";
 import { IconButton, Tooltip } from "./ui";
 
-// hyperframes.dev's theme toggle: the same sun and moon, revealing the new theme in a circle from
+// A sun and moon toggle, revealing the new theme in a circle from
 // the button. A page that paints no frame aborts the transition; the theme is applied by then.
 let latest: ViewTransition | null = null;
 

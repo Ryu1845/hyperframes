@@ -1888,8 +1888,8 @@ describe("localizeRemoteMediaSources", () => {
 //
 // Regression coverage for the agent-pipeline `<img>` flicker bug: producer's
 // frame-capture has no `pollImagesReady` analog of `pollVideosReady`, so a
-// composition with raw S3 `<img src="https://...">` URLs (astral / daphne /
-// hyperion multi-v2 outputs) reaches Chrome with a network dependency that
+// composition with raw S3 `<img src="https://...">` URLs (agent-generated
+// outputs) reaches Chrome with a network dependency that
 // races the readiness gate AND can be evicted mid-render. Localising before
 // render is the architectural fix; `pollImagesReady` in frameCapture is the
 // defense-in-depth layer.
@@ -2005,7 +2005,7 @@ describe("localizeRemoteImageSources", () => {
   });
 
   it("handles src attribute not as the first attribute (agent-pipeline shape)", async () => {
-    // The 02_kobe astral-pipeline composition that surfaced this bug emits
+    // The agent-pipeline composition that surfaced this bug emits
     // <img> tags with `class` before `src`. Regex must not assume src position.
     const orig = globalThis.fetch;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

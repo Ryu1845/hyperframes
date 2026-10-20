@@ -5,7 +5,7 @@ description: Import Figma content into a HyperFrames composition — rendered as
 
 **Plugin installs:** Before setup or freshness commands, follow [plugin execution rules](../hyperframes/references/plugin-installation.md) when this skill is inside a HyperFrames plugin. Standalone installs keep the update instructions below.
 
-> **First, keep this skill fresh — confirm with the user before running:** `npx hyperframes skills update figma`. A fast no-op when everything is current; otherwise it refreshes this skill plus the core domain skills it depends on before you rely on them.
+> **First, keep this skill fresh — confirm with the user before running:** `hyperframes skills update figma`. A fast no-op when everything is current; otherwise it refreshes this skill plus the core domain skills it depends on before you rely on them.
 
 # Figma → HyperFrames
 
@@ -88,8 +88,6 @@ Node tree → editable HTML at exact figma geometry, packaged as a registry item
 
 ## Motion (Phase 4 — connector-assisted)
 
-**Usage beacon:** Connector-assisted phases have no CLI touchpoint, so fire the skill beacon at start and finish (anonymous, consent-gated, never fails): `npx hyperframes events --skill=figma-motion` when you begin, `npx hyperframes events --skill=figma-motion --event=skill_completed --outcome=success|error` when done. Same for shaders (`figma-shaders`) and storyboards (`figma-storyboard`).
-
 No REST equivalent exists. When a compatible connector is available, use it and hand its output to the pure helpers in `@hyperframes/core/figma`; otherwise ask for a native export:
 
 1. Retrieve motion context for the parent frame in one recursive request, not one request per element. Save the raw JSON next to the project (`.media/figma-cache/`) so retranslation is free.
@@ -97,7 +95,7 @@ No REST equivalent exists. When a compatible connector is available, use it and 
    2b. **Validate against ground truth before calling it done — mandatory**: export the cohort's root frame through the available connector and run `node <SKILL_DIR>/scripts/verify-motion.mjs --reference <export.mp4> --render <render.mp4> --crop WxH+X+Y` — it compares motion-energy deltas (static import fidelity cancels out) and fails below 15dB min motion-PSNR (calibrated: faithful ≈ 20+, diverging ≈ 5). Measure `--crop` from the render's actual card edges, don't guess. FAIL means re-check the translation, not the threshold.
 3. `motionToGsap(doc)` → `emitTimelineScript(spec)` → inject as a `<script>` after the GSAP + CustomEase CDN tags. Paused, finite, registered on `window.__timelines` with a literal key.
 4. Untranslatable track (shader-driven, unsupported prop, complex masks) → export through the connector, freeze the MP4, then embed it as `<video class="clip">`. Exception: shader-driven tracks — Figma's export path flattens shaders to the base color (see Shaders below), so a bake there silently loses the shader; ask the user for a native Figma export instead. Always say which path you used and why. Named eases outside the mapped set fall back to linear — the mapping table lives in `motionEase.ts`; flag the fallback to the user when it fires.
-5. Run `npx hyperframes check` before calling it done.
+5. Run `hyperframes check` before calling it done.
 
 ## Shaders (Phase 5 — mostly manual)
 

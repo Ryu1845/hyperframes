@@ -14,12 +14,12 @@ export const QuickstartContinuationGrid = () => {
     {
       title: "Open Studio",
       detail: "Point at the same project and make a visible edit.",
-      instruction: "npx hyperframes preview",
+      instruction: "hyperframes preview",
     },
     {
       title: "Use the CLI",
       detail: "Preview or render directly from the project folder.",
-      instruction: "npx hyperframes render --output video.mp4",
+      instruction: "hyperframes render --output video.mp4",
     },
   ];
 

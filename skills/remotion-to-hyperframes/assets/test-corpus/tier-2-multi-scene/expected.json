@@ -14,7 +14,7 @@
     "measured_p05_ssim": 0.967,
     "measured_p95_ssim": 1,
     "measured_at": "2026-09-18",
-    "measured_against": "remotion@4.0 (PNG output, BT.709) vs hyperframes@0.7.71 (sub-composition fixtures)",
+    "measured_against": "remotion@4.0 (PNG output, BT.709) vs @ryu1845/hyperframes@0.7.71 (sub-composition fixtures)",
     "notes": "Spring → back.out(1.4) translation came out cleaner than expected; mean 0.986 leaves substantial headroom over 0.95."
   },
   "translation_notes": [

@@ -9,7 +9,7 @@ import {
 } from "./resolver.js";
 
 const MANIFEST: RegistryManifest = {
-  $schema: "https://hyperframes.heygen.com/schema/registry.json",
+  $schema: "https://raw.githubusercontent.com/ryu1845/hyperframes/main/docs/schema/registry.json",
   name: "test",
   homepage: "https://example.com",
   items: [
@@ -264,7 +264,7 @@ describe("unreachableRegistryMessage", () => {
   it("stays quiet when the registry is the public one", () => {
     const message = unreachableRegistryMessage(
       "blur-in",
-      "https://raw.githubusercontent.com/heygen-com/hyperframes/main/registry",
+      "https://raw.githubusercontent.com/ryu1845/hyperframes/main/registry",
     );
 
     expect(message).toBe('Item "blur-in" not found \u2014 registry unreachable or empty.');

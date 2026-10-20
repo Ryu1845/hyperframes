@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { isVideoAudible } from "../../player/lib/timelineElementHelpers";
-import { useTrackDesignInput } from "../../contexts/DesignPanelInputContext";
 import { Check, ClipboardList } from "../../icons/SystemIcons";
 import type { DomEditSelection } from "./domEditing";
 import {
@@ -81,7 +80,6 @@ export function FlatMediaSection({
     },
   ) => Promise<BackgroundRemovalResult>;
 }) {
-  const track = useTrackDesignInput();
   const isVideo = element.tagName === "video";
   const isAudio = element.tagName === "audio";
   const isImage = element.tagName === "img";
@@ -142,7 +140,6 @@ export function FlatMediaSection({
 
   const runBackgroundRemoval = async () => {
     if (!onRemoveBackground || !projectSrc || removeBusy) return;
-    track("button", "Remove background");
     setRemoveBusy(true);
     setRemoveProgress({ status: "processing", progress: 0, stage: "Preparing" });
     try {
@@ -178,7 +175,6 @@ export function FlatMediaSection({
           type="button"
           data-flat-media-copy="true"
           onClick={() => {
-            track("button", "Copy media path");
             void navigator.clipboard.writeText(absoluteSrc).then(() => {
               setCopied(true);
               setTimeout(() => setCopied(false), 1500);

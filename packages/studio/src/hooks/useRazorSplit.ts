@@ -2,7 +2,6 @@ import { useCallback, useRef } from "react";
 import type { TimelineElement } from "../player";
 import { usePlayerStore } from "../player";
 import { getTimelineElementLabel } from "../utils/studioHelpers";
-import { trackStudioRazorSplit } from "../telemetry/events";
 import { canSplitElementAt, selectSplittableElements } from "../utils/timelineElementSplit";
 import { linkedMembersOf } from "../player/components/audioClipLink";
 import { isLinkedSelectionOn } from "../utils/linkedClipPreferences";
@@ -72,7 +71,6 @@ export function useRazorSplit({
         observeProjectFileVersion,
         synchronize,
       });
-      trackStudioRazorSplit({ mode, count: result.splitCount });
       if (result.syncFailed) {
         showToast(
           "Cut was saved, but Studio could not refresh it. Reload the preview to resynchronize.",

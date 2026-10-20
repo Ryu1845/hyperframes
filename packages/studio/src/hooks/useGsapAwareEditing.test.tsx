@@ -37,7 +37,6 @@ vi.mock("./useAnimatedPropertyCommit", () => ({
   }),
 }));
 vi.mock("./useSafeGsapCommitMutation", () => ({
-  useGsapSaveFailureTelemetry: () => vi.fn(),
   useSafeGsapCommitMutation: (commit: unknown) => commit,
 }));
 
@@ -76,7 +75,7 @@ function mountResizeHandler(
         offset?: { x: number; y: number },
         restore?: () => void,
         route?: { plainTranslate: boolean },
-      ) => Promise<void | import("../utils/previewFeatureUsage").GeometryCommitResult>)
+      ) => Promise<void | import("./gsapGestureOutcome").GeometryCommitResult>)
     | null = null;
   let property: ReturnType<typeof useGsapAwareEditing>["commitAnimatedProperty"] | null = null;
   function Harness() {
@@ -88,7 +87,7 @@ function mountResizeHandler(
       showToast: vi.fn(),
       bumpGsapCache: vi.fn(),
       makeFetchFallback: fetchAnimations,
-      trackGsapInteractionFailure: vi.fn(),
+      toastGsapInteractionFailure: vi.fn(),
       stageElementPositionOffset: elementOffset,
       handleDomBoxSizeCommit: fallback,
       handleDomRotationCommit: vi.fn(),
@@ -123,7 +122,7 @@ type AwareEditingParams = Parameters<typeof useGsapAwareEditing>[0];
 function mountGroupHandler({
   gsapCommitMutation = vi.fn().mockResolvedValue(undefined),
   makeFetchFallback = () => vi.fn().mockResolvedValue([]),
-  trackGsapInteractionFailure = vi.fn(),
+  toastGsapInteractionFailure = vi.fn(),
   stageElementPositionOffset = vi.fn(),
   handleDomRotationCommit = vi.fn(),
 }: Partial<
@@ -131,23 +130,23 @@ function mountGroupHandler({
     AwareEditingParams,
     | "gsapCommitMutation"
     | "makeFetchFallback"
-    | "trackGsapInteractionFailure"
+    | "toastGsapInteractionFailure"
     | "stageElementPositionOffset"
     | "handleDomRotationCommit"
   >
 > = {}) {
   let groupCommit!: (
     updates: DomEditGroupPathOffsetCommit[],
-  ) => Promise<void | import("../utils/previewFeatureUsage").GeometryCommitResult>;
+  ) => Promise<void | import("./gsapGestureOutcome").GeometryCommitResult>;
   let pathOffsetCommit!: (
     selection: DomEditSelection,
     next: { x: number; y: number },
     route?: { plainTranslate?: boolean },
-  ) => Promise<void | import("../utils/previewFeatureUsage").GeometryCommitResult>;
+  ) => Promise<void | import("./gsapGestureOutcome").GeometryCommitResult>;
   let rotationCommit!: (
     selection: DomEditSelection,
     next: RotationCommit,
-  ) => Promise<void | import("../utils/previewFeatureUsage").GeometryCommitResult>;
+  ) => Promise<void | import("./gsapGestureOutcome").GeometryCommitResult>;
   function Harness() {
     const editing = useGsapAwareEditing({
       domEditSelection: null,
@@ -157,7 +156,7 @@ function mountGroupHandler({
       showToast: vi.fn(),
       bumpGsapCache: vi.fn(),
       makeFetchFallback,
-      trackGsapInteractionFailure,
+      toastGsapInteractionFailure,
       stageElementPositionOffset,
       handleDomBoxSizeCommit: vi.fn(),
       handleDomRotationCommit,
@@ -651,7 +650,7 @@ describe("useGsapAwareEditing anchored resize", () => {
     h.selection.element.setAttribute("data-hf-drag-initial-offset-x", "0");
     h.selection.element.setAttribute("data-hf-drag-initial-offset-y", "0");
 
-    let commit!: Promise<void | import("../utils/previewFeatureUsage").GeometryCommitResult>;
+    let commit!: Promise<void | import("./gsapGestureOutcome").GeometryCommitResult>;
     act(() => {
       commit = h.resize(h.selection, { width: 300, height: 200 }, { x: -50.2, y: -25.6 });
     });
@@ -698,7 +697,7 @@ describe("useGsapAwareEditing anchored resize", () => {
           s: DomEditSelection,
           m: unknown,
           o: { coalesceKey?: string; label?: string; softReload?: boolean },
-        ) => Promise<void | import("../utils/previewFeatureUsage").GeometryCommitResult>,
+        ) => Promise<void | import("./gsapGestureOutcome").GeometryCommitResult>,
         _fetch: unknown,
         options?: { preflightOnly?: boolean },
       ) => {
@@ -810,12 +809,12 @@ describe("useGsapAwareEditing anchored resize", () => {
 
   it("reports only the first group preflight failure in input order", async () => {
     const failures = [new Error("first blocked"), new Error("second blocked")];
-    const trackGsapInteractionFailure = vi.fn();
+    const toastGsapInteractionFailure = vi.fn();
     const priorDragImplementation = mocks.drag.getMockImplementation();
     mocks.drag.mockImplementation(async (selection) => {
       throw selection.id === "a" ? failures[0] : failures[1];
     });
-    const { groupCommit, root } = mountGroupHandler({ trackGsapInteractionFailure });
+    const { groupCommit, root } = mountGroupHandler({ toastGsapInteractionFailure });
     const updates = [
       {
         selection: { element: gsapPositioned("div"), id: "a", selector: "#a" },
@@ -828,14 +827,8 @@ describe("useGsapAwareEditing anchored resize", () => {
     ] as unknown as DomEditGroupPathOffsetCommit[];
 
     await expect(groupCommit(updates)).rejects.toBe(failures[0]);
-    expect(trackGsapInteractionFailure).toHaveBeenCalledOnce();
-    expect(trackGsapInteractionFailure).toHaveBeenCalledWith(
-      failures[0],
-      updates[0]?.selection,
-      "drag",
-      "Move animated layer (group)",
-      true,
-    );
+    expect(toastGsapInteractionFailure).toHaveBeenCalledOnce();
+    expect(toastGsapInteractionFailure).toHaveBeenCalledWith(failures[0], true);
     mocks.drag.mockReset();
     if (priorDragImplementation) mocks.drag.mockImplementation(priorDragImplementation);
     act(() => root.unmount());

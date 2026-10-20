@@ -109,8 +109,7 @@ toggle draws them with a tick at the midpoint of every edge. Source:
 
 ## 5. A new film: plan, storyboard, build
 
-The [hyperframes-launches](https://github.com/heygen-com/hyperframes-launches) films were made in
-this order. Each step has an owner; follow it and do not restate it here.
+Films are made in this order. Each step has an owner; follow it and do not restate it here.
 
 | Step          | Owner                                                                                                                                                                                                                                                                                                                                                                                                                          |
 | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |

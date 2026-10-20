@@ -73,7 +73,7 @@ function die(msg) {
   process.exit(1);
 }
 
-// Ensure the BGM track is at least `total` seconds long. HeyGen (and most music
+// Ensure the BGM track is at least `total` seconds long. Music generators (and most
 // libraries) return a short loopable clip (~15–30s); mounting it at data-duration=total
 // would leave the video's TAIL SILENT. If the file is short, loop-extend it to `total`
 // (with a 0.4s fade-in + 1.5s fade-out) into a sibling *.loop.mp3 and return that path.

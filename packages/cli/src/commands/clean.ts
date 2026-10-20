@@ -21,7 +21,7 @@ import { formatBytes } from "../ui/format.js";
 import { setCommandExitCode } from "../utils/commandResult.js";
 import { loadProducer } from "../utils/producer.js";
 import { redactHome } from "./doctor.js";
-import { withMeta } from "../utils/updateCheck.js";
+import { withMeta } from "../utils/jsonMeta.js";
 
 export const examples: Example[] = [
   ["See what HyperFrames left on disk, remove nothing", "hyperframes clean --dry-run"],

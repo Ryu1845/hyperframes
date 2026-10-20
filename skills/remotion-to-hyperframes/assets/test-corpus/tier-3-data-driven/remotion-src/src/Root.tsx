@@ -4,7 +4,7 @@ import { Stargazed, stargazedSchema } from "./Stargazed";
 
 const defaultProps: z.infer<typeof stargazedSchema> = {
   title: "STARGAZED",
-  subtitle: "by HeyGen",
+  subtitle: "by Northwind",
   stats: [
     { label: "Stars", value: 1247, color: "#fbbf24" },
     { label: "Forks", value: 312, color: "#60a5fa" },

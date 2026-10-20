@@ -4,10 +4,8 @@
  * sdkCutover.ts (which hit the packages/studio 600-line filesize cap) — this
  * block has no dependency on the persist/dispatch functions there.
  */
-import type { Composition } from "@hyperframes/sdk";
 import type { PatchOperation } from "./sourcePatcher";
 import { isAllowedHtmlAttribute, isSafeAttributeValue } from "./htmlAttrSafety";
-import { resolveSnapshot } from "./sdkResolverShadow";
 
 const CUTOVER_OP_TYPES = new Set<PatchOperation["type"]>([
   "inline-style",
@@ -105,29 +103,10 @@ export function shouldDeclineTextCutoverForTarget(target: unknown, ops: PatchOpe
 }
 
 /**
- * On a `target_not_found`, decide whether the miss is the known benign class
- * (node genuinely absent from the session — nothing dispatch could have done)
- * or a resolver disagreement: the shadow's broader resolver finds it, so
- * dispatch could have made the edit and `getElement` refused it. The shadow
- * event stays silent in that case, so this flag is the only signal for it.
- *
- * Diagnostic context only — it must never turn a clean decline into a throw, so
- * a session shape without `getElements` reports "no disagreement" and the edit
- * falls back exactly as it otherwise would have.
- */
-export function isResolverDisagreement(session: Composition, hfId: string): boolean {
-  try {
-    return resolveSnapshot(session, hfId) !== null;
-  } catch {
-    return false;
-  }
-}
-
-/**
  * Why a batch cannot take the SDK cutover path, or null when it can.
  *
  * `ineligible_operation` used to be a single decline reason covering all of
- * these, which made the post-flip telemetry unactionable — a structural edit the
+ * these, which made a decline unactionable — a structural edit the
  * SDK has no vocabulary for (expected and permanent) was indistinguishable from
  * a reserved-attribute decline (narrow, and possibly worth fixing). The order
  * mirrors `shouldUseSdkCutover`'s conjunction, so the first failing check names

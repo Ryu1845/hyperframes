@@ -25,15 +25,6 @@ import {
   loadRuntimeSourceSignature,
 } from "./runtimeSource.js";
 import { VERSION as version } from "../version.js";
-import {
-  buildStudioHeadScriptsForHost,
-  identityAllowed,
-  refreshTelemetryPosture,
-  resolveCliTelemetryDistinctId,
-} from "./telemetryIdentity.js";
-import { emitStudioRenderComplete, emitStudioRenderError } from "./studioRenderTelemetry.js";
-import { startRenderCpuSampler } from "../telemetry/renderCpu.js";
-import { mountDesktopRoutes } from "./desktopRoutes.js";
 import { isDevMode } from "../utils/env.js";
 import { runRenderSetupWorker } from "../utils/cancellableProcess.js";
 import type { ProjectLintResult } from "@hyperframes/lint";
@@ -70,7 +61,6 @@ import {
   getElementScreenshotClip,
 } from "@hyperframes/studio-server/screenshot-clip";
 import type { ScreenshotClip } from "@hyperframes/studio-server/screenshot-clip";
-import type { RenderJob } from "@hyperframes/producer";
 import { isWithinProjectRoot } from "@hyperframes/parsers/asset-resolution";
 import { seekCompositionTimeline } from "../capture/captureCompositionFrame.js";
 import { createThumbnailPages } from "./thumbnailPages.js";
@@ -583,10 +573,6 @@ export function createStudioServer(options: StudioServerOptions): StudioServer {
           error: "Studio server is shutting down",
         };
       }
-      // The render POST is a request boundary like any other. Without this an
-      // already-open Studio tab keeps rendering under the posture cached when
-      // the server booted.
-      refreshTelemetryPosture();
       const abortController = new AbortController();
       const state: RenderJobState = {
         id: opts.jobId,
@@ -598,9 +584,7 @@ export function createStudioServer(options: StudioServerOptions): StudioServer {
 
       // Run render asynchronously, mutating the state object
       const startTime = Date.now();
-      const cpu = startRenderCpuSampler(opts.telemetryOptOut !== true);
       const run = (async () => {
-        let renderJob: RenderJob | undefined;
         const removeCancelledOutput = () => {
           // User-initiated cancel: not a failure. Remove any output so the
           // cancelled job doesn't resurrect in the render history.
@@ -641,7 +625,6 @@ export function createStudioServer(options: StudioServerOptions): StudioServer {
             ...(opts.hdrMode ? { hdrMode: opts.hdrMode } : {}),
             ...(opts.useGpu ? { useGpu: true } : {}),
           });
-          renderJob = job;
           const onProgress = (j: { progress: number; currentStage?: string }) => {
             state.progress = j.progress;
             if (j.currentStage) state.stage = j.currentStage;
@@ -671,13 +654,6 @@ export function createStudioServer(options: StudioServerOptions): StudioServer {
               ...(job.audioLoweredDb !== undefined ? { audioLoweredDb: job.audioLoweredDb } : {}),
             }),
           );
-          // Refreshed HERE, not just at render start: a render can run for
-          // minutes, and `hyperframes telemetry disable` during one must be
-          // honoured by the event that reports it. Studio never polls
-          // /api/telemetry-identity, so this process would otherwise keep its
-          // startup-cached posture for the life of the preview server.
-          refreshTelemetryPosture();
-          emitStudioRenderComplete(opts, Date.now() - startTime, job.perfSummary, cpu.stop());
         } catch (err) {
           if (abortController.signal.aborted) {
             removeCancelledOutput();
@@ -685,24 +661,12 @@ export function createStudioServer(options: StudioServerOptions): StudioServer {
           }
           state.status = "failed";
           state.error = err instanceof Error ? err.message : String(err);
-          // fallow-ignore-next-line code-duplication
-          refreshTelemetryPosture();
-          emitStudioRenderError(
-            opts,
-            Date.now() - startTime,
-            state.stage,
-            err,
-            renderJob,
-            cpu.stop(),
-          );
           try {
             const metaPath = opts.outputPath.replace(/\.(mp4|webm|mov)$/, ".meta.json");
             writeFileSync(metaPath, JSON.stringify({ status: "failed" }));
           } catch {
             /* ignore */
           }
-        } finally {
-          cpu.stop();
         }
       })();
       inFlightRenders.set(abortController, run);
@@ -833,7 +797,6 @@ export function createStudioServer(options: StudioServerOptions): StudioServer {
         name: opts.blockName,
         projectDir: opts.project.dir,
         skipClipboard: true,
-        source: "studio",
       });
       for (const warning of result.warnings) {
         process.stderr.write(`hyperframes:registry ${warning}\n`);
@@ -892,34 +855,6 @@ export function createStudioServer(options: StudioServerOptions): StudioServer {
       });
     };
     return serve();
-  });
-
-  // CLI → Studio telemetry identity endpoint (Layer 1). Studio reads the
-  // injected `window.__HF_CLI_DISTINCT_ID` first; this GET is a fallback for
-  // clients that can't rely on the injected global. Returns the CLI's anonymous
-  // distinct id (no PII) so the browser session can join the CLI's PostHog
-  // person, or `{ distinctId: null }` when CLI telemetry is disabled.
-  //
-  // Deliberately does NOT serve `bucketSeed`. Studio gets its canary answers
-  // from the injected `window.__HF_CLI_CANARY_DECISIONS` (booleans, not the
-  // value cohorts derive from), so nothing needs the seed over HTTP — and an
-  // unauthenticated local endpoint is a strictly worse place for it than an
-  // inline script scoped to Studio's own document.
-  //
-  // Host-guarded against DNS rebinding: a remote page can point a hostname it
-  // controls at 127.0.0.1 and read this response as same-origin. Pinning the
-  // Host header to a loopback name means such a request (which carries the
-  // attacker's hostname) is refused. Same-origin Studio traffic always
-  // presents the bound loopback host.
-  app.get("/api/telemetry-identity", (c) => {
-    if (!identityAllowed(c.req.header("host"))) {
-      return c.json({ error: "forbidden" }, 403);
-    }
-    // Same request-boundary refresh the head-script route does: this endpoint
-    // is polled by a long-lived Studio tab, so a cached posture here outlives
-    // an opt-out run in another terminal just as visibly.
-    refreshTelemetryPosture();
-    return c.json({ distinctId: resolveCliTelemetryDistinctId() });
   });
 
   app.get("/api/events", (c) => {
@@ -1013,8 +948,6 @@ export function createStudioServer(options: StudioServerOptions): StudioServer {
       command: getFFmpegInstallCommand(),
     });
   });
-
-  mountDesktopRoutes(app, projectDir);
 
   // ── Pre-flight checks for render ────────────────────────────────────────
   // Intercept render requests before they reach the shared API so we can
@@ -1145,20 +1078,8 @@ export function createStudioServer(options: StudioServerOptions): StudioServer {
       );
     }
     let html = indexContent.toString("utf-8");
-    // Inject before the studio bundle runs. Identity script first (see
-    // buildStudioHeadScripts) so the CLI distinct id is on `window` by the time
-    // telemetry init reads it.
-    //
-    // Host-guarded for the same reason /api/telemetry-identity is, and it has
-    // to be checked HERE too: guarding only the endpoint leaves this route as
-    // an open side door, since a rebound origin can simply fetch `/` and read
-    // the same distinct id and seed out of the returned HTML.
-    //
-    // Only IDENTITY is withheld from an untrusted Host. The canary decisions
-    // map still goes out — it is non-identifying, and a LAN/remote Studio
-    // (`HYPERFRAMES_PREVIEW_HOST=0.0.0.0`) needs it to stay in agreement with
-    // the CLI. See buildStudioHeadScriptsForHost.
-    const headScript = buildStudioHeadScriptsForHost(buildRuntimeEnvScript(), c.req.header("host"));
+    // Inject before the studio bundle runs.
+    const headScript = buildRuntimeEnvScript();
     if (headScript) {
       html = html.replace("<head>", `<head>${headScript}`);
     }

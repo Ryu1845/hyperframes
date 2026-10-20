@@ -1,5 +1,4 @@
 import { useCallback } from "react";
-import { trackStudioEvent } from "../utils/studioTelemetry";
 import { isAudioDomElement } from "../utils/timelineInspector";
 import type { TimelineElement } from "../player";
 import type { ImportedFontAsset } from "../components/editor/fontAssets";
@@ -7,7 +6,6 @@ import type { RightPanelTab } from "../utils/studioHelpers";
 import type { PatchTarget } from "../utils/sourcePatcher";
 import type { Composition } from "@hyperframes/sdk";
 import { sdkCutoverPersist, sdkDeletePersist, type PublishSdkSession } from "../utils/sdkCutover";
-import { runResolverShadow, recordResolverParity } from "../utils/sdkResolverShadow";
 import { useAskAgentModal } from "./useAskAgentModal";
 import { useDomSelection } from "./useDomSelection";
 import { usePreviewInteraction } from "./usePreviewInteraction";
@@ -236,14 +234,8 @@ export function useDomEditSession({
     forceReloadSdkSession,
     readOnlyPreview,
     onTrySdkPersist: sdkSession
-      ? (selection, operations, originalContent, targetPath, options) => {
-          // Decoupled tripwire, regardless of the cutover flag. originalContent lets the runtime-node
-          // filter drop hf-ids absent from source; the paths skip a cross-file edit, not a not-found.
-          runResolverShadow(sdkSession, selection.hfId, operations, originalContent, {
-            targetPath,
-            compositionPath: activeCompPath,
-          });
-          return sdkCutoverPersist(
+      ? (selection, operations, originalContent, targetPath, options) =>
+          sdkCutoverPersist(
             selection,
             operations,
             originalContent,
@@ -258,8 +250,7 @@ export function useDomEditSession({
               publishSession: publishSdkSession,
             },
             options,
-          );
-        }
+          )
       : undefined,
     onTrySdkDelete: sdkSession
       ? (hfId, originalContent, targetPath) =>
@@ -271,20 +262,6 @@ export function useDomEditSession({
             readProjectFile,
             publishSession: publishSdkSession,
           })
-      : undefined,
-    // Z-index reorder takes the server path (no SDK persist); this decoupled
-    // tripwire still records whether the SDK resolves each reordered target.
-    onReorderShadow: sdkSession
-      ? (targets: string[]) => {
-          // Single-flight: every target in one reorder batch shares the same file, so
-          // memoize the read instead of firing one fetch per unresolved target.
-          let reorderSrcPromise: Promise<string> | undefined;
-          const reorderSrc = activeCompPath
-            ? () => (reorderSrcPromise ??= readProjectFile(activeCompPath))
-            : undefined;
-          for (const target of targets)
-            void recordResolverParity(sdkSession, target, "reorderElements", reorderSrc);
-        }
       : undefined,
   });
 
@@ -346,7 +323,6 @@ export function useDomEditSession({
       );
       return;
     }
-    trackStudioEvent("group", { action: "create", count: members.length });
     void groupSelection(members);
   }, [domEditGroupSelectionsRef, domEditSelectionRef, groupSelection, showToast]);
 
@@ -357,7 +333,6 @@ export function useDomEditSession({
       return;
     }
     // Dissolving the group exits any drill-in (the wrapper is about to vanish).
-    trackStudioEvent("group", { action: "ungroup" });
     setActiveGroupElement(null);
     void ungroupSelection(sel);
   }, [domEditSelectionRef, ungroupSelection, setActiveGroupElement, showToast]);
@@ -368,7 +343,7 @@ export function useDomEditSession({
     selectedGsapAnimations,
     gsapMultipleTimelines,
     gsapUnsupportedTimelinePattern,
-    trackGsapInteractionFailure,
+    toastGsapInteractionFailure,
     makeFetchFallback,
     handleGsapUpdateProperty,
     handleGsapUpdateMeta,
@@ -451,7 +426,7 @@ export function useDomEditSession({
     showToast,
     bumpGsapCache,
     makeFetchFallback,
-    trackGsapInteractionFailure,
+    toastGsapInteractionFailure,
     stageElementPositionOffset,
     handleDomBoxSizeCommit,
     handleDomRotationCommit: handleDomCssRotationCommit,

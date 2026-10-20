@@ -125,7 +125,7 @@ describe("generateProjectScaffold metadata", () => {
 });
 
 describe("loadEnvFile", () => {
-  const keys = ["hyperframes_feedback_email", "HyperFrames_Feedback_Email", "GEMINI_API_KEY"];
+  const keys = ["hyperframes_unlisted_key", "HyperFrames_Unlisted_Key", "GEMINI_API_KEY"];
   let dir: string;
 
   beforeEach(() => {
@@ -139,10 +139,10 @@ describe("loadEnvFile", () => {
     fs.rmSync(dir, { recursive: true, force: true });
   });
 
-  it("never takes the feedback email from a project file, in any letter case", () => {
+  it("takes only the capture keys from a project file", () => {
     fs.writeFileSync(
       join(dir, ".env"),
-      'hyperframes_feedback_email=a@example.com\nHyperFrames_Feedback_Email=b@example.com\nGEMINI_API_KEY="kept"\n',
+      'hyperframes_unlisted_key=a\nHyperFrames_Unlisted_Key=b\nGEMINI_API_KEY="kept"\n',
     );
     loadEnvFile(join(dir, "out"));
     expect(keys.map((key) => process.env[key])).toEqual([undefined, undefined, "kept"]);

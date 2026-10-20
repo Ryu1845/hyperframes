@@ -8,7 +8,7 @@ const unlinkSync = vi.fn();
 const downloadFile = vi.fn();
 const digest = vi.fn();
 
-vi.mock("../telemetry/config.js", () => ({
+vi.mock("../utils/userConfig.js", () => ({
   readConfig: () => readConfig(),
   updateLocalModelConsent: (decide: (onDisk: boolean | undefined) => boolean | undefined) =>
     (disk.consent = decide(disk.consent)),

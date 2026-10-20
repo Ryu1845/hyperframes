@@ -58,7 +58,6 @@ import { FileManagerProvider } from "./contexts/FileManagerContext";
 import { DomEditProvider } from "./contexts/DomEditContext";
 import { StudioSplash } from "./components/StudioSplash";
 import { useServerConnection } from "./hooks/useServerConnection";
-import { useStudioSessionStart } from "./hooks/useStudioSessionStart";
 import { useTimelineAddAtPlayhead } from "./hooks/useTimelineAddAtPlayhead";
 import { readStudioUrlStateFromWindow, resolveMasterCompositionPath } from "./utils/studioUrlState";
 import { useActiveComposition } from "./hooks/useActiveComposition";
@@ -76,7 +75,6 @@ export interface StudioAppProps {
 export function StudioApp({ readOnlyPreview = false, readOnlyPreviewReason }: StudioAppProps = {}) {
   const { projectId, resolving, waitingForServer } = useServerConnection();
   const initialUrlStateRef = useRef(readStudioUrlStateFromWindow());
-  useStudioSessionStart(projectId, resolving, waitingForServer);
   const [compIdToSrc, setCompIdToSrc] = useState<Map<string, string>>(new Map());
   const previewIframe = useOwnPreviewIframe();
   const [compositionLoading, setCompositionLoading] = useState(true);
@@ -135,8 +133,6 @@ export function StudioApp({ readOnlyPreview = false, readOnlyPreviewReason }: St
     projectId,
     activeCompPath,
     masterCompPath,
-    fileManager.fileTree,
-    fileManager.fileTreeLoaded,
     fileManager.refreshFileTree,
   );
   const activeCompPathRef = useRef(activeCompPath);
@@ -277,7 +273,7 @@ export function StudioApp({ readOnlyPreview = false, readOnlyPreviewReason }: St
     onUngroupSelection: () => domEditSessionRef.current.handleUngroupSelection(),
     activeCompPath,
     forceReloadSdkSession: sdkHandle.forceReload,
-    onToggleRecording: () => handleToggleRecordingRef.current("keyboard"),
+    onToggleRecording: () => handleToggleRecordingRef.current(),
     readOnlyPreview,
   });
   const domEditSessionResult = useDomEditSession({
@@ -364,7 +360,7 @@ export function StudioApp({ readOnlyPreview = false, readOnlyPreviewReason }: St
   const frameCapture = useStableHandlers(frameCaptureResult, projectId);
   const { consoleErrors, setConsoleErrors } = useConsoleErrorCapture(previewIframe);
   const fileDrop = useGlobalFileDrop(timelineEditing.handleTimelineFileDrop);
-  const handleToggleRecordingRef = useRef<(method?: "button" | "keyboard") => void>(() => {});
+  const handleToggleRecordingRef = useRef<() => void>(() => {});
   const domEditSessionRef = useRef(domEditSession);
   domEditSessionRef.current = domEditSession;
   const { gestureState, gestureRecording, handleToggleRecording } = useGestureCommit({

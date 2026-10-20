@@ -1,5 +1,5 @@
 {
-  "$schema": "https://hyperframes.heygen.com/schema/registry-item.json",
+  "$schema": "https://raw.githubusercontent.com/ryu1845/hyperframes/main/docs/schema/registry-item.json",
   "name": "carousel-circle-5",
   "type": "hyperframes:block",
   "title": "Circle Carousel 5",
@@ -149,74 +149,62 @@
     {
       "path": "assets/carousel-images/artist-bob-seger.jpg",
       "target": "assets/carousel-images/artist-bob-seger.jpg",
-      "type": "hyperframes:asset",
-      "url": "https://static.heygen.ai/hyperframes-oss/registry-assets/223d162eed10f08f.jpg"
+      "type": "hyperframes:asset"
     },
     {
       "path": "assets/carousel-images/artist-dire-straits.jpg",
       "target": "assets/carousel-images/artist-dire-straits.jpg",
-      "type": "hyperframes:asset",
-      "url": "https://static.heygen.ai/hyperframes-oss/registry-assets/5964f78a6c7c55f7.jpg"
+      "type": "hyperframes:asset"
     },
     {
       "path": "assets/carousel-images/artist-faces.jpg",
       "target": "assets/carousel-images/artist-faces.jpg",
-      "type": "hyperframes:asset",
-      "url": "https://static.heygen.ai/hyperframes-oss/registry-assets/e402bbb823b45122.jpg"
+      "type": "hyperframes:asset"
     },
     {
       "path": "assets/carousel-images/artist-little-feat.jpg",
       "target": "assets/carousel-images/artist-little-feat.jpg",
-      "type": "hyperframes:asset",
-      "url": "https://static.heygen.ai/hyperframes-oss/registry-assets/25fe4d416b4e318e.jpg"
+      "type": "hyperframes:asset"
     },
     {
       "path": "assets/carousel-images/artist-north-mississippi-allstars.jpg",
       "target": "assets/carousel-images/artist-north-mississippi-allstars.jpg",
-      "type": "hyperframes:asset",
-      "url": "https://static.heygen.ai/hyperframes-oss/registry-assets/5360277ad88fe1d4.jpg"
+      "type": "hyperframes:asset"
     },
     {
       "path": "assets/carousel-images/artist-sea-level.jpg",
       "target": "assets/carousel-images/artist-sea-level.jpg",
-      "type": "hyperframes:asset",
-      "url": "https://static.heygen.ai/hyperframes-oss/registry-assets/2726d9a6cdc429df.jpg"
+      "type": "hyperframes:asset"
     },
     {
       "path": "assets/carousel-images/artist-taj-mahal.jpg",
       "target": "assets/carousel-images/artist-taj-mahal.jpg",
-      "type": "hyperframes:asset",
-      "url": "https://static.heygen.ai/hyperframes-oss/registry-assets/9e4c4f735ff68582.jpg"
+      "type": "hyperframes:asset"
     },
     {
       "path": "assets/carousel-images/artist-tool.jpg",
       "target": "assets/carousel-images/artist-tool.jpg",
-      "type": "hyperframes:asset",
-      "url": "https://static.heygen.ai/hyperframes-oss/registry-assets/76ac64af4487c9f1.jpg"
+      "type": "hyperframes:asset"
     },
     {
       "path": "assets/carousel-images/artist-van-morrison.jpg",
       "target": "assets/carousel-images/artist-van-morrison.jpg",
-      "type": "hyperframes:asset",
-      "url": "https://static.heygen.ai/hyperframes-oss/registry-assets/f21ff2ce3281c61a.jpg"
+      "type": "hyperframes:asset"
     },
     {
       "path": "assets/carousel-images/pl-10-songs.jpg",
       "target": "assets/carousel-images/pl-10-songs.jpg",
-      "type": "hyperframes:asset",
-      "url": "https://static.heygen.ai/hyperframes-oss/registry-assets/4361229f4648df3d.jpg"
+      "type": "hyperframes:asset"
     },
     {
       "path": "assets/carousel-images/pl-bangers.jpg",
       "target": "assets/carousel-images/pl-bangers.jpg",
-      "type": "hyperframes:asset",
-      "url": "https://static.heygen.ai/hyperframes-oss/registry-assets/636f8577be7b9849.jpg"
+      "type": "hyperframes:asset"
     },
     {
       "path": "assets/carousel-images/pl-bhindi-bhagee.jpg",
       "target": "assets/carousel-images/pl-bhindi-bhagee.jpg",
-      "type": "hyperframes:asset",
-      "url": "https://static.heygen.ai/hyperframes-oss/registry-assets/74d11304a8ac596c.jpg"
+      "type": "hyperframes:asset"
     }
   ]
 }

@@ -5,11 +5,6 @@ permissions:
   contents: read
   pull-requests: read
 
-# Suppress hyperframes CLI telemetry from HeyGen's own CI runs.
-# External users' CI continues to emit telemetry unless they set this themselves.
-env:
-  HYPERFRAMES_NO_TELEMETRY: "1"
-
 on:
   merge_group:
     types: [checks_requested]
@@ -83,6 +78,7 @@ jobs:
       docs_catalog: ${{ steps.filter.outputs.docs_catalog }}
       cli: ${{ steps.filter.outputs.cli }}
       cli_bundle: ${{ steps.filter.outputs.cli_bundle }}
+      binary: ${{ github.event_name == 'workflow_dispatch' && 'true' || steps.filter.outputs.binary }}
       skills: ${{ steps.filter.outputs.skills }}
       catalog_index: ${{ steps.filter.outputs.catalog_index }}
       codex_plugin: ${{ steps.filter.outputs.codex_plugin }}
@@ -163,6 +159,14 @@ jobs:
               - "package.json"
               - "bun.lock"
               - ".github/workflows/ci.yml"
+            # The standalone binary's own build and launch path; gates the macOS binary smoke.
+            binary:
+              - "packages/cli/src/binary/**"
+              - "packages/cli/src/utils/selfRuntime.ts"
+              - "packages/cli/scripts/build-binary.ts"
+              - "scripts/ci/binary-smoke.sh"
+              - "install.sh"
+              - ".github/workflows/ci.yml"
             # Skills packages/cli/scripts/build-copy.mjs bundles into the CLI tarball (size budget).
             cli_bundle:
               - "skills/hyperframes/**"
@@ -242,13 +246,14 @@ jobs:
               - "packages/sdk/src/**"
               - "packages/lint/src/**"
               - "packages/cli/src/{cli,help,version}.ts"
+              - "packages/cli/src/binary/runtime.ts"
               - "packages/cli/src/renderSetupWorker*.ts"
               - "packages/cli/src/commands/{preview*,add,browser}.ts"
               - "packages/cli/src/server/**"
               - "packages/cli/src/browser/**"
               - "packages/cli/src/utils/**"
               - "packages/cli/src/ui/**"
-              - "packages/cli/src/{background-removal,registry,telemetry}/**"
+              - "packages/cli/src/{background-removal,registry}/**"
               - "packages/cli/src/capture/{captureCompositionFrame,captureTimeout,navigateForCapture,readBoundedResponse}.ts"
               - "packages/cli/src/media-use/lib/config-lock.mjs"
               - "packages/cli/scripts/**"
@@ -1318,77 +1323,45 @@ jobs:
           echo "::error::Edit accuracy fell against the base branch; see the PR comment."
           exit 1
 
-  smoke-global-install:
-    name: "Smoke: global install"
-    needs: [changes, build]
+  cli-binary:
+    # The standalone binary runs the whole CLI on Bun, so engine, producer and
+    # core changes reach it too: gate on code, not cli. macOS runs when the
+    # binary's own build or launch path changes, and on manual dispatch.
+    name: "CLI: standalone binary (${{ matrix.os }})"
+    needs: changes
     if: needs.changes.outputs.code == 'true'
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        os: ${{ fromJSON(needs.changes.outputs.binary == 'true' && '["ubuntu-latest","macos-14"]' || '["ubuntu-latest"]') }}
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
-        with:
-          lfs: true
       - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: 22
+      - name: Install ffmpeg
+        if: runner.os == 'Linux'
+        uses: ./.github/actions/install-ffmpeg-linux
+      - name: Install ffmpeg
+        if: runner.os == 'macOS'
+        run: brew install ffmpeg
       - uses: ./.github/actions/prepare-ffmpeg-bin
       - run: bash scripts/ci/install-workspace-dependencies.sh
       - run: bun run build
-
-      # Pack the CLI as a tarball (simulates what `npm publish` produces)
-      - name: Pack CLI tarball
-        run: cd packages/cli && npm pack
-
-      # Install globally using --prefix to avoid sudo
-      - name: Install globally via npm
-        run: npm install -g --prefix /tmp/hf-smoke ./packages/cli/hyperframes-cli-*.tgz
-
-      # Scaffold a blank project
-      - name: Init blank project
-        run: |
-          export PATH="/tmp/hf-smoke/bin:$PATH"
-          mkdir /tmp/hf-project && cd /tmp/hf-project
-          hyperframes init test-project --example blank
-
-      # Start preview, probe the runtime endpoint, assert no esbuild errors
-      - name: Smoke-test preview server
-        run: |
-          export PATH="/tmp/hf-smoke/bin:$PATH"
-          cd /tmp/hf-project/test-project
-
-          # Start the preview server in the background; capture stderr
-          CI=true hyperframes preview --port 3099 2>/tmp/hf-stderr.log &
-          SERVER_PID=$!
-
-          # Wait for the server to be ready (up to 15 s)
-          for i in $(seq 1 30); do
-            if curl -sf http://localhost:3099/ >/dev/null 2>&1; then
-              break
-            fi
-            sleep 0.5
-          done
-
-          # Probe the runtime JS endpoint
-          BODY=$(curl -sf http://localhost:3099/api/runtime.js | head -c 200 || true)
-          if [ -z "$BODY" ]; then
-            echo "FAIL: /api/runtime.js returned empty response"
-            kill $SERVER_PID 2>/dev/null || true
-            cat /tmp/hf-stderr.log
-            exit 1
-          fi
-
-          kill $SERVER_PID 2>/dev/null || true
-          wait $SERVER_PID 2>/dev/null || true
-
-          # Assert stderr does not contain esbuild / runtime load errors
-          if grep -qE '✘ \[ERROR\]|Failed to load runtime' /tmp/hf-stderr.log; then
-            echo "FAIL: preview emitted runtime errors:"
-            cat /tmp/hf-stderr.log
-            exit 1
-          fi
-
-          echo "PASS: global install smoke test succeeded"
+      - name: Build the binary
+        run: bun packages/cli/scripts/build-binary.ts
+      - name: Smoke-test the binary without Node, npm or Bun
+        run: bash scripts/ci/binary-smoke.sh "packages/cli/.binary/hyperframes-$(node -p 'process.platform + "-" + process.arch')" --full
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: hyperframes-binary-${{ matrix.os }}
+          path: packages/cli/.binary/hyperframes-*
+          if-no-files-found: ignore
+          retention-days: 7
 
   cli-smoke-required:
     name: "CLI smoke (required)"
@@ -1451,13 +1424,6 @@ jobs:
             --output /tmp/hf-cli-inside/renders/inside.mp4 2>&1 | tee /tmp/hf-cli-render.log
 
           test -s /tmp/hf-cli-inside/renders/inside.mp4
-
-      # Belongs in this job because it needs the BUILT CLI: `shouldTrack()`
-      # short-circuits whenever `isDevMode()` is true, which it is for any `.ts`
-      # entry, so under vitest a real event and no event look identical. Sends
-      # nothing to PostHog — the script wraps fetch and captures the batch.
-      - name: Smoke-test `add` telemetry end to end
-        run: node scripts/ci/cli-telemetry-e2e.mjs
 
       - name: Assert page.goto completes under 5s budget
         run: |

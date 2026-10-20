@@ -1,5 +1,4 @@
 import { createPreviewGestureStarts } from "./previewGestureStarts";
-import { trackPreviewEditResult } from "../../utils/previewFeatureUsage";
 // fallow-ignore-file code-duplication
 /**
  * Gesture handling for DomEditOverlay.
@@ -354,7 +353,6 @@ export function createDomEditOverlayGestureHandlers(opts: UseDomEditOverlayGestu
       const groupSaved = Promise.resolve(
         groupEdit.adopt(() => opts.onGroupPathOffsetCommitRef.current(updates)),
       )
-        .then((result) => trackPreviewEditResult("move", "drag", result))
         .catch(() => {
           for (const member of groupG.members) {
             if (
@@ -437,7 +435,6 @@ export function createDomEditOverlayGestureHandlers(opts: UseDomEditOverlayGestu
       const commit = { ...finalRotation, plain: g.plainRotation };
       const edit = beginStudioPendingEdit(elementLookRevert(sel.element, g.initialLook));
       const saved = Promise.resolve(edit.adopt(() => opts.onRotationCommitRef.current(sel, commit)))
-        .then((result) => trackPreviewEditResult("rotate", "drag", result))
         .catch((error) => {
           logGestureCommitFailure("rotate commit failed", error);
           if (
@@ -482,7 +479,6 @@ export function createDomEditOverlayGestureHandlers(opts: UseDomEditOverlayGestu
           }),
         ),
       )
-        .then((result) => trackPreviewEditResult("move", "drag", result))
         .catch(() => {
           if (
             g.pathOffsetMember?.gestureToken &&
@@ -525,7 +521,6 @@ export function createDomEditOverlayGestureHandlers(opts: UseDomEditOverlayGestu
         opts.onBoxSizeCommitRef.current(sel, finalSize, finalOffset ?? undefined, restore, member);
       const edit = beginStudioPendingEdit(elementLookRevert(sel.element, g.initialLook));
       const saved = Promise.resolve(edit.adopt(commitSize))
-        .then((result) => trackPreviewEditResult("resize", "drag", result))
         .catch((error) => {
           logGestureCommitFailure("resize commit failed", error);
         })

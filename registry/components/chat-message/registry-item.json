@@ -1,5 +1,5 @@
 {
-  "$schema": "https://hyperframes.heygen.com/schema/registry-item.json",
+  "$schema": "https://raw.githubusercontent.com/ryu1845/hyperframes/main/docs/schema/registry-item.json",
   "name": "chat-message",
   "type": "hyperframes:component",
   "title": "Chat Message",
@@ -59,7 +59,7 @@
       "role": "content",
       "label": "Card domain",
       "description": "Link-card domain line (Link card type only).",
-      "default": "hyperframes.heygen.com"
+      "default": "github.com/ryu1845/hyperframes"
     },
     {
       "id": "tail",

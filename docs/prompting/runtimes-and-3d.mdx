@@ -3,8 +3,6 @@ title: Runtimes and 3D
 description: "GSAP is the default and you rarely name it. Real 3D, existing animation files, and scene transitions each have a runtime worth pinning in the prompt."
 ---
 
-import { DocsVideo } from "/snippets/docs-video.jsx";
-
 Level 2's copy-paste examples include an isometric-cards prompt that asks to
 "Build the scene in Three.js via the adapter." This chapter is why that line is
 there. It's also the rest of the runtime map, for the cases where GSAP isn't the
@@ -28,13 +26,6 @@ scene you move through, surfaces that catch light:
 - ❌ `isometric cards floating in CSS 3D with perspective`
 - ✅ `build the isometric scene in Three.js via the adapter, with real depth and lighting`
 
-<DocsVideo
-  title="HyperFrames video: Example 3d Cards"
-  src="https://static.heygen.ai/hyperframes-oss/docs/images/prompting/example-3d-cards.mp4#t=0.1"
-  loop
-/>
-*The Three.js version of the isometric-cards prompt — real shadows and lighting, one-shot.*
-
 The engine rationale is simple. CSS `perspective` transforms skew flat planes.
 There is no light source and no camera, only projected rectangles, so they read
 flat the moment lighting or parallax matters.
@@ -48,13 +39,6 @@ The exception is when you specifically want a flat, stylized fake-3D look.
 
 Camera moves are part of the same rule. A drone orbit, a dolly, or a push-in
 only exists where there's an actual camera:
-
-<DocsVideo
-  title="HyperFrames video: Camera Orbit"
-  src="https://static.heygen.ai/hyperframes-oss/docs/images/prompting/camera-orbit.mp4#t=0.1"
-  loop
-/>
-*A seek-driven Three.js drone orbit. The camera sweeps a continuous arc, which CSS transforms cannot do.*
 
 - ❌ `a drone-orbit camera move around the logo` with no runtime named — CSS has no camera to orbit
 - ✅ `orbit the camera around the logo — Three.js via the adapter`
@@ -139,7 +123,7 @@ rendering starts, baked in or passed as a
 **Capstone thread** — the [Level 7 film](/prompting/capstone)'s Depth region is
 real Three.js through the frame adapter. The timeline wire coils around a rim-lit
 faceted form, and the protagonist chip threads the coil's loops and passes behind
-the form with true depth occlusion (cut from the film, below).
+the form with true depth occlusion.
 </Note>
 
 This is the clause in the [full capstone
@@ -147,13 +131,6 @@ prompt](/prompting/capstone#the-prompt-word-for-word) that buys the piece. It's
 prompt language you can lift for your own video:
 
 > **Depth (52–56s).** The wire spirals off the flat plane into real 3D — a **Three.js scene via the frame adapter** (never CSS fake-3D): the camera descends following the wire as it coils around a rim-lit faceted form (ink material on charcoal), mono axis readouts landing on cue, then rises back to the plane with the wire leading the way out. The coil winds up out of the wire and collapses back onto it — its ends never float cut off in mid-air — and the protagonist chip joins the 3D scene for the crossing: it rides the wire straight through the coil's loops and passes behind the form with true depth occlusion, never floating over the geometry as a flat overlay.
-
-<DocsVideo
-  title="HyperFrames video: Capstone Region Depth"
-  src="https://static.heygen.ai/hyperframes-oss/docs/images/prompting/capstone-region-depth.mp4#t=0.1"
-  loop
-/>
-*That clause, rendered — the region cut from the finished film.*
 
 *Next: [Media and audio](/prompting/media-and-audio) — precise phrasing for
 voiceover, music, sound, and assets, instead of motion and rendering.*

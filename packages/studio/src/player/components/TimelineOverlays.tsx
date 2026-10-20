@@ -7,7 +7,6 @@ import { ClipContextMenu } from "./ClipContextMenu";
 import { TrackGapContextMenu } from "./TrackGapContextMenu";
 import { TimelineShortcutHint as TimelineShortcutHintImpl } from "./TimelineShortcutHint";
 import { copyTextToClipboard } from "../../utils/clipboard";
-import { trackStudioSegmentEaseEdit } from "../../telemetry/events";
 import { useTimelineContext } from "./TimelineProvider";
 
 interface TimelineContextTargetInput {
@@ -117,7 +116,6 @@ export function TimelineKeyframeMenuOverlay() {
                 tweenPercentage: keyframe.tweenPercentage,
                 elementId,
               });
-              trackStudioSegmentEaseEdit({ action: "open" });
             }
           : undefined
       }

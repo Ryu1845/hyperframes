@@ -12,12 +12,13 @@ export function isMissingPackageError(error: unknown, pkg: string): boolean {
   );
 }
 
+// The cloud adapters are workspace packages the CLI keeps external and neither the
+// binary nor any registry ships, so they resolve only inside a source checkout.
 export function missingPackageMessage(pkg: string, command: string): string {
   return (
-    `${c.error(`${pkg} is not installed.`)} The ${c.accent(command)} command needs it at runtime.\n` +
-    `Install it alongside the CLI:\n` +
-    `  ${c.accent(`npm install -g ${pkg}`)}\n` +
-    `Or, for an opt-in project setup:\n` +
-    `  ${c.accent(`npm install ${pkg}`)}`
+    `${c.error(`${pkg} is not available.`)} The ${c.accent(command)} command needs it at runtime,\n` +
+    `and it is not bundled with the hyperframes binary. Run the command from a source checkout:\n` +
+    `  ${c.accent("git clone https://github.com/ryu1845/hyperframes && cd hyperframes && bun install && bun run build")}\n` +
+    `  ${c.accent(`bun packages/cli/src/cli.ts ${command.replace(/^hyperframes /, "")}`)}`
   );
 }

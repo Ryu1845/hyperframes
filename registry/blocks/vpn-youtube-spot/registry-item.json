@@ -1,5 +1,5 @@
 {
-  "$schema": "https://hyperframes.heygen.com/schema/registry-item.json",
+  "$schema": "https://raw.githubusercontent.com/ryu1845/hyperframes/main/docs/schema/registry-item.json",
   "name": "vpn-youtube-spot",
   "type": "hyperframes:block",
   "title": "VPN YouTube Spot",
@@ -7,7 +7,7 @@
   "tags": ["app", "showcase", "youtube", "sfx"],
   "author": "Stronkter",
   "authorUrl": "https://x.com/Stronkter",
-  "sourcePrompt": "HyperFrames by HeyGen make me a 7s video with Apple-style bold font and styling: a phone scrolling in an app store, clicking on a friendly VPN app called VPN, installing it, then snapping down and fading to a white background. Make it snappy and polished for a YouTube insert, with sound effects, 60fps, and 1920x1080.",
+  "sourcePrompt": "HyperFrames make me a 7s video with Apple-style bold font and styling: a phone scrolling in an app store, clicking on a friendly VPN app called VPN, installing it, then snapping down and fading to a white background. Make it snappy and polished for a YouTube insert, with sound effects, 60fps, and 1920x1080.",
   "dimensions": {
     "width": 1920,
     "height": 1080
@@ -24,9 +24,5 @@
       "target": "assets/vpn-sfx.wav",
       "type": "hyperframes:asset"
     }
-  ],
-  "preview": {
-    "video": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/vpn-youtube-spot.mp4",
-    "poster": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/vpn-youtube-spot.png"
-  }
+  ]
 }

@@ -3,12 +3,6 @@ import { act } from "react";
 import { createRoot } from "react-dom/client";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-const trackStudioSaveFailure = vi.hoisted(() => vi.fn());
-vi.mock("../utils/studioSaveDiagnostics", async (importOriginal) => ({
-  ...(await importOriginal<typeof import("../utils/studioSaveDiagnostics")>()),
-  trackStudioSaveFailure,
-}));
-
 import { StudioFileConflictError } from "../utils/studioSaveDiagnostics";
 import { useEditorSave, type EditorSaveHandle } from "./useEditorSave";
 
@@ -46,7 +40,6 @@ async function mountEditorSave(writeProjectFile: WriteProjectFile) {
 
 describe("useEditorSave pending work", () => {
   beforeEach(() => {
-    trackStudioSaveFailure.mockClear();
     vi.stubGlobal(
       "requestAnimationFrame",
       vi.fn(() => 41),
@@ -123,16 +116,11 @@ describe("useEditorSave pending work", () => {
       status: "conflict",
       error: conflict,
     });
-    expect(trackStudioSaveFailure).toHaveBeenCalledWith({
-      source: "code_editor",
-      error: conflict,
-      filePath: "index.html",
-    });
 
     await mounted.unmount();
   });
 
-  it("emits one identical failure per five-second burst", async () => {
+  it("toasts one identical failure per five-second burst", async () => {
     vi.spyOn(Date, "now").mockReturnValue(1_000);
     const error = new Error("Load failed");
     const mounted = await mountEditorSave(async () => {
@@ -145,12 +133,11 @@ describe("useEditorSave pending work", () => {
     act(() => mounted.handle.handleContentChange("second candidate"));
     await mounted.handle.flushPendingSave();
 
-    expect(trackStudioSaveFailure).toHaveBeenCalledOnce();
     expect(mounted.showToast).toHaveBeenCalledOnce();
     await mounted.unmount();
   });
 
-  it("emits a changed failure immediately and repeats after the burst window", async () => {
+  it("toasts again once the burst window has passed", async () => {
     const now = vi.spyOn(Date, "now").mockReturnValue(1_000);
     const writeProjectFile = vi
       .fn<WriteProjectFile>()
@@ -168,27 +155,7 @@ describe("useEditorSave pending work", () => {
     act(() => mounted.handle.handleContentChange("third candidate"));
     await mounted.handle.flushPendingSave();
 
-    expect(trackStudioSaveFailure).toHaveBeenCalledTimes(3);
-    await mounted.unmount();
-  });
-
-  it("emits the same failure again after a successful save", async () => {
-    vi.spyOn(Date, "now").mockReturnValue(1_000);
-    const writeProjectFile = vi
-      .fn<WriteProjectFile>()
-      .mockRejectedValueOnce(new Error("Load failed"))
-      .mockResolvedValueOnce(undefined)
-      .mockRejectedValueOnce(new Error("Load failed"));
-    const mounted = await mountEditorSave(writeProjectFile);
-
-    act(() => mounted.handle.handleContentChange("first candidate"));
-    await mounted.handle.flushPendingSave();
-    act(() => mounted.handle.handleContentChange("successful candidate"));
-    await mounted.handle.flushPendingSave();
-    act(() => mounted.handle.handleContentChange("third candidate"));
-    await mounted.handle.flushPendingSave();
-
-    expect(trackStudioSaveFailure).toHaveBeenCalledTimes(2);
+    expect(mounted.showToast).toHaveBeenCalledTimes(2);
     await mounted.unmount();
   });
 

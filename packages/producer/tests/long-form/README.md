@@ -35,7 +35,7 @@ Never run two of these concurrently on a dev Mac — the fleet limit is why the 
 | 2b    | kill the 2a render at ~40 %, rerun with `--resume`        | log `resuming: N segments complete` + N × `segment skipped (resume)`; output byte-identical to an uninterrupted run; the segment dir is gone afterwards unless `--keep-segments` |
 | 2c    | 2a with `HF_SEGMENT_BROWSER_RECYCLE=1`                    | `segment browser recycled (cadence)` once per segment **after the first** (5 for 6 segments), each carrying the session's `rendererRssPeakMb`; output byte-identical to the single-session render |
 | 2d    | 2a with `-w 3`                                            | `Segmented capture complete: 6 segment(s)`; output 300.000 s, 9000 frames, byte-identical to the `-w 1` segmented render |
-| 1b (R3) | PRINFRA-694 fixture below: `HF_CAPTURE_PARALLEL_STREAM=true render inflow --fps 10 -w 2` | every frame of clip B (t ≥ 10 s) has mean luma ≥ 64; `-w 2` on `hyperframes@0.8.35` must fail this check (positive control) |
+| 1b (R3) | PRINFRA-694 fixture below: `HF_CAPTURE_PARALLEL_STREAM=true render inflow --fps 10 -w 2` | every frame of clip B (t ≥ 10 s) has mean luma ≥ 64; `-w 2` on `@ryu1845/hyperframes@0.8.35` must fail this check (positive control) |
 
 The Phase 0 mutation check is the same render with `PRODUCER_STREAMING_ENCODE_DURATION_CAP_ENABLED=true`: the gate line must flip to `"enabled":false,"reason":"duration_cap"` and the render must fail at the disk preflight on a host without ~75 GB free.
 
@@ -200,9 +200,9 @@ Measured 2026-09-18 on macOS (every worker's session logged
 | this branch, `-w 2` stock (multi-worker disk path)                | 0 / 100             |
 | this branch, `-w 2` + `HF_CAPTURE_PARALLEL_STREAM=true` (R3 route) | 0 / 100             |
 | this branch, same but `position:absolute; inset:0` on the clips   | 0 / 100             |
-| published `hyperframes@0.8.44`, `-w 2`                            | 0 / 100             |
-| `hyperframes@0.8.35` and `0.8.36`, `-w 2` (positive control)      | **99 / 100**        |
-| `hyperframes@0.8.37`, `-w 2`                                      | 0 / 100             |
+| published `@ryu1845/hyperframes@0.8.44`, `-w 2`                            | 0 / 100             |
+| `@ryu1845/hyperframes@0.8.35` and `0.8.36`, `-w 2` (positive control)      | **99 / 100**        |
+| `@ryu1845/hyperframes@0.8.37`, `-w 2`                                      | 0 / 100             |
 
 So the defect is real, the check catches it, and it was fixed in 0.8.37 by
 #3893 (`fix(core): un-hide a later root-level clip instead of leaving it
@@ -214,7 +214,7 @@ regression of that runtime behaviour under the route R3 makes the default. Run
 it before flipping R3; a positive control on an old version is a one-liner:
 
 ```sh
-npm install --prefix /tmp/hf835 hyperframes@0.8.35
+npm install --prefix /tmp/hf835 @ryu1845/hyperframes@0.8.35
 node /tmp/hf835/node_modules/hyperframes/bin/hyperframes.mjs render inflow --fps 10 -w 2 --quality high -o inflow/renders/r0835.mp4
 ```
 

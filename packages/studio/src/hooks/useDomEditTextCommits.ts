@@ -1,4 +1,3 @@
-import { trackPreviewFeatureUsed } from "../utils/previewFeatureUsage";
 import { useCallback, useRef } from "react";
 import { refreshTimelineRowText } from "./refreshTimelineRowText";
 import { normalizeDomEditStyleValue } from "../utils/studioHelpers";
@@ -281,12 +280,11 @@ export function useDomEditTextCommits({
           appliedHtml = element.innerHTML;
         },
         persist: async () => {
-          const result = await persistDomEditOperations(selection, operations, {
+          await persistDomEditOperations(selection, operations, {
             label: "Edit text",
             skipRefresh: true,
             shouldSave: isLatestTextCommit,
           });
-          if (result?.changed) trackPreviewFeatureUsed("text_edit", "field");
         },
         shouldRevert: () => isLatestTextCommit(),
         revert: () => {

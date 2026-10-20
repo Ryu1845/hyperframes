@@ -1,9 +1,8 @@
 /**
  * Studio PatchOperation[] → SDK EditOp[] mapping.
  *
- * Lives in its own module so both the cutover path (sdkCutover.ts) and the
- * resolver-shadow tripwire (sdkResolverShadow.ts) can use it without a circular
- * import between those two.
+ * Lives in its own module so the cutover path (sdkCutover.ts) stays free of the
+ * op-shape details.
  *
  * Multiple inline-style ops are coalesced into a single setStyle (the SDK
  * batches style changes naturally). One SDK op is emitted per non-style op.

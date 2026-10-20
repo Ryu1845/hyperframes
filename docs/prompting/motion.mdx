@@ -69,11 +69,6 @@ Every "hold" carries a little ambient idle motion — a 1-2% breathing scale, a 
 
 > 6-second 1920x1080 live telemetry panel: an `ARR · LIVE` eyebrow with a status dot, `PROD · US-EAST-1` opposite, `$4.200M` at display scale with a delta chip, a sparkline of the reading history beneath, and a footer row reading `LAST SYNC` and `READINGS`. The panel rises in and lands by 1.9s, then stays alive because the feed is — a new reading arrives every 300ms and each one moves exactly what it should: the last digits change, the sparkline extends one segment with its leading dot, `LAST SYNC` restamps, `READINGS` increments. The status dot keeps a 1s heartbeat because the connection is up. Nothing else moves. Fix the sparkline's y-scale up front so an arriving reading never rescales the axis.
 
-<video controls muted loop playsinline preload="metadata" src="https://static.heygen.ai/hyperframes-oss/docs/images/prompting/motion-rule1-nothing-stops.mp4#t=0.1" style={{ borderRadius: "0.5rem", marginTop: "0.75rem" }}></video>
-*Left `WITHOUT`, right `WITH`. From 2.0s the left half's remaining 120 frames all share a single hash. All 180 frames on the right are distinct. Every movement on the right answers "because": the dot beats because the connection is up, the digits change because a reading arrived, the sparkline extends because that reading is now history.*
-
-*The footer is the clearest tell. The frozen half reads `LAST SYNC 09:41:21.75 · READINGS 22`. The live one reads `09:41:23.95 · 30`. A still frame of the left half looks like a perfectly good stat card. Sit it next to a running one and you can read exactly how long the feed has been dead. That is what a frozen hold tells a viewer, whether you meant it or not.*
-
 ### Rule 2 — The camera is an actor
 
 Give each scene one continuous camera move. A 4-8% push-in, a slow orbit, or parallax — nearer layers travelling further than distant ones. Ease it gently, and never let it *decay* to a dead stop at the end of a scene. Compute the ease over a window slightly longer than the render.
@@ -91,11 +86,6 @@ A deliberate mid-film rest is a different thing, and it is sanctioned. See [avoi
 ✅ **With**
 
 > …an isometric deploy pipeline of five stages, each with its own accent colour — `SOURCE` mint, `BUILD` cyan, `TEST` violet, `DEPLOY` amber, `EDGE` rose — bolted along a rail with support posts and numbered floor bays. The block at each stage and its card wear the same colour. Lay the stages out where they really are, 640px apart across 2.5 frame widths, and **move the camera** across the whole run in one continuous linear pass, `ease: none`. The floor and rail travel with the camera 1:1 because they are the same space; distant structures track at a fifth. A packet of work runs the wire and ignites each stage in its colour as it reaches it, so a stage is revealed by arriving at it rather than by appearing.
-
-<video controls muted loop playsinline preload="metadata" src="https://static.heygen.ai/hyperframes-oss/docs/images/prompting/motion-rule2-camera-actor-v2.mp4#t=0.1" style={{ borderRadius: "0.5rem", marginTop: "0.75rem" }}></video>
-*Left `WITHOUT`, right `WITH` — same five stages, same colours, same six seconds. On the left the block never leaves the centre of frame: five stages, one place. On the right you travel to each one, and neighbours stay visible on the way, so the five read as five points along a single run. Watch the amber `DEPLOY` block still sitting behind frame-left as the camera settles on rose `EDGE`. That adjacency is information, and a dissolve does not carry it.*
-
-*One trap is worth knowing. Earlier versions of this demo had the locked half slide the content past a fixed frame, then step it, then freeze the backdrop. Every one looked identical to the pan, because it was — measured, 3% of pixels differed. Only refusing to move at all produces the 30–47% you see here.*
 
 ### Rule 3 — Overlapping action
 
@@ -115,13 +105,6 @@ Stagger what is **happening**, not what is merely **present**. Things that arriv
 
 > …`Rolling out to every region` over a dotted world map with twelve edge regions marked and a live `n / 12` tally. A progressive rollout spreads outward from `us-east-1`, reaching each region in order of its distance from the origin, 0.09s apart: a link draws from the nearest already-live region and lands exactly as that region's core ignites, its dot field turns mint, a ping carries onward and an ACK dash returns up the link. Each region's 0.5s ignite is still running when the next three begin.
 
-<video controls muted loop playsinline preload="metadata" src="https://static.heygen.ai/hyperframes-oss/docs/images/prompting/motion-rule3-overlapping-action.mp4#t=0.1" style={{ borderRadius: "0.5rem", marginTop: "0.75rem" }}></video>
-*Left `WITHOUT`, right `WITH` — twelve distinct ignition frames on the right, 0.088s apart, against a single frame on the left. At peak, all twelve regions are animating at once.*
-
-*Stagger here is not a styling preference. A rollout propagates, so twelve regions cannot go live on the same frame. The simultaneous version says something untrue about the system. Watch the tally: the left jumps `0 → 12` in one frame, and the map gives you no way to tell where the rollout started.*
-
-*Note what is **not** staggered. The twelve region markers all appear on the same frame in both halves, because the regions already existed.*
-
 ### Rule 4 — Compound properties only when they tell one story
 
 Every animation changes at least one property — position, scale, opacity, rotation. Combining them works when they say the same thing. A confirmation that slides up *and* fades in reads as one idea: this is arriving. A sheet that rises *and* rotates makes two unrelated claims about one object. Pick the properties that serve the movement's job and drop the rest.
@@ -135,9 +118,6 @@ Direction follows the same logic. Entrances ease **out** — fast in, gentle set
 ✅ **With**
 
 > …an itemized coffee-shop receipt; a payment-confirmation sheet rises 470px over 1.2s to cover its lower half while fading up from 0. Rotation, scale and blur are never touched. The receipt dims behind it. The sequence plays twice.
-
-<video controls muted loop playsinline preload="metadata" src="https://static.heygen.ai/hyperframes-oss/docs/images/prompting/motion-rule4-compound-properties.mp4#t=0.1" style={{ borderRadius: "0.5rem", marginTop: "0.75rem" }}></video>
-*Left `WITHOUT`, right `WITH` — identical travel (470px), identical window (0.25s → 1.45s), identical ease. The only difference is how many properties ride along. Both halves are pixel-identical at rest, so everything you see mid-flight is the cost of the extra three. On the left, "Payment confirmed" is an unreadable tilted smear for most of its arrival. On the right it is legible the whole way up. Two properties agreeing on one claim beat four properties each making a different one.*
 
 ### Rule 5 — Overshoot and follow-through
 
@@ -153,9 +133,6 @@ Apply it to **transforms only**. A number is not a physical object. A counter mu
 
 > …a bolted airport departure board, `HF 402 · SAN FRANCISCO`, its split-flap gate cells riffling to **42**. The flap plates drop 34px and rotate from −16° on `back.out(5)`, swinging past their rest position and settling back; the housing recoils ~7px when they land, and each plate's cast shadow reaches its own peak one frame later than the plate that casts it. Transforms only — the gate number never overshoots **42**. The sequence plays twice.
 
-<video controls muted loop playsinline preload="metadata" src="https://static.heygen.ai/hyperframes-oss/docs/images/prompting/motion-rule5-overshoot.mp4#t=0.1" style={{ borderRadius: "0.5rem", marginTop: "0.75rem" }}></video>
-*Left `WITHOUT`, right `WITH` — the right's plates swing 1.51× past their travel before settling, while every transform on the left has peak == final. The shadow's lag is measured at 0.033s, exactly one frame at 30fps. Note the one thing that does **not** overshoot on either side: the number itself tops out at 42 and stays there. A counter that flies to 47 and falls back is reporting a number that was never true.*
-
 ### Rule 6 — Depth planes
 
 Move each plane at a rate that matches its distance. Far background at a fraction of the camera's rate, content at full rate, foreground at several times.
@@ -170,9 +147,6 @@ The cue that does the most work is not blur. It is **occlusion** — one thing p
 
 > …a render-farm corridor: CSS-3D floor and ceiling converging on a single vanishing point, a bank of server racks with blinking status LEDs, a distant rack row near the horizon, and one rack column close to the lens. `CLUSTER 04 · WEST / Every frame, in parallel.` on a camera-locked HUD panel. The camera trucks forward for the full 6s and each plane drifts at its own distance: the horizon row at a fifth of the room's rate, the room and its racks at full rate, and the near column sweeping past at six times — `blur(22px)`, close enough to cross in front of the headline. Haze the far plane slightly.
 
-<video controls muted loop playsinline preload="metadata" src="https://static.heygen.ai/hyperframes-oss/docs/images/prompting/motion-rule6-depth-planes.mp4#t=0.1" style={{ borderRadius: "0.5rem", marginTop: "0.75rem" }}></video>
-*Left `WITHOUT`, right `WITH` — measured travel ratios on the right are exactly 0.20× / 1.00× / 6.00×, while on the left all five planes displace an identical 240px with `filter: none`. The strongest cue is not the blur, it is the occlusion: the near column crosses in front of the headline for about a third of the shot, which is only possible if it is in the room. One foreground element does this. A second would just be clutter with a blur on it.*
-
 ### Rule 7 — Match pacing to genre
 
 Showreel-style cuts run 1.5-4 seconds per idea. A stretched 8-second version of a 2-second idea feels slow, no matter how it is animated.
@@ -184,9 +158,6 @@ Showreel-style cuts run 1.5-4 seconds per idea. A stretched 8-second version of 
 ✅ **With**
 
 > …a three-beat product showreel, each beat a titled panel with its own live evidence: `SEEK ANY FRAME` over a scrubbing timeline reading out frame 147, `RENDER ON LAMBDA` over six worker lanes filling their own frame ranges, `SHIP THE MP4` over a player with an encode bar. Showreel pace — 1.1 seconds per beat, cutting hard rather than dissolving, all three delivered by 3.3s, then hold the last beat on a live idle. A rail under each half tracks time consumed and time spare.
-
-<video controls muted loop playsinline preload="metadata" src="https://static.heygen.ai/hyperframes-oss/docs/images/prompting/motion-rule7-pacing.mp4#t=0.1" style={{ borderRadius: "0.5rem", marginTop: "0.75rem" }}></video>
-*Left `WITHOUT`, right `WITH` — same three ideas, same evidence, same 6 seconds. At 3.6s the left is still working through beat 2 with `SPARE 0.00`. The right has already delivered all three and banked `+0.33s`. The left is not badly animated. It is correctly animated at the wrong tempo, which is why this failure survives review so often. Pace is a genre decision you make before you touch an ease.*
 
 ### Rule 8 — Handmade imperfection stays reproducible
 
@@ -202,20 +173,11 @@ Instead, seed a PRNG once at composition start. A PRNG is a pseudo-random number
 
 > …a hanging paper mobile: five cut-paper shapes on fine visible wires from a wooden dowel, each with real paper grain, irregular hand-cut edges and its own layered drop shadow. They sway through the same ±12° arc, but driven by a mulberry32 PRNG seeded once at composition start and stepped on a two-frame hold quantized to the integer frame index — so the cadence is stop-motion, not a tween, and every render is byte-identical. A readout shows the current frame and how many distinct states the six seconds contain.
 
-<video controls muted loop playsinline preload="metadata" src="https://static.heygen.ai/hyperframes-oss/docs/images/prompting/motion-rule8-seeded-handmade.mp4#t=0.1" style={{ borderRadius: "0.5rem", marginTop: "0.75rem" }}></video>
-*Left `WITHOUT`, right `WITH` — the right holds each pose for exactly two frames: 90 states across 180 frames, no irregular holds, while the left has 180 distinct ones. Rendered twice, the whole thing came back byte-identical both times. This rule is easy to get wrong in the other direction. Reaching for `Math.random()` to buy the same irregularity produces a composition that renders differently every time and can never be re-rendered or resumed.*
-
 [Handmade, still deterministic](#handmade-still-deterministic) below has a fuller prompt for this, plus the one trap that catches people.
 
 ## The grammar, measured
 
 The same composition built twice. Identical content, identical layout, and the motion treatment as the only variable. The first build commits the anti-patterns above: simultaneous identical entrances, no camera, a frozen final 2.4 seconds. The second applies the eight rules.
-
-<video controls muted loop playsinline preload="metadata" src="https://static.heygen.ai/hyperframes-oss/docs/images/prompting/motion-before.mp4#t=0.1" style={{ borderRadius: "0.5rem", marginTop: "0.75rem" }}></video>
-*Every anti-pattern: tiles enter together, nothing overlaps, the last seconds are a freeze-frame.*
-
-<video controls muted loop playsinline preload="metadata" src="https://static.heygen.ai/hyperframes-oss/docs/images/prompting/motion-after.mp4#t=0.1" style={{ borderRadius: "0.5rem", marginTop: "0.75rem" }}></video>
-*The eight rules: staggered overshoot entrances, a continuous 5% push, ambient idle, a blurred foreground plane, sparkline draw-ins as secondary motion.*
 
 The difference is measurable, not just visible. In the final second the frozen build has bit-identical consecutive frames, while the motion-grammar build changes every single frame. The encoder agrees: 211KB against 2.5MB for the same content. A frozen final second is the cheap-motion tell you can test for.
 
@@ -252,9 +214,6 @@ This is the clause in the [full capstone prompt](/prompting/capstone#the-prompt-
 
 > ONE continuous camera journey with a dwell-and-sweep rhythm. The whole film is a single wide world (one large scene space) that the camera dollies across […] in one unbroken move with NO hard cuts anywhere except inside the two sanctioned seam moments named below. The rhythm: the camera SWEEPS between regions, then eases to a genuine REST at each region's hero moment — a full stop of roughly 1.5–2.5 seconds while the main point lands […] then accelerates away. The dwell is what gives the sweep meaning: without the rest, emphasis dies mid-motion. During a dwell the WORLD keeps resolving (counters tick, labels stamp, secondary motion continues) — the camera rests, the film never freezes.
 
-<video controls muted loop playsinline preload="metadata" src="https://static.heygen.ai/hyperframes-oss/docs/images/prompting/capstone-region-camera.mp4#t=0.1" style={{ borderRadius: "0.5rem", marginTop: "0.75rem" }}></video>
-*That clause, rendered: accelerating out of one region, arriving in the next, stopping to let the beat land — no cut anywhere in the span.*
-
 This method is expensive. One continuous space is more work to author than a cut, and it only pays when the piece has a through-line worth following. For a 6-second stat card, cut.
 
 ### Other methods worth trying
@@ -277,9 +236,6 @@ Whichever you choose, put the two properties in the prompt in your own words, an
 Rule 1's ambient idle is *continuous* — a slow, smooth breathing scale. Rule 8 is a different tool for a different job. When the brief wants something that reads as physically hand-animated (paper cutouts, stop-motion, a wobbly hand-drawn line), continuous easing is the wrong texture. It reads as digital no matter how organic the curve. What you want is irregular, but reproducible:
 
 > A paper-cutout garden scene: flowers, leaves, and a bee drifting on visible wires, like stop-motion. Seed a random offset per element at the start (same seed every render) so each leaf sways to a slightly different rhythm, but hold each position for exactly two frames before stepping to the next — discrete jumps, not a smooth tween. It should read as intentionally handmade, not glitchy.
-
-<video controls muted loop playsinline preload="metadata" src="https://static.heygen.ai/hyperframes-oss/docs/images/prompting/motion-handmade.mp4#t=0.1" style={{ borderRadius: "0.5rem", marginTop: "0.75rem" }}></video>
-*Rendered from the prompt above, unedited — paper cutouts on visible wires, every position held for exactly two frames, and byte-identical across two separate renders.*
 
 Name the seed and the hold length explicitly. "Seeded" and "two-frame hold" are the two phrases that keep an agent from reaching for `Math.random()` and quietly breaking every re-render.
 

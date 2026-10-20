@@ -4,8 +4,6 @@ sidebarTitle: "Bring in a design"
 description: "Start from a Figma file or a design-tool draft. Keep the look, rebuild only what has to move."
 ---
 
-import { DocsVideo } from "/snippets/docs-video.jsx";
-
 Already have a design — Figma, a design-tool draft, a brand kit? One rule
 decides how each piece comes across:
 
@@ -36,15 +34,6 @@ Brand colors and fonts: import once, use everywhere.
 Don't animate a stack of finished screenshots just because a design tool made
 them. Screenshots are proof. HTML is what changes.
 
-<DocsVideo
-  title="A design frame beside the same design rebuilt as working HTML"
-  src="https://static.heygen.ai/hyperframes-oss/docs/images/showcase/figma-to-html-demo-v1.mp4"
-  poster="https://static.heygen.ai/hyperframes-oss/docs/images/showcase/figma-to-html-demo-v1.jpg"
-/>
-
-Both panels get the same clicks. Only the rebuilt side reacts, because a picture
-of a form cannot take input. That is the whole rule this page is about.
-
 ## Start from Figma
 
 Give the agent the link and the outcome:
@@ -71,7 +60,7 @@ These settle layout, palette, type, and scene direction first.
 3. Save it to disk, then open that folder with a coding agent.
 4. Let the agent check timing, motion, media, captions, and rendering.
 
-[Claude Design instruction](https://github.com/heygen-com/hyperframes/blob/main/docs/guides/claude-design-hyperframes.md) · [Open Design handoff](https://github.com/heygen-com/hyperframes/blob/main/docs/guides/open-design-hyperframes.md)
+[Claude Design instruction](https://github.com/ryu1845/hyperframes/blob/main/docs/guides/claude-design-hyperframes.md) · [Open Design handoff](https://github.com/ryu1845/hyperframes/blob/main/docs/guides/open-design-hyperframes.md)
 
 ## Is the handoff any good?
 
@@ -80,8 +69,8 @@ editable source for whatever may change, local media and fonts, and a project
 that opens. Check that yourself:
 
 ```bash
-npx hyperframes check
-npx hyperframes preview
+hyperframes check
+hyperframes preview
 ```
 
 Then watch it move in [Studio](/studio) — stills cannot show timing.

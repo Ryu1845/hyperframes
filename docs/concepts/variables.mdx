@@ -11,35 +11,6 @@ the same layout and motion.
 Use a variable when the design should remain stable across versions. Make a
 normal source edit when the structure itself needs to change.
 
-<div className="not-prose my-7 grid grid-cols-2 gap-3">
-  <div className="overflow-hidden rounded-xl border border-zinc-200 bg-zinc-950 dark:border-zinc-800">
-    <video
-      className="aspect-video w-full object-cover"
-      src="https://static.heygen.ai/hyperframes-oss/docs/images/prompting/validate-variables-default.mp4#t=0.1"
-      autoPlay
-      muted
-      loop
-      playsInline
-      preload="metadata"
-    />
-    <div className="px-3 py-2 text-sm text-zinc-600 dark:text-zinc-400">Default values</div>
-  </div>
-  <div className="overflow-hidden rounded-xl border border-zinc-200 bg-zinc-950 dark:border-zinc-800">
-    <video
-      className="aspect-video w-full object-cover"
-      src="https://static.heygen.ai/hyperframes-oss/docs/images/prompting/validate-variables-variant.mp4#t=0.1"
-      autoPlay
-      muted
-      loop
-      playsInline
-      preload="metadata"
-    />
-    <div className="px-3 py-2 text-sm text-zinc-600 dark:text-zinc-400">
-      The same design with different values
-    </div>
-  </div>
-</div>
-
 ## Use variables in Studio
 
 Studio can create and bind variables, preview overrides, and copy the reviewed
@@ -168,7 +139,7 @@ Both instances keep the same source and receive different content.
 Override top-level values from the CLI:
 
 ```bash
-npx hyperframes render \
+hyperframes render \
   --variables '{"title":"Enterprise","accent":"#22c55e"}' \
   --strict-variables \
   --output enterprise.mp4
@@ -191,7 +162,7 @@ row to name each output:
 ```
 
 ```bash
-npx hyperframes render \
+hyperframes render \
   --batch rows.json \
   --strict-variables \
   --output "renders/{name}.mp4"
@@ -219,7 +190,7 @@ runs.
 Run:
 
 ```bash
-npx hyperframes lint
+hyperframes lint
 ```
 
 The linter catches malformed declarations, missing fields, wrong default types,

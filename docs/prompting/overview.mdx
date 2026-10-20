@@ -3,19 +3,10 @@ title: Prompt Guide
 description: "How to prompt AI agents to author HyperFrames videos — setup, the two prompt shapes, and the map of this guide."
 ---
 
-import { DocsVideo } from "/snippets/docs-video.jsx";
-
-<DocsVideo
-  title="HyperFrames video: Capstone Timeline Default"
-  src="https://static.heygen.ai/hyperframes-oss/docs/images/prompting/capstone-timeline-default-v2.mp4#t=0.1"
-  loop
-/>
-*By the end of this guide, you can build this with a prompt.*
-
 HyperFrames is built for AI agents — compositions are plain HTML, the CLI is non-interactive, and the framework ships [skills](https://github.com/vercel-labs/skills) that teach agents the patterns docs alone don't cover. This guide shows how to prompt agents effectively once skills are installed — the vocabulary that changes output, the iteration patterns that save time, and the rules that prevent breakage.
 
 <Note>
-  **Before you prompt**, have three things in place: the skills installed (below), a scaffolded project (`npx hyperframes init my-video`), and the live preview running (`npx hyperframes preview`) so you can judge each render the moment it lands. Prompting without the preview open turns every iteration into a blind guess.
+  **Before you prompt**, have three things in place: the skills installed (below), a scaffolded project (`hyperframes init my-video`), and the live preview running (`hyperframes preview`) so you can judge each render the moment it lands. Prompting without the preview open turns every iteration into a blind guess.
 </Note>
 
 ## The level ladder
@@ -30,14 +21,14 @@ The guide is one arc, novice to advanced. Each level is what you can do once you
 | **4 — [Substance](/prompting/code-blocks)** | Add real capabilities: code animation, data-viz, overlays, captions, generated artwork, VFX, 3D. |
 | **5 — [Voice & sound](/prompting/media-and-audio)** | Narration, music, and any footage you supply, scored and mixed correctly. |
 | **6 — [Scale](/prompting/design-systems)** | Design systems, variables, storyboards, editing, iterating, matching references, and export — a video as a system, not a one-off. |
-| **7 — [Capstone](/prompting/capstone)** | Everything above, composed into one real prompt. Each chapter on the way up shows its own region of this film cut out in isolation; the capstone prompt is the glue that binds them into one continuous camera journey, rendered twice from one template. |
+| **7 — [Capstone](/prompting/capstone)** | Everything above, composed into one real prompt. Each chapter on the way up quotes the clause for its own region of this film; the capstone prompt is the glue that binds them into one continuous camera journey, rendered twice from one template. |
 
 ## One-time setup
 
 Install the skills in your project (or globally for your agent):
 
 ```bash
-npx skills add heygen-com/hyperframes
+npx skills add ryu1845/hyperframes
 ```
 
 The installer shows a picker. Select the **core skills** below — every project needs them. In Claude Code, restart the session after installing; the skills register as **slash commands**. Start at `/hyperframes`: it orients you to the whole surface and routes "make me a video" requests to the right workflow.
@@ -50,7 +41,7 @@ The installer shows a picker. Select the **core skills** below — every project
 | `/hyperframes-core`     | Composition contract — HTML structure, `data-*` attributes, clips, tracks  |
 | `/hyperframes-animation`| All animation — motion rules, scene blueprints, transitions, and the runtime adapters (GSAP, Lottie, Three.js, Anime.js, CSS, WAAPI, TypeGPU) |
 | `/hyperframes-creative` | Creative direction — design spec, palettes, typography, narration, beats   |
-| `/hyperframes-cli`      | Dev-loop CLI — `init`, `lint`, `check`, `preview`, `render`, `doctor`    |
+| `/hyperframes-cli`      | Dev-loop CLI — `init`, `lint`, `check`, `preview`, `render`, `doctor`, plus AWS Lambda / Cloud Run rendering |
 | `/media-use`            | Media OS — TTS voiceover (`tts`), `transcribe`, `remove-background`, plus BGM / SFX / image resolution (a host app's own music and sound tools come first) |
 | `/hyperframes-registry` | Search the catalog before hand-building a look; install via `hyperframes add`                   |
 | `/hyperframes-keyframes`| Seek-safe keyframe authoring across runtimes, plus `hyperframes keyframes` diagnostics |
@@ -72,14 +63,12 @@ The installer shows a picker. Select the **core skills** below — every project
 | `/figma`                 | A Figma file / frame / URL → imported assets, brand tokens, and reconstructed motion |
 
 <Tip>
-  To skip the picker and install everything (core + every workflow) in one shot, run `npx hyperframes skills`. And start HyperFrames prompts with `/hyperframes` (or invoke the skill another way for non-Claude agents) — it loads the routing + composition context explicitly so the agent picks the right workflow and gets the rules right the first time.
+  To skip the picker and install everything (core + every workflow) in one shot, run `hyperframes skills`. And start HyperFrames prompts with `/hyperframes` (or invoke the skill another way for non-Claude agents) — it loads the routing + composition context explicitly so the agent picks the right workflow and gets the rules right the first time.
 </Tip>
-
-
 
 ## Claude Design
 
-Claude Design uses a different setup. Download [`claude-design-hyperframes.md`](https://github.com/heygen-com/hyperframes/blob/main/docs/guides/claude-design-hyperframes.md) from GitHub (click the ↓ button), then **attach it to your chat** (don't paste the URL — file attachments produce better output):
+Claude Design uses a different setup. Download [`claude-design-hyperframes.md`](https://github.com/ryu1845/hyperframes/blob/main/docs/guides/claude-design-hyperframes.md) from GitHub (click the ↓ button), then **attach it to your chat** (don't paste the URL — file attachments produce better output):
 
 ```text
 Use the attached skill. 25-second LinkedIn video for my startup.
@@ -90,9 +79,7 @@ Traction: 200+ teams, $1.2M ARR, 18% MoM growth.
 CTA: autocrmhq.com
 ```
 
-Claude Design produces a valid first draft (brand identity, scene content, animations, transitions). Download the ZIP and refine in any AI coding agent with `npx hyperframes preview` running. See the [Claude Design guide](/guides/design-tools) for the full workflow.
-
-
+Claude Design produces a valid first draft (brand identity, scene content, animations, transitions). Download the ZIP and refine in any AI coding agent with `hyperframes preview` running. See the [Claude Design guide](/guides/design-tools) for the full workflow.
 
 ## The two prompt shapes
 
@@ -106,13 +93,13 @@ Cold-start prompts work best when you specify **duration** ("10 seconds", "5 sce
 
 **Warm start — turn context into a video.** You give the agent something to work with — a URL, a doc, a CSV, a transcript — and ask it to synthesize that into a video. This is where HyperFrames shines because the agent does the research/summarization step *and* the production step in one flow.
 
-> Take a look at this GitHub repo https://github.com/heygen-com/hyperframes and explain its uses and architecture to me using `/hyperframes`.
+> Take a look at this GitHub repo https://github.com/ryu1845/hyperframes and explain its uses and architecture to me using `/hyperframes`.
 
 > Turn this CSV into an animated bar chart race using `/hyperframes`.
 
 Warm-start prompts produce richer, more grounded videos because the agent is writing about *something specific* instead of inventing copy.
 
-The four prompts above illustrate shape, not results — every prompt in this guide that ships with an embedded render was run exactly as written, and the gallery of those lives in [Verified examples](/prompting/examples).
+The four prompts above illustrate shape, not results — the prompts in [Verified examples](/prompting/examples) were each run exactly as written.
 
 ## The interview: what the agent asks first
 
@@ -135,48 +122,25 @@ Everything the interview settles is written to **`BRIEF.md`** in the project roo
 
 ## Recommended workflow
 
-1. `npx hyperframes init my-video` — scaffold a project (skills install automatically)
+1. `hyperframes init my-video` — scaffold a project (skills install automatically)
 2. Open the project in Claude Code (or Cursor / Codex)
 3. Prompt with `/hyperframes` and one of the shapes above
-4. `npx hyperframes preview` — watch in the browser as the agent edits
+4. `hyperframes preview` — watch in the browser as the agent edits
 5. Iterate with small targeted prompts
-6. `npx hyperframes lint && npx hyperframes check` — the gate: structure, runtime errors, layout collisions, motion, and contrast. Both must pass before you render
-7. `npx hyperframes render --output final.mp4` when you're happy
+6. `hyperframes lint && hyperframes check` — the gate: structure, runtime errors, layout collisions, motion, and contrast. Both must pass before you render
+7. `hyperframes render --output final.mp4` when you're happy
 
 `check` is the step people skip and regret. It runs the composition in a headless browser and reports what a still frame can't tell you — an element overflowing its region, two text blocks colliding, a runtime error that only fires mid-timeline, contrast below WCAG AA. It is fast and it is not optional: a render that took ten minutes will happily contain a defect `check` would have named in seconds.
 
-
-
 ## What a prompt buys you
 
-Three prompts from this guide and their unedited renders — one workflow warm start, one registry-block piece, one dense freeform spec:
+Two prompts from this guide, each verified exactly as written — one workflow warm start, one registry-block piece:
 
 > /product-launch-video Make a 45-second 1920x1080 launch video for https://linear.app. Energetic but minimal, use the site's own palette and screenshots. Structure: hook stating the problem, 3 feature beats with UI captures and one-line captions, end card with logo + "Try it free". Female TTS voice, confident tone, subtle electronic BGM under -18dB.
 
-<DocsVideo
-  title="HyperFrames video: Example Product Launch"
-  src="https://static.heygen.ai/hyperframes-oss/docs/images/prompting/example-product-launch-v2.mp4#t=0.1"
-  loop
-/>
-*Rendered from the prompt above, unedited.*
-
 > /motion-graphics 6-second 1920x1080 video, dark navy background. Beat 1 (0-1s): label "ARR" fades up small, top-center. Beat 2 (1-4s): a giant number counts up to $4.2M with an odometer roll, easing out as it lands. Beat 3 (4-6s): "+312% YoY" stamps in below in green, then everything settles into a gentle ambient idle. Use the `apple-money-count` registry block as base. No narration.
 
-<DocsVideo
-  title="HyperFrames video: Example Stat Countup"
-  src="https://static.heygen.ai/hyperframes-oss/docs/images/prompting/example-stat-countup.mp4#t=0.1"
-  loop
-/>
-*Rendered from the prompt above, unedited.*
-
-And at the far end of the [specification dial](/prompting/specification-dial), a full visual+motion spec one-shots a broadcast-style animated globe — see [Recreating something you saw](/prompting/recreating-references) for the spec:
-
-<DocsVideo
-  title="HyperFrames video: Recreate Globe Oneshot"
-  src="https://static.heygen.ai/hyperframes-oss/docs/images/prompting/recreate-globe-oneshot-v2.mp4#t=0.1"
-  loop
-/>
-*One-shot render from the distilled spec, no iteration.*
+And at the far end of the [specification dial](/prompting/specification-dial), a full visual+motion spec one-shots a broadcast-style animated globe — see [Recreating something you saw](/prompting/recreating-references) for the spec.
 
 ## Explore the guide
 

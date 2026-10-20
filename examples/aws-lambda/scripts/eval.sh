@@ -25,7 +25,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/../../.." && pwd)"
 SAM_DIR="$SCRIPT_DIR/.."
 
-FIXTURES="${FIXTURES:-mp4-h264-sdr,many-cuts,gsap-letters-render-compat,heygen-promo-preview-assets}"
+FIXTURES="${FIXTURES:-mp4-h264-sdr,many-cuts,gsap-letters-render-compat}"
 CHUNK_COUNT="${CHUNK_COUNT:-4}"
 # Pin chunkSize across all fixtures so wall-clock comparisons are
 # meaningful — without a fixed value, each fixture's plan() picks
@@ -59,7 +59,7 @@ stack, renders each fixture twice (locally + via Step Functions), and
 tears the stack down.
 
 Flags:
-  --fixtures <comma-sep>        fixture names (default: mp4-h264-sdr,many-cuts,gsap-letters-render-compat,heygen-promo-preview-assets)
+  --fixtures <comma-sep>        fixture names (default: mp4-h264-sdr,many-cuts,gsap-letters-render-compat)
   --chunk-count <N>             chunk fan-out per Lambda render (default: 4)
   --chunk-size <frames>         frames per chunk; pinned across fixtures (default: 60)
   --psnr-threshold <db>         PSNR floor in dB for visual equivalence (default: 40)

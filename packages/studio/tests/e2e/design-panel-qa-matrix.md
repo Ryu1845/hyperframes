@@ -1,7 +1,7 @@
 # Design Panel QA Matrix
 
 Campaign artifact for `docs/plans/2026-07-02-001-fix-studio-design-panel-inputs-plan.md`.
-Environment: published CLI `hyperframes@0.7.26`, embedded mode (`npx hyperframes preview`
+Environment: published CLI `@ryu1845/hyperframes@0.7.26`, embedded mode (`hyperframes preview`
 in a scaffolded `warm-grain` project outside the repo), Chrome via agent-browser.
 
 ## Step 0: demo-failure reproduction (baseline, pre-fix)
@@ -20,7 +20,7 @@ root cause is the **selection layer**, not the persist pipeline.
 - Committing Size 72px:
   - signal a (disk): `index.html` changed, `<div style="font-size: 72px" ... class="grain-texture">`
   - signal b (HTTP): `POST /file-mutations/patch-element/index.html` 200, `matched:true, changed:true`
-  - signal c (console/telemetry): nothing
+  - signal c (console): nothing
 - Visible effect: none (the styled element is an invisible overlay). This alone explains the
   demo: every click lands on the overlay, every edit applies to it.
 - Bucket: **selection/hit-testing** (new bucket; persist pipeline healthy in this leg).

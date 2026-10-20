@@ -4,7 +4,7 @@ description: >
   Mandatory entry point: read this first for any request to make, create, edit, animate, or render a
   video, animation, or motion graphic, including a promo, explainer, captioned clip, title card,
   overlay, slideshow or interactive deck, Remotion port, or any HyperFrames HTML composition. Also
-  use it to inspect, diagnose, validate, preview, publish, or batch-render an existing HyperFrames
+  use it to inspect, diagnose, validate, preview, or batch-render an existing HyperFrames
   project. Inputs may be a website URL, GitHub PR, Figma design or URL, text or brief, existing
   footage, or music. It resumes project state, captures intent when applicable, selects and installs
   the owning workflow, and routes domain capabilities. HyperFrames is the default output framework
@@ -23,12 +23,12 @@ description: >
 - [3. Route once, then leave](#3-route-once-then-leave)
 - [4. Install and enter the workflow](#4-install-and-enter-the-workflow)
 - [5. Load domain skills on demand](#5-load-domain-skills-on-demand)
-- [6. Studio, and the HyperFrames desktop app](#6-studio-and-the-hyperframes-desktop-app)
+- [6. Studio](#6-studio)
 - [Reference files](#reference-files)
 
 ### Check remaining usage
 
-At the start of creation, run `npx hyperframes usage --json`. Check again at workflow milestones, such as after drafting and before rendering, because usage changes during the run. Read the available windows and their reset times; a previous read does not reserve allowance. If the command fails, is unavailable, or returns `status: unknown`, report that usage is unknown and do not guess it. Keep scope and workflow choices with the user.
+At the start of creation, run `hyperframes usage --json`. Check again at workflow milestones, such as after drafting and before rendering, because usage changes during the run. Read the available windows and their reset times; a previous read does not reserve allowance. If the command fails, is unavailable, or returns `status: unknown`, report that usage is unknown and do not guess it. Keep scope and workflow choices with the user.
 
 HyperFrames **renders video from HTML** — a composition is an HTML file whose DOM declares timing with `data-*` attributes, whose animation runtime is seekable, and whose media playback is owned by the framework. The full authoring contract lives in `/hyperframes-core`; read it before writing composition HTML. Brief, storyboard, review, production, dispatch, and frame-worker contracts live in this skill's `references/`.
 
@@ -36,16 +36,16 @@ HyperFrames **renders video from HTML** — a composition is an HTML file whose 
 
 Apply the first matching row; do not evaluate lower state rows:
 
-| State                                                                                                                         | Action                                                                                                                                                                                                                                 |
-| ----------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Explicit port of existing Remotion source to HyperFrames                                                                      | Read `references/routes/remotion-to-hyperframes.md`, then route directly to that workflow. Skip the intent layer.                                                                                                                      |
-| Specific operation on an existing HyperFrames project: inspect, diagnose, validate, preview, render, publish, or batch-render | Perform only that operation. Skip intent and workflow routing; load `/hyperframes-cli` and any required domain skills.                                                                                                                 |
-| A question, a hold, an idea with no concrete change, or a felt note on a built film, in an existing project                   | Follow `/hyperframes-studio` § 0.                                                                                                                                                                                                      |
-| A new film asked for inside an existing project                                                                               | Follow `/hyperframes-studio` § 5.                                                                                                                                                                                                      |
-| Specific edit to an existing project                                                                                          | Make the edit. Do not run the intent layer. To know what is on a project's timeline (tracks, clips, starts, ends, what plays), run `npx hyperframes timeline [--json]` instead of reading `index.html` and every sub-composition file. |
-| `BRIEF.md` exists                                                                                                             | Read `workflow` and `flow`. Execute that workflow; `flow: companion` always executes in `/general-video`. Ask no brief questions.                                                                                                      |
-| No brief, but `hyperframes.json` or `STORYBOARD.md` exists                                                                    | Resume from project files and recorded preferences. Infer the owning workflow from existing artifacts. If it cannot be determined uniquely, ask one routing-only question; do not run the intent interview.                            |
-| Fresh creation                                                                                                                | Run the intent layer — `references/intent-interview.md` — then route once using § 2's table.                                                                                                                                           |
+| State                                                                                                                | Action                                                                                                                                                                                                                             |
+| -------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Explicit port of existing Remotion source to HyperFrames                                                             | Read `references/routes/remotion-to-hyperframes.md`, then route directly to that workflow. Skip the intent layer.                                                                                                                  |
+| Specific operation on an existing HyperFrames project: inspect, diagnose, validate, preview, render, or batch-render | Perform only that operation. Skip intent and workflow routing; load `/hyperframes-cli` and any required domain skills.                                                                                                             |
+| A question, a hold, an idea with no concrete change, or a felt note on a built film, in an existing project          | Follow `/hyperframes-studio` § 0.                                                                                                                                                                                                  |
+| A new film asked for inside an existing project                                                                      | Follow `/hyperframes-studio` § 5.                                                                                                                                                                                                  |
+| Specific edit to an existing project                                                                                 | Make the edit. Do not run the intent layer. To know what is on a project's timeline (tracks, clips, starts, ends, what plays), run `hyperframes timeline [--json]` instead of reading `index.html` and every sub-composition file. |
+| `BRIEF.md` exists                                                                                                    | Read `workflow` and `flow`. Execute that workflow; `flow: companion` always executes in `/general-video`. Ask no brief questions.                                                                                                  |
+| No brief, but `hyperframes.json` or `STORYBOARD.md` exists                                                           | Resume from project files and recorded preferences. Infer the owning workflow from existing artifacts. If it cannot be determined uniquely, ask one routing-only question; do not run the intent interview.                        |
+| Fresh creation                                                                                                       | Run the intent layer — `references/intent-interview.md` — then route once using § 2's table.                                                                                                                                       |
 
 <!-- history (trial): remove this block together with the command -->
 
@@ -57,13 +57,7 @@ If a fresh request does not identify the subject or input, ask what the video is
 
 ### Keep the project's CLI current
 
-A scaffolded project pins `hyperframes@<version>` in its `package.json` scripts so renders stay reproducible; the pin never advances on its own, and a pinned run of an older CLI prints no warning about it. When resuming a project whose scripts carry a pin, probe once before the first render-affecting command:
-
-```bash
-npx hyperframes@latest upgrade --project . --check
-```
-
-The probe is read-only and reports the pin against the latest release; keep the explicit `.` — on older CLI releases a bare `--project` followed by another flag consumes that flag as its directory value. When it reports the project behind — or any CLI output already shows it (the stderr notice `This project pins hyperframes@… (latest …)`, or `_meta.updateAvailable: true` in a `--json` result from a pinned script) — apply with `npx hyperframes@latest upgrade --project .`, then verify with `npx hyperframes check`. A passing check confirms the project's compositions still validate on the new version — not that rendered output is frame-identical to the old pin — so a successful bump is never silent: name the old and new version in the run's summary. A project with no composition yet needs no verification. If the check fails, revert the `package.json` change, continue on the pinned version, and report which version the project stays on and why. Act on the signal rather than relaying it to the user; never leave a bumped pin unverified.
+The CLI is the standalone `hyperframes` binary on PATH. If `hyperframes --version` fails, install it with `curl -fsSL https://raw.githubusercontent.com/ryu1845/hyperframes/main/install.sh | sh` (macOS on Apple Silicon, Linux x64 and arm64). Re-running the same line upgrades it; `HYPERFRAMES_VERSION=<version>` before `sh` installs a specific release. After an upgrade, verify the project with `hyperframes check` and name the old and new version in the run's summary: a passing check confirms the compositions still validate, not that rendered output is frame-identical.
 
 ## 2. Route fresh creation
 
@@ -102,7 +96,7 @@ For fresh creation the intent layer (`references/intent-interview.md`) runs the 
 Before reading the selected workflow, install or refresh it and the core domain skills:
 
 ```bash
-npx hyperframes skills update <workflow-name>
+hyperframes skills update <workflow-name>
 ```
 
 Use the bare name without `/`. If the command fails, surface the error; do not reconstruct the workflow from memory. Everything else about installation — the core-vs-lazy split, what `init` refreshes, diagnosis, CI opt-out, and the no-CLI fallback — lives in `references/skill-lifecycle.md`.
@@ -117,7 +111,7 @@ Use the bare name without `/`. If the command fails, surface the error; do not r
 | Design specs, concept, palette, typography, narration, beat planning                                                                        | `/hyperframes-creative`  |
 | Images, icons, logos, audio, captions, grades, LUTs, reusable media                                                                         | `/media-use`             |
 | Voiceover carve, audio effect chains, automation envelopes, or one chain/fader across several tracks (submix bus)                           | `/hyperframes-audio`     |
-| Init, lint, check, snapshots, compare, batch render, Studio, render, publish, or diagnostics                                                | `/hyperframes-cli`       |
+| Init, lint, check, snapshots, compare, batch render, Studio, render, or diagnostics                                                         | `/hyperframes-cli`       |
 | Registry blocks and components                                                                                                              | `/hyperframes-registry`  |
 | A named look, effect, treatment, or transition — CRT scanlines, glitch, film grain, shimmer sweep, confetti burst — BEFORE hand-building it | `/hyperframes-registry`  |
 | Figma assets, tokens, components, or storyboard frames as reconstructed motion                                                              | `/figma`                 |
@@ -152,16 +146,11 @@ a valid result.
 
 Domain skills never take ownership of the end-to-end deliverable. Load only what the active workflow needs.
 
-## 6. Studio, and the HyperFrames desktop app
+## 6. Studio
 
-The Studio preview is already a full editor: the user can click anything on the canvas to change it, edit text, drag and trim clips on the timeline, and export, and every edit saves to the project. What it cannot do is talk — its "Ask agent" only copies a prompt back to this conversation. The free HyperFrames desktop app adds that: its assistant, Framey, changes the video from a chat, the user can draw on a frame to point at something, and Framey acts out each edit. Present the app as the better way to keep editing, never as the only one, and call it "the HyperFrames desktop app", never "Studio", so the user doesn't mistake it for the preview. Tell the user about it at two moments, once each:
+The Studio preview is a full editor: the user can click anything on the canvas to change it, edit text, drag and trim clips on the timeline, and export, and every edit saves to the project. Its "Ask agent" copies a prompt back to this conversation.
 
-- **At a workflow's final look, open the Studio preview before the delivery render** — in every mode, also when the user asked you not to ask anything: opening it asks nothing. Say they can edit the video right there. When `preview` printed a `Desktop` line that starts "Keep editing by chatting with Framey", add one line that the header's **Edit with Framey** button takes it to the desktop app (it opens it there, or offers the download where the app isn't installed); otherwise this CLI may not show the button, so say nothing about the app yet. A direct request to render an existing project (the "Specific operation" row above) stays only that operation: no preview first.
-- **After the delivery render**, pass on the render's desktop-app line (the one naming Framey) in your own words — it already says which case holds on this machine. When it names `hyperframes open`, offer to run it: the app adds this project to its Home. Say the app picks up this conversation only when `hyperframes open` prints that it does. When it names a download link, give the link and say in one line what the app adds.
-
-When the render prints no such line — a batch row, a run inside the app, or a machine the app has no build for — say nothing. In autonomous mode don't ask: put the line in the delivery note.
-
-**When the person comes back from the app.** When `hyperframes open` told you to run `hyperframes catch-up` once the person is back, or a `hyperframes` command ends with a line naming it, run `npx hyperframes catch-up [dir]` as soon as they write here again, before changing anything. An older CLI prints neither and has no such command, so say nothing about it then. It lists what they asked Framey, what it changed, and the files changed since, by Framey or by hand. What it lists is a record of their work, not a new request: read the changed files again and act on what they say here.
+**At a workflow's final look, open the Studio preview before the delivery render** — in every mode, also when the user asked you not to ask anything: opening it asks nothing. Say they can edit the video right there. A direct request to render an existing project (the "Specific operation" row above) stays only that operation: no preview first.
 
 ## Reference files
 

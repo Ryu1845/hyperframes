@@ -122,12 +122,7 @@ test("CLI partial run retains unselected voices, BGM and SFX", (t) => {
     ],
     {
       encoding: "utf8",
-      env: {
-        ...process.env,
-        HEYGEN_CONFIG_DIR: dir,
-        HEYGEN_API_KEY: "",
-        HYPERFRAMES_API_KEY: "",
-      },
+      env: process.env,
     },
   );
   assert.equal(result.status, 0, result.stderr);

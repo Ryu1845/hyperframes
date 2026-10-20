@@ -13,15 +13,14 @@ import {
   type HistoryWho,
 } from "@hyperframes/studio-server/history";
 import type { Example } from "./_examples.js";
-import { trackHistoryAction } from "../telemetry/events.js";
 import { setCommandExitCode } from "../utils/commandResult.js";
 import {
   Refusal,
   endTurn,
   historyDeps,
   lastTurnParts,
-  withOwner as withHistoryOwner,
-  withReader as withHistoryReader,
+  withOwner,
+  withReader,
   writeTurn,
   type Owner,
   type Reader,
@@ -29,7 +28,7 @@ import {
   type UndoMode,
 } from "../utils/historyOwner.js";
 import { AmbiguousPreviewServerError } from "../utils/studioSelectionClient.js";
-import { withMeta } from "../utils/updateCheck.js";
+import { withMeta } from "../utils/jsonMeta.js";
 
 export const examples: Example[] = [
   [
@@ -44,27 +43,6 @@ export const examples: Example[] = [
 ];
 
 const YOU: HistoryWho = { kind: "person", name: "You" };
-
-/** The project's history for one subcommand, counted by action and by who kept it (preview or this process). */
-const withOwner = <T>(
-  action: string,
-  dir: string | undefined,
-  task: (owner: Owner, turn: Turn | null, projectDir: string) => Promise<T>,
-) =>
-  withHistoryOwner(dir, (owner, turn, projectDir) => {
-    trackHistoryAction({ action, via: owner.via });
-    return task(owner, turn, projectDir);
-  });
-
-const withReader = <T>(
-  action: string,
-  dir: string | undefined,
-  task: (reader: Reader) => Promise<T>,
-) =>
-  withHistoryReader(dir, (reader) => {
-    trackHistoryAction({ action, via: reader.via });
-    return task(reader);
-  });
 
 /** An agent names itself with --who; without it the caller is the person, even during an agent's turn. */
 const whoOf = (name: string | undefined): HistoryWho => (name ? { kind: "agent", name } : YOU);
@@ -297,7 +275,7 @@ async function runUndo(args: {
     : args.backToBefore
       ? "back-to-before"
       : undefined;
-  await withOwner("undo", args.dir, async (owner, turn, projectDir) => {
+  await withOwner(args.dir, async (owner, turn, projectDir) => {
     const who = whoOf(args.who);
     // Undo ends the caller's own open turn first, so its entries can be undone.
     if (turn?.who.name === who.name) await endTurn(owner, turn, projectDir);
@@ -374,7 +352,7 @@ const listEntries = async (args: {
   json: boolean;
 }) => {
   if (args._?.[0]) return;
-  await withReader("list", args.dir, async (reader) => {
+  await withReader(args.dir, async (reader) => {
     const all = await reader.list();
     const picked = args.since ? since(all, args.since, whoOf(args.who)) : all;
     const limit = Number(args.limit ?? 20);
@@ -406,7 +384,7 @@ export default defineCommand({
         "One entry's files, before and after",
         { ref: { type: "positional", required: true }, diff: { type: "boolean", default: false } },
         (args) =>
-          withReader("show", args.dir, async (reader) => {
+          withReader(args.dir, async (reader) => {
             const entry = entryOf(await reader.list(), args.ref);
             const changes = entry.files.map((file) => ({
               path: file.path,
@@ -439,7 +417,7 @@ export default defineCommand({
         "Make the files what they were right after an entry, a time, or 'start'",
         { ref: { type: "positional", required: true }, who: { type: "string" } },
         (args) =>
-          withOwner("restore", args.dir, async (owner) => {
+          withOwner(args.dir, async (owner) => {
             const entry = await owner.restore(
               pointOf(await owner.list(), args.ref),
               whoOf(args.who),
@@ -460,7 +438,7 @@ export default defineCommand({
           path: { type: "positional", required: false },
         },
         (args) =>
-          withReader("peek", args.dir, async (reader) => {
+          withReader(args.dir, async (reader) => {
             const files = await reader.peek(pointOf(await reader.list(), args.ref));
             if (!files) throw new Refusal("That point is no longer kept");
             if (!args.path) return print(args.json, { files }, Object.keys(files).join("\n"));
@@ -475,7 +453,7 @@ export default defineCommand({
         "Keep an entry (and what it needs) when old history is trimmed",
         { ref: { type: "positional", required: true }, off: { type: "boolean", default: false } },
         (args) =>
-          withOwner("pin", args.dir, async (owner) => {
+          withOwner(args.dir, async (owner) => {
             const entry = entryOf(await owner.list(), args.ref);
             await owner.pin(entry.id, !args.off);
             print(
@@ -499,7 +477,7 @@ export default defineCommand({
           },
         },
         (args) =>
-          withOwner("begin", args.dir, async (owner, turn, projectDir) => {
+          withOwner(args.dir, async (owner, turn, projectDir) => {
             const who = whoOf(args.who);
             await releaseOpenTurn(owner, turn, who, args.exclusive, projectDir);
             const { id, startedAt } = await owner.begin(
@@ -532,7 +510,7 @@ export default defineCommand({
           },
         },
         (args) =>
-          withOwner("end", args.dir, async (owner, turn, projectDir) => {
+          withOwner(args.dir, async (owner, turn, projectDir) => {
             if (!turn && args.ifOpen)
               return print(args.json, { entry: null, parts: [] }, "No turn is open.");
             if (!turn) throw new Refusal("No turn is open; start one with history begin");

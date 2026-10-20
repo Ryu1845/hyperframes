@@ -32,7 +32,7 @@ export const MAX_STEP_FUNCTIONS_INPUT_BYTES = 256 * 1024;
 
 /** Pointer to the docs section that explains the URL-your-assets convention. */
 const LARGE_VARIABLES_DOCS_URL =
-  "https://hyperframes.heygen.com/deploy/templates-on-lambda#working-with-large-variables";
+  "https://github.com/ryu1845/hyperframes/blob/main/docs/deploy/templates-on-lambda.mdx#working-with-large-variables";
 
 /**
  * Validate that the serialized Step Functions execution input fits inside the

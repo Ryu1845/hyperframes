@@ -4,21 +4,7 @@ sidebarTitle: "Presentation"
 description: "Build a navigable deck with reveals, notes, optional branches, hotspots, and presenter mode."
 ---
 
-import { DocsVideo } from "/snippets/docs-video.jsx";
-
 A HyperFrames slideshow stays interactive. The result is a live, navigable deck—not a linear MP4.
-
-
-<DocsVideo
-  title="A real deck being navigated — fragments, a branch, and presenter mode"
-  src="https://static.heygen.ai/hyperframes-oss/docs/images/showcase/slideshow-demo-v1.mp4"
-  poster="https://static.heygen.ai/hyperframes-oss/docs/images/showcase/slideshow-demo-v1.jpg"
-/>
-
-This is a live capture of a running deck, not a video of slides. Watch the
-fragments arrive one key-press at a time, a hotspot jump to a branch slide, the
-back control return to the exact fragment it left, and presenter mode open with
-real speaker notes and a running timer.
 
 ## Make the request
 
@@ -77,7 +63,7 @@ Use [Studio’s Slideshow panel](/studio/slideshows) to adjust order, notes, rev
 ## Present the deck
 
 ```bash
-npx hyperframes present <project-directory>
+hyperframes present <project-directory>
 ```
 
 Open the local URL, then click **Present** or press **P**. The audience gets a clean full-screen view while the presenter keeps the current slide, next slide, notes, and timer.

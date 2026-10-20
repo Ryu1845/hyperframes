@@ -51,13 +51,6 @@ this element**. Studio prepares the element and project context, combines it
 with your instruction, and copies the prompt to the clipboard. Paste that
 prompt into your agent chat.
 
-<Frame caption="Studio prepares a prompt for the selected element; you paste it into your agent chat.">
-  <img
-    src="https://static.heygen.ai/hyperframes-oss/docs/images/studio/ask-agent-v1.jpg"
-    alt="HyperFrames Studio dialog for copying a prompt about the selected element and project context"
-  />
-</Frame>
-
 ```text
 Keep the current narration and scene order. Make this product panel readable
 at the final video size, and do not change the following scene.
@@ -91,8 +84,8 @@ Studio Lint is a quick in-editor pass. The project-level commands remain the
 final gate, especially when the project contains nested compositions:
 
 ```bash
-npx hyperframes lint
-npx hyperframes check
+hyperframes lint
+hyperframes check
 ```
 
 `lint` checks the composition structure. `check` adds browser, runtime, layout,

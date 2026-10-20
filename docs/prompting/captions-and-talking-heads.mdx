@@ -3,8 +3,6 @@ title: Captions and talking-head footage
 description: "Two ways to dress an existing talking-head clip — readable captions or designed graphic overlays — both leaving the footage itself untouched."
 ---
 
-import { DocsVideo } from "/snippets/docs-video.jsx";
-
 The first two rides built a video from nothing and the third built one from a diff. This one starts from footage you already have — a talking-head clip — and adds a layer on top without touching the shot itself.
 
 ## Your first win
@@ -14,14 +12,6 @@ One prompt to [`/embedded-captions`](/prompting/overview), pointed at an existin
 Captions route by **identity**, not by mode. You pick one look from the catalog; the engine behind it is a lookup detail you never have to name. The default is a clean verbatim rail — `anchor` — with the occasional peak word composited behind the subject.
 
 > /embedded-captions Add captions to ./interview.mp4. Use the `anchor` identity — clean verbatim rail carrying the spoken words, readable lower-third. Promote the single hardest-hitting word to an embed behind the speaker; highlight one key word in each rail line. Keep the source aspect ratio. Footage stays untouched.
-
-<DocsVideo
-  title="HyperFrames video: Captions Anchor Rail"
-  src="https://static.heygen.ai/hyperframes-oss/docs/images/prompting/captions-anchor-rail-v2.mp4#t=0.1"
-  loop
-/>
-*Rendered from the prompt above on generated avatar footage, unedited — one earned embed behind the speaker, everything else on the rail.*
-
 
 The rail carries most of the text; an **embed** is the scarce, earned peak — one big word matted behind the subject at the climax, never every line. Embedding the whole transcript is the most common mistake this skill guards against.
 

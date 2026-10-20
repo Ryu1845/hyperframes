@@ -1,5 +1,5 @@
 {
-  "$schema": "https://hyperframes.heygen.com/schema/registry-item.json",
+  "$schema": "https://raw.githubusercontent.com/ryu1845/hyperframes/main/docs/schema/registry-item.json",
   "name": "caption-editorial-emphasis",
   "type": "hyperframes:component",
   "title": "Editorial Emphasis",
@@ -11,9 +11,5 @@
       "target": "compositions/components/caption-editorial-emphasis.html",
       "type": "hyperframes:snippet"
     }
-  ],
-  "preview": {
-    "video": "https://static.heygen.ai/hyperframes-oss/registry/components/caption-editorial-emphasis/preview.mp4?v=1779051416",
-    "poster": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/caption-editorial-emphasis.png"
-  }
+  ]
 }

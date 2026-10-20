@@ -1,4 +1,4 @@
-import type { GeometryCommitResult } from "../utils/previewFeatureUsage";
+import type { GeometryCommitResult } from "./gsapGestureOutcome";
 import type { RotationCommit } from "../components/editor/rotationDraft";
 import { useCallback, useMemo, useRef, useState } from "react";
 import type { GsapAnimation } from "@hyperframes/core/gsap-parser";
@@ -12,7 +12,7 @@ import type { DomEditCommitOutcome } from "./domEditCommitRunner";
 import type { UseDomStyleCommitOptions } from "./useDomStyleCommit";
 import { useGsapAnimationFetchFallback } from "./useGsapAnimationFetchFallback";
 import { useGsapAwareEditing } from "./useGsapAwareEditing";
-import { useGsapInteractionFailureTelemetry } from "./useGsapInteractionFailureTelemetry";
+import { useGsapInteractionFailureToast } from "./useGsapInteractionFailureToast";
 import { useGsapScriptCommits } from "./useGsapScriptCommits";
 import { useGsapCacheVersion } from "./useGsapTweenCache";
 import { createDomEditSaveQueue } from "../utils/domEditSaveQueue";
@@ -95,7 +95,6 @@ export function useDomGeometryCommit({
     reloadPreview: noop,
   });
   const commitPositionPatchToHtml = useDomEditPositionPatchCommit({
-    activeCompPath,
     persistDomEditOperations,
     showToast,
   });
@@ -114,7 +113,7 @@ export function useDomGeometryCommit({
       readOnlyPreview: false,
     });
   const makeFetchFallback = useGsapAnimationFetchFallback(projectId);
-  const trackGsapInteractionFailure = useGsapInteractionFailureTelemetry(activeCompPath, showToast);
+  const toastGsapInteractionFailure = useGsapInteractionFailureToast(showToast);
   const {
     handleGsapAwarePathOffsetCommit,
     handleGsapAwareGroupPathOffsetCommit,
@@ -130,7 +129,7 @@ export function useDomGeometryCommit({
     showToast,
     bumpGsapCache,
     makeFetchFallback,
-    trackGsapInteractionFailure,
+    toastGsapInteractionFailure,
     stageElementPositionOffset,
     handleDomBoxSizeCommit,
     handleDomRotationCommit,

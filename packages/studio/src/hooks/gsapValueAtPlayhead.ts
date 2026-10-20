@@ -64,8 +64,6 @@ export type PlayheadEditPlan =
         ease?: string;
         easeEach?: string;
       };
-      /** A keyframe was added, not only changed: keyframe usage counts it as an add. */
-      added: boolean;
     }
   | { ok: false; reason: PlayheadEditRefusal };
 
@@ -202,7 +200,6 @@ export function planValueAtPlayhead(edit: PlayheadEdit): PlayheadEditPlan {
   const norm = normalize(edit);
   if ("reason" in norm) return refuse(norm.reason);
   const keyframes = norm.keyframes;
-  const authored = keyframes.length;
   const steps = anim.keyframes?.format === "object-array" ? [...keyframes] : [];
   // GSAP runs `scale` beside scaleX/scaleY and the longhands win, so a per-axis edit splits it.
   if ("scaleX" in values || "scaleY" in values) {
@@ -279,7 +276,6 @@ export function planValueAtPlayhead(edit: PlayheadEdit): PlayheadEditPlan {
       ...(norm.runEase ? { ease: norm.runEase } : {}),
       ...(norm.easeEach ? { easeEach: norm.easeEach } : {}),
     },
-    added: keyframes.length > authored,
   };
 }
 
@@ -338,7 +334,6 @@ export async function commitValueAtPlayhead(
     label: options.label,
     softReload: true,
     beforeReload: options.beforeReload,
-    ...(plan.added && { keyframeAction: "add" as const }),
   });
   if (parkAt != null) {
     setActiveKeyframePct(null);

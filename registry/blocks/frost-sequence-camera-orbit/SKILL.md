@@ -32,7 +32,7 @@ Composition id: `frost-sequence-rig`. Duration 22.5 s at 30 fps, 1920×1080.
 
 ## Install
 
-Install with `npx hyperframes add frost-sequence-camera-orbit`; by default the files above land under `compositions/frost-sequence-camera-orbit/`. Then mount the block from the host `index.html`:
+Install with `hyperframes add frost-sequence-camera-orbit`; by default the files above land under `compositions/frost-sequence-camera-orbit/`. Then mount the block from the host `index.html`:
 
 ```html
 <div
@@ -49,7 +49,7 @@ Install with `npx hyperframes add frost-sequence-camera-orbit`; by default the f
 Render with custom values by targeting the composition file directly:
 
 ```sh
-npx --yes hyperframes@0.8.12 render 'compositions/frost-sequence-camera-orbit/frost-sequence-camera-orbit.html' --variables '{"headline1":"Hard to|break.","headline2":"Easy to|remember."}'
+hyperframes render 'compositions/frost-sequence-camera-orbit/frost-sequence-camera-orbit.html' --variables '{"headline1":"Hard to|break.","headline2":"Easy to|remember."}'
 ```
 
 ## Variables

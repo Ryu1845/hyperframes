@@ -1,4 +1,3 @@
-import { useTrackDesignInput } from "../../contexts/DesignPanelInputContext";
 /**
  * The voiceover carve, as one module in the FX rack.
  *
@@ -166,7 +165,6 @@ export function FxCarveModule({
   onCarvePreview(carve: HfCarveSettings): void;
 }) {
   const on = carve.enabled;
-  const trackInput = useTrackDesignInput();
   const soleVoice = soleCarveVoice(sourceOptions, carve.sources);
   const summary = carveSummary({ nodes, carve, analysing });
   // The carve's own colour, used three ways: the module's left edge, the title,
@@ -219,7 +217,6 @@ export function FxCarveModule({
           disabled={disabled}
           onClick={() => {
             onCarveChange({ ...carve, enabled: !on });
-            trackInput("toggle", "carve-enabled");
           }}
         >
           {on ? "On" : "Off"}
@@ -257,7 +254,6 @@ export function FxCarveModule({
               onChange={(_k, v) => onCarvePreview({ ...carve, strength: Number(v) })}
               onCommit={(_k, v) => {
                 onCarveChange({ ...carve, strength: Number(v) });
-                trackInput("slider", "carve-strength");
               }}
             />
           </div>
@@ -342,7 +338,6 @@ function CarveSourceRow({
   disabled?: boolean;
   onCarveChange(carve: HfCarveSettings): void;
 }) {
-  const trackInput = useTrackDesignInput();
   return (
     <div className="hf-fx-row flex min-h-6 items-center gap-2">
       {/* Wraps like every other name in this column (see FxParamRow) — one
@@ -382,7 +377,6 @@ function CarveSourceRow({
                       ? [...carve.sources, o.id]
                       : carve.sources.filter((id) => id !== o.id),
                   });
-                  trackInput("toggle", "carve-source");
                 }}
               />
               <span className="truncate">{o.label}</span>

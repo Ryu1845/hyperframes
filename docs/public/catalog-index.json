@@ -12,8 +12,7 @@
       "status",
       "click"
     ],
-    "href": "/catalog/components/agent-cursor",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/agent-cursor.png"
+    "href": "/catalog/components/agent-cursor"
   },
   {
     "name": "ai-answer-rank",
@@ -30,8 +29,7 @@
       "ad-template",
       "square"
     ],
-    "href": "/catalog/blocks/ai-answer-rank",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/ai-answer-rank.png"
+    "href": "/catalog/blocks/ai-answer-rank"
   },
   {
     "name": "ai-chat-reveal",
@@ -46,8 +44,7 @@
       "vertical",
       "ad-template"
     ],
-    "href": "/catalog/blocks/ai-chat-reveal",
-    "preview": "https://static.heygen.ai/hyperframes/templates/promoted/254fe4bd8a3f00c1e70ac5e38a1bce25060f7590/ai-chat-reveal/poster.jpg"
+    "href": "/catalog/blocks/ai-chat-reveal"
   },
   {
     "name": "animated-bar-chart",
@@ -57,8 +54,7 @@
     "tags": [
       "data"
     ],
-    "href": "/catalog/components/animated-bar-chart",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/animated-bar-chart.png"
+    "href": "/catalog/components/animated-bar-chart"
   },
   {
     "name": "app-showcase",
@@ -70,8 +66,7 @@
       "app",
       "3d"
     ],
-    "href": "/catalog/blocks/app-showcase",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/app-showcase.png"
+    "href": "/catalog/blocks/app-showcase"
   },
   {
     "name": "apple-money-count",
@@ -85,8 +80,7 @@
       "youtube",
       "sfx"
     ],
-    "href": "/catalog/blocks/apple-money-count",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/apple-money-count.png"
+    "href": "/catalog/blocks/apple-money-count"
   },
   {
     "name": "arc-motion-path",
@@ -99,8 +93,7 @@
       "gsap-plugin",
       "hyperframes-native"
     ],
-    "href": "/catalog/components/arc-motion-path",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/arc-motion-path.png"
+    "href": "/catalog/components/arc-motion-path"
   },
   {
     "name": "ascii-render-pass",
@@ -114,8 +107,7 @@
       "ascii",
       "quantize"
     ],
-    "href": "/catalog/components/ascii-render-pass",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/ascii-render-pass.png"
+    "href": "/catalog/components/ascii-render-pass"
   },
   {
     "name": "ascii-trail-reveal",
@@ -130,8 +122,7 @@
       "trail",
       "grid"
     ],
-    "href": "/catalog/components/ascii-trail-reveal",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/ascii-trail-reveal.png"
+    "href": "/catalog/components/ascii-trail-reveal"
   },
   {
     "name": "aurora",
@@ -161,8 +152,7 @@
       "ambient",
       "loopable"
     ],
-    "href": "/catalog/components/aurora-drift",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/aurora-drift.png"
+    "href": "/catalog/components/aurora-drift"
   },
   {
     "name": "avatar-cloud",
@@ -177,8 +167,7 @@
       "social-proof",
       "prove"
     ],
-    "href": "/catalog/components/avatar-cloud",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/avatar-cloud.png"
+    "href": "/catalog/components/avatar-cloud"
   },
   {
     "name": "avatar-group-hover",
@@ -192,8 +181,7 @@
       "avatar",
       "hover"
     ],
-    "href": "/catalog/components/avatar-group-hover",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/avatar-group-hover.png"
+    "href": "/catalog/components/avatar-group-hover"
   },
   {
     "name": "badge-pop",
@@ -207,8 +195,7 @@
       "badge",
       "microinteraction"
     ],
-    "href": "/catalog/components/badge-pop",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/badge-pop.png"
+    "href": "/catalog/components/badge-pop"
   },
   {
     "name": "bar-chart-race",
@@ -221,8 +208,7 @@
       "statistics",
       "ranking"
     ],
-    "href": "/catalog/blocks/bar-chart-race",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/bar-chart-race.png"
+    "href": "/catalog/blocks/bar-chart-race"
   },
   {
     "name": "beat-accent",
@@ -237,8 +223,7 @@
       "emphasize",
       "impact"
     ],
-    "href": "/catalog/components/beat-accent",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/beat-accent.png"
+    "href": "/catalog/components/beat-accent"
   },
   {
     "name": "beat-freeze-cut",
@@ -251,8 +236,7 @@
       "beat-driven",
       "freeze-frame"
     ],
-    "href": "/catalog/blocks/beat-freeze-cut",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/beat-freeze-cut.png"
+    "href": "/catalog/blocks/beat-freeze-cut"
   },
   {
     "name": "beat-pulse-background",
@@ -267,8 +251,7 @@
       "rhythmic",
       "reactive"
     ],
-    "href": "/catalog/components/beat-pulse-background",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/beat-pulse-background.png"
+    "href": "/catalog/components/beat-pulse-background"
   },
   {
     "name": "beat-timeline",
@@ -282,8 +265,7 @@
       "bridge",
       "timeline"
     ],
-    "href": "/catalog/components/beat-timeline",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/beat-timeline.png"
+    "href": "/catalog/components/beat-timeline"
   },
   {
     "name": "before-after-wipe",
@@ -301,8 +283,7 @@
       "wipe",
       "slots"
     ],
-    "href": "/catalog/components/before-after-wipe",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/before-after-wipe.png"
+    "href": "/catalog/components/before-after-wipe"
   },
   {
     "name": "blob",
@@ -330,8 +311,7 @@
       "creator",
       "sfx"
     ],
-    "href": "/catalog/blocks/blue-sweater-intro-video",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/blue-sweater-intro-video.png"
+    "href": "/catalog/blocks/blue-sweater-intro-video"
   },
   {
     "name": "blur-in",
@@ -343,8 +323,7 @@
       "blur-in",
       "text-effect"
     ],
-    "href": "/catalog/components/blur-in",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/blur-in.png"
+    "href": "/catalog/components/blur-in"
   },
   {
     "name": "blur-out-up",
@@ -355,8 +334,7 @@
       "motion-primitive",
       "typography"
     ],
-    "href": "/catalog/components/blur-out-up",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/blur-out-up.png"
+    "href": "/catalog/components/blur-out-up"
   },
   {
     "name": "bottom-up-letters",
@@ -369,8 +347,7 @@
       "letters",
       "reveal"
     ],
-    "href": "/catalog/components/bottom-up-letters",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/bottom-up-letters.png"
+    "href": "/catalog/components/bottom-up-letters"
   },
   {
     "name": "browser-device-stage",
@@ -386,8 +363,7 @@
       "slot",
       "chrome"
     ],
-    "href": "/catalog/components/browser-device-stage",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/browser-device-stage.png"
+    "href": "/catalog/components/browser-device-stage"
   },
   {
     "name": "camcorder-hud",
@@ -403,8 +379,7 @@
       "creator",
       "media-treatment-overlay"
     ],
-    "href": "/catalog/blocks/camcorder-hud",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/camcorder-hud.png"
+    "href": "/catalog/blocks/camcorder-hud"
   },
   {
     "name": "camera-dolly-zoom",
@@ -417,8 +392,7 @@
       "3d",
       "cinematic"
     ],
-    "href": "/catalog/blocks/camera-dolly-zoom",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/camera-dolly-zoom.png"
+    "href": "/catalog/blocks/camera-dolly-zoom"
   },
   {
     "name": "camera-rig-depth-stack",
@@ -429,8 +403,7 @@
       "advanced-motion",
       "hyperframes-native"
     ],
-    "href": "/catalog/components/camera-rig-depth-stack",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/camera-rig-depth-stack.png"
+    "href": "/catalog/components/camera-rig-depth-stack"
   },
   {
     "name": "camera-scan-gate",
@@ -447,8 +420,7 @@
       "interaction",
       "demonstrate"
     ],
-    "href": "/catalog/components/camera-scan-gate",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/camera-scan-gate.png"
+    "href": "/catalog/components/camera-scan-gate"
   },
   {
     "name": "camera-shake",
@@ -462,8 +434,7 @@
       "effect",
       "cinematic"
     ],
-    "href": "/catalog/components/camera-shake",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/camera-shake.png"
+    "href": "/catalog/components/camera-shake"
   },
   {
     "name": "canopy-part-title",
@@ -479,8 +450,7 @@
       "two-headlines",
       "sweep"
     ],
-    "href": "/catalog/blocks/canopy-part-title",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/canopy-part-title.png"
+    "href": "/catalog/blocks/canopy-part-title"
   },
   {
     "name": "caption-blend-difference",
@@ -495,8 +465,7 @@
       "contrast",
       "inversion"
     ],
-    "href": "/catalog/components/caption-blend-difference",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/caption-blend-difference.png"
+    "href": "/catalog/components/caption-blend-difference"
   },
   {
     "name": "caption-camera-follow",
@@ -511,8 +480,7 @@
       "motion-primitive",
       "portrait"
     ],
-    "href": "/catalog/components/caption-camera-follow",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/caption-camera-follow.png"
+    "href": "/catalog/components/caption-camera-follow"
   },
   {
     "name": "caption-clip-wipe",
@@ -526,8 +494,7 @@
       "clip-path",
       "reveal"
     ],
-    "href": "/catalog/components/caption-clip-wipe",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/caption-clip-wipe.png"
+    "href": "/catalog/components/caption-clip-wipe"
   },
   {
     "name": "caption-editorial-emphasis",
@@ -541,8 +508,7 @@
       "typography",
       "emphasis"
     ],
-    "href": "/catalog/components/caption-editorial-emphasis",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/caption-editorial-emphasis.png"
+    "href": "/catalog/components/caption-editorial-emphasis"
   },
   {
     "name": "caption-emoji-pop",
@@ -555,8 +521,7 @@
       "emoji",
       "social"
     ],
-    "href": "/catalog/components/caption-emoji-pop",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/caption-emoji-pop.png"
+    "href": "/catalog/components/caption-emoji-pop"
   },
   {
     "name": "caption-glitch-rgb",
@@ -570,8 +535,7 @@
       "cyber",
       "tech"
     ],
-    "href": "/catalog/components/caption-glitch-rgb",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/caption-glitch-rgb.png"
+    "href": "/catalog/components/caption-glitch-rgb"
   },
   {
     "name": "caption-gradient-fill",
@@ -584,8 +548,7 @@
       "gradient",
       "colorful"
     ],
-    "href": "/catalog/components/caption-gradient-fill",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/caption-gradient-fill.png"
+    "href": "/catalog/components/caption-gradient-fill"
   },
   {
     "name": "caption-highlight",
@@ -599,8 +562,7 @@
       "social",
       "tiktok"
     ],
-    "href": "/catalog/components/caption-highlight",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/caption-highlight.png"
+    "href": "/catalog/components/caption-highlight"
   },
   {
     "name": "caption-kinetic-slam",
@@ -614,8 +576,7 @@
       "typography",
       "slam"
     ],
-    "href": "/catalog/components/caption-kinetic-slam",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/caption-kinetic-slam.png"
+    "href": "/catalog/components/caption-kinetic-slam"
   },
   {
     "name": "caption-matrix-decode",
@@ -629,8 +590,7 @@
       "scramble",
       "decode"
     ],
-    "href": "/catalog/components/caption-matrix-decode",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/caption-matrix-decode.png"
+    "href": "/catalog/components/caption-matrix-decode"
   },
   {
     "name": "caption-neon-accent",
@@ -644,8 +604,7 @@
       "glow",
       "accent"
     ],
-    "href": "/catalog/components/caption-neon-accent",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/caption-neon-accent.png"
+    "href": "/catalog/components/caption-neon-accent"
   },
   {
     "name": "caption-neon-glow",
@@ -659,8 +618,7 @@
       "glow",
       "gaming"
     ],
-    "href": "/catalog/components/caption-neon-glow",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/caption-neon-glow.png"
+    "href": "/catalog/components/caption-neon-glow"
   },
   {
     "name": "caption-parallax-layers",
@@ -674,8 +632,7 @@
       "3d",
       "depth"
     ],
-    "href": "/catalog/components/caption-parallax-layers",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/caption-parallax-layers.png"
+    "href": "/catalog/components/caption-parallax-layers"
   },
   {
     "name": "caption-particle-burst",
@@ -689,8 +646,7 @@
       "burst",
       "effects"
     ],
-    "href": "/catalog/components/caption-particle-burst",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/caption-particle-burst.png"
+    "href": "/catalog/components/caption-particle-burst"
   },
   {
     "name": "caption-pill-karaoke",
@@ -703,8 +659,7 @@
       "karaoke",
       "pill"
     ],
-    "href": "/catalog/components/caption-pill-karaoke",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/caption-pill-karaoke.png"
+    "href": "/catalog/components/caption-pill-karaoke"
   },
   {
     "name": "caption-texture",
@@ -717,8 +672,7 @@
       "texture",
       "mask"
     ],
-    "href": "/catalog/components/caption-texture",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/caption-texture.png"
+    "href": "/catalog/components/caption-texture"
   },
   {
     "name": "caption-weight-shift",
@@ -731,8 +685,7 @@
       "minimal",
       "typography"
     ],
-    "href": "/catalog/components/caption-weight-shift",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/caption-weight-shift.png"
+    "href": "/catalog/components/caption-weight-shift"
   },
   {
     "name": "card-resize",
@@ -746,8 +699,7 @@
       "card",
       "layout"
     ],
-    "href": "/catalog/components/card-resize",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/card-resize.png"
+    "href": "/catalog/components/card-resize"
   },
   {
     "name": "caret-swap",
@@ -762,8 +714,7 @@
       "typewriter",
       "remocn-port"
     ],
-    "href": "/catalog/components/caret-swap",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/caret-swap.png"
+    "href": "/catalog/components/caret-swap"
   },
   {
     "name": "carousel-circle-1",
@@ -777,8 +728,7 @@
       "showcase",
       "circle"
     ],
-    "href": "/catalog/blocks/carousel-circle-1",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/carousel-circle-1.png"
+    "href": "/catalog/blocks/carousel-circle-1"
   },
   {
     "name": "carousel-circle-2",
@@ -792,8 +742,7 @@
       "showcase",
       "circle"
     ],
-    "href": "/catalog/blocks/carousel-circle-2",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/carousel-circle-2.png"
+    "href": "/catalog/blocks/carousel-circle-2"
   },
   {
     "name": "carousel-circle-3",
@@ -807,8 +756,7 @@
       "showcase",
       "circle"
     ],
-    "href": "/catalog/blocks/carousel-circle-3",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/carousel-circle-3.png"
+    "href": "/catalog/blocks/carousel-circle-3"
   },
   {
     "name": "carousel-circle-4",
@@ -822,8 +770,7 @@
       "showcase",
       "circle"
     ],
-    "href": "/catalog/blocks/carousel-circle-4",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/carousel-circle-4.png"
+    "href": "/catalog/blocks/carousel-circle-4"
   },
   {
     "name": "carousel-circle-5",
@@ -837,8 +784,7 @@
       "showcase",
       "circle"
     ],
-    "href": "/catalog/blocks/carousel-circle-5",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/carousel-circle-5.png"
+    "href": "/catalog/blocks/carousel-circle-5"
   },
   {
     "name": "carousel-orbit-1",
@@ -853,8 +799,7 @@
       "orbit",
       "3d"
     ],
-    "href": "/catalog/blocks/carousel-orbit-1",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/carousel-orbit-1.png"
+    "href": "/catalog/blocks/carousel-orbit-1"
   },
   {
     "name": "carousel-orbit-2",
@@ -869,8 +814,7 @@
       "orbit",
       "3d"
     ],
-    "href": "/catalog/blocks/carousel-orbit-2",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/carousel-orbit-2.png"
+    "href": "/catalog/blocks/carousel-orbit-2"
   },
   {
     "name": "carousel-orbit-3",
@@ -885,8 +829,7 @@
       "orbit",
       "3d"
     ],
-    "href": "/catalog/blocks/carousel-orbit-3",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/carousel-orbit-3.png"
+    "href": "/catalog/blocks/carousel-orbit-3"
   },
   {
     "name": "carousel-orbit-4",
@@ -901,8 +844,7 @@
       "orbit",
       "3d"
     ],
-    "href": "/catalog/blocks/carousel-orbit-4",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/carousel-orbit-4.png"
+    "href": "/catalog/blocks/carousel-orbit-4"
   },
   {
     "name": "carousel-orbit-5",
@@ -917,8 +859,7 @@
       "orbit",
       "3d"
     ],
-    "href": "/catalog/blocks/carousel-orbit-5",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/carousel-orbit-5.png"
+    "href": "/catalog/blocks/carousel-orbit-5"
   },
   {
     "name": "carousel-path-1",
@@ -932,8 +873,7 @@
       "showcase",
       "path"
     ],
-    "href": "/catalog/blocks/carousel-path-1",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/carousel-path-1.png"
+    "href": "/catalog/blocks/carousel-path-1"
   },
   {
     "name": "carousel-path-2",
@@ -947,8 +887,7 @@
       "showcase",
       "path"
     ],
-    "href": "/catalog/blocks/carousel-path-2",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/carousel-path-2.png"
+    "href": "/catalog/blocks/carousel-path-2"
   },
   {
     "name": "carousel-path-3",
@@ -962,8 +901,7 @@
       "showcase",
       "path"
     ],
-    "href": "/catalog/blocks/carousel-path-3",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/carousel-path-3.png"
+    "href": "/catalog/blocks/carousel-path-3"
   },
   {
     "name": "carousel-path-4",
@@ -977,8 +915,7 @@
       "showcase",
       "path"
     ],
-    "href": "/catalog/blocks/carousel-path-4",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/carousel-path-4.png"
+    "href": "/catalog/blocks/carousel-path-4"
   },
   {
     "name": "carousel-path-5",
@@ -992,8 +929,7 @@
       "showcase",
       "path"
     ],
-    "href": "/catalog/blocks/carousel-path-5",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/carousel-path-5.png"
+    "href": "/catalog/blocks/carousel-path-5"
   },
   {
     "name": "carousel-text-circle-1",
@@ -1008,8 +944,7 @@
       "showcase",
       "circle"
     ],
-    "href": "/catalog/blocks/carousel-text-circle-1",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/carousel-text-circle-1.png"
+    "href": "/catalog/blocks/carousel-text-circle-1"
   },
   {
     "name": "carousel-text-circle-2",
@@ -1024,8 +959,7 @@
       "showcase",
       "circle"
     ],
-    "href": "/catalog/blocks/carousel-text-circle-2",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/carousel-text-circle-2.png"
+    "href": "/catalog/blocks/carousel-text-circle-2"
   },
   {
     "name": "carousel-text-circle-3",
@@ -1040,8 +974,7 @@
       "showcase",
       "circle"
     ],
-    "href": "/catalog/blocks/carousel-text-circle-3",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/carousel-text-circle-3.png"
+    "href": "/catalog/blocks/carousel-text-circle-3"
   },
   {
     "name": "carousel-text-circle-4",
@@ -1056,8 +989,7 @@
       "showcase",
       "circle"
     ],
-    "href": "/catalog/blocks/carousel-text-circle-4",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/carousel-text-circle-4.png"
+    "href": "/catalog/blocks/carousel-text-circle-4"
   },
   {
     "name": "carousel-text-circle-5",
@@ -1072,8 +1004,7 @@
       "showcase",
       "circle"
     ],
-    "href": "/catalog/blocks/carousel-text-circle-5",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/carousel-text-circle-5.png"
+    "href": "/catalog/blocks/carousel-text-circle-5"
   },
   {
     "name": "carousel-vision-1",
@@ -1088,8 +1019,7 @@
       "vision",
       "3d"
     ],
-    "href": "/catalog/blocks/carousel-vision-1",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/carousel-vision-1.png"
+    "href": "/catalog/blocks/carousel-vision-1"
   },
   {
     "name": "carousel-vision-2",
@@ -1104,8 +1034,7 @@
       "vision",
       "3d"
     ],
-    "href": "/catalog/blocks/carousel-vision-2",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/carousel-vision-2.png"
+    "href": "/catalog/blocks/carousel-vision-2"
   },
   {
     "name": "carousel-vision-3",
@@ -1120,8 +1049,7 @@
       "vision",
       "3d"
     ],
-    "href": "/catalog/blocks/carousel-vision-3",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/carousel-vision-3.png"
+    "href": "/catalog/blocks/carousel-vision-3"
   },
   {
     "name": "carousel-vision-4",
@@ -1136,8 +1064,7 @@
       "vision",
       "3d"
     ],
-    "href": "/catalog/blocks/carousel-vision-4",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/carousel-vision-4.png"
+    "href": "/catalog/blocks/carousel-vision-4"
   },
   {
     "name": "carousel-vision-5",
@@ -1152,8 +1079,7 @@
       "vision",
       "3d"
     ],
-    "href": "/catalog/blocks/carousel-vision-5",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/carousel-vision-5.png"
+    "href": "/catalog/blocks/carousel-vision-5"
   },
   {
     "name": "char-slam-explode",
@@ -1168,8 +1094,7 @@
       "slam",
       "impact"
     ],
-    "href": "/catalog/components/char-slam-explode",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/char-slam-explode.png"
+    "href": "/catalog/components/char-slam-explode"
   },
   {
     "name": "chart-story",
@@ -1187,8 +1112,7 @@
       "progress",
       "deterministic"
     ],
-    "href": "/catalog/components/chart-story",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/chart-story.png"
+    "href": "/catalog/components/chart-story"
   },
   {
     "name": "chat-message",
@@ -1201,8 +1125,7 @@
       "mock-ui",
       "message"
     ],
-    "href": "/catalog/components/chat-message",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/chat-message.png"
+    "href": "/catalog/components/chat-message"
   },
   {
     "name": "chat-thread",
@@ -1216,8 +1139,7 @@
       "conversation",
       "vertical"
     ],
-    "href": "/catalog/components/chat-thread",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/chat-thread.png"
+    "href": "/catalog/components/chat-thread"
   },
   {
     "name": "chatgpt-exchange",
@@ -1232,8 +1154,7 @@
       "vertical",
       "ad-template"
     ],
-    "href": "/catalog/blocks/chatgpt-exchange",
-    "preview": "https://static.heygen.ai/hyperframes/templates/promoted/254fe4bd8a3f00c1e70ac5e38a1bce25060f7590/chatgpt-exchange/poster.jpg"
+    "href": "/catalog/blocks/chatgpt-exchange"
   },
   {
     "name": "chromatic-aberration-wipe",
@@ -1244,8 +1165,7 @@
       "video-primitive",
       "transition-primitive"
     ],
-    "href": "/catalog/components/chromatic-aberration-wipe",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/chromatic-aberration-wipe.png"
+    "href": "/catalog/components/chromatic-aberration-wipe"
   },
   {
     "name": "chromatic-radial-split",
@@ -1256,8 +1176,7 @@
       "transition",
       "shader"
     ],
-    "href": "/catalog/blocks/chromatic-radial-split",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/chromatic-radial-split.png"
+    "href": "/catalog/blocks/chromatic-radial-split"
   },
   {
     "name": "chrome-orb",
@@ -1286,8 +1205,7 @@
       "loop",
       "freeze-frame"
     ],
-    "href": "/catalog/blocks/cinemagraph",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/cinemagraph.png"
+    "href": "/catalog/blocks/cinemagraph"
   },
   {
     "name": "cinematic-zoom",
@@ -1298,8 +1216,7 @@
       "transition",
       "shader"
     ],
-    "href": "/catalog/blocks/cinematic-zoom",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/cinematic-zoom.png"
+    "href": "/catalog/blocks/cinematic-zoom"
   },
   {
     "name": "claude-exchange",
@@ -1314,8 +1231,7 @@
       "vertical",
       "ad-template"
     ],
-    "href": "/catalog/blocks/claude-exchange",
-    "preview": "https://static.heygen.ai/hyperframes/templates/promoted/254fe4bd8a3f00c1e70ac5e38a1bce25060f7590/claude-exchange/poster.jpg"
+    "href": "/catalog/blocks/claude-exchange"
   },
   {
     "name": "code-3d-extrude",
@@ -1329,8 +1245,7 @@
       "webgl",
       "developer"
     ],
-    "href": "/catalog/blocks/code-3d-extrude",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/code-3d-extrude.png"
+    "href": "/catalog/blocks/code-3d-extrude"
   },
   {
     "name": "code-diff",
@@ -1343,8 +1258,7 @@
       "diff",
       "developer"
     ],
-    "href": "/catalog/blocks/code-diff",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/code-diff.png"
+    "href": "/catalog/blocks/code-diff"
   },
   {
     "name": "code-highlight",
@@ -1357,8 +1271,7 @@
       "highlight",
       "developer"
     ],
-    "href": "/catalog/blocks/code-highlight",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/code-highlight.png"
+    "href": "/catalog/blocks/code-highlight"
   },
   {
     "name": "code-morph",
@@ -1372,8 +1285,7 @@
       "refactor",
       "developer"
     ],
-    "href": "/catalog/blocks/code-morph",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/code-morph.png"
+    "href": "/catalog/blocks/code-morph"
   },
   {
     "name": "code-particle-assemble",
@@ -1388,8 +1300,7 @@
       "webgl",
       "developer"
     ],
-    "href": "/catalog/blocks/code-particle-assemble",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/code-particle-assemble.png"
+    "href": "/catalog/blocks/code-particle-assemble"
   },
   {
     "name": "code-scroll",
@@ -1402,8 +1313,7 @@
       "scroll",
       "developer"
     ],
-    "href": "/catalog/blocks/code-scroll",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/code-scroll.png"
+    "href": "/catalog/blocks/code-scroll"
   },
   {
     "name": "code-shader-dissolve",
@@ -1417,8 +1327,7 @@
       "webgl",
       "developer"
     ],
-    "href": "/catalog/blocks/code-shader-dissolve",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/code-shader-dissolve.png"
+    "href": "/catalog/blocks/code-shader-dissolve"
   },
   {
     "name": "code-slice-hero",
@@ -1435,8 +1344,7 @@
       "shadows",
       "two-headlines"
     ],
-    "href": "/catalog/blocks/code-slice-hero",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/code-slice-hero.png"
+    "href": "/catalog/blocks/code-slice-hero"
   },
   {
     "name": "code-snippet-apple-terminal-pro",
@@ -1451,8 +1359,7 @@
       "apple",
       "apple-terminal"
     ],
-    "href": "/catalog/blocks/code-snippet-apple-terminal-pro",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/code-snippet-apple-terminal-pro.png"
+    "href": "/catalog/blocks/code-snippet-apple-terminal-pro"
   },
   {
     "name": "code-snippet-dark-2026",
@@ -1465,8 +1372,7 @@
       "showcase",
       "vscode"
     ],
-    "href": "/catalog/blocks/code-snippet-dark-2026",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/code-snippet-dark-2026.png"
+    "href": "/catalog/blocks/code-snippet-dark-2026"
   },
   {
     "name": "code-snippet-dark-modern",
@@ -1479,8 +1385,7 @@
       "showcase",
       "vscode"
     ],
-    "href": "/catalog/blocks/code-snippet-dark-modern",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/code-snippet-dark-modern.png"
+    "href": "/catalog/blocks/code-snippet-dark-modern"
   },
   {
     "name": "code-terminal-run",
@@ -1494,8 +1399,7 @@
       "typing",
       "deterministic"
     ],
-    "href": "/catalog/components/code-terminal-run",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/code-terminal-run.png"
+    "href": "/catalog/components/code-terminal-run"
   },
   {
     "name": "code-typing",
@@ -1508,8 +1412,7 @@
       "typing",
       "developer"
     ],
-    "href": "/catalog/blocks/code-typing",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/code-typing.png"
+    "href": "/catalog/blocks/code-typing"
   },
   {
     "name": "color-wheel",
@@ -1541,8 +1444,7 @@
       "headline",
       "saas"
     ],
-    "href": "/catalog/components/colorama-wipe",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/colorama-wipe.png"
+    "href": "/catalog/components/colorama-wipe"
   },
   {
     "name": "comparison-split",
@@ -1557,8 +1459,7 @@
       "before-after",
       "wipe"
     ],
-    "href": "/catalog/components/comparison-split",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/comparison-split.png"
+    "href": "/catalog/components/comparison-split"
   },
   {
     "name": "confetti",
@@ -1568,8 +1469,7 @@
     "tags": [
       "effect"
     ],
-    "href": "/catalog/components/confetti",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/confetti.png"
+    "href": "/catalog/components/confetti"
   },
   {
     "name": "conic-progress-ring",
@@ -1584,8 +1484,7 @@
       "prove",
       "demonstrate"
     ],
-    "href": "/catalog/components/conic-progress-ring",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/conic-progress-ring.png"
+    "href": "/catalog/components/conic-progress-ring"
   },
   {
     "name": "constellation-hub",
@@ -1600,8 +1499,7 @@
       "connector",
       "reveal"
     ],
-    "href": "/catalog/components/constellation-hub",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/constellation-hub.png"
+    "href": "/catalog/components/constellation-hub"
   },
   {
     "name": "cosmic-orb",
@@ -1615,8 +1513,7 @@
       "showcase",
       "3d"
     ],
-    "href": "/catalog/blocks/cosmic-orb",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/cosmic-orb.png"
+    "href": "/catalog/blocks/cosmic-orb"
   },
   {
     "name": "count-up",
@@ -1632,8 +1529,7 @@
       "countdown",
       "deterministic"
     ],
-    "href": "/catalog/components/count-up",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/count-up.png"
+    "href": "/catalog/components/count-up"
   },
   {
     "name": "cross-warp-morph",
@@ -1644,8 +1540,7 @@
       "transition",
       "shader"
     ],
-    "href": "/catalog/blocks/cross-warp-morph",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/cross-warp-morph.png"
+    "href": "/catalog/blocks/cross-warp-morph"
   },
   {
     "name": "cta-close",
@@ -1660,8 +1555,7 @@
       "close",
       "ask"
     ],
-    "href": "/catalog/components/cta-close",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/cta-close.png"
+    "href": "/catalog/components/cta-close"
   },
   {
     "name": "cta-lockup",
@@ -1676,8 +1570,7 @@
       "lockup",
       "ask"
     ],
-    "href": "/catalog/components/cta-lockup",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/cta-lockup.png"
+    "href": "/catalog/components/cta-lockup"
   },
   {
     "name": "cuboid-carousel",
@@ -1693,8 +1586,7 @@
       "shadows",
       "room-environment"
     ],
-    "href": "/catalog/blocks/cuboid-carousel",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/cuboid-carousel.png"
+    "href": "/catalog/blocks/cuboid-carousel"
   },
   {
     "name": "cursor-annotate",
@@ -1709,8 +1601,7 @@
       "draw-on",
       "highlight"
     ],
-    "href": "/catalog/components/cursor-annotate",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/cursor-annotate.png"
+    "href": "/catalog/components/cursor-annotate"
   },
   {
     "name": "cursor-context-menu",
@@ -1725,8 +1616,7 @@
       "desktop",
       "files"
     ],
-    "href": "/catalog/components/cursor-context-menu",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/cursor-context-menu.png"
+    "href": "/catalog/components/cursor-context-menu"
   },
   {
     "name": "cursor-drag-drop",
@@ -1741,8 +1631,7 @@
       "kanban",
       "product-demo"
     ],
-    "href": "/catalog/components/cursor-drag-drop",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/cursor-drag-drop.png"
+    "href": "/catalog/components/cursor-drag-drop"
   },
   {
     "name": "cursor-glyph-trail",
@@ -1758,8 +1647,7 @@
       "steps",
       "deterministic"
     ],
-    "href": "/catalog/components/cursor-glyph-trail",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/cursor-glyph-trail.png"
+    "href": "/catalog/components/cursor-glyph-trail"
   },
   {
     "name": "cursor-marquee-select",
@@ -1774,8 +1662,7 @@
       "grid",
       "product-demo"
     ],
-    "href": "/catalog/components/cursor-marquee-select",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/cursor-marquee-select.png"
+    "href": "/catalog/components/cursor-marquee-select"
   },
   {
     "name": "cursor-text-select",
@@ -1790,8 +1677,7 @@
       "editor",
       "toolbar"
     ],
-    "href": "/catalog/components/cursor-text-select",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/cursor-text-select.png"
+    "href": "/catalog/components/cursor-text-select"
   },
   {
     "name": "cursor-zoom-follow",
@@ -1806,8 +1692,7 @@
       "click",
       "product-demo"
     ],
-    "href": "/catalog/components/cursor-zoom-follow",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/cursor-zoom-follow.png"
+    "href": "/catalog/components/cursor-zoom-follow"
   },
   {
     "name": "curtain-reveal",
@@ -1820,8 +1705,7 @@
       "transition",
       "motion-primitive"
     ],
-    "href": "/catalog/components/curtain-reveal",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/curtain-reveal.png"
+    "href": "/catalog/components/curtain-reveal"
   },
   {
     "name": "cut-the-curve",
@@ -1836,8 +1720,7 @@
       "bridge",
       "demonstrate"
     ],
-    "href": "/catalog/components/cut-the-curve",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/cut-the-curve.png"
+    "href": "/catalog/components/cut-the-curve"
   },
   {
     "name": "dart-cursor",
@@ -1852,8 +1735,7 @@
       "motion-blur",
       "depth"
     ],
-    "href": "/catalog/components/dart-cursor",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/dart-cursor.png"
+    "href": "/catalog/components/dart-cursor"
   },
   {
     "name": "data-chart",
@@ -1865,8 +1747,7 @@
       "chart",
       "statistics"
     ],
-    "href": "/catalog/blocks/data-chart",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/data-chart.png"
+    "href": "/catalog/blocks/data-chart"
   },
   {
     "name": "decline-chart",
@@ -1881,8 +1762,7 @@
       "metric",
       "problem"
     ],
-    "href": "/catalog/components/decline-chart",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/decline-chart.png"
+    "href": "/catalog/components/decline-chart"
   },
   {
     "name": "device-frame-stage",
@@ -1897,8 +1777,7 @@
       "ui-props",
       "holdable"
     ],
-    "href": "/catalog/components/device-frame-stage",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/device-frame-stage.png"
+    "href": "/catalog/components/device-frame-stage"
   },
   {
     "name": "directional-wipe",
@@ -1908,8 +1787,7 @@
     "tags": [
       "transition-primitive"
     ],
-    "href": "/catalog/components/directional-wipe",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/directional-wipe.png"
+    "href": "/catalog/components/directional-wipe"
   },
   {
     "name": "domain-warp-dissolve",
@@ -1920,8 +1798,7 @@
       "transition",
       "shader"
     ],
-    "href": "/catalog/blocks/domain-warp-dissolve",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/domain-warp-dissolve.png"
+    "href": "/catalog/blocks/domain-warp-dissolve"
   },
   {
     "name": "drift-hold",
@@ -1936,8 +1813,7 @@
       "hold",
       "loopable"
     ],
-    "href": "/catalog/components/drift-hold",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/drift-hold.png"
+    "href": "/catalog/components/drift-hold"
   },
   {
     "name": "dynamic-grid",
@@ -1951,8 +1827,7 @@
       "grid",
       "ui"
     ],
-    "href": "/catalog/components/dynamic-grid",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/dynamic-grid.png"
+    "href": "/catalog/components/dynamic-grid"
   },
   {
     "name": "echo-trail",
@@ -1967,8 +1842,7 @@
       "ghosts",
       "deterministic"
     ],
-    "href": "/catalog/components/echo-trail",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/echo-trail.png"
+    "href": "/catalog/components/echo-trail"
   },
   {
     "name": "editorial-flash-overlay",
@@ -1984,8 +1858,7 @@
       "overlay",
       "media-treatment-overlay"
     ],
-    "href": "/catalog/blocks/editorial-flash-overlay",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/editorial-flash-overlay.png"
+    "href": "/catalog/blocks/editorial-flash-overlay"
   },
   {
     "name": "exploded-stack",
@@ -2002,8 +1875,7 @@
       "diagram",
       "architecture"
     ],
-    "href": "/catalog/blocks/exploded-stack",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/exploded-stack.png"
+    "href": "/catalog/blocks/exploded-stack"
   },
   {
     "name": "extended-keyframe",
@@ -2021,8 +1893,7 @@
       "slide-in",
       "scale-in"
     ],
-    "href": "/catalog/components/extended-keyframe",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/extended-keyframe.png"
+    "href": "/catalog/components/extended-keyframe"
   },
   {
     "name": "extruded-logo",
@@ -2038,8 +1909,7 @@
       "extruded",
       "title-card"
     ],
-    "href": "/catalog/blocks/extruded-logo",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/extruded-logo.png"
+    "href": "/catalog/blocks/extruded-logo"
   },
   {
     "name": "facet-morph",
@@ -2054,8 +1924,7 @@
       "svg",
       "deterministic"
     ],
-    "href": "/catalog/components/facet-morph",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/facet-morph.png"
+    "href": "/catalog/components/facet-morph"
   },
   {
     "name": "fade-through",
@@ -2069,8 +1938,7 @@
       "crossfade",
       "scene"
     ],
-    "href": "/catalog/components/fade-through",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/fade-through.png"
+    "href": "/catalog/components/fade-through"
   },
   {
     "name": "falling-lines",
@@ -2105,8 +1973,7 @@
       "webgl",
       "effect"
     ],
-    "href": "/catalog/components/filmed-screen",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/filmed-screen.png"
+    "href": "/catalog/components/filmed-screen"
   },
   {
     "name": "flash-through-white",
@@ -2117,8 +1984,7 @@
       "transition",
       "shader"
     ],
-    "href": "/catalog/blocks/flash-through-white",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/flash-through-white.png"
+    "href": "/catalog/blocks/flash-through-white"
   },
   {
     "name": "flowchart",
@@ -2130,8 +1996,7 @@
       "flowchart",
       "interactive"
     ],
-    "href": "/catalog/blocks/flowchart",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/flowchart.png"
+    "href": "/catalog/blocks/flowchart"
   },
   {
     "name": "flowchart-vertical",
@@ -2144,8 +2009,7 @@
       "interactive",
       "portrait"
     ],
-    "href": "/catalog/blocks/flowchart-vertical",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/flowchart-vertical.png"
+    "href": "/catalog/blocks/flowchart-vertical"
   },
   {
     "name": "flowing-gradient",
@@ -2171,8 +2035,7 @@
       "motion-primitive",
       "typography"
     ],
-    "href": "/catalog/components/focus-blur-resolve",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/focus-blur-resolve.png"
+    "href": "/catalog/components/focus-blur-resolve"
   },
   {
     "name": "focus-rack",
@@ -2188,8 +2051,7 @@
       "parallax",
       "emphasize"
     ],
-    "href": "/catalog/components/focus-rack",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/focus-rack.png"
+    "href": "/catalog/components/focus-rack"
   },
   {
     "name": "focus-swap",
@@ -2204,8 +2066,7 @@
       "attention",
       "demonstrate"
     ],
-    "href": "/catalog/components/focus-swap",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/focus-swap.png"
+    "href": "/catalog/components/focus-swap"
   },
   {
     "name": "fractal-noise",
@@ -2236,8 +2097,7 @@
       "overlay",
       "media-treatment-overlay"
     ],
-    "href": "/catalog/blocks/freeze-frame-dressing",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/freeze-frame-dressing.png"
+    "href": "/catalog/blocks/freeze-frame-dressing"
   },
   {
     "name": "frost",
@@ -2269,8 +2129,7 @@
       "webgpu",
       "two-headlines"
     ],
-    "href": "/catalog/blocks/frost-sequence-camera-orbit",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/frost-sequence-camera-orbit.png"
+    "href": "/catalog/blocks/frost-sequence-camera-orbit"
   },
   {
     "name": "gabor-noise",
@@ -2300,8 +2159,7 @@
       "depth",
       "loop"
     ],
-    "href": "/catalog/blocks/gallery-tunnel",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/gallery-tunnel.png"
+    "href": "/catalog/blocks/gallery-tunnel"
   },
   {
     "name": "gesture-tap",
@@ -2315,8 +2173,7 @@
       "interaction",
       "ui-props"
     ],
-    "href": "/catalog/components/gesture-tap",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/gesture-tap.png"
+    "href": "/catalog/components/gesture-tap"
   },
   {
     "name": "glass-hero",
@@ -2332,8 +2189,7 @@
       "hero",
       "title-card"
     ],
-    "href": "/catalog/blocks/glass-hero",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/glass-hero.png"
+    "href": "/catalog/blocks/glass-hero"
   },
   {
     "name": "glass-shard-title",
@@ -2349,8 +2205,7 @@
       "fog",
       "hdr"
     ],
-    "href": "/catalog/blocks/glass-shard-title",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/glass-shard-title.png"
+    "href": "/catalog/blocks/glass-shard-title"
   },
   {
     "name": "glitch",
@@ -2361,8 +2216,7 @@
       "transition",
       "shader"
     ],
-    "href": "/catalog/blocks/glitch",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/glitch.png"
+    "href": "/catalog/blocks/glitch"
   },
   {
     "name": "gloss-sweep",
@@ -2377,8 +2231,7 @@
       "badge",
       "payoff"
     ],
-    "href": "/catalog/components/gloss-sweep",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/gloss-sweep.png"
+    "href": "/catalog/components/gloss-sweep"
   },
   {
     "name": "godrays",
@@ -2423,8 +2276,7 @@
       "logo",
       "icon"
     ],
-    "href": "/catalog/blocks/gooey-split",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/gooey-split.png"
+    "href": "/catalog/blocks/gooey-split"
   },
   {
     "name": "grade-split-reveal",
@@ -2439,8 +2291,7 @@
       "motion-primitive",
       "grade"
     ],
-    "href": "/catalog/components/grade-split-reveal",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/grade-split-reveal.png"
+    "href": "/catalog/components/grade-split-reveal"
   },
   {
     "name": "grain-field",
@@ -2456,8 +2307,7 @@
       "ambient",
       "loopable"
     ],
-    "href": "/catalog/components/grain-field",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/grain-field.png"
+    "href": "/catalog/components/grain-field"
   },
   {
     "name": "grain-overlay",
@@ -2470,8 +2320,7 @@
       "overlay",
       "film"
     ],
-    "href": "/catalog/components/grain-overlay",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/grain-overlay.png"
+    "href": "/catalog/components/grain-overlay"
   },
   {
     "name": "gravitational-lens",
@@ -2482,8 +2331,7 @@
       "transition",
       "shader"
     ],
-    "href": "/catalog/blocks/gravitational-lens",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/gravitational-lens.png"
+    "href": "/catalog/blocks/gravitational-lens"
   },
   {
     "name": "grid-card-assemble",
@@ -2499,8 +2347,7 @@
       "assemble",
       "feature-tour"
     ],
-    "href": "/catalog/components/grid-card-assemble",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/grid-card-assemble.png"
+    "href": "/catalog/components/grid-card-assemble"
   },
   {
     "name": "grid-pixelate-wipe",
@@ -2513,8 +2360,7 @@
       "grid",
       "pixelate"
     ],
-    "href": "/catalog/components/grid-pixelate-wipe",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/grid-pixelate-wipe.png"
+    "href": "/catalog/components/grid-pixelate-wipe"
   },
   {
     "name": "halftone-dissolve",
@@ -2528,8 +2374,7 @@
       "halftone",
       "dissolve"
     ],
-    "href": "/catalog/components/halftone-dissolve",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/halftone-dissolve.png"
+    "href": "/catalog/components/halftone-dissolve"
   },
   {
     "name": "halftone-field",
@@ -2543,8 +2388,7 @@
       "texture",
       "halftone"
     ],
-    "href": "/catalog/blocks/halftone-field",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/halftone-field.png"
+    "href": "/catalog/blocks/halftone-field"
   },
   {
     "name": "headline-slam",
@@ -2559,8 +2403,7 @@
       "impact",
       "exit"
     ],
-    "href": "/catalog/components/headline-slam",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/headline-slam.png"
+    "href": "/catalog/components/headline-slam"
   },
   {
     "name": "heatmap",
@@ -2576,20 +2419,6 @@
       "glow"
     ],
     "href": "/catalog/blocks/heatmap"
-  },
-  {
-    "name": "heygen-avatar-promo-card",
-    "type": "block",
-    "title": "HeyGen Avatar Promo Card",
-    "description": "A portrait HeyGen offer card pairs a moving avatar mosaic with bold promotional typography and a branded callout",
-    "tags": [
-      "showcase",
-      "avatar",
-      "promotion",
-      "vertical"
-    ],
-    "href": "/catalog/blocks/heygen-avatar-promo-card",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/heygen-avatar-promo-card.png"
   },
   {
     "name": "hologram",
@@ -2632,8 +2461,7 @@
       "arrow",
       "overlay"
     ],
-    "href": "/catalog/components/hw-arrow",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/hw-arrow.png"
+    "href": "/catalog/components/hw-arrow"
   },
   {
     "name": "hw-boil",
@@ -2645,8 +2473,7 @@
       "effect",
       "annotation"
     ],
-    "href": "/catalog/components/hw-boil",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/hw-boil.png"
+    "href": "/catalog/components/hw-boil"
   },
   {
     "name": "hw-box-label",
@@ -2658,8 +2485,7 @@
       "annotation",
       "overlay"
     ],
-    "href": "/catalog/components/hw-box-label",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/hw-box-label.png"
+    "href": "/catalog/components/hw-box-label"
   },
   {
     "name": "hw-callout-circle",
@@ -2672,8 +2498,7 @@
       "callout",
       "overlay"
     ],
-    "href": "/catalog/components/hw-callout-circle",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/hw-callout-circle.png"
+    "href": "/catalog/components/hw-callout-circle"
   },
   {
     "name": "hw-frame",
@@ -2685,8 +2510,7 @@
       "frame",
       "media"
     ],
-    "href": "/catalog/blocks/hw-frame",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/hw-frame.png"
+    "href": "/catalog/blocks/hw-frame"
   },
   {
     "name": "hw-path-text",
@@ -2699,8 +2523,7 @@
       "path",
       "overlay"
     ],
-    "href": "/catalog/blocks/hw-path-text",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/hw-path-text.png"
+    "href": "/catalog/blocks/hw-path-text"
   },
   {
     "name": "hw-pipeline",
@@ -2713,8 +2536,7 @@
       "data-viz",
       "overlay"
     ],
-    "href": "/catalog/blocks/hw-pipeline",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/hw-pipeline.png"
+    "href": "/catalog/blocks/hw-pipeline"
   },
   {
     "name": "hw-scribble-transition",
@@ -2726,8 +2548,7 @@
       "transition",
       "wipe"
     ],
-    "href": "/catalog/blocks/hw-scribble-transition",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/hw-scribble-transition.png"
+    "href": "/catalog/blocks/hw-scribble-transition"
   },
   {
     "name": "hw-text-cloud",
@@ -2739,8 +2560,7 @@
       "speech-bubble",
       "overlay"
     ],
-    "href": "/catalog/blocks/hw-text-cloud",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/hw-text-cloud.png"
+    "href": "/catalog/blocks/hw-text-cloud"
   },
   {
     "name": "hw-title",
@@ -2753,8 +2573,7 @@
       "title-card",
       "overlay"
     ],
-    "href": "/catalog/blocks/hw-title",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/hw-title.png"
+    "href": "/catalog/blocks/hw-title"
   },
   {
     "name": "hw-underline",
@@ -2766,8 +2585,7 @@
       "annotation",
       "text-treatment"
     ],
-    "href": "/catalog/components/hw-underline",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/hw-underline.png"
+    "href": "/catalog/components/hw-underline"
   },
   {
     "name": "hw-write-title",
@@ -2781,8 +2599,7 @@
       "write-on",
       "overlay"
     ],
-    "href": "/catalog/blocks/hw-write-title",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/hw-write-title.png"
+    "href": "/catalog/blocks/hw-write-title"
   },
   {
     "name": "icon-morph-beat",
@@ -2797,8 +2614,7 @@
       "state-change",
       "completion"
     ],
-    "href": "/catalog/components/icon-morph-beat",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/icon-morph-beat.png"
+    "href": "/catalog/components/icon-morph-beat"
   },
   {
     "name": "icon-swap",
@@ -2812,8 +2628,7 @@
       "icon",
       "swap"
     ],
-    "href": "/catalog/components/icon-swap",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/icon-swap.png"
+    "href": "/catalog/components/icon-swap"
   },
   {
     "name": "ink-bleed-reveal",
@@ -2829,8 +2644,7 @@
       "deterministic",
       "experiment"
     ],
-    "href": "/catalog/components/ink-bleed-reveal",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/ink-bleed-reveal.png"
+    "href": "/catalog/components/ink-bleed-reveal"
   },
   {
     "name": "inline-highlight",
@@ -2843,8 +2657,7 @@
       "highlight",
       "caption"
     ],
-    "href": "/catalog/components/inline-highlight",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/inline-highlight.png"
+    "href": "/catalog/components/inline-highlight"
   },
   {
     "name": "input-feedback",
@@ -2857,8 +2670,7 @@
       "input",
       "feedback"
     ],
-    "href": "/catalog/components/input-feedback",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/input-feedback.png"
+    "href": "/catalog/components/input-feedback"
   },
   {
     "name": "instagram-follow",
@@ -2870,8 +2682,7 @@
       "overlay",
       "instagram"
     ],
-    "href": "/catalog/blocks/instagram-follow",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/instagram-follow.png"
+    "href": "/catalog/blocks/instagram-follow"
   },
   {
     "name": "ios26-liquid-glass",
@@ -2888,8 +2699,7 @@
       "gltf",
       "html-in-canvas"
     ],
-    "href": "/catalog/blocks/ios26-liquid-glass",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/ios26-liquid-glass.png"
+    "href": "/catalog/blocks/ios26-liquid-glass"
   },
   {
     "name": "iris-reveal",
@@ -2904,8 +2714,7 @@
       "bridge",
       "slots"
     ],
-    "href": "/catalog/components/iris-reveal",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/iris-reveal.png"
+    "href": "/catalog/components/iris-reveal"
   },
   {
     "name": "keyframe-scrub-stack",
@@ -2917,8 +2726,7 @@
       "anime-inspired",
       "hyperframes-native"
     ],
-    "href": "/catalog/components/keyframe-scrub-stack",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/keyframe-scrub-stack.png"
+    "href": "/catalog/components/keyframe-scrub-stack"
   },
   {
     "name": "kinetic-center-build",
@@ -2932,8 +2740,7 @@
       "reveal",
       "remocn-port"
     ],
-    "href": "/catalog/components/kinetic-center-build",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/kinetic-center-build.png"
+    "href": "/catalog/components/kinetic-center-build"
   },
   {
     "name": "kinetic-type-swap",
@@ -2947,8 +2754,7 @@
       "word-swap",
       "reveal"
     ],
-    "href": "/catalog/components/kinetic-type-swap",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/kinetic-type-swap.png"
+    "href": "/catalog/components/kinetic-type-swap"
   },
   {
     "name": "lens-flare",
@@ -2990,8 +2796,7 @@
       "transition",
       "shader"
     ],
-    "href": "/catalog/blocks/light-leak",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/light-leak.png"
+    "href": "/catalog/blocks/light-leak"
   },
   {
     "name": "light-sweep-pass",
@@ -3006,8 +2811,7 @@
       "slots",
       "deterministic"
     ],
-    "href": "/catalog/components/light-sweep-pass",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/light-sweep-pass.png"
+    "href": "/catalog/components/light-sweep-pass"
   },
   {
     "name": "line-by-line-slide",
@@ -3018,8 +2822,7 @@
       "motion-primitive",
       "typography"
     ],
-    "href": "/catalog/components/line-by-line-slide",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/line-by-line-slide.png"
+    "href": "/catalog/components/line-by-line-slide"
   },
   {
     "name": "line-swap",
@@ -3033,8 +2836,7 @@
       "beat",
       "deterministic"
     ],
-    "href": "/catalog/components/line-swap",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/line-swap.png"
+    "href": "/catalog/components/line-swap"
   },
   {
     "name": "liquid-glass-notification",
@@ -3046,8 +2848,7 @@
       "liquid-glass-html-in-canvas",
       "webgpu"
     ],
-    "href": "/catalog/blocks/liquid-glass-notification",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/liquid-glass-notification.png"
+    "href": "/catalog/blocks/liquid-glass-notification"
   },
   {
     "name": "liquid-glass-widgets",
@@ -3059,8 +2860,7 @@
       "liquid-glass-html-in-canvas",
       "webgpu"
     ],
-    "href": "/catalog/blocks/liquid-glass-widgets",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/liquid-glass-widgets.png"
+    "href": "/catalog/blocks/liquid-glass-widgets"
   },
   {
     "name": "liquid-metal",
@@ -3091,8 +2891,7 @@
       "lockup",
       "deterministic"
     ],
-    "href": "/catalog/components/locked-nucleus-orbit",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/locked-nucleus-orbit.png"
+    "href": "/catalog/components/locked-nucleus-orbit"
   },
   {
     "name": "logo-brand-close",
@@ -3107,8 +2906,7 @@
       "end-card",
       "close"
     ],
-    "href": "/catalog/components/logo-brand-close",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/logo-brand-close.png"
+    "href": "/catalog/components/logo-brand-close"
   },
   {
     "name": "logo-outro",
@@ -3120,8 +2918,7 @@
       "outro",
       "logo"
     ],
-    "href": "/catalog/blocks/logo-outro",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/logo-outro.png"
+    "href": "/catalog/blocks/logo-outro"
   },
   {
     "name": "logo-sting",
@@ -3136,8 +2933,7 @@
       "impact",
       "reveal"
     ],
-    "href": "/catalog/components/logo-sting",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/logo-sting.png"
+    "href": "/catalog/components/logo-sting"
   },
   {
     "name": "logo-wall",
@@ -3151,8 +2947,7 @@
       "stagger",
       "prove"
     ],
-    "href": "/catalog/components/logo-wall",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/logo-wall.png"
+    "href": "/catalog/components/logo-wall"
   },
   {
     "name": "lottie-character-walk",
@@ -3170,8 +2965,7 @@
       "lottie",
       "explainer"
     ],
-    "href": "/catalog/blocks/lottie-character-walk",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/lottie-character-walk.png"
+    "href": "/catalog/blocks/lottie-character-walk"
   },
   {
     "name": "lower-third-bild",
@@ -3184,8 +2978,7 @@
       "news",
       "overlay"
     ],
-    "href": "/catalog/blocks/lower-third-bild",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/lower-third-bild.png"
+    "href": "/catalog/blocks/lower-third-bild"
   },
   {
     "name": "lt-accent-underline",
@@ -3199,8 +2992,7 @@
       "interview",
       "minimal"
     ],
-    "href": "/catalog/blocks/lt-accent-underline",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/lt-accent-underline.png"
+    "href": "/catalog/blocks/lt-accent-underline"
   },
   {
     "name": "lt-bold-block",
@@ -3214,8 +3006,7 @@
       "interview",
       "bold"
     ],
-    "href": "/catalog/blocks/lt-bold-block",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/lt-bold-block.png"
+    "href": "/catalog/blocks/lt-bold-block"
   },
   {
     "name": "lt-clean-bar",
@@ -3228,8 +3019,7 @@
       "podcast",
       "interview"
     ],
-    "href": "/catalog/blocks/lt-clean-bar",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/lt-clean-bar.png"
+    "href": "/catalog/blocks/lt-clean-bar"
   },
   {
     "name": "lt-color-block",
@@ -3243,8 +3033,7 @@
       "interview",
       "bold"
     ],
-    "href": "/catalog/blocks/lt-color-block",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/lt-color-block.png"
+    "href": "/catalog/blocks/lt-color-block"
   },
   {
     "name": "lt-dark-card",
@@ -3258,8 +3047,7 @@
       "interview",
       "dark"
     ],
-    "href": "/catalog/blocks/lt-dark-card",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/lt-dark-card.png"
+    "href": "/catalog/blocks/lt-dark-card"
   },
   {
     "name": "lt-kicker-name",
@@ -3273,8 +3061,7 @@
       "interview",
       "bold"
     ],
-    "href": "/catalog/blocks/lt-kicker-name",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/lt-kicker-name.png"
+    "href": "/catalog/blocks/lt-kicker-name"
   },
   {
     "name": "lt-mask-reveal",
@@ -3288,8 +3075,7 @@
       "interview",
       "bold"
     ],
-    "href": "/catalog/blocks/lt-mask-reveal",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/lt-mask-reveal.png"
+    "href": "/catalog/blocks/lt-mask-reveal"
   },
   {
     "name": "lt-neon-border",
@@ -3302,8 +3088,7 @@
       "loop",
       "video-primitive"
     ],
-    "href": "/catalog/blocks/lt-neon-border",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/lt-neon-border.png"
+    "href": "/catalog/blocks/lt-neon-border"
   },
   {
     "name": "lt-side-rule",
@@ -3317,8 +3102,7 @@
       "interview",
       "minimal"
     ],
-    "href": "/catalog/blocks/lt-side-rule",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/lt-side-rule.png"
+    "href": "/catalog/blocks/lt-side-rule"
   },
   {
     "name": "lt-soft-pill",
@@ -3332,8 +3116,7 @@
       "interview",
       "minimal"
     ],
-    "href": "/catalog/blocks/lt-soft-pill",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/lt-soft-pill.png"
+    "href": "/catalog/blocks/lt-soft-pill"
   },
   {
     "name": "lt-stack-bars",
@@ -3347,8 +3130,7 @@
       "interview",
       "bold"
     ],
-    "href": "/catalog/blocks/lt-stack-bars",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/lt-stack-bars.png"
+    "href": "/catalog/blocks/lt-stack-bars"
   },
   {
     "name": "macos-notification",
@@ -3360,8 +3142,7 @@
       "overlay",
       "notification"
     ],
-    "href": "/catalog/blocks/macos-notification",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/macos-notification.png"
+    "href": "/catalog/blocks/macos-notification"
   },
   {
     "name": "macos-tahoe-liquid-glass",
@@ -3375,8 +3156,7 @@
       "tahoe",
       "gltf"
     ],
-    "href": "/catalog/blocks/macos-tahoe-liquid-glass",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/macos-tahoe-liquid-glass.png"
+    "href": "/catalog/blocks/macos-tahoe-liquid-glass"
   },
   {
     "name": "magnetic-cursor",
@@ -3391,8 +3171,7 @@
       "morph",
       "toolbar"
     ],
-    "href": "/catalog/components/magnetic-cursor",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/magnetic-cursor.png"
+    "href": "/catalog/components/magnetic-cursor"
   },
   {
     "name": "marble",
@@ -3420,8 +3199,7 @@
       "paper",
       "marker"
     ],
-    "href": "/catalog/components/marker-checklist-card",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/marker-checklist-card.png"
+    "href": "/catalog/components/marker-checklist-card"
   },
   {
     "name": "marker-highlight",
@@ -3435,8 +3213,7 @@
       "marker",
       "deterministic"
     ],
-    "href": "/catalog/components/marker-highlight",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/marker-highlight.png"
+    "href": "/catalog/components/marker-highlight"
   },
   {
     "name": "match-cut",
@@ -3450,8 +3227,7 @@
       "hard-cut",
       "continuity"
     ],
-    "href": "/catalog/components/match-cut",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/match-cut.png"
+    "href": "/catalog/components/match-cut"
   },
   {
     "name": "matrix-decode",
@@ -3462,8 +3238,7 @@
       "motion-primitive",
       "typography"
     ],
-    "href": "/catalog/components/matrix-decode",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/matrix-decode.png"
+    "href": "/catalog/components/matrix-decode"
   },
   {
     "name": "menu-morph",
@@ -3477,8 +3252,7 @@
       "menu",
       "morph"
     ],
-    "href": "/catalog/components/menu-morph",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/menu-morph.png"
+    "href": "/catalog/components/menu-morph"
   },
   {
     "name": "mesh-gradient",
@@ -3502,8 +3276,7 @@
     "tags": [
       "effect"
     ],
-    "href": "/catalog/components/mesh-gradient-bg",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/mesh-gradient-bg.png"
+    "href": "/catalog/components/mesh-gradient-bg"
   },
   {
     "name": "message-thread-reveal",
@@ -3517,8 +3290,7 @@
       "vertical",
       "ad-template"
     ],
-    "href": "/catalog/blocks/message-thread-reveal",
-    "preview": "https://static.heygen.ai/hyperframes/templates/promoted/254fe4bd8a3f00c1e70ac5e38a1bce25060f7590/message-thread-reveal/poster.jpg"
+    "href": "/catalog/blocks/message-thread-reveal"
   },
   {
     "name": "micro-transitions",
@@ -3533,8 +3305,7 @@
       "transition",
       "microinteraction"
     ],
-    "href": "/catalog/components/micro-transitions",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/micro-transitions.png"
+    "href": "/catalog/components/micro-transitions"
   },
   {
     "name": "mk-background",
@@ -3548,8 +3319,7 @@
       "professional",
       "presentation"
     ],
-    "href": "/catalog/blocks/mk-background",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/mk-background.png"
+    "href": "/catalog/blocks/mk-background"
   },
   {
     "name": "mk-callout-highlight",
@@ -3562,8 +3332,7 @@
       "captions",
       "minimal"
     ],
-    "href": "/catalog/blocks/mk-callout-highlight",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/mk-callout-highlight.png"
+    "href": "/catalog/blocks/mk-callout-highlight"
   },
   {
     "name": "mk-clone-wall-transition",
@@ -3575,8 +3344,7 @@
       "typography",
       "wipe"
     ],
-    "href": "/catalog/blocks/mk-clone-wall-transition",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/mk-clone-wall-transition.png"
+    "href": "/catalog/blocks/mk-clone-wall-transition"
   },
   {
     "name": "mk-emphasis-type",
@@ -3588,8 +3356,7 @@
       "text-treatment",
       "minimal"
     ],
-    "href": "/catalog/components/mk-emphasis-type",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/mk-emphasis-type.png"
+    "href": "/catalog/components/mk-emphasis-type"
   },
   {
     "name": "mk-line-graph",
@@ -3602,8 +3369,7 @@
       "graph",
       "minimal"
     ],
-    "href": "/catalog/blocks/mk-line-graph",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/mk-line-graph.png"
+    "href": "/catalog/blocks/mk-line-graph"
   },
   {
     "name": "mk-placeholder-grid",
@@ -3616,8 +3382,7 @@
       "grid",
       "minimal"
     ],
-    "href": "/catalog/blocks/mk-placeholder-grid",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/mk-placeholder-grid.png"
+    "href": "/catalog/blocks/mk-placeholder-grid"
   },
   {
     "name": "mk-progress-stat",
@@ -3629,8 +3394,7 @@
       "stat",
       "minimal"
     ],
-    "href": "/catalog/blocks/mk-progress-stat",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/mk-progress-stat.png"
+    "href": "/catalog/blocks/mk-progress-stat"
   },
   {
     "name": "mk-specs-list",
@@ -3643,8 +3407,7 @@
       "minimal",
       "professional"
     ],
-    "href": "/catalog/blocks/mk-specs-list",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/mk-specs-list.png"
+    "href": "/catalog/blocks/mk-specs-list"
   },
   {
     "name": "mk-usage-arc",
@@ -3656,8 +3419,7 @@
       "gauge",
       "minimal"
     ],
-    "href": "/catalog/components/mk-usage-arc",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/mk-usage-arc.png"
+    "href": "/catalog/components/mk-usage-arc"
   },
   {
     "name": "modal-morph",
@@ -3673,8 +3435,7 @@
       "deterministic",
       "experiment"
     ],
-    "href": "/catalog/components/modal-morph",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/modal-morph.png"
+    "href": "/catalog/components/modal-morph"
   },
   {
     "name": "morph-swap",
@@ -3690,8 +3451,7 @@
       "holdable",
       "slots"
     ],
-    "href": "/catalog/components/morph-swap",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/morph-swap.png"
+    "href": "/catalog/components/morph-swap"
   },
   {
     "name": "morph-text",
@@ -3722,8 +3482,7 @@
       "velocity",
       "animation"
     ],
-    "href": "/catalog/components/motion-blur",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/motion-blur.png"
+    "href": "/catalog/components/motion-blur"
   },
   {
     "name": "multi-device-splay",
@@ -3738,8 +3497,7 @@
       "desktop",
       "splay"
     ],
-    "href": "/catalog/components/multi-device-splay",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/multi-device-splay.png"
+    "href": "/catalog/components/multi-device-splay"
   },
   {
     "name": "multiplayer-cursors",
@@ -3755,8 +3513,7 @@
       "loop",
       "prove"
     ],
-    "href": "/catalog/components/multiplayer-cursors",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/multiplayer-cursors.png"
+    "href": "/catalog/components/multiplayer-cursors"
   },
   {
     "name": "native-notification-pop",
@@ -3770,8 +3527,7 @@
       "notification",
       "spring"
     ],
-    "href": "/catalog/components/native-notification-pop",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/native-notification-pop.png"
+    "href": "/catalog/components/native-notification-pop"
   },
   {
     "name": "nebula",
@@ -3799,8 +3555,7 @@
       "news",
       "ticker"
     ],
-    "href": "/catalog/blocks/news-ticker",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/news-ticker.png"
+    "href": "/catalog/blocks/news-ticker"
   },
   {
     "name": "north-korea-locked-down",
@@ -3814,8 +3569,7 @@
       "youtube",
       "kinetic"
     ],
-    "href": "/catalog/blocks/north-korea-locked-down",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/north-korea-locked-down.png"
+    "href": "/catalog/blocks/north-korea-locked-down"
   },
   {
     "name": "notes-reveal",
@@ -3830,8 +3584,7 @@
       "vertical",
       "ad-template"
     ],
-    "href": "/catalog/blocks/notes-reveal",
-    "preview": "https://static.heygen.ai/hyperframes/templates/promoted/254fe4bd8a3f00c1e70ac5e38a1bce25060f7590/notes-reveal/poster.jpg"
+    "href": "/catalog/blocks/notes-reveal"
   },
   {
     "name": "notes-typing",
@@ -3845,8 +3598,7 @@
       "mock-ui",
       "vertical"
     ],
-    "href": "/catalog/components/notes-typing",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/notes-typing.png"
+    "href": "/catalog/components/notes-typing"
   },
   {
     "name": "notification-cascade",
@@ -3860,8 +3612,7 @@
       "vertical",
       "ad-template"
     ],
-    "href": "/catalog/blocks/notification-cascade",
-    "preview": "https://static.heygen.ai/hyperframes/templates/promoted/254fe4bd8a3f00c1e70ac5e38a1bce25060f7590/notification-cascade/poster.jpg"
+    "href": "/catalog/blocks/notification-cascade"
   },
   {
     "name": "notification-pileup",
@@ -3877,8 +3628,7 @@
       "loop",
       "agitate"
     ],
-    "href": "/catalog/components/notification-pileup",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/notification-pileup.png"
+    "href": "/catalog/components/notification-pileup"
   },
   {
     "name": "notification-stack",
@@ -3892,8 +3642,7 @@
       "stack",
       "stagger"
     ],
-    "href": "/catalog/components/notification-stack",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/notification-stack.png"
+    "href": "/catalog/components/notification-stack"
   },
   {
     "name": "number-pop-in",
@@ -3907,8 +3656,7 @@
       "number",
       "pop"
     ],
-    "href": "/catalog/components/number-pop-in",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/number-pop-in.png"
+    "href": "/catalog/components/number-pop-in"
   },
   {
     "name": "number-wheel",
@@ -3922,8 +3670,7 @@
       "counter",
       "data"
     ],
-    "href": "/catalog/components/number-wheel",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/number-wheel.png"
+    "href": "/catalog/components/number-wheel"
   },
   {
     "name": "nyc-paris-flight",
@@ -3937,8 +3684,7 @@
       "youtube",
       "sfx"
     ],
-    "href": "/catalog/blocks/nyc-paris-flight",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/nyc-paris-flight.png"
+    "href": "/catalog/blocks/nyc-paris-flight"
   },
   {
     "name": "obsidian",
@@ -3967,8 +3713,7 @@
       "traveler",
       "auto-rotate"
     ],
-    "href": "/catalog/components/offset-path-traveler",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/offset-path-traveler.png"
+    "href": "/catalog/components/offset-path-traveler"
   },
   {
     "name": "onboarding-stepper-flow",
@@ -3980,8 +3725,7 @@
       "onboarding",
       "stepper"
     ],
-    "href": "/catalog/components/onboarding-stepper-flow",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/onboarding-stepper-flow.png"
+    "href": "/catalog/components/onboarding-stepper-flow"
   },
   {
     "name": "orbit-card",
@@ -3997,8 +3741,7 @@
       "blender-motion",
       "sphere"
     ],
-    "href": "/catalog/blocks/orbit-card",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/orbit-card.png"
+    "href": "/catalog/blocks/orbit-card"
   },
   {
     "name": "ordered-dither-pass",
@@ -4013,8 +3756,7 @@
       "transition",
       "quantize"
     ],
-    "href": "/catalog/components/ordered-dither-pass",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/ordered-dither-pass.png"
+    "href": "/catalog/components/ordered-dither-pass"
   },
   {
     "name": "organic-light-leak-overlay",
@@ -4029,8 +3771,7 @@
       "overlay",
       "media-treatment-overlay"
     ],
-    "href": "/catalog/blocks/organic-light-leak-overlay",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/organic-light-leak-overlay.png"
+    "href": "/catalog/blocks/organic-light-leak-overlay"
   },
   {
     "name": "oscilloscope-trace",
@@ -4043,8 +3784,7 @@
       "showcase",
       "retro"
     ],
-    "href": "/catalog/blocks/oscilloscope-trace",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/oscilloscope-trace.png"
+    "href": "/catalog/blocks/oscilloscope-trace"
   },
   {
     "name": "outline-draw",
@@ -4059,8 +3799,7 @@
       "mask",
       "proof"
     ],
-    "href": "/catalog/components/outline-draw",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/outline-draw.png"
+    "href": "/catalog/components/outline-draw"
   },
   {
     "name": "oversized-cursor",
@@ -4074,8 +3813,7 @@
       "pointer",
       "interaction"
     ],
-    "href": "/catalog/components/oversized-cursor",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/oversized-cursor.png"
+    "href": "/catalog/components/oversized-cursor"
   },
   {
     "name": "overwhelm-surround",
@@ -4089,8 +3827,7 @@
       "pressure",
       "notifications"
     ],
-    "href": "/catalog/components/overwhelm-surround",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/overwhelm-surround.png"
+    "href": "/catalog/components/overwhelm-surround"
   },
   {
     "name": "page-slide",
@@ -4104,8 +3841,7 @@
       "page",
       "slide"
     ],
-    "href": "/catalog/components/page-slide",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/page-slide.png"
+    "href": "/catalog/components/page-slide"
   },
   {
     "name": "pan-stations",
@@ -4121,8 +3857,7 @@
       "agitate",
       "cross-shelved"
     ],
-    "href": "/catalog/components/pan-stations",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/pan-stations.png"
+    "href": "/catalog/components/pan-stations"
   },
   {
     "name": "panel-reveal",
@@ -4135,8 +3870,7 @@
       "panel",
       "reveal"
     ],
-    "href": "/catalog/components/panel-reveal",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/panel-reveal.png"
+    "href": "/catalog/components/panel-reveal"
   },
   {
     "name": "paper-collage-reveal",
@@ -4151,8 +3885,7 @@
       "transition",
       "motion-primitive"
     ],
-    "href": "/catalog/components/paper-collage-reveal",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/paper-collage-reveal.png"
+    "href": "/catalog/components/paper-collage-reveal"
   },
   {
     "name": "parallax-device-dive",
@@ -4167,8 +3900,7 @@
       "parallax",
       "transition"
     ],
-    "href": "/catalog/components/parallax-device-dive",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/parallax-device-dive.png"
+    "href": "/catalog/components/parallax-device-dive"
   },
   {
     "name": "parallax-unzoom",
@@ -4183,8 +3915,7 @@
       "grid",
       "hero"
     ],
-    "href": "/catalog/components/parallax-unzoom",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/parallax-unzoom.png"
+    "href": "/catalog/components/parallax-unzoom"
   },
   {
     "name": "parallax-zoom",
@@ -4198,8 +3929,7 @@
       "grid",
       "hero"
     ],
-    "href": "/catalog/components/parallax-zoom",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/parallax-zoom.png"
+    "href": "/catalog/components/parallax-zoom"
   },
   {
     "name": "particle-image-reveal",
@@ -4214,8 +3944,7 @@
       "canvas",
       "deterministic"
     ],
-    "href": "/catalog/components/particle-image-reveal",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/particle-image-reveal.png"
+    "href": "/catalog/components/particle-image-reveal"
   },
   {
     "name": "particle-text-dissolve",
@@ -4230,8 +3959,7 @@
       "deterministic",
       "experiment"
     ],
-    "href": "/catalog/components/particle-text-dissolve",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/particle-text-dissolve.png"
+    "href": "/catalog/components/particle-text-dissolve"
   },
   {
     "name": "pendulum-swing",
@@ -4245,8 +3973,7 @@
       "settle",
       "reveal"
     ],
-    "href": "/catalog/components/pendulum-swing",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/pendulum-swing.png"
+    "href": "/catalog/components/pendulum-swing"
   },
   {
     "name": "per-word-crossfade",
@@ -4257,8 +3984,7 @@
       "motion-primitive",
       "typography"
     ],
-    "href": "/catalog/components/per-word-crossfade",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/per-word-crossfade.png"
+    "href": "/catalog/components/per-word-crossfade"
   },
   {
     "name": "per-word-rise",
@@ -4272,8 +3998,7 @@
       "stagger",
       "reveal"
     ],
-    "href": "/catalog/components/per-word-rise",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/per-word-rise.png"
+    "href": "/catalog/components/per-word-rise"
   },
   {
     "name": "perspective-marquee",
@@ -4284,8 +4009,7 @@
       "motion-primitive",
       "typography"
     ],
-    "href": "/catalog/components/perspective-marquee",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/perspective-marquee.png"
+    "href": "/catalog/components/perspective-marquee"
   },
   {
     "name": "physical-exit",
@@ -4300,8 +4024,7 @@
       "drop",
       "slide"
     ],
-    "href": "/catalog/components/physical-exit",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/physical-exit.png"
+    "href": "/catalog/components/physical-exit"
   },
   {
     "name": "plasma",
@@ -4346,8 +4069,7 @@
       "ripple",
       "payoff"
     ],
-    "href": "/catalog/components/press-ripple",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/press-ripple.png"
+    "href": "/catalog/components/press-ripple"
   },
   {
     "name": "prism",
@@ -4378,8 +4100,7 @@
       "glb",
       "loop"
     ],
-    "href": "/catalog/blocks/product-turntable",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/product-turntable.png"
+    "href": "/catalog/blocks/product-turntable"
   },
   {
     "name": "pull-back-reveal",
@@ -4393,8 +4114,7 @@
       "reveal",
       "recontextualize"
     ],
-    "href": "/catalog/components/pull-back-reveal",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/pull-back-reveal.png"
+    "href": "/catalog/components/pull-back-reveal"
   },
   {
     "name": "pull-to-refresh",
@@ -4410,8 +4130,7 @@
       "refresh",
       "demonstrate"
     ],
-    "href": "/catalog/components/pull-to-refresh",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/pull-to-refresh.png"
+    "href": "/catalog/components/pull-to-refresh"
   },
   {
     "name": "push-in",
@@ -4426,8 +4145,7 @@
       "emphasize",
       "holdable"
     ],
-    "href": "/catalog/components/push-in",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/push-in.png"
+    "href": "/catalog/components/push-in"
   },
   {
     "name": "rack-focus",
@@ -4442,8 +4160,7 @@
       "cinematic",
       "showcase"
     ],
-    "href": "/catalog/blocks/rack-focus",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/rack-focus.png"
+    "href": "/catalog/blocks/rack-focus"
   },
   {
     "name": "radial-surround",
@@ -4458,8 +4175,7 @@
       "surround",
       "converge"
     ],
-    "href": "/catalog/components/radial-surround",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/radial-surround.png"
+    "href": "/catalog/components/radial-surround"
   },
   {
     "name": "reddit-post",
@@ -4471,8 +4187,7 @@
       "overlay",
       "reddit"
     ],
-    "href": "/catalog/blocks/reddit-post",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/reddit-post.png"
+    "href": "/catalog/blocks/reddit-post"
   },
   {
     "name": "rgb-glitch-text",
@@ -4483,8 +4198,7 @@
       "motion-primitive",
       "typography"
     ],
-    "href": "/catalog/components/rgb-glitch-text",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/rgb-glitch-text.png"
+    "href": "/catalog/components/rgb-glitch-text"
   },
   {
     "name": "ridged-burn",
@@ -4495,8 +4209,7 @@
       "transition",
       "shader"
     ],
-    "href": "/catalog/blocks/ridged-burn",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/ridged-burn.png"
+    "href": "/catalog/blocks/ridged-burn"
   },
   {
     "name": "ripple-waves",
@@ -4507,8 +4220,7 @@
       "transition",
       "shader"
     ],
-    "href": "/catalog/blocks/ripple-waves",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/ripple-waves.png"
+    "href": "/catalog/blocks/ripple-waves"
   },
   {
     "name": "ripples",
@@ -4538,8 +4250,7 @@
       "resistance",
       "overshoot"
     ],
-    "href": "/catalog/components/rubber-band-bumper",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/rubber-band-bumper.png"
+    "href": "/catalog/components/rubber-band-bumper"
   },
   {
     "name": "scan-band",
@@ -4554,8 +4265,7 @@
       "distortion",
       "wordmark"
     ],
-    "href": "/catalog/components/scan-band",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/scan-band.png"
+    "href": "/catalog/components/scan-band"
   },
   {
     "name": "scramble-reveal",
@@ -4569,8 +4279,7 @@
       "reveal",
       "deterministic"
     ],
-    "href": "/catalog/components/scramble-reveal",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/scramble-reveal.png"
+    "href": "/catalog/components/scramble-reveal"
   },
   {
     "name": "screen-flow-carousel",
@@ -4585,8 +4294,7 @@
       "slot",
       "screens"
     ],
-    "href": "/catalog/components/screen-flow-carousel",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/screen-flow-carousel.png"
+    "href": "/catalog/components/screen-flow-carousel"
   },
   {
     "name": "scroll-camera-story",
@@ -4602,8 +4310,7 @@
       "slot",
       "servo"
     ],
-    "href": "/catalog/components/scroll-camera-story",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/scroll-camera-story.png"
+    "href": "/catalog/components/scroll-camera-story"
   },
   {
     "name": "scroll-feed",
@@ -4618,8 +4325,7 @@
       "loop",
       "agitation"
     ],
-    "href": "/catalog/components/scroll-feed",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/scroll-feed.png"
+    "href": "/catalog/components/scroll-feed"
   },
   {
     "name": "sdf-iris",
@@ -4630,8 +4336,7 @@
       "transition",
       "shader"
     ],
-    "href": "/catalog/blocks/sdf-iris",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/sdf-iris.png"
+    "href": "/catalog/blocks/sdf-iris"
   },
   {
     "name": "segmentation-flood",
@@ -4647,8 +4352,7 @@
       "deterministic",
       "experiment"
     ],
-    "href": "/catalog/components/segmentation-flood",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/segmentation-flood.png"
+    "href": "/catalog/components/segmentation-flood"
   },
   {
     "name": "separator",
@@ -4660,8 +4364,7 @@
       "separator",
       "layout"
     ],
-    "href": "/catalog/components/separator",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/separator.png"
+    "href": "/catalog/components/separator"
   },
   {
     "name": "settings-toggle-flow",
@@ -4673,8 +4376,7 @@
       "settings",
       "toggle"
     ],
-    "href": "/catalog/components/settings-toggle-flow",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/settings-toggle-flow.png"
+    "href": "/catalog/components/settings-toggle-flow"
   },
   {
     "name": "share-sheet-carousel",
@@ -4688,8 +4390,7 @@
       "vertical",
       "ad-template"
     ],
-    "href": "/catalog/blocks/share-sheet-carousel",
-    "preview": "https://static.heygen.ai/hyperframes/templates/promoted/254fe4bd8a3f00c1e70ac5e38a1bce25060f7590/share-sheet-carousel/poster.jpg"
+    "href": "/catalog/blocks/share-sheet-carousel"
   },
   {
     "name": "shared-axis-y",
@@ -4700,8 +4401,7 @@
       "motion-primitive",
       "typography"
     ],
-    "href": "/catalog/components/shared-axis-y",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/shared-axis-y.png"
+    "href": "/catalog/components/shared-axis-y"
   },
   {
     "name": "shared-axis-z",
@@ -4712,8 +4412,7 @@
       "motion-primitive",
       "typography"
     ],
-    "href": "/catalog/components/shared-axis-z",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/shared-axis-z.png"
+    "href": "/catalog/components/shared-axis-z"
   },
   {
     "name": "sheet-spring-up",
@@ -4727,8 +4426,7 @@
       "mock-ui",
       "overlay"
     ],
-    "href": "/catalog/components/sheet-spring-up",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/sheet-spring-up.png"
+    "href": "/catalog/components/sheet-spring-up"
   },
   {
     "name": "shimmer-sweep",
@@ -4741,8 +4439,7 @@
       "highlight",
       "effect"
     ],
-    "href": "/catalog/components/shimmer-sweep",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/shimmer-sweep.png"
+    "href": "/catalog/components/shimmer-sweep"
   },
   {
     "name": "shutter-slam",
@@ -4757,8 +4454,7 @@
       "slam",
       "animation"
     ],
-    "href": "/catalog/components/shutter-slam",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/shutter-slam.png"
+    "href": "/catalog/components/shutter-slam"
   },
   {
     "name": "signup-flow",
@@ -4770,8 +4466,7 @@
       "signup",
       "form"
     ],
-    "href": "/catalog/components/signup-flow",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/signup-flow.png"
+    "href": "/catalog/components/signup-flow"
   },
   {
     "name": "sine-wave",
@@ -4800,14 +4495,13 @@
       "skeleton",
       "reveal"
     ],
-    "href": "/catalog/components/skeleton-reveal",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/skeleton-reveal.png"
+    "href": "/catalog/components/skeleton-reveal"
   },
   {
     "name": "slack-notification-ad",
     "type": "block",
     "title": "Slack Notification Ad",
-    "description": "A portrait lock screen fills with escalating Slack video requests before HeyGen delivers the payoff",
+    "description": "A portrait lock screen fills with escalating Slack video requests before Northwind delivers the payoff",
     "tags": [
       "showcase",
       "mock-ui",
@@ -4815,8 +4509,7 @@
       "vertical",
       "ad-template"
     ],
-    "href": "/catalog/blocks/slack-notification-ad",
-    "preview": "https://static.heygen.ai/hyperframes/templates/promoted/254fe4bd8a3f00c1e70ac5e38a1bce25060f7590/slack-notification-ad/poster.jpg"
+    "href": "/catalog/blocks/slack-notification-ad"
   },
   {
     "name": "slit-scan-reveal",
@@ -4831,8 +4524,7 @@
       "deterministic",
       "experiment"
     ],
-    "href": "/catalog/components/slit-scan-reveal",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/slit-scan-reveal.png"
+    "href": "/catalog/components/slit-scan-reveal"
   },
   {
     "name": "slot-machine-roll",
@@ -4844,8 +4536,7 @@
       "motion-primitive",
       "typography"
     ],
-    "href": "/catalog/components/slot-machine-roll",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/slot-machine-roll.png"
+    "href": "/catalog/components/slot-machine-roll"
   },
   {
     "name": "snow",
@@ -4863,8 +4554,7 @@
       "media-treatment-overlay",
       "loopable"
     ],
-    "href": "/catalog/blocks/snow",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/snow.png"
+    "href": "/catalog/blocks/snow"
   },
   {
     "name": "social-proof-card",
@@ -4878,8 +4568,7 @@
       "cta",
       "vertical"
     ],
-    "href": "/catalog/components/social-proof-card",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/social-proof-card.png"
+    "href": "/catalog/components/social-proof-card"
   },
   {
     "name": "soft-blob-touch",
@@ -4894,8 +4583,7 @@
       "touch",
       "grain"
     ],
-    "href": "/catalog/components/soft-blob-touch",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/soft-blob-touch.png"
+    "href": "/catalog/components/soft-blob-touch"
   },
   {
     "name": "soft-blur-in",
@@ -4908,8 +4596,7 @@
       "reveal",
       "blur"
     ],
-    "href": "/catalog/components/soft-blur-in",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/soft-blur-in.png"
+    "href": "/catalog/components/soft-blur-in"
   },
   {
     "name": "spain-map",
@@ -4924,8 +4611,7 @@
       "europe",
       "choropleth"
     ],
-    "href": "/catalog/blocks/spain-map",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/spain-map.png"
+    "href": "/catalog/blocks/spain-map"
   },
   {
     "name": "spiral",
@@ -4954,8 +4640,7 @@
       "webgl",
       "background"
     ],
-    "href": "/catalog/blocks/spiral-galaxy",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/spiral-galaxy.png"
+    "href": "/catalog/blocks/spiral-galaxy"
   },
   {
     "name": "split-flap-board",
@@ -4971,8 +4656,7 @@
       "departure-board",
       "reveal"
     ],
-    "href": "/catalog/blocks/split-flap-board",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/split-flap-board.png"
+    "href": "/catalog/blocks/split-flap-board"
   },
   {
     "name": "split-tilt-cards",
@@ -4988,8 +4672,7 @@
       "tilt",
       "slots"
     ],
-    "href": "/catalog/components/split-tilt-cards",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/split-tilt-cards.png"
+    "href": "/catalog/components/split-tilt-cards"
   },
   {
     "name": "spotify-card",
@@ -5001,8 +4684,7 @@
       "overlay",
       "spotify"
     ],
-    "href": "/catalog/blocks/spotify-card",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/spotify-card.png"
+    "href": "/catalog/blocks/spotify-card"
   },
   {
     "name": "spotlight-card",
@@ -5012,8 +4694,7 @@
     "tags": [
       "effect"
     ],
-    "href": "/catalog/components/spotlight-card",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/spotlight-card.png"
+    "href": "/catalog/components/spotlight-card"
   },
   {
     "name": "spring-pop",
@@ -5028,8 +4709,7 @@
       "pop",
       "reveal"
     ],
-    "href": "/catalog/components/spring-pop",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/spring-pop.png"
+    "href": "/catalog/components/spring-pop"
   },
   {
     "name": "spring-stack-shuffle",
@@ -5043,8 +4723,7 @@
       "stack",
       "interruptible-spring"
     ],
-    "href": "/catalog/components/spring-stack-shuffle",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/spring-stack-shuffle.png"
+    "href": "/catalog/components/spring-stack-shuffle"
   },
   {
     "name": "stagger-cascade",
@@ -5058,8 +4737,7 @@
       "entrance",
       "exhibit"
     ],
-    "href": "/catalog/components/stagger-cascade",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/stagger-cascade.png"
+    "href": "/catalog/components/stagger-cascade"
   },
   {
     "name": "stagger-lattice",
@@ -5071,8 +4749,7 @@
       "anime-inspired",
       "hyperframes-native"
     ],
-    "href": "/catalog/components/stagger-lattice",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/stagger-lattice.png"
+    "href": "/catalog/components/stagger-lattice"
   },
   {
     "name": "staggered-fade-up",
@@ -5084,8 +4761,7 @@
       "motion-primitive",
       "typography"
     ],
-    "href": "/catalog/components/staggered-fade-up",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/staggered-fade-up.png"
+    "href": "/catalog/components/staggered-fade-up"
   },
   {
     "name": "star-rating-fill",
@@ -5100,8 +4776,7 @@
       "fill",
       "prove"
     ],
-    "href": "/catalog/components/star-rating-fill",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/star-rating-fill.png"
+    "href": "/catalog/components/star-rating-fill"
   },
   {
     "name": "starfield",
@@ -5121,8 +4796,7 @@
       "media-treatment-overlay",
       "loopable"
     ],
-    "href": "/catalog/blocks/starfield",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/starfield.png"
+    "href": "/catalog/blocks/starfield"
   },
   {
     "name": "state-chip-rail",
@@ -5137,8 +4811,7 @@
       "chips",
       "rail"
     ],
-    "href": "/catalog/components/state-chip-rail",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/state-chip-rail.png"
+    "href": "/catalog/components/state-chip-rail"
   },
   {
     "name": "sticky-mock-swap",
@@ -5153,8 +4826,7 @@
       "crossfade",
       "feature-tour"
     ],
-    "href": "/catalog/components/sticky-mock-swap",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/sticky-mock-swap.png"
+    "href": "/catalog/components/sticky-mock-swap"
   },
   {
     "name": "stitched-text-draw",
@@ -5169,8 +4841,7 @@
       "stitch",
       "deterministic"
     ],
-    "href": "/catalog/components/stitched-text-draw",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/stitched-text-draw.png"
+    "href": "/catalog/components/stitched-text-draw"
   },
   {
     "name": "stop-motion-cadence",
@@ -5186,8 +4857,7 @@
       "deterministic",
       "experiment"
     ],
-    "href": "/catalog/components/stop-motion-cadence",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/stop-motion-cadence.png"
+    "href": "/catalog/components/stop-motion-cadence"
   },
   {
     "name": "store-badge-lockup",
@@ -5202,8 +4872,7 @@
       "cta",
       "ask"
     ],
-    "href": "/catalog/components/store-badge-lockup",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/store-badge-lockup.png"
+    "href": "/catalog/components/store-badge-lockup"
   },
   {
     "name": "strands",
@@ -5231,8 +4900,7 @@
       "ai",
       "chat"
     ],
-    "href": "/catalog/components/streaming-text",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/streaming-text.png"
+    "href": "/catalog/components/streaming-text"
   },
   {
     "name": "strikethrough-replace",
@@ -5243,8 +4911,7 @@
       "motion-primitive",
       "typography"
     ],
-    "href": "/catalog/components/strikethrough-replace",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/strikethrough-replace.png"
+    "href": "/catalog/components/strikethrough-replace"
   },
   {
     "name": "stripes",
@@ -5273,8 +4940,7 @@
       "success",
       "check"
     ],
-    "href": "/catalog/components/success-check",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/success-check.png"
+    "href": "/catalog/components/success-check"
   },
   {
     "name": "sun-burst",
@@ -5302,8 +4968,7 @@
       "anime-inspired",
       "hyperframes-native"
     ],
-    "href": "/catalog/components/svg-line-draw-loader",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/svg-line-draw-loader.png"
+    "href": "/catalog/components/svg-line-draw-loader"
   },
   {
     "name": "svg-mask-reveal",
@@ -5318,8 +4983,7 @@
       "reveal",
       "exhibit"
     ],
-    "href": "/catalog/components/svg-mask-reveal",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/svg-mask-reveal.png"
+    "href": "/catalog/components/svg-mask-reveal"
   },
   {
     "name": "svg-stroke-trace",
@@ -5334,8 +4998,7 @@
       "stroke",
       "line-draw"
     ],
-    "href": "/catalog/components/svg-stroke-trace",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/svg-stroke-trace.png"
+    "href": "/catalog/components/svg-stroke-trace"
   },
   {
     "name": "swipe-rail",
@@ -5350,8 +5013,7 @@
       "cards",
       "rail"
     ],
-    "href": "/catalog/components/swipe-rail",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/swipe-rail.png"
+    "href": "/catalog/components/swipe-rail"
   },
   {
     "name": "swirl",
@@ -5377,8 +5039,7 @@
       "transition",
       "shader"
     ],
-    "href": "/catalog/blocks/swirl-vortex",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/swirl-vortex.png"
+    "href": "/catalog/blocks/swirl-vortex"
   },
   {
     "name": "tabs-slide-indicator",
@@ -5391,8 +5052,7 @@
       "tabs",
       "indicator"
     ],
-    "href": "/catalog/components/tabs-slide-indicator",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/tabs-slide-indicator.png"
+    "href": "/catalog/components/tabs-slide-indicator"
   },
   {
     "name": "telemetry-hud",
@@ -5406,8 +5066,7 @@
       "telemetry",
       "deterministic"
     ],
-    "href": "/catalog/components/telemetry-hud",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/telemetry-hud.png"
+    "href": "/catalog/components/telemetry-hud"
   },
   {
     "name": "terminal-simulator",
@@ -5417,8 +5076,7 @@
     "tags": [
       "code-animation"
     ],
-    "href": "/catalog/components/terminal-simulator",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/terminal-simulator.png"
+    "href": "/catalog/components/terminal-simulator"
   },
   {
     "name": "testimonial-card",
@@ -5433,8 +5091,7 @@
       "quote",
       "prove"
     ],
-    "href": "/catalog/components/testimonial-card",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/testimonial-card.png"
+    "href": "/catalog/components/testimonial-card"
   },
   {
     "name": "testimonial-proof-card",
@@ -5449,8 +5106,7 @@
       "social-proof",
       "deterministic"
     ],
-    "href": "/catalog/components/testimonial-proof-card",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/testimonial-proof-card.png"
+    "href": "/catalog/components/testimonial-proof-card"
   },
   {
     "name": "text-match-cut",
@@ -5465,8 +5121,7 @@
       "hard-cut",
       "continuity"
     ],
-    "href": "/catalog/components/text-match-cut",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/text-match-cut.png"
+    "href": "/catalog/components/text-match-cut"
   },
   {
     "name": "text-shimmer",
@@ -5480,8 +5135,7 @@
       "specular",
       "emphasis"
     ],
-    "href": "/catalog/components/text-shimmer",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/text-shimmer.png"
+    "href": "/catalog/components/text-shimmer"
   },
   {
     "name": "text-stagger",
@@ -5495,8 +5149,7 @@
       "text",
       "stagger"
     ],
-    "href": "/catalog/components/text-stagger",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/text-stagger.png"
+    "href": "/catalog/components/text-stagger"
   },
   {
     "name": "text-state-swap",
@@ -5510,8 +5163,7 @@
       "text",
       "swap"
     ],
-    "href": "/catalog/components/text-state-swap",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/text-state-swap.png"
+    "href": "/catalog/components/text-state-swap"
   },
   {
     "name": "texture-mask-text",
@@ -5525,8 +5177,7 @@
       "texture",
       "mask"
     ],
-    "href": "/catalog/components/texture-mask-text",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/texture-mask-text.png"
+    "href": "/catalog/components/texture-mask-text"
   },
   {
     "name": "thermal-distortion",
@@ -5537,8 +5188,7 @@
       "transition",
       "shader"
     ],
-    "href": "/catalog/blocks/thermal-distortion",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/thermal-distortion.png"
+    "href": "/catalog/blocks/thermal-distortion"
   },
   {
     "name": "thin-film",
@@ -5565,8 +5215,7 @@
       "conversation",
       "messages"
     ],
-    "href": "/catalog/blocks/thread-message-stack",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/thread-message-stack.png"
+    "href": "/catalog/blocks/thread-message-stack"
   },
   {
     "name": "three-orbiting-cards",
@@ -5579,8 +5228,7 @@
       "webgl",
       "hyperframes-native"
     ],
-    "href": "/catalog/components/three-orbiting-cards",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/three-orbiting-cards.png"
+    "href": "/catalog/components/three-orbiting-cards"
   },
   {
     "name": "ticker-takeover",
@@ -5595,8 +5243,7 @@
       "headline",
       "reveal"
     ],
-    "href": "/catalog/components/ticker-takeover",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/ticker-takeover.png"
+    "href": "/catalog/components/ticker-takeover"
   },
   {
     "name": "tiktok-follow",
@@ -5608,8 +5255,7 @@
       "overlay",
       "tiktok"
     ],
-    "href": "/catalog/blocks/tiktok-follow",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/tiktok-follow.png"
+    "href": "/catalog/blocks/tiktok-follow"
   },
   {
     "name": "tilt-card",
@@ -5623,8 +5269,7 @@
       "card",
       "tilt"
     ],
-    "href": "/catalog/components/tilt-card",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/tilt-card.png"
+    "href": "/catalog/components/tilt-card"
   },
   {
     "name": "titlecard-calm",
@@ -5638,8 +5283,7 @@
       "calm",
       "orient"
     ],
-    "href": "/catalog/components/titlecard-calm",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/titlecard-calm.png"
+    "href": "/catalog/components/titlecard-calm"
   },
   {
     "name": "titlecard-lockup",
@@ -5654,8 +5298,7 @@
       "breather",
       "orient"
     ],
-    "href": "/catalog/components/titlecard-lockup",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/titlecard-lockup.png"
+    "href": "/catalog/components/titlecard-lockup"
   },
   {
     "name": "toggle-flip",
@@ -5670,8 +5313,7 @@
       "reference-prop",
       "demonstrate"
     ],
-    "href": "/catalog/components/toggle-flip",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/toggle-flip.png"
+    "href": "/catalog/components/toggle-flip"
   },
   {
     "name": "top-down-letters",
@@ -5683,8 +5325,7 @@
       "motion-primitive",
       "typography"
     ],
-    "href": "/catalog/components/top-down-letters",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/top-down-letters.png"
+    "href": "/catalog/components/top-down-letters"
   },
   {
     "name": "torn-paper-rip",
@@ -5699,8 +5340,7 @@
       "texture",
       "motion-primitive"
     ],
-    "href": "/catalog/components/torn-paper-rip",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/torn-paper-rip.png"
+    "href": "/catalog/components/torn-paper-rip"
   },
   {
     "name": "touch-indicator",
@@ -5715,8 +5355,7 @@
       "touch",
       "pointer"
     ],
-    "href": "/catalog/components/touch-indicator",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/touch-indicator.png"
+    "href": "/catalog/components/touch-indicator"
   },
   {
     "name": "tracing-beam",
@@ -5731,8 +5370,7 @@
       "path",
       "spotlight"
     ],
-    "href": "/catalog/components/tracing-beam",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/tracing-beam.png"
+    "href": "/catalog/components/tracing-beam"
   },
   {
     "name": "tracking-in",
@@ -5745,8 +5383,7 @@
       "reveal",
       "typography"
     ],
-    "href": "/catalog/components/tracking-in",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/tracking-in.png"
+    "href": "/catalog/components/tracking-in"
   },
   {
     "name": "transitions-3d",
@@ -5757,8 +5394,7 @@
       "transition",
       "showcase"
     ],
-    "href": "/catalog/blocks/transitions-3d",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/transitions-3d.png"
+    "href": "/catalog/blocks/transitions-3d"
   },
   {
     "name": "transitions-blur",
@@ -5769,8 +5405,7 @@
       "transition",
       "showcase"
     ],
-    "href": "/catalog/blocks/transitions-blur",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/transitions-blur.png"
+    "href": "/catalog/blocks/transitions-blur"
   },
   {
     "name": "transitions-cover",
@@ -5781,8 +5416,7 @@
       "transition",
       "showcase"
     ],
-    "href": "/catalog/blocks/transitions-cover",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/transitions-cover.png"
+    "href": "/catalog/blocks/transitions-cover"
   },
   {
     "name": "transitions-destruction",
@@ -5793,8 +5427,7 @@
       "transition",
       "showcase"
     ],
-    "href": "/catalog/blocks/transitions-destruction",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/transitions-destruction.png"
+    "href": "/catalog/blocks/transitions-destruction"
   },
   {
     "name": "transitions-dissolve",
@@ -5806,8 +5439,7 @@
       "showcase",
       "crossfade"
     ],
-    "href": "/catalog/blocks/transitions-dissolve",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/transitions-dissolve.png"
+    "href": "/catalog/blocks/transitions-dissolve"
   },
   {
     "name": "transitions-distortion",
@@ -5818,8 +5450,7 @@
       "transition",
       "showcase"
     ],
-    "href": "/catalog/blocks/transitions-distortion",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/transitions-distortion.png"
+    "href": "/catalog/blocks/transitions-distortion"
   },
   {
     "name": "transitions-grid",
@@ -5830,8 +5461,7 @@
       "transition",
       "showcase"
     ],
-    "href": "/catalog/blocks/transitions-grid",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/transitions-grid.png"
+    "href": "/catalog/blocks/transitions-grid"
   },
   {
     "name": "transitions-light",
@@ -5842,8 +5472,7 @@
       "transition",
       "showcase"
     ],
-    "href": "/catalog/blocks/transitions-light",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/transitions-light.png"
+    "href": "/catalog/blocks/transitions-light"
   },
   {
     "name": "transitions-mechanical",
@@ -5854,8 +5483,7 @@
       "transition",
       "showcase"
     ],
-    "href": "/catalog/blocks/transitions-mechanical",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/transitions-mechanical.png"
+    "href": "/catalog/blocks/transitions-mechanical"
   },
   {
     "name": "transitions-other",
@@ -5866,8 +5494,7 @@
       "transition",
       "showcase"
     ],
-    "href": "/catalog/blocks/transitions-other",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/transitions-other.png"
+    "href": "/catalog/blocks/transitions-other"
   },
   {
     "name": "transitions-push",
@@ -5878,8 +5505,7 @@
       "transition",
       "showcase"
     ],
-    "href": "/catalog/blocks/transitions-push",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/transitions-push.png"
+    "href": "/catalog/blocks/transitions-push"
   },
   {
     "name": "transitions-radial",
@@ -5890,8 +5516,7 @@
       "transition",
       "showcase"
     ],
-    "href": "/catalog/blocks/transitions-radial",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/transitions-radial.png"
+    "href": "/catalog/blocks/transitions-radial"
   },
   {
     "name": "transitions-scale",
@@ -5902,8 +5527,7 @@
       "transition",
       "showcase"
     ],
-    "href": "/catalog/blocks/transitions-scale",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/transitions-scale.png"
+    "href": "/catalog/blocks/transitions-scale"
   },
   {
     "name": "trust-strip",
@@ -5917,8 +5541,7 @@
       "logo-strip",
       "wordmarks"
     ],
-    "href": "/catalog/components/trust-strip",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/trust-strip.png"
+    "href": "/catalog/components/trust-strip"
   },
   {
     "name": "type-match-cut",
@@ -5932,8 +5555,7 @@
       "match-cut",
       "continuity"
     ],
-    "href": "/catalog/components/type-match-cut",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/type-match-cut.png"
+    "href": "/catalog/components/type-match-cut"
   },
   {
     "name": "typed-prompt",
@@ -5947,8 +5569,7 @@
       "prompt",
       "deterministic"
     ],
-    "href": "/catalog/components/typed-prompt",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/typed-prompt.png"
+    "href": "/catalog/components/typed-prompt"
   },
   {
     "name": "typewriter",
@@ -5960,8 +5581,7 @@
       "motion-primitive",
       "typography"
     ],
-    "href": "/catalog/components/typewriter",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/typewriter.png"
+    "href": "/catalog/components/typewriter"
   },
   {
     "name": "typing-indicator",
@@ -5974,8 +5594,7 @@
       "mock-ui",
       "overlay"
     ],
-    "href": "/catalog/components/typing-indicator",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/typing-indicator.png"
+    "href": "/catalog/components/typing-indicator"
   },
   {
     "name": "ui-3d-reveal",
@@ -5987,8 +5606,7 @@
       "3d",
       "reveal"
     ],
-    "href": "/catalog/blocks/ui-3d-reveal",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/ui-3d-reveal.png"
+    "href": "/catalog/blocks/ui-3d-reveal"
   },
   {
     "name": "ui-focus-zoom",
@@ -6004,8 +5622,7 @@
       "slot",
       "servo"
     ],
-    "href": "/catalog/components/ui-focus-zoom",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/ui-focus-zoom.png"
+    "href": "/catalog/components/ui-focus-zoom"
   },
   {
     "name": "us-map",
@@ -6019,8 +5636,7 @@
       "usa",
       "choropleth"
     ],
-    "href": "/catalog/blocks/us-map",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/us-map.png"
+    "href": "/catalog/blocks/us-map"
   },
   {
     "name": "us-map-bubble",
@@ -6035,8 +5651,7 @@
       "bubble",
       "cities"
     ],
-    "href": "/catalog/blocks/us-map-bubble",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/us-map-bubble.png"
+    "href": "/catalog/blocks/us-map-bubble"
   },
   {
     "name": "us-map-flow",
@@ -6052,8 +5667,7 @@
       "connections",
       "arcs"
     ],
-    "href": "/catalog/blocks/us-map-flow",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/us-map-flow.png"
+    "href": "/catalog/blocks/us-map-flow"
   },
   {
     "name": "us-map-hex",
@@ -6068,8 +5682,7 @@
       "hexgrid",
       "tilegrid"
     ],
-    "href": "/catalog/blocks/us-map-hex",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/us-map-hex.png"
+    "href": "/catalog/blocks/us-map-hex"
   },
   {
     "name": "variable-axis-type",
@@ -6083,8 +5696,7 @@
       "axis",
       "emphasize"
     ],
-    "href": "/catalog/components/variable-axis-type",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/variable-axis-type.png"
+    "href": "/catalog/components/variable-axis-type"
   },
   {
     "name": "variable-font-flex",
@@ -6098,8 +5710,7 @@
       "variable-font",
       "deterministic"
     ],
-    "href": "/catalog/components/variable-font-flex",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/variable-font-flex.png"
+    "href": "/catalog/components/variable-font-flex"
   },
   {
     "name": "vector-editor-rig",
@@ -6116,8 +5727,7 @@
       "bezier",
       "app-chrome"
     ],
-    "href": "/catalog/components/vector-editor-rig",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/vector-editor-rig.png"
+    "href": "/catalog/components/vector-editor-rig"
   },
   {
     "name": "velocity-throw-snap",
@@ -6133,8 +5743,7 @@
       "snap",
       "physics"
     ],
-    "href": "/catalog/components/velocity-throw-snap",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/velocity-throw-snap.png"
+    "href": "/catalog/components/velocity-throw-snap"
   },
   {
     "name": "vfx-anamorphic-flare",
@@ -6148,8 +5757,7 @@
       "optical",
       "canvas"
     ],
-    "href": "/catalog/blocks/vfx-anamorphic-flare",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/vfx-anamorphic-flare.png"
+    "href": "/catalog/blocks/vfx-anamorphic-flare"
   },
   {
     "name": "vfx-iphone-device",
@@ -6164,8 +5772,7 @@
       "macbook",
       "gltf"
     ],
-    "href": "/catalog/blocks/vfx-iphone-device",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/vfx-iphone-device.png"
+    "href": "/catalog/blocks/vfx-iphone-device"
   },
   {
     "name": "vfx-liquid-background",
@@ -6179,8 +5786,7 @@
       "displacement",
       "background"
     ],
-    "href": "/catalog/blocks/vfx-liquid-background",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/vfx-liquid-background.png"
+    "href": "/catalog/blocks/vfx-liquid-background"
   },
   {
     "name": "vfx-liquid-glass",
@@ -6191,8 +5797,7 @@
       "html-in-canvas",
       "webgl"
     ],
-    "href": "/catalog/blocks/vfx-liquid-glass",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/vfx-liquid-glass.png"
+    "href": "/catalog/blocks/vfx-liquid-glass"
   },
   {
     "name": "vfx-magnetic",
@@ -6203,8 +5808,7 @@
       "html-in-canvas",
       "webgl"
     ],
-    "href": "/catalog/blocks/vfx-magnetic",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/vfx-magnetic.png"
+    "href": "/catalog/blocks/vfx-magnetic"
   },
   {
     "name": "vfx-portal",
@@ -6215,8 +5819,7 @@
       "html-in-canvas",
       "webgl"
     ],
-    "href": "/catalog/blocks/vfx-portal",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/vfx-portal.png"
+    "href": "/catalog/blocks/vfx-portal"
   },
   {
     "name": "vfx-shatter",
@@ -6227,8 +5830,7 @@
       "html-in-canvas",
       "webgl"
     ],
-    "href": "/catalog/blocks/vfx-shatter",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/vfx-shatter.png"
+    "href": "/catalog/blocks/vfx-shatter"
   },
   {
     "name": "vfx-text-cursor",
@@ -6242,8 +5844,7 @@
       "cursor",
       "chromatic"
     ],
-    "href": "/catalog/blocks/vfx-text-cursor",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/vfx-text-cursor.png"
+    "href": "/catalog/blocks/vfx-text-cursor"
   },
   {
     "name": "vignette",
@@ -6256,8 +5857,7 @@
       "cinematic",
       "effect"
     ],
-    "href": "/catalog/components/vignette",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/vignette.png"
+    "href": "/catalog/components/vignette"
   },
   {
     "name": "voronoi",
@@ -6286,8 +5886,7 @@
       "marker",
       "deterministic"
     ],
-    "href": "/catalog/components/vox-annotate",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/vox-annotate.png"
+    "href": "/catalog/components/vox-annotate"
   },
   {
     "name": "vpn-youtube-spot",
@@ -6300,8 +5899,7 @@
       "youtube",
       "sfx"
     ],
-    "href": "/catalog/blocks/vpn-youtube-spot",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/vpn-youtube-spot.png"
+    "href": "/catalog/blocks/vpn-youtube-spot"
   },
   {
     "name": "water",
@@ -6344,8 +5942,7 @@
       "ranking",
       "leaderboard"
     ],
-    "href": "/catalog/blocks/week-in-merges",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/week-in-merges.png"
+    "href": "/catalog/blocks/week-in-merges"
   },
   {
     "name": "weight-wave",
@@ -6359,8 +5956,7 @@
       "variable-font",
       "text"
     ],
-    "href": "/catalog/blocks/weight-wave",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/weight-wave.png"
+    "href": "/catalog/blocks/weight-wave"
   },
   {
     "name": "whip-pan",
@@ -6371,8 +5967,7 @@
       "transition",
       "shader"
     ],
-    "href": "/catalog/blocks/whip-pan",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/whip-pan.png"
+    "href": "/catalog/blocks/whip-pan"
   },
   {
     "name": "whip-pan-cut",
@@ -6388,8 +5983,7 @@
       "bridge",
       "slots"
     ],
-    "href": "/catalog/components/whip-pan-cut",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/whip-pan-cut.png"
+    "href": "/catalog/components/whip-pan-cut"
   },
   {
     "name": "whiteboard-ink",
@@ -6405,8 +5999,7 @@
       "line-draw",
       "slot"
     ],
-    "href": "/catalog/components/whiteboard-ink",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/whiteboard-ink.png"
+    "href": "/catalog/components/whiteboard-ink"
   },
   {
     "name": "wireframe-portal-title",
@@ -6423,8 +6016,7 @@
       "post-processing",
       "phrase-swap"
     ],
-    "href": "/catalog/blocks/wireframe-portal-title",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/wireframe-portal-title.png"
+    "href": "/catalog/blocks/wireframe-portal-title"
   },
   {
     "name": "wordmark-tiles",
@@ -6438,8 +6030,7 @@
       "raster",
       "reveal"
     ],
-    "href": "/catalog/components/wordmark-tiles",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/wordmark-tiles.png"
+    "href": "/catalog/components/wordmark-tiles"
   },
   {
     "name": "world-map",
@@ -6453,8 +6044,7 @@
       "world",
       "choropleth"
     ],
-    "href": "/catalog/blocks/world-map",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/world-map.png"
+    "href": "/catalog/blocks/world-map"
   },
   {
     "name": "worley-noise",
@@ -6480,8 +6070,7 @@
     "tags": [
       "social-overlay"
     ],
-    "href": "/catalog/components/x-follow-card",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/x-follow-card.png"
+    "href": "/catalog/components/x-follow-card"
   },
   {
     "name": "x-post",
@@ -6493,8 +6082,7 @@
       "overlay",
       "twitter"
     ],
-    "href": "/catalog/blocks/x-post",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/x-post.png"
+    "href": "/catalog/blocks/x-post"
   },
   {
     "name": "yt-camera-move",
@@ -6507,8 +6095,7 @@
       "effect",
       "creator"
     ],
-    "href": "/catalog/components/yt-camera-move",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/yt-camera-move.png"
+    "href": "/catalog/components/yt-camera-move"
   },
   {
     "name": "yt-circle-pointer",
@@ -6520,8 +6107,7 @@
       "countdown",
       "overlay"
     ],
-    "href": "/catalog/components/yt-circle-pointer",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/yt-circle-pointer.png"
+    "href": "/catalog/components/yt-circle-pointer"
   },
   {
     "name": "yt-comment-card",
@@ -6534,8 +6120,7 @@
       "creator",
       "overlay"
     ],
-    "href": "/catalog/blocks/yt-comment-card",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/yt-comment-card.png"
+    "href": "/catalog/blocks/yt-comment-card"
   },
   {
     "name": "yt-feather-highlight",
@@ -6548,8 +6133,7 @@
       "effect",
       "overlay"
     ],
-    "href": "/catalog/components/yt-feather-highlight",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/yt-feather-highlight.png"
+    "href": "/catalog/components/yt-feather-highlight"
   },
   {
     "name": "yt-lcd-background",
@@ -6561,8 +6145,7 @@
       "texture",
       "creator"
     ],
-    "href": "/catalog/blocks/yt-lcd-background",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/yt-lcd-background.png"
+    "href": "/catalog/blocks/yt-lcd-background"
   },
   {
     "name": "yt-logo-intro",
@@ -6574,8 +6157,7 @@
       "intro",
       "creator"
     ],
-    "href": "/catalog/blocks/yt-logo-intro",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/yt-logo-intro.png"
+    "href": "/catalog/blocks/yt-logo-intro"
   },
   {
     "name": "yt-lower-third",
@@ -6587,8 +6169,7 @@
       "overlay",
       "youtube"
     ],
-    "href": "/catalog/blocks/yt-lower-third",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/yt-lower-third.png"
+    "href": "/catalog/blocks/yt-lower-third"
   },
   {
     "name": "yt-prism-title",
@@ -6600,8 +6181,7 @@
       "title-card",
       "creator"
     ],
-    "href": "/catalog/blocks/yt-prism-title",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/yt-prism-title.png"
+    "href": "/catalog/blocks/yt-prism-title"
   },
   {
     "name": "yt-screen-warp",
@@ -6613,8 +6193,7 @@
       "overlay",
       "texture"
     ],
-    "href": "/catalog/components/yt-screen-warp",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/yt-screen-warp.png"
+    "href": "/catalog/components/yt-screen-warp"
   },
   {
     "name": "yt-vertical-fill",
@@ -6626,8 +6205,7 @@
       "vertical",
       "media"
     ],
-    "href": "/catalog/blocks/yt-vertical-fill",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/yt-vertical-fill.png"
+    "href": "/catalog/blocks/yt-vertical-fill"
   },
   {
     "name": "zoom-through-transition",
@@ -6637,7 +6215,6 @@
     "tags": [
       "transition-primitive"
     ],
-    "href": "/catalog/components/zoom-through-transition",
-    "preview": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/zoom-through-transition.png"
+    "href": "/catalog/components/zoom-through-transition"
   }
 ]

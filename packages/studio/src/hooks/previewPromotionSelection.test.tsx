@@ -37,7 +37,7 @@ const titleOf = (iframe: HTMLIFrameElement | null) =>
 const selectionOf = (element: HTMLElement) =>
   ({ element, id: "title", selector: "#title", label: "title" }) as unknown as DomEditSelection;
 
-/** A host shaped like Desktop's: it reads its iframe once and never re-renders for a reload. */
+/** An embedding host that reads its iframe once and never re-renders for a reload. */
 function mountHost(followPromotions: boolean) {
   const selectionRef = { current: null as DomEditSelection | null };
   function Session({ host }: { host: HTMLIFrameElement }) {

@@ -4,16 +4,6 @@ sidebarTitle: "Developers"
 description: "Choose the smallest HyperFrames surface for automation, editing, playback, rendering, or generated compositions."
 ---
 
-import { DocsVideo } from "/snippets/docs-video.jsx";
-
-<div className="hf-docs-video-frame">
-  <DocsVideo
-    title="A HyperFrames composition shown through the CLI, SDK, Player, and rendering infrastructure."
-    src="https://static.heygen.ai/hyperframes-oss/docs/images/showcase/journey-developers-v3-v2.mp4"
-    poster="https://static.heygen.ai/hyperframes-oss/docs/images/showcase/journey-developers-v3.jpg"
-  />
-</div>
-
 Use this path when you want to write a composition yourself, automate a project,
 or add HyperFrames to another product. If you only want an agent to make a
 video, start with the [first-video guide](/quickstart).
@@ -23,9 +13,9 @@ video, start with the [first-video guide](/quickstart).
 Create a blank project and open it in Studio:
 
 ```bash
-npx hyperframes init my-video --example blank
+hyperframes init my-video --example blank
 cd my-video
-npx hyperframes preview
+hyperframes preview
 ```
 
 The project is ordinary HTML. A composition starts with this root:
@@ -50,8 +40,8 @@ HTML and CSS control what appears; `data-*` attributes control when it appears.
 When the project is ready:
 
 ```bash
-npx hyperframes check
-npx hyperframes render --output video.mp4
+hyperframes check
+hyperframes render --output video.mp4
 ```
 
 ## Add HyperFrames to an application

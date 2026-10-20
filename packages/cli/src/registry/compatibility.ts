@@ -38,8 +38,9 @@ export function checkRegistryItemCompatibility(
     warnings,
     error:
       `Registry item "${item.name}" requires hyperframes >= ${minCliVersion} ` +
-      `(current: ${currentCliVersion}). Run \`npx hyperframes@latest add ${item.name}\` ` +
-      "or upgrade your installed hyperframes CLI.",
+      `(current: ${currentCliVersion}). Upgrade with ` +
+      "`curl -fsSL https://raw.githubusercontent.com/ryu1845/hyperframes/main/install.sh | sh`, " +
+      `then run \`hyperframes add ${item.name}\` again.`,
   };
 }
 

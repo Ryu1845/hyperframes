@@ -1,5 +1,5 @@
 {
-  "$schema": "https://hyperframes.heygen.com/schema/registry-item.json",
+  "$schema": "https://raw.githubusercontent.com/ryu1845/hyperframes/main/docs/schema/registry-item.json",
   "name": "notification-cascade",
   "type": "hyperframes:block",
   "title": "Notification Cascade",
@@ -84,7 +84,7 @@
       "label": "End-card footer",
       "description": "Domain of the brand this video promotes, under the end-card headline. Use the real domain, or a call to action when no domain fits.",
       "portrays": ["subject_domain"],
-      "default": "hyperframes.heygen.com"
+      "default": "github.com/ryu1845/hyperframes"
     },
     {
       "id": "brandLogo",
@@ -117,9 +117,5 @@
       "target": "TEMPLATE.md",
       "type": "hyperframes:asset"
     }
-  ],
-  "preview": {
-    "video": "https://static.heygen.ai/hyperframes/templates/promoted/254fe4bd8a3f00c1e70ac5e38a1bce25060f7590/notification-cascade/preview.mp4",
-    "poster": "https://static.heygen.ai/hyperframes/templates/promoted/254fe4bd8a3f00c1e70ac5e38a1bce25060f7590/notification-cascade/poster.jpg"
-  }
+  ]
 }

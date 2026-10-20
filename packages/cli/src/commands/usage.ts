@@ -4,7 +4,7 @@ import { readHarnessUsage } from "../utils/harnessUsage.js";
 export default defineCommand({
   meta: {
     name: "usage",
-    description: "Read remaining harness subscription usage without telemetry",
+    description: "Read remaining harness subscription usage",
   },
   args: {
     harness: {

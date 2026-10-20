@@ -25,9 +25,9 @@
     { "id": "request10Text", "type": "string", "role": "content", "label": "Request 10 message", "description": "Tenth Slack notification message.", "default": "investor update needs a quick video walkthrough" },
     { "id": "request11Title", "type": "string", "role": "content", "label": "Request 11 sender", "description": "Eleventh Slack notification sender or channel.", "default": "Ben Liu" },
     { "id": "request11Text", "type": "string", "role": "content", "label": "Request 11 message", "description": "Eleventh Slack notification message.", "default": "one more: Product Hunt launch video" },
-    { "id": "payoffTitle", "type": "string", "role": "content", "label": "Payoff sender", "description": "Sender of the final payoff notification: the brand this video promotes, by its real name.", "portrays": ["subject_name", "recommended_position"], "default": "HeyGen" },
+    { "id": "payoffTitle", "type": "string", "role": "content", "label": "Payoff sender", "description": "Sender of the final payoff notification: the brand this video promotes, by its real name.", "portrays": ["subject_name", "recommended_position"], "default": "Northwind" },
     { "id": "payoffText", "type": "string", "role": "content", "label": "Payoff message", "description": "Payoff message from the brand this video promotes.", "default": "Heard you needed some videos?" },
-    { "id": "payoffIcon", "type": "image", "role": "content", "label": "Payoff logo", "description": "Mark of the brand this video promotes, shown only in the final payoff notification.", "portrays": ["subject_logo"], "default": "assets/img/heygen-mark.svg" }
+    { "id": "payoffIcon", "type": "image", "role": "content", "label": "Payoff logo", "description": "Mark of the brand this video promotes, shown only in the final payoff notification.", "portrays": ["subject_logo"], "default": "assets/img/northwind-mark.svg" }
   ]'
 >
   <head>
@@ -508,9 +508,9 @@
             text: content("request11Text", "one more: Product Hunt launch video"),
           },
           {
-            title: content("payoffTitle", "HeyGen"),
+            title: content("payoffTitle", "Northwind"),
             text: content("payoffText", "Heard you needed some videos?"),
-            icon: content("payoffIcon", "assets/img/heygen-mark.svg"),
+            icon: content("payoffIcon", "assets/img/northwind-mark.svg"),
           },
         ],
       };
@@ -518,7 +518,7 @@
       /* ---------------- beat clock ---------------- */
       var T = {
         wake: 0.1,
-        /* 11 Slack arrivals with shrinking gaps, then the HeyGen payoff 0.5s
+        /* 11 Slack arrivals with shrinking gaps, then the brand payoff 0.5s
            after the last Slack notif (the dramatic comma IS the widened gap) */
         arrivals: [1.15, 3.75, 4.6, 5.34, 5.98, 6.54, 7.02, 7.44, 7.8, 8.11, 8.38, 8.88],
         clockSwaps: [4.6, 6.54, 8.11], // 9:42 / 9:45 / 9:51

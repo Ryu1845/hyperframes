@@ -29,55 +29,9 @@ describe("hyperframes-core contract docs", () => {
     const skill = read("skills", "hyperframes-core", "SKILL.md");
     const brief = read("skills", "hyperframes", "references", "brief-contract.md");
 
-    expect(skill).toContain("`npx hyperframes check`");
+    expect(skill).toContain("`hyperframes check`");
     expect(brief).toContain("`hyperframes check`");
     expect(brief).not.toContain("`lint` / `validate` / `inspect`");
-  });
-
-  it("requires actionable reproduction packets in CLI defect feedback", () => {
-    const skill = read("skills", "hyperframes-cli", "SKILL.md");
-    const renderReference = read("skills", "hyperframes-cli", "references", "preview-render.md");
-
-    expect(skill).toContain("reproduction packet");
-    expect(renderReference).toContain("REPRO COMMAND:");
-    expect(renderReference).toContain("EXPECTED / ACTUAL:");
-    expect(renderReference).toContain("EXACT ERROR:");
-    expect(renderReference).toContain("OUTCOME:");
-    expect(renderReference).toContain("WORKAROUND:");
-  });
-
-  it("sends missing features and host-app friction as ratingless comments", () => {
-    const skill = read("skills", "hyperframes-cli", "SKILL.md");
-
-    expect(skill).toContain(
-      'npx hyperframes feedback --comment "MISSING FEATURE: <what the person asked for, in their words, with names, clients, figures and paths left out> | WORKAROUND:',
-    );
-    expect(skill).toMatch(/HYPERFRAMES_CLIENT[^\n]*npx hyperframes feedback --comment "HOST APP:/);
-  });
-
-  it("mandates a composition-structure block for visual-defect feedback", () => {
-    const skill = read("skills", "hyperframes-cli", "SKILL.md");
-    const renderReference = read("skills", "hyperframes-cli", "references", "preview-render.md");
-
-    // Skill teaches the mandate at a high level.
-    expect(skill).toContain("COMPOSITION_STRUCTURE:");
-    // Reference carries the fillable block + agent-helper pointer.
-    expect(renderReference).toContain("COMPOSITION_STRUCTURE:");
-    expect(renderReference).toContain("elements: video=");
-    expect(renderReference).toContain("attributes:");
-    expect(renderReference).toContain("timeline:");
-    expect(renderReference).toContain("buildCompositionCensus");
-  });
-
-  it("teaches safe cloud archive size remediation", () => {
-    const skill = read("skills", "hyperframes-cli", "SKILL.md");
-    const cloudReference = read("skills", "hyperframes-cli", "references", "cloud.md");
-
-    expect(skill).toContain("cloud render --dry-run --json");
-    expect(skill).toContain("Never ignore an asset merely because it is large");
-    expect(cloudReference).toContain(".hyperframesignore");
-    expect(cloudReference).toContain("Never ignore all of `assets/`");
-    expect(cloudReference).toContain("dynamically computed asset path");
   });
 });
 
@@ -89,7 +43,7 @@ describe("media-use TTS documentation", () => {
     expect(tts).not.toMatch(/hyperframes tts[^\n]*--provider/);
     expect(tts).not.toMatch(/hyperframes tts[^\n]*--words/);
     expect(captions).not.toMatch(/hyperframes tts[^\n]*--provider/);
-    expect(captions).toContain("heygen-tts.mjs");
+    expect(captions).toContain("scripts/audio.mjs");
   });
 });
 
@@ -157,7 +111,7 @@ describe("media treatment routing documentation", () => {
       ["skills", "motion-graphics", "agents", "director.md"],
       ["skills", "motion-graphics", "agents", "builder.md"],
     ]) {
-      expect(read(...file)).toContain("npx hyperframes catalog --query");
+      expect(read(...file)).toContain("hyperframes catalog --query");
     }
     // And it must say the search stands alone, or the next reader re-derives the
     // creator's wrong diagnosis: that a catalog you have not installed cannot be searched.
@@ -184,7 +138,7 @@ describe("media treatment routing documentation", () => {
       ["skills", "remotion-to-hyperframes", "SKILL.md"],
     ]) {
       const doc = read(...file);
-      expect(doc, file.join("/")).toContain("npx hyperframes catalog --query");
+      expect(doc, file.join("/")).toContain("hyperframes catalog --query");
       // "I forgot to install the components" was the wrong self-diagnosis that
       // hid this bug. Every copy of the instruction has to kill it on the spot.
       expect(doc, file.join("/")).toContain("nothing installed");
@@ -222,9 +176,9 @@ describe("media treatment routing documentation", () => {
   it("gives agents a process-owned preview lifecycle in new project instructions", () => {
     for (const file of ["AGENTS.md", "CLAUDE.md"]) {
       const template = read("packages", "cli", "src", "templates", "_shared", file);
-      expect(template).toContain("npx hyperframes preview --background");
-      expect(template).toContain("npx hyperframes preview --status");
-      expect(template).toContain("npx hyperframes preview --stop");
+      expect(template).toContain("hyperframes preview --background");
+      expect(template).toContain("hyperframes preview --status");
+      expect(template).toContain("hyperframes preview --stop");
       expect(template).toContain("leaving refreshes at `ERR_CONNECTION_TIMED_OUT`");
       expect(template).not.toContain("run_in_background: true");
     }

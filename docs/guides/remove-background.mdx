@@ -3,35 +3,16 @@ title: "Remove a background"
 description: "Turn footage of a person or a portrait image into transparent media you can layer over a HyperFrames scene."
 ---
 
-import { DocsVideo } from "/snippets/docs-video.jsx";
-
 Use background removal when a person needs to appear over designed text,
 graphics, or another scene. HyperFrames runs the included human-segmentation
 model locally; it does not upload the source or require an API key.
-
-<Frame caption="The same real frame before and after the local model. The softer hair and hand edges are the model’s actual limit on this source.">
-  <img
-    src="https://static.heygen.ai/hyperframes-oss/docs/images/showcase/remove-background-before-after-v1.png"
-    alt="The original presenter frame beside its transparent cutout over a green background"
-  />
-</Frame>
-
-
-<DocsVideo
-  title="A presenter cut out of a real room, shown against the original and magnified at the hard edges"
-  src="https://static.heygen.ai/hyperframes-oss/docs/images/showcase/remove-background-demo-v3.mp4"
-  poster="https://static.heygen.ai/hyperframes-oss/docs/images/showcase/remove-background-demo-v1.jpg"
-/>
-
-Every frame is real CLI output. The magnified panels sit on the hair edge and on
-a shoulder a plant used to overlap, because those are where matting usually fails.
 
 ## Create the transparent file
 
 Make sure FFmpeg is installed, then run:
 
 ```bash
-npx hyperframes remove-background subject.mp4 -o subject.webm
+hyperframes remove-background subject.mp4 -o subject.webm
 ```
 
 The first run downloads the model. Later runs reuse it.
@@ -45,8 +26,8 @@ Choose the output by destination:
 | Transparent `.png`  | A single portrait image                                          |
 
 ```bash
-npx hyperframes remove-background subject.mp4 -o subject.mov
-npx hyperframes remove-background portrait.jpg -o portrait.png
+hyperframes remove-background subject.mp4 -o subject.mov
+hyperframes remove-background portrait.jpg -o portrait.png
 ```
 
 ## Use the cutout
@@ -75,7 +56,7 @@ For text-behind-subject or another three-layer effect, you can create both the
 foreground cutout and an inverse-alpha background plate in one pass:
 
 ```bash
-npx hyperframes remove-background subject.mp4 \
+hyperframes remove-background subject.mp4 \
   -o subject.webm \
   --background-output plate.webm
 ```
@@ -110,7 +91,7 @@ in the project, and reuse it.
 provider with:
 
 ```bash
-npx hyperframes remove-background --info
+hyperframes remove-background --info
 ```
 
 For WebM output, `--quality balanced` is the default. Use `best` when the
@@ -133,5 +114,4 @@ supported input.
 ## Related topics
 
 - [Use images and video](/guides/video-components)
-- [Add an avatar presenter](/guides/avatar-presenter)
 - [Apply media effects without changing the source file](/guides/media-effects)

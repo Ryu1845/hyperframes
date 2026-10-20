@@ -28,9 +28,6 @@ import {
   resolveCompositionEntryArg,
   resolveDefaultFpsArg,
 } from "../../utils/renderArgs.js";
-import { normalizeSkillSlug } from "../../telemetry/skill.js";
-import { loadProjectConfig } from "../../utils/projectConfig.js";
-import { type CatalogUsage, summarizeCatalogUsage } from "../../utils/catalogUsage.js";
 
 const QUALITY_ALIASES = {
   draft: { quality: "draft" as const },
@@ -68,7 +65,6 @@ export interface RenderCommandArgs {
   output?: string;
   fps?: string;
   quality?: string;
-  skill?: string;
   format?: string;
   "gif-loop"?: string;
   "hls-segment-seconds"?: string;
@@ -114,12 +110,6 @@ export interface RenderPlan {
   renderTarget: string;
   fps: Fps;
   quality: RenderQuality;
-  authoringSkill?: string;
-  invalidAuthoringSkill?: string;
-  /** Which resolution step provided authoringSkill: an explicit --skill flag, or the project's own config. */
-  authoringSkillSource?: "flag" | "project-config";
-  /** Catalog items installed in this project, and those the entry reaches. */
-  catalogUsage: CatalogUsage;
   format: RenderFormat;
   gifLoop?: number;
   gifFpsCapped: boolean;
@@ -163,8 +153,6 @@ export interface RenderPlan {
   variablesFileArg?: string;
   strictVariables: boolean;
   environment: Readonly<Record<string, string>>;
-  /** Names of HF_-/HYPERFRAMES_-prefixed env vars present at plan time (never values), capped at 20. */
-  hfEnvOverrides: readonly string[];
 }
 
 function formatFpsParseError(
@@ -201,30 +189,9 @@ function positiveInteger(raw: string, title: string, message: string, min = 1): 
   return parsed;
 }
 
-const HF_ENV_OVERRIDE_RE = /^(HF|HYPERFRAMES)_/;
-const MAX_REPORTED_ENV_OVERRIDES = 20;
-
-/** HF_-prefixed keys the CLI sets for itself during bootstrap rather than keys an operator
- * set to steer a render: cli.ts points shaderTransitionWorkerPool at the worker bundled
- * next to cli.js, so that key is present on essentially every built-CLI run and says
- * nothing about how this render was configured. */
-const CLI_INTERNAL_HF_ENV_KEYS = new Set(["HF_SHADER_WORKER_ENTRY"]);
-
-/** Names (never values, since some could hold paths or secrets) of HF_-/HYPERFRAMES_-prefixed
- * env vars present when this plan resolves, snapshotted before this render's own preflight
- * injects its ffmpeg/ffprobe path overrides, which would otherwise always read back as
- * operator-set. */
-function resolveHfEnvOverrides(): readonly string[] {
-  return Object.keys(process.env)
-    .filter((name) => HF_ENV_OVERRIDE_RE.test(name) && !CLI_INTERNAL_HF_ENV_KEYS.has(name))
-    .sort()
-    .slice(0, MAX_REPORTED_ENV_OVERRIDES);
-}
-
 /** Parse and validate command input into an immutable execution plan. */
 // fallow-ignore-next-line complexity
 export function createRenderPlan(args: RenderCommandArgs, now = new Date()): RenderPlan {
-  const hfEnvOverrides = resolveHfEnvOverrides();
   const hasExplicitComposition = hasExplicitCompositionArg(args.composition);
   const project = resolveProject(args.dir, { requireIndex: !hasExplicitComposition });
   const entryFile = resolveCompositionEntryArg(args.composition, project.dir, statSync);
@@ -247,29 +214,6 @@ export function createRenderPlan(args: RenderCommandArgs, now = new Date()): Ren
   }
   const qualityAlias = QUALITY_ALIASES[qualityRaw as keyof typeof QUALITY_ALIASES];
   const quality = qualityAlias.quality;
-
-  // Attribution resolves the explicit --skill flag first, then falls back to
-  // the owning skill persisted in hyperframes.json — so re-renders, batch
-  // renders, and `npm run render` (which never re-pass the flag) stay
-  // attributed to the workflow that created the project.
-  const flagSkill = normalizeSkillSlug(args.skill);
-  const projectConfigSkill = loadProjectConfig(project.dir).authoringSkill;
-  const authoringSkill = flagSkill ?? projectConfigSkill;
-  const invalidAuthoringSkill =
-    typeof args.skill === "string" && args.skill.trim() !== "" && !flagSkill
-      ? args.skill
-      : undefined;
-  // Same flag-then-project-config resolution as authoringSkill above, named
-  // for telemetry (which attribution actually won, not just its value).
-  const authoringSkillSource = flagSkill
-    ? "flag"
-    : projectConfigSkill
-      ? "project-config"
-      : undefined;
-
-  // Resolved here, once, from the same entry the render will use: batch rows
-  // vary only their variables, so every row shares this composition tree.
-  const catalogUsage = summarizeCatalogUsage(project.dir, renderTarget);
 
   const formatRaw = args.format ?? "mp4";
   const format = parseRenderFormat(formatRaw);
@@ -516,10 +460,6 @@ export function createRenderPlan(args: RenderCommandArgs, now = new Date()): Ren
     renderTarget,
     fps,
     quality,
-    authoringSkill,
-    invalidAuthoringSkill,
-    authoringSkillSource,
-    catalogUsage,
     format,
     gifLoop,
     gifFpsCapped,
@@ -560,7 +500,6 @@ export function createRenderPlan(args: RenderCommandArgs, now = new Date()): Ren
     variablesFileArg: args["variables-file"],
     strictVariables: args["strict-variables"] ?? false,
     environment: Object.freeze(environment),
-    hfEnvOverrides,
   });
 }
 

@@ -16,13 +16,13 @@ import {
 // ── Fixtures ────────────────────────────────────────────────────────────────
 
 const OUTCOMES_ALL_OK: CheckOutcome[] = [
-  { name: "Version", ok: true, detail: "0.4.4 (latest)" },
+  { name: "Version", ok: true, detail: "0.4.4" },
   { name: "Node.js", ok: true, detail: "v22.0.0 (darwin arm64)" },
   { name: "FFmpeg", ok: true, detail: "ffmpeg version 8.1" },
 ];
 
 const OUTCOMES_WITH_FAILURE: CheckOutcome[] = [
-  { name: "Version", ok: true, detail: "0.4.4 (latest)" },
+  { name: "Version", ok: true, detail: "0.4.4" },
   {
     name: "Docker",
     ok: false,
@@ -139,10 +139,7 @@ describe("buildDoctorReport", () => {
       platform: expect.any(String),
       arch: expect.any(String),
       checks: expect.any(Array),
-      _meta: expect.objectContaining({
-        version: expect.any(String),
-        updateAvailable: expect.any(Boolean),
-      }),
+      _meta: { version: expect.any(String) },
     });
 
     // Top-level keys are exactly these — any accidental addition or rename

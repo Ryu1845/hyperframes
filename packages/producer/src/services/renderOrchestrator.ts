@@ -596,8 +596,6 @@ export interface RenderPerfSummary {
     compositionElementTags?: Readonly<Record<string, number>>;
     /** `<video data-aroll="true">` elements from the same static scan. Only set when compositionElementCountSource is "static". */
     arollVideoCount?: number;
-    /** `<video data-media-source="heygen">` elements from the same static scan. Only set when compositionElementCountSource is "static". */
-    heygenVideoCount?: number;
     /** Runtime adapters exercised (see `KNOWN_RUNTIME_ADAPTERS`), a live+static union, always set (possibly empty). */
     adaptersUsed?: readonly string[];
     /** Audio/image/sub-comp/color-grading counts, same static scan; only set when the source above is "static". */
@@ -1551,7 +1549,6 @@ export interface ElementTagScan {
   total: number;
   byTag: Readonly<Record<string, number>>;
   arollVideoCount: number;
-  heygenVideoCount: number;
   audioCount: number;
   imageCount: number;
   subCompositionCount: number;
@@ -1701,12 +1698,6 @@ export function scanElementTags(html: string): ElementTagScan {
   // this codebase's fixtures stamps it on video elements.
   const arollVideoCount =
     markup.match(/<video\b[^>]*\bdata-aroll=["']true["'][^>]*>/gi)?.length ?? 0;
-  // `data-media-source="heygen"` is the media-use skill's own provenance
-  // stamp (see resolve.md), written only when the mounted video's ledger
-  // record traces to the "heygen.video" provider — never any other provider
-  // or value, so a plain presence check is exact, not a substring guess.
-  const heygenVideoCount =
-    markup.match(/<video\b[^>]*\bdata-media-source=["']heygen["'][^>]*>/gi)?.length ?? 0;
   // Uncapped `counts` Map, not `byTag`: 50+ distinct tags could push these
   // into the "other" bucket, zeroing a named field the cap shouldn't affect.
   const audioCount = counts.get("audio") ?? 0;
@@ -1757,7 +1748,6 @@ export function scanElementTags(html: string): ElementTagScan {
     total,
     byTag,
     arollVideoCount,
-    heygenVideoCount,
     audioCount,
     imageCount,
     subCompositionCount,
@@ -1829,7 +1819,6 @@ export async function resolveCompositionElementCount(
   source: "live" | "static";
   byTag?: Readonly<Record<string, number>>;
   arollVideoCount?: number;
-  heygenVideoCount?: number;
   audioCount?: number;
   imageCount?: number;
   subCompositionCount?: number;
@@ -1867,7 +1856,6 @@ export async function resolveCompositionElementCount(
     source: "static",
     byTag: scan.byTag,
     arollVideoCount: scan.arollVideoCount,
-    heygenVideoCount: scan.heygenVideoCount,
     audioCount: scan.audioCount,
     imageCount: scan.imageCount,
     subCompositionCount: scan.subCompositionCount,
@@ -3592,7 +3580,6 @@ async function executeRenderPipeline(input: {
       source: compositionElementCountSource,
       byTag: compositionElementTags,
       arollVideoCount,
-      heygenVideoCount,
       audioCount,
       imageCount,
       subCompositionCount,
@@ -3952,7 +3939,6 @@ async function executeRenderPipeline(input: {
       compositionElementCountSource,
       compositionElementTags,
       arollVideoCount,
-      heygenVideoCount,
       adaptersUsed,
       audioCount,
       imageCount,
@@ -5098,7 +5084,6 @@ async function executeRenderPipeline(input: {
         compositionElementCountSource,
         compositionElementTags,
         arollVideoCount,
-        heygenVideoCount,
         adaptersUsed,
         audioCount,
         imageCount,

@@ -4,6 +4,7 @@ import { fileURLToPath } from "node:url";
 import { spawnSync } from "node:child_process";
 import { existsSync } from "node:fs";
 import { finishCommand } from "../utils/commandResult.js";
+import { scriptRunEnv } from "../utils/selfRuntime.js";
 
 const MEDIA_USE_ARGS = {
   type: { type: "string" },
@@ -79,6 +80,7 @@ function invokeEngine(verb: MediaUseVerb): never {
     [resolveMediaUseEnginePath(here), ...flag, ...passed],
     {
       stdio: "inherit",
+      env: scriptRunEnv(process.env),
     },
   );
   if (result.error) throw result.error;

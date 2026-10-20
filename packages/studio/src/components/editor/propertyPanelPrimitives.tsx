@@ -1,8 +1,4 @@
 import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
-import {
-  DesignPanelInputProvider,
-  useTrackDesignInput,
-} from "../../contexts/DesignPanelInputContext";
 import { FIELD, LABEL } from "./propertyPanelHelpers";
 import { CommitField } from "./propertyPanelCommitField";
 
@@ -31,15 +27,8 @@ export function MetricField({
   tooltip?: string;
   onCommit: (nextValue: string) => void | Promise<unknown>;
 }) {
-  const track = useTrackDesignInput();
   const scrubRef = useRef<{ startX: number; startValue: number; pointerId: number } | null>(null);
-  const commit = useCallback(
-    (nextValue: string) => {
-      if (nextValue !== value) track("metric", label);
-      return onCommit(nextValue);
-    },
-    [label, onCommit, track, value],
-  );
+  const commit = useCallback((nextValue: string) => onCommit(nextValue), [onCommit]);
 
   const handleScrubPointerDown = useCallback(
     (e: React.PointerEvent<HTMLSpanElement>) => {
@@ -105,9 +94,7 @@ export function DetailField({
   disabled?: boolean;
   onCommit: (nextValue: string) => void;
 }) {
-  const track = useTrackDesignInput();
   const commit = (nextValue: string) => {
-    if (nextValue !== value) track("text", label);
     onCommit(nextValue);
   };
   return (
@@ -121,7 +108,7 @@ export function DetailField({
 }
 
 export function SliderControl({
-  trackName,
+  ariaLabel,
   value,
   min,
   max,
@@ -131,7 +118,7 @@ export function SliderControl({
   disabled,
   onCommit,
 }: {
-  trackName: string;
+  ariaLabel: string;
   value: number;
   min: number;
   max: number;
@@ -141,10 +128,8 @@ export function SliderControl({
   disabled?: boolean;
   onCommit: (nextValue: number) => void;
 }) {
-  const track = useTrackDesignInput();
   const [draft, setDraft] = useState(value);
   const commitTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const interactionChangedRef = useRef(false);
   const valueRef = useRef(value);
   valueRef.current = value;
 
@@ -160,10 +145,6 @@ export function SliderControl({
 
   const commitDraft = (nextDraft: number) => {
     if (commitTimerRef.current) clearTimeout(commitTimerRef.current);
-    if (interactionChangedRef.current) {
-      interactionChangedRef.current = false;
-      track("slider", trackName);
-    }
     if (nextDraft !== valueRef.current) onCommit(nextDraft);
   };
   const scheduleCommit = (nextDraft: number) => {
@@ -182,11 +163,10 @@ export function SliderControl({
         step={step}
         value={draft}
         disabled={disabled}
-        aria-label={trackName}
+        aria-label={ariaLabel}
         onChange={(e) => {
           const n = Number(e.target.value);
           setDraft(n);
-          interactionChangedRef.current = true;
           scheduleCommit(n);
         }}
         onMouseUp={() => commitDraft(draft)}
@@ -204,19 +184,16 @@ export function SliderControl({
 }
 
 export function SegmentedControl({
-  trackName,
   options,
   value,
   disabled,
   onChange,
 }: {
-  trackName: string;
   options: Array<{ label: string; value: string }>;
   value: string;
   disabled?: boolean;
   onChange: (nextValue: string) => void;
 }) {
-  const track = useTrackDesignInput();
   return (
     <div
       className="grid min-w-0 gap-[2px] rounded-md bg-panel-input p-[2px]"
@@ -228,7 +205,6 @@ export function SegmentedControl({
           type="button"
           disabled={disabled}
           onClick={() => {
-            if (option.value !== value) track("segmented", trackName);
             onChange(option.value);
           }}
           aria-pressed={option.value === value}
@@ -258,7 +234,6 @@ export function SelectField({
   options: string[];
   onChange: (nextValue: string) => void;
 }) {
-  const track = useTrackDesignInput();
   const renderedOptions = value && !options.includes(value) ? [value, ...options] : options;
   return (
     <label className={`${FIELD} flex items-center gap-3`}>
@@ -267,7 +242,6 @@ export function SelectField({
         value={value}
         disabled={disabled}
         onChange={(e) => {
-          track("select", label);
           onChange(e.target.value);
         }}
         className="min-w-0 w-full appearance-none bg-transparent text-[11px] font-medium text-neutral-100 outline-hidden disabled:cursor-not-allowed disabled:text-neutral-600"
@@ -312,23 +286,21 @@ export function Section({
 
   const section = slugifyPanelSectionTitle(title);
   return (
-    <DesignPanelInputProvider section={section}>
-      <section className="min-w-0 border-t border-panel-border" data-panel-section={section}>
-        <div className="flex w-full items-center gap-2 px-4 py-2.5">
-          <button
-            type="button"
-            onClick={() => setCollapsed((v) => !v)}
-            aria-expanded={!collapsed}
-            className="flex min-w-0 flex-1 items-center justify-between gap-2 text-left"
-          >
-            <h3 className="text-[12px] font-semibold text-panel-text-1">{title}</h3>
-            {collapseIcon}
-          </button>
-          {accessory && <div className="flex shrink-0 items-center">{accessory}</div>}
-        </div>
-        {!collapsed && <div className="px-4 pb-3">{children}</div>}
-      </section>
-    </DesignPanelInputProvider>
+    <section className="min-w-0 border-t border-panel-border" data-panel-section={section}>
+      <div className="flex w-full items-center gap-2 px-4 py-2.5">
+        <button
+          type="button"
+          onClick={() => setCollapsed((v) => !v)}
+          aria-expanded={!collapsed}
+          className="flex min-w-0 flex-1 items-center justify-between gap-2 text-left"
+        >
+          <h3 className="text-[12px] font-semibold text-panel-text-1">{title}</h3>
+          {collapseIcon}
+        </button>
+        {accessory && <div className="flex shrink-0 items-center">{accessory}</div>}
+      </div>
+      {!collapsed && <div className="px-4 pb-3">{children}</div>}
+    </section>
   );
 }
 

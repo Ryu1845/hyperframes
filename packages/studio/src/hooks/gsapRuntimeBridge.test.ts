@@ -573,7 +573,6 @@ describe("tryGsapDragIntercept — motion paths", () => {
       },
       expect.objectContaining({
         label: "Move layer (new keyframe)",
-        keyframeAction: "add",
         softReload: true,
       }),
     );
@@ -613,7 +612,7 @@ describe("tryGsapDragIntercept — motion paths", () => {
           { percentage: 100, properties: { x: -50, y: 30 } },
         ],
       }),
-      expect.objectContaining({ label: "Move layer (new keyframe)", keyframeAction: "add" }),
+      expect.objectContaining({ label: "Move layer (new keyframe)" }),
     );
   });
 

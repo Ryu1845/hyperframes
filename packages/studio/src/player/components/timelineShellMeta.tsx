@@ -41,7 +41,6 @@ export interface TimelineShellMetaInputs {
     splitAllAtPointer: (event: PointerEvent<HTMLDivElement>) => boolean;
   };
   lastScrollLeftRef: MutableRefObject<number>;
-  recordTimelineScroll: (scroll: HTMLDivElement) => void;
   syncScrollViewport: (scroll: HTMLDivElement, isScrolling?: boolean) => void;
 }
 
@@ -74,7 +73,6 @@ export function buildTimelineShellMeta(input: TimelineShellMetaInputs): Timeline
       zoomMode: input.zoomMode,
       onScroll: (e) => {
         input.lastScrollLeftRef.current = e.currentTarget.scrollLeft;
-        input.recordTimelineScroll(e.currentTarget);
         input.syncScrollViewport(e.currentTarget, true);
       },
       ...input.focusProps,

@@ -14,7 +14,7 @@ if (args[0] === "--version") {
   console.log("Python 3.12.0");
   process.exit(0);
 }
-const input = args[2];
+const input = args[0] === "-c" ? args[2] : args[1];
 const output = args[0] === "-c" ? args[4] : args[args.indexOf("--output") + 1];
 const text = fs.readFileSync(input, "utf8");
 fs.writeFileSync(output + ".started", input);
@@ -93,7 +93,7 @@ if (["allocation", "write", "spawn-throw"].includes(mode)) {
   assert.equal(fs.readFileSync(slowWav, "utf8"), "slow");
 } else {
   const result = await request();
-  const label = provider === "elevenlabs" ? "elevenlabs (python)" : "kokoro (npx hyperframes tts)";
+  const label = provider === "elevenlabs" ? "elevenlabs (python)" : "kokoro (hyperframes tts)";
   if (["nonzero", "enoent", "no-output"].includes(mode)) {
     const error = mode === "no-output" ? label + " produced no wav file" :
       label + " exited with status " + (mode === "enoent" ? -1 : 7);
@@ -120,7 +120,7 @@ function runCase(provider, mode) {
   try {
     for (const dir of ["home", "tmp", "bin", "project"]) mkdirSync(join(root, dir));
     if (mode !== "enoent") {
-      for (const name of ["npx", "python3"]) {
+      for (const name of ["hyperframes", "python3"]) {
         const executable = join(root, "bin", name);
         writeFileSync(executable, stub);
         chmodSync(executable, 0o755);

@@ -5,12 +5,14 @@ import { homedir } from "node:os";
 import { join } from "node:path";
 import { createInterface } from "node:readline";
 import { fileURLToPath } from "node:url";
-import { downloadToFile } from "../cloud/download.js";
+import { downloadToFile } from "../utils/downloadToFile.js";
+import { scriptRunEnv, standaloneBinary } from "../utils/selfRuntime.js";
 import { verifies, type ModelFile } from "./modelFile.js";
 import { stoppedByCancelSignal } from "../utils/renderCancellation.js";
 import {
   CACHE_DIR,
   PINNED_PACKAGES,
+  embeddedPackageMissing,
   pinnedPackageBesideCli,
   installedPackagePath,
   install,
@@ -141,7 +143,7 @@ function runtimeLoadError(
     return Promise.reject(new DecodeCancelled("Parakeet runtime check cancelled"));
   return new Promise((resolve, reject) => {
     const probe = spawn(process.execPath, ["-e", LOAD_RUNTIME], {
-      env: { ...process.env, HF_SHERPA_RUNTIME_PATH: runtimePath },
+      env: scriptRunEnv({ ...process.env, HF_SHERPA_RUNTIME_PATH: runtimePath }),
       stdio: ["ignore", "ignore", "pipe"],
       timeout: timeoutMs,
       signal,
@@ -249,6 +251,7 @@ export async function installSherpaRuntime({
 } = {}): Promise<{ installed: boolean; runtimePath: string }> {
   const present = await selectRuntime(dir, cliUrl, 60_000, signal);
   if (present.status === "ready") return { installed: false, runtimePath: present.path };
+  if (standaloneBinary()) throw embeddedPackageMissing(RUNTIME);
   // install() keeps any dir holding the runtime manifest, so a broken one goes first.
   rmSync(dir, { recursive: true, force: true });
   const native = sherpaPlatformPackage();
@@ -395,7 +398,7 @@ function decode(
       process.execPath,
       args,
       {
-        env: { ...process.env, HYPERFRAMES_PARAKEET_INPUT: JSON.stringify(input) },
+        env: scriptRunEnv({ ...process.env, HYPERFRAMES_PARAKEET_INPUT: JSON.stringify(input) }),
         maxBuffer: 256 * 1024 * 1024,
         timeout: decodeTimeoutMs(getPreparedWavDurationSeconds(wavPath) ?? 0),
         signal,

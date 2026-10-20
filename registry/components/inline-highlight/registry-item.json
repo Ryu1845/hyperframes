@@ -1,5 +1,5 @@
 {
-  "$schema": "https://hyperframes.heygen.com/schema/registry-item.json",
+  "$schema": "https://raw.githubusercontent.com/ryu1845/hyperframes/main/docs/schema/registry-item.json",
   "name": "inline-highlight",
   "type": "hyperframes:component",
   "title": "Inline Highlight",
@@ -53,8 +53,5 @@
         { "value": "center", "label": "Center" }
       ]
     }
-  ],
-  "preview": {
-    "poster": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/components/inline-highlight.png"
-  }
+  ]
 }

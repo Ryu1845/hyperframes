@@ -17,7 +17,6 @@ import {
   resolveVariablesArg,
   validateVariablesAgainstProject,
 } from "../../utils/variables.js";
-import { trackRenderPreflightRejected } from "../../telemetry/events.js";
 import { applyRenderEnvironment, renderOutputDirectory, type RenderPlan } from "./plan.js";
 import type { RenderOptions, SingleRenderResult } from "../render.js";
 import type { RenderCancellationScope } from "../../utils/renderCancellation.js";
@@ -134,14 +133,8 @@ export function renderOptionsFromPlan(
   const options: RenderOptions = {
     fps: plan.fps,
     quality: plan.quality,
-    authoringSkill: plan.authoringSkill,
-    authoringSkillSource: plan.authoringSkillSource,
-    authoringSkillInvalid: plan.invalidAuthoringSkill,
-    hfEnvOverrides: plan.hfEnvOverrides,
-    catalogUsage: plan.catalogUsage,
     format: plan.format,
     gifLoop: plan.gifLoop,
-    gifFpsCapped: plan.gifFpsCapped,
     hlsSegmentSeconds: plan.hlsSegmentSeconds,
     workers: plan.workers,
     gpu: plan.useGpu,
@@ -212,11 +205,7 @@ async function ensureRenderBrowser(plan: RenderPlan, signal?: AbortSignal): Prom
   } catch (error: unknown) {
     browserSpinner?.stop(c.error("Browser not available"));
     if (signal?.aborted) signal.throwIfAborted();
-    errorBox(
-      "Chrome not found",
-      normalizeErrorMessage(error),
-      "Run: npx hyperframes browser ensure",
-    );
+    errorBox("Chrome not found", normalizeErrorMessage(error), "Run: hyperframes browser ensure");
     failCommand();
   }
 }
@@ -315,27 +304,17 @@ async function runResolutionPreflight(
     // Unreadable input is surfaced by the render pipeline with full context.
   }
   if (!issue) return;
-  trackRenderPreflightRejected({ kind: issue.kind });
   errorBox("Output resolution incompatible", issue.message);
   failCommand();
 }
 
-export function batchRowRenderOptions(
-  plan: RenderPlan,
-  browserPath: string | undefined,
-): RenderOptions {
+function batchRowRenderOptions(plan: RenderPlan, browserPath: string | undefined): RenderOptions {
   const batchQuiet = plan.quiet || plan.batchJson;
   return {
     fps: plan.fps,
     quality: plan.quality,
-    authoringSkill: plan.authoringSkill,
-    authoringSkillSource: plan.authoringSkillSource,
-    authoringSkillInvalid: plan.invalidAuthoringSkill,
-    hfEnvOverrides: plan.hfEnvOverrides,
-    catalogUsage: plan.catalogUsage,
     format: plan.format,
     gifLoop: plan.gifLoop,
-    gifFpsCapped: plan.gifFpsCapped,
     hlsSegmentSeconds: plan.hlsSegmentSeconds,
     workers: plan.workers,
     gpu: plan.useGpu,
@@ -360,8 +339,6 @@ export function batchRowRenderOptions(
     bestEffort: plan.bestEffort,
     exitAfterComplete: false,
     throwOnError: true,
-    skipFeedback: true,
-    desktopHint: false,
     manageDeParallelRouterBreaker: plan.batchConcurrency <= 1,
   };
 }

@@ -1,5 +1,5 @@
 {
-  "$schema": "https://hyperframes.heygen.com/schema/registry-item.json",
+  "$schema": "https://raw.githubusercontent.com/ryu1845/hyperframes/main/docs/schema/registry-item.json",
   "name": "organic-light-leak-overlay",
   "type": "hyperframes:block",
   "title": "Organic Light Leak Overlay",
@@ -16,9 +16,5 @@
       "target": "compositions/organic-light-leak-overlay.html",
       "type": "hyperframes:composition"
     }
-  ],
-  "preview": {
-    "poster": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/organic-light-leak-overlay.png",
-    "video": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/organic-light-leak-overlay.mp4"
-  }
+  ]
 }

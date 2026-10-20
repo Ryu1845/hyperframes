@@ -25,7 +25,7 @@
   "logo": {
     "light": "/logo/light.svg",
     "dark": "/logo/dark.svg",
-    "href": "https://hyperframes.heygen.com/introduction"
+    "href": "https://github.com/ryu1845/hyperframes/blob/main/docs/introduction.mdx"
   },
   "favicon": "/favicon.svg",
   "contextual": {
@@ -41,7 +41,7 @@
         "description": "Report a bug or request a feature",
         "icon": "github",
         "iconType": "brands",
-        "href": "https://github.com/heygen-com/hyperframes/issues/new"
+        "href": "https://github.com/ryu1845/hyperframes/issues/new"
       }
     ]
   },
@@ -64,7 +64,6 @@
             "group": "Explore",
             "pages": [
               "examples",
-              "thirty-days",
               "product-updates",
               "weekly-updates",
               "changelog"
@@ -74,7 +73,6 @@
             "group": "Choose where to create",
             "pages": [
               "guides/choose-creation-path",
-              "guides/mcp",
               "guides/design-tools"
             ]
           },
@@ -178,7 +176,6 @@
               "concepts/index",
               "guides/media",
               "guides/video-components",
-              "guides/avatar-presenter",
               "guides/voice-and-audio",
               "guides/remove-background",
               "guides/color-grading",
@@ -190,8 +187,7 @@
             "group": "Help",
             "pages": [
               "help",
-              "guides/troubleshooting",
-              "guides/feedback"
+              "guides/troubleshooting"
             ]
           }
         ]
@@ -244,33 +240,6 @@
             "pages": [
               "studio/source",
               "studio/shortcuts"
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "Studio app",
-        "icon": "laptop",
-        "groups": [
-          {
-            "group": "Get started",
-            "pages": [
-              "studio-app/index",
-              "studio-app/connect-your-agent"
-            ]
-          },
-          {
-            "group": "Make videos",
-            "pages": [
-              "studio-app/first-video",
-              "studio-app/edit-with-the-agent",
-              "studio-app/export"
-            ]
-          },
-          {
-            "group": "Help",
-            "pages": [
-              "studio-app/troubleshooting"
             ]
           }
         ]
@@ -568,12 +537,12 @@
               },
               {
                 "group": "Scenes & demos",
-                "tag": "93",
+                "tag": "92",
                 "expanded": false,
                 "pages": [
                   {
                     "group": "Showcases",
-                    "tag": "23",
+                    "tag": "22",
                     "expanded": false,
                     "pages": [
                       "catalog/blocks/ai-chat-reveal",
@@ -586,7 +555,6 @@
                       "catalog/blocks/cosmic-orb",
                       "catalog/blocks/gallery-tunnel",
                       "catalog/blocks/goo",
-                      "catalog/blocks/heygen-avatar-promo-card",
                       "catalog/blocks/message-thread-reveal",
                       "catalog/blocks/north-korea-locked-down",
                       "catalog/blocks/notes-reveal",
@@ -1018,9 +986,7 @@
             "group": "Rendering paths",
             "pages": [
               "guides/rendering",
-              "deploy/overview",
-              "deploy/cloud",
-              "guides/deploy"
+              "deploy/overview"
             ]
           },
           {
@@ -1074,7 +1040,6 @@
               "contributing/agent-plugins",
               "contributing/changelog-process",
               "contributing/testing-local-changes",
-              "contributing/canary-rollouts",
               "community/adopters"
             ]
           }
@@ -1084,9 +1049,7 @@
   },
   "footer": {
     "socials": {
-      "github": "https://github.com/heygen-com/hyperframes",
-      "x": "https://x.com/HeyGen",
-      "instagram": "https://www.instagram.com/heygen_official/"
+      "github": "https://github.com/ryu1845/hyperframes"
     },
     "links": [
       {
@@ -1131,12 +1094,8 @@
             "href": "/product-updates"
           },
           {
-            "label": "Playground",
-            "href": "https://www.hyperframes.dev/"
-          },
-          {
             "label": "GitHub",
-            "href": "https://github.com/heygen-com/hyperframes"
+            "href": "https://github.com/ryu1845/hyperframes"
           }
         ]
       }
@@ -1146,14 +1105,9 @@
     "links": [
       {
         "type": "github",
-        "href": "https://github.com/heygen-com/hyperframes"
+        "href": "https://github.com/ryu1845/hyperframes"
       }
-    ],
-    "primary": {
-      "type": "button",
-      "label": "Playground",
-      "href": "https://www.hyperframes.dev/"
-    }
+    ]
   },
   "redirects": [
     {
@@ -1284,6 +1238,30 @@
       "source": "/sdk/overview",
       "destination": "/sdk/quickstart",
       "permanent": true
+    },
+    {
+      "source": "/guides/feedback",
+      "destination": "/help"
+    },
+    {
+      "source": "/thirty-days",
+      "destination": "/examples"
+    },
+    {
+      "source": "/deploy/cloud",
+      "destination": "/deploy/overview"
+    },
+    {
+      "source": "/guides/avatar-presenter",
+      "destination": "/guides/choose-creation-path"
+    },
+    {
+      "source": "/guides/mcp",
+      "destination": "/guides/choose-creation-path"
+    },
+    {
+      "source": "/guides/deploy",
+      "destination": "/deploy/overview"
     }
   ]
 }

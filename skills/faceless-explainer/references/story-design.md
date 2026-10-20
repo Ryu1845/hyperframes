@@ -212,7 +212,7 @@ Do not rewrite the user's words. Segment the script into frame-sized chunks at s
 
 ## Music & silence
 
-The storyboard's top YAML block carries a `music:` field — the BGM mood the audio step retrieves against (e.g. `music: confident minimal tech underscore`). Omitting it falls back to `message:` → `arc:` → a neutral default, so BGM plays unless turned off explicitly.
+The storyboard's top YAML block carries a `music:` field — the BGM mood the audio step generates from (e.g. `music: confident minimal tech underscore`). Omitting it falls back to `message:` → `arc:` → a neutral default, so BGM plays unless turned off explicitly.
 
 - **`music: none`** — BGM off (narration, if any, still runs).
 - **`music: none` + no `SCRIPT.md` + no `sfx:` cues or host audio** — the canonical **fully-silent marker**: no narration, no BGM, no SFX. `audio.mjs` generates nothing and the audio step is a clean skip. Use exactly this spelling when the user asks for a silent / music-free video.

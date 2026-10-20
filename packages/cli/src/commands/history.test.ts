@@ -24,7 +24,7 @@ import {
 } from "@hyperframes/studio-server";
 import { runCommand } from "citty";
 import { Hono } from "hono";
-import { afterEach, describe, expect, it, onTestFinished, vi } from "vitest";
+import { describe, expect, it, onTestFinished, vi } from "vitest";
 import { consumeCommandResult } from "../utils/commandResult.js";
 import { historyDeps, withOwner } from "../utils/historyOwner.js";
 import historyCommand from "./history.js";
@@ -32,15 +32,6 @@ import historyCommand from "./history.js";
 /** History's clock, a day ahead of the file system's, so each write is dated by the mtime it is stamped with. */
 const clock = { at: 0 };
 const advance = (ms: number) => void (clock.at += ms);
-
-const tracked = vi.hoisted(() => [] as Array<{ action: string; via: string }>);
-vi.mock("../telemetry/events.js", () => ({
-  trackHistoryAction: (props: { action: string; via: string }) => tracked.push(props),
-}));
-
-afterEach(() => {
-  tracked.length = 0;
-});
 
 function tempDir(prefix: string): string {
   const dir = mkdtempSync(join(tmpdir(), prefix));
@@ -173,10 +164,6 @@ describe.each(["direct", "preview"])("hyperframes history (%s)", (mode) => {
     const undo = await hf("undo", "--who", "claude");
     expect(undo.code, undo.err).toBe(0);
     expect(files()).toEqual(["A", "N2"]);
-    expect(tracked.map((event) => event.via)).toContain(mode);
-    expect(tracked.map((event) => event.action)).toEqual(
-      expect.arrayContaining(["begin", "end", "list", "undo"]),
-    );
   });
 
   it("a turn left open ends after the idle limit: a person's later edit stays theirs through undo of the turn", async () => {

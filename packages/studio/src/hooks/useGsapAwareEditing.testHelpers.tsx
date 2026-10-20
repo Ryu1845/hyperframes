@@ -1,16 +1,16 @@
 import { vi } from "vitest";
 import { mountReactHarness } from "./domSelectionTestHarness";
 import { useGsapAwareEditing } from "./useGsapAwareEditing";
-import { useGsapInteractionFailureTelemetry } from "./useGsapInteractionFailureTelemetry";
+import { useGsapInteractionFailureToast } from "./useGsapInteractionFailureToast";
 
 type Params = Parameters<typeof useGsapAwareEditing>[0];
 
 /**
  * Mounts useGsapAwareEditing with no-op callbacks for every param not given, and the real
- * failure telemetry toasting through `showToast`. `editing()` reads the latest render.
+ * failure toast going through `showToast`. `editing()` reads the latest render.
  */
 export function mountGsapAwareEditing(
-  params: Partial<Omit<Params, "trackGsapInteractionFailure">> & Pick<Params, "showToast">,
+  params: Partial<Omit<Params, "toastGsapInteractionFailure">> & Pick<Params, "showToast">,
 ) {
   let editing!: ReturnType<typeof useGsapAwareEditing>;
   function Harness() {
@@ -30,10 +30,7 @@ export function mountGsapAwareEditing(
       setArcPath: vi.fn(),
       updateArcSegment: vi.fn(),
       ...params,
-      trackGsapInteractionFailure: useGsapInteractionFailureTelemetry(
-        "index.html",
-        params.showToast,
-      ),
+      toastGsapInteractionFailure: useGsapInteractionFailureToast(params.showToast),
     });
     return null;
   }

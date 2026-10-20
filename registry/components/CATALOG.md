@@ -134,7 +134,7 @@ what: Wordmark letters cascade left to right into a centered lockup, an optional
 use_when: The final frame is the brand: name, tagline, URL, held to the last frame.
 avoid_when: The ending should push a button-press or signup; that is cta-close, which is action, not identity.
 pairs_with: cta-close, titlecard-lockup, count-up.
-variables: wordmark (string, default "HYPERFRAMES"): letters cascade individually; a brand period is appended in accent. tagline (string, default "Write HTML. Render video."): settles beneath; empty hides. url (string, default "hyperframes.heygen.com"): mono line below; empty hides. accent (enum green, blue, violet, default green): colors the brand period. exit (enum none, fade, up, default none): a film ender, keep none.
+variables: wordmark (string, default "HYPERFRAMES"): letters cascade individually; a brand period is appended in accent. tagline (string, default "Write HTML. Render video."): settles beneath; empty hides. url (string, default "github.com/ryu1845/hyperframes"): mono line below; empty hides. accent (enum green, blue, violet, default green): colors the brand period. exit (enum none, fade, up, default none): a film ender, keep none.
 
 ## Feature tour
 

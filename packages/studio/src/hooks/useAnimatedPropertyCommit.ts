@@ -335,7 +335,7 @@ async function commitKeyframeProps(
     await commit(
       selection,
       { type: "convert-to-keyframes", animationId: anim.id },
-      { label: "Convert to keyframes", keyframeTelemetry: false, skipReload: true },
+      { label: "Convert to keyframes", skipReload: true },
     );
   }
   const ct = usePlayerStore.getState().currentTime;
@@ -391,7 +391,7 @@ async function commitKeyframeProps(
         keyframes: remapped,
         ...keyframeEases(anim),
       },
-      { label: `Edit ${primaryProp} (extended keyframe)`, keyframeAction: "add", softReload: true },
+      { label: `Edit ${primaryProp} (extended keyframe)`, softReload: true },
     );
     return;
   }

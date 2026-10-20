@@ -3,9 +3,6 @@ name: Studio drag frames
 permissions:
   contents: read
 
-env:
-  HYPERFRAMES_NO_TELEMETRY: "1"
-
 # Measures drag smoothness on a runner with nothing else on it. The bench measures a blank page per case
 # in the same run, and the box only counts as quiet if that control dropped no frame anywhere.
 on:

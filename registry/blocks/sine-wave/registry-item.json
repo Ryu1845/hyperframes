@@ -1,5 +1,5 @@
 {
-  "$schema": "https://hyperframes.heygen.com/schema/registry-item.json",
+  "$schema": "https://raw.githubusercontent.com/ryu1845/hyperframes/main/docs/schema/registry-item.json",
   "name": "sine-wave",
   "type": "hyperframes:block",
   "title": "Sine Wave",
@@ -27,8 +27,5 @@
       "target": "compositions/lib/shaders.THIRD-PARTY-LICENSES.txt",
       "type": "hyperframes:asset"
     }
-  ],
-  "preview": {
-    "video": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/sine-wave.mp4"
-  }
+  ]
 }

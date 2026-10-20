@@ -23,6 +23,7 @@ import {
 import type { BrowserGpuMode } from "../browser/gpuPolicy.js";
 import { isProcessDescendant, processIdentity } from "../utils/orphanCleanup.js";
 import { terminateProcessTree } from "../utils/processTree.js";
+import { scriptRunEnv } from "../utils/selfRuntime.js";
 import { PreviewServerPortMismatchError } from "../utils/studioSelectionClient.js";
 
 export class PreviewPortUnavailableError extends Error {
@@ -249,7 +250,7 @@ function spawnDetachedPreview(
       {
         detached: true,
         stdio: ["ignore", logFd, logFd],
-        env: process.env,
+        env: scriptRunEnv(process.env),
       },
     );
   } finally {

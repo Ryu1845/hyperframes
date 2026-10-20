@@ -56,20 +56,26 @@ test("complete-filter intent aliases resolve deterministically", () => {
   assert.equal(matchColorLook("creator video").preset, "creator-camcorder");
 });
 
-test("library look freezes a validated cube from params offline (--local-only)", async () => {
+test("a bundled library look freezes a validated cube from params without the network", async () => {
   const projectDir = mkdtempSync(join(tmpdir(), "mu-lut-provider-"));
+  const originalFetch = globalThis.fetch;
   try {
+    globalThis.fetch = async () => {
+      throw new Error("a bundled look must not download anything");
+    };
     const match = matchColorLook("teal orange blockbuster");
     assert.equal(match.kind, "library");
-    // localOnly forces the deterministic params path (no network); online, the
-    // same look downloads its .cube from the CDN url (via "url").
-    const frozen = await freezeLibraryLut(match, { projectDir, type: "grade", localOnly: true });
-    assert.match(frozen.localPath, /^\.media\/luts\/grade_001\.cube$/);
-    assert.ok(existsSync(join(projectDir, frozen.localPath)));
-    assert.equal(validateCubeFile(join(projectDir, frozen.localPath)).ok, true);
-    assert.equal(frozen.lut.src, frozen.localPath);
-    assert.equal(frozen.metadata.provenance.via, "params-fallback");
+    assert.equal(match.url, undefined);
+    for (const localOnly of [false, true]) {
+      const frozen = await freezeLibraryLut(match, { projectDir, type: "grade", localOnly });
+      assert.match(frozen.localPath, /^\.media\/luts\/grade_00\d\.cube$/);
+      assert.ok(existsSync(join(projectDir, frozen.localPath)));
+      assert.equal(validateCubeFile(join(projectDir, frozen.localPath)).ok, true);
+      assert.equal(frozen.lut.src, frozen.localPath);
+      assert.equal(frozen.metadata.provenance.via, "params");
+    }
   } finally {
+    globalThis.fetch = originalFetch;
     rmSync(projectDir, { recursive: true, force: true });
   }
 });
@@ -91,16 +97,15 @@ test("zero-overlap intent returns no preset or library match", () => {
   assert.equal(matchColorLook("zqxv imaginary neutron look"), null);
 });
 
-test("bundled LUT index entries resolve from params or url", () => {
-  for (const entry of readBundledLutIndex()) {
+test("bundled LUT index entries resolve from params alone", () => {
+  const entries = readBundledLutIndex();
+  assert.ok(entries.length > 0);
+  for (const entry of entries) {
     assert.ok(entry.id);
     assert.ok(entry.description);
-    assert.ok(entry.params || entry.url, `${entry.id} should define params or url`);
-    if (entry.params) {
-      assert.equal(typeof entry.params, "object");
-      assert.equal(validateCube(buildCube(entry.params)).ok, true, `${entry.id} params validate`);
-    }
-    if (entry.url) assert.equal(typeof entry.url, "string");
+    assert.equal(entry.url, undefined, `${entry.id} should not depend on a hosted .cube`);
+    assert.equal(typeof entry.params, "object", `${entry.id} should define params`);
+    assert.equal(validateCube(buildCube(entry.params)).ok, true, `${entry.id} params validate`);
   }
 });
 
@@ -108,9 +113,9 @@ test("url library entries respect localOnly and freeze through fetch", async () 
   const projectDir = mkdtempSync(join(tmpdir(), "mu-lut-url-provider-"));
   const match = {
     kind: "library",
-    id: "cdn-look",
-    description: "CDN-hosted look",
-    tags: ["cdn"],
+    id: "hosted-look",
+    description: "Hosted look",
+    tags: ["hosted"],
     intensity: 0.7,
     url: "https://example.invalid/look.cube",
   };
@@ -181,8 +186,8 @@ test("failed URL library freeze releases its reservation", async () => {
       freezeLibraryLut(
         {
           kind: "library",
-          id: "broken-cdn-look",
-          description: "Broken CDN look",
+          id: "broken-hosted-look",
+          description: "Broken hosted look",
           tags: ["broken"],
           intensity: 1,
           url: "https://example.com/broken.cube",

@@ -447,7 +447,7 @@ describe("planValueAtPlayhead", () => {
     expect(result.ok && result.mutation.keyframes.map((k) => k.properties.x)).toEqual([0, 15, 20]);
   });
 
-  it("reports an add only when it writes a keyframe the tween did not have", () => {
+  it("adds a keyframe only where the tween did not have one", () => {
     const changed = plan({
       anim: kf([
         { percentage: 0, properties: { x: 0 } },
@@ -463,9 +463,8 @@ describe("planValueAtPlayhead", () => {
       backfill: { y: 0 },
       holdFromStart: true,
     });
-    expect(changed.ok && changed.added).toBe(false);
+    expect(changed.ok && changed.mutation.keyframes.length).toBe(2);
     expect(held.ok && held.mutation.keyframes.length).toBe(2);
-    expect(held.ok && held.added).toBe(true);
   });
 
   it("eases the new segment like the one it splits", () => {

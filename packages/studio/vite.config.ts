@@ -307,9 +307,6 @@ function devProjectApi(): Plugin {
 
 export default defineConfig({
   plugins: [react(), tailwindcss(), devProjectApi()],
-  define: {
-    __STUDIO_VERSION__: JSON.stringify(studioPkg.version),
-  },
   resolve: {
     alias: {
       // linkedom's HTMLCanvasElement constructor calls createCanvas(300, 150)

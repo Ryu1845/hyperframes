@@ -4,28 +4,10 @@ sidebarTitle: "Color grading"
 description: "Fix exposure and color on an image or video, shape a look with wheels and curves, apply a LUT, and check the result against real measurements."
 ---
 
-import { DocsVideo } from "/snippets/docs-video.jsx";
-
 Grading changes how a photo or video **looks** — brighter, warmer, moodier, more
 or less colorful. It runs on one media element at a time. The file on disk never
 changes, and text, captions, SVG and ordinary HTML stay on their own layers,
 untouched.
-
-<Frame caption="The same source before and after a restrained natural-portrait grade.">
-  <img
-    src="https://static.heygen.ai/hyperframes-oss/docs/images/showcase/color-grading-before-after-v1.png"
-    alt="The same presenter frame before and after a restrained natural portrait grade"
-  />
-</Frame>
-
-<DocsVideo
-  title="Correction, presets, curves, selective colour, scopes and a LUT on real footage"
-  src="https://static.heygen.ai/hyperframes-oss/docs/images/showcase/color-grading-demo-v1.mp4"
-  poster="https://static.heygen.ai/hyperframes-oss/docs/images/showcase/color-grading-demo-v1.jpg"
-/>
-
-Every control moves and the picture answers. The numbers on screen are measured
-from the frame, not illustrative — shadows lifted 2% to 23%, median 28% to 41%.
 
 ## Correct first, then style
 
@@ -89,7 +71,7 @@ and after a correction. */}
 Instead of flipping between options, render them all onto one reference frame:
 
 ```bash
-npx hyperframes grade-compare --for frame.png --grades grades.json
+hyperframes grade-compare --for frame.png --grades grades.json
 ```
 
 `--grades` takes a JSON array of `{ label, grading }` entries; `--for` takes an
@@ -113,8 +95,8 @@ Keep skin natural, recover the background enough to read, and avoid a filtered l
 The agent can list what exists, and measure a local source before changing it:
 
 ```bash
-npx hyperframes media-treatment --capabilities --json
-npx hyperframes media-treatment --selector '#interview' --analyze --json
+hyperframes media-treatment --capabilities --json
+hyperframes media-treatment --selector '#interview' --analyze --json
 ```
 
 `--analyze` reports the source's color metadata, where its brightness sits, what
@@ -157,7 +139,7 @@ treatments under `effects`.
 ```
 
 The nesting is not optional. A flat object such as `{"exposure":0.15}` renders
-nothing at all; `npx hyperframes lint` catches it and names the section the
+nothing at all; `hyperframes lint` catches it and names the section the
 control belongs in.
 
 ## What it cannot do

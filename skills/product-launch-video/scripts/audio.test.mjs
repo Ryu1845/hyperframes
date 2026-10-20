@@ -73,6 +73,8 @@ function runAudioRaw({
   preexistingMeta = null,
   files = [],
   duringEngine = "",
+  waitBgm = null,
+  args = [],
 }) {
   const dir = mkdtempSync(join(tmpdir(), "product-launch-audio-"));
   const engine = join(dir, "engine.mjs");
@@ -93,9 +95,10 @@ writeFileSync(new URL("request.json", import.meta.url), JSON.stringify(request))
 writeFileSync(flag("--out"), JSON.stringify({ voices: [], bgm: null, sfx: [] }));
 ${duringEngine}`,
   );
+  if (waitBgm != null) writeFileSync(join(dir, "wait-bgm.mjs"), waitBgm);
   const result = spawnSync(
     process.execPath,
-    [script, "--hyperframes", dir, "--storyboard", join(dir, "STORYBOARD.md")],
+    [script, "--hyperframes", dir, "--storyboard", join(dir, "STORYBOARD.md"), ...args],
     { encoding: "utf8", env: { ...process.env, HF_MEDIA_ENGINE: engine } },
   );
   return { dir, result };
@@ -147,15 +150,88 @@ test('a quoted music: "none" is still the silent marker (frontmatter stripQuotes
   assert.equal(existsSync(join(dir, "audio_meta.json")), false);
 });
 
-test("a storyboard music mood still retrieves BGM (marker is exact, not fuzzy)", () => {
+test("a storyboard music mood is the BGM generation prompt (marker is exact, not fuzzy)", () => {
   const { dir, result } = runAudioRaw({
     storyboard: "---\nmessage: Test\nmusic: upbeat synthwave with heavy drums\n---\n",
   });
 
   assert.equal(result.status, 0, result.stderr);
   const request = JSON.parse(readFileSync(join(dir, "request.json"), "utf8"));
-  assert.equal(request.bgm.mode, "retrieve");
+  assert.equal(request.bgm.mode, "generate");
+  assert.equal(request.bgm.prompt, "upbeat synthwave with heavy drums");
   assert.equal(request.bgm.query, "upbeat synthwave with heavy drums");
+});
+
+test("without a music mood the engine infers the BGM prompt from the message", () => {
+  const { dir, result } = runAudioRaw({ storyboard: "---\nmessage: Ship it\n---\n" });
+
+  assert.equal(result.status, 0, result.stderr);
+  const request = JSON.parse(readFileSync(join(dir, "request.json"), "utf8"));
+  assert.equal(request.bgm.mode, "generate");
+  assert.equal(request.bgm.prompt, undefined);
+  assert.equal(request.bgm.blob, "Ship it");
+});
+
+// ── waiting for the detached BGM render ──────────────────────────────────────
+// The engine returns with bgm_pending while Lyria / MusicGen renders; generate then waits
+// with the engine's wait-bgm.mjs and folds its bgm_status.json into the metadata.
+
+const PENDING_BED = `writeFileSync(flag("--out"), JSON.stringify({
+  voices: [],
+  bgm: { path: "assets/bgm/track.wav", volume: 0.12, mode: "detached-single", duration_s: null },
+  bgm_pending: true,
+  bgm_provider: "musicgen",
+  sfx: [],
+}));`;
+
+function waitBgmStub(status, message = "") {
+  return `import { writeFileSync } from "node:fs";
+const argv = process.argv.slice(2);
+const flag = (name) => argv[argv.indexOf(name) + 1];
+writeFileSync(new URL("wait-args.json", import.meta.url), JSON.stringify(argv));
+writeFileSync(flag("--out"), JSON.stringify({ status: ${JSON.stringify(status)}, message: ${JSON.stringify(message)} }));
+`;
+}
+
+function pendingBedRun(status, { message, args } = {}) {
+  const run = runAudioRaw({
+    storyboard: "---\nmessage: Test\nmusic: calm piano\n---\n",
+    duringEngine: PENDING_BED,
+    waitBgm: waitBgmStub(status, message),
+    args,
+  });
+  assert.equal(run.result.status, 0, run.result.stderr);
+  const meta = JSON.parse(readFileSync(join(run.dir, "audio_meta.json"), "utf8"));
+  const waitArgs = JSON.parse(readFileSync(join(run.dir, "wait-args.json"), "utf8"));
+  return { ...run, meta, waitArgs };
+}
+
+test("generate waits for the detached BGM and clears bgm_pending once the track lands", () => {
+  const { dir, meta, waitArgs } = pendingBedRun("ready");
+
+  assert.equal(meta.bgm.path, "assets/bgm/track.wav");
+  assert.equal(meta.bgm_pending, false);
+  assert.equal(waitArgs[waitArgs.indexOf("--audio-meta") + 1], join(dir, "audio_engine_meta.json"));
+  assert.equal(waitArgs[waitArgs.indexOf("--timeout-ms") + 1], "600000");
+  const neutral = JSON.parse(readFileSync(join(dir, "audio_engine_meta.json"), "utf8"));
+  assert.equal(neutral.bgm_pending, false, "a later fetch-sfx merge must not resurrect the flag");
+});
+
+test("a failed BGM render leaves no bed and says so", () => {
+  const { meta, result } = pendingBedRun("failed", { message: "BGM renderer failed; see x.log." });
+
+  assert.equal(meta.bgm, null);
+  assert.equal(meta.bgm_pending, false);
+  assert.match(result.stderr, /BGM generation failed \(BGM renderer failed; see x\.log\.\)/);
+});
+
+test("a BGM render still running at --bgm-timeout-ms stays pending at its path", () => {
+  const { meta, result, waitArgs } = pendingBedRun("timeout", { args: ["--bgm-timeout-ms", "5"] });
+
+  assert.equal(meta.bgm.path, "assets/bgm/track.wav");
+  assert.equal(meta.bgm_pending, true);
+  assert.equal(waitArgs[waitArgs.indexOf("--timeout-ms") + 1], "5");
+  assert.match(result.stderr, /BGM still rendering/);
 });
 
 // ── fetch-sfx ────────────────────────────────────────────────────────────────

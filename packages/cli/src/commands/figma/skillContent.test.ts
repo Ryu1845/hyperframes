@@ -4,28 +4,9 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 
-// Semantic pin for the /figma skill's telemetry instructions: the MCP-only
-// phases (motion/shaders/storyboards) have NO CLI touchpoint, so the beacon
-// wording in SKILL.md is the only thing that produces their usage signal. The
-// manifest hash proves the skill changed; this proves a future prompt edit
-// didn't silently drop the beacon slugs or the completion event.
 const REPO_ROOT = join(fileURLToPath(new URL(".", import.meta.url)), "..", "..", "..", "..", "..");
 const read = (...parts: string[]): string => readFileSync(join(REPO_ROOT, ...parts), "utf8");
 const SKILL_MD = read("skills", "figma", "SKILL.md");
-
-describe("figma SKILL.md telemetry beacons", () => {
-  it("instructs the beacon for every MCP-only phase", () => {
-    expect(SKILL_MD).toContain("figma-motion");
-    expect(SKILL_MD).toContain("figma-shaders");
-    expect(SKILL_MD).toContain("figma-storyboard");
-    expect(SKILL_MD).toContain("hyperframes events");
-  });
-
-  it("instructs the completion beacon with an outcome", () => {
-    expect(SKILL_MD).toContain("--event=skill_completed");
-    expect(SKILL_MD).toMatch(/--outcome=success\|error/);
-  });
-});
 
 // Routing pin: the catalog blurb once said "storyboard sections → animatics",
 // which encodes the frames-as-pictures slideshow the skill's own cardinal rule

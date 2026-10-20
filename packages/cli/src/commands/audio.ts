@@ -15,7 +15,7 @@ import { CliUsageError } from "../utils/commandResult.js";
 import { ensureDOMParser } from "../utils/dom.js";
 import { resolveProject } from "../utils/project.js";
 import { assertKnownFlags } from "../utils/reject-unknown-flags.js";
-import { withMeta } from "../utils/updateCheck.js";
+import { withMeta } from "../utils/jsonMeta.js";
 
 export const examples: Example[] = [
   ["Where a sound effect lands, its hits and loudness", "hyperframes audio sfx/whoosh.mp3"],

@@ -12,7 +12,7 @@ import {
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { test } from "node:test";
-import { invocation, pluginVersion } from "./plugin-cli.mjs";
+import { invocation, pluginVersion, versionWarning } from "./plugin-cli.mjs";
 
 function fixture(t, manifest = "plugin.json", version = "1.2.3") {
   const root = mkdtempSync(join(tmpdir(), "hf-plugin-"));
@@ -49,51 +49,55 @@ test("rejects missing and floating plugin versions", (t) => {
   assert.throws(() => pluginVersion(root), /No HyperFrames plugin manifest/);
 });
 
-test("pins CLI, suppresses standalone refresh, preserves unrelated environment", () => {
+test("runs the installed binary, suppresses standalone refresh, preserves unrelated environment", () => {
   const result = invocation(["init", "project with spaces", "--non-interactive"], {
     version: "1.2.3",
-    platform: "darwin",
     env: { PATH: "/bin", HYPERFRAMES_SKIP_SKILLS: "0" },
   });
-  assert.equal(result.command, "npx");
-  assert.deepEqual(result.args, [
-    "--yes",
-    "hyperframes@1.2.3",
-    "init",
-    "project with spaces",
-    "--non-interactive",
-  ]);
+  assert.equal(result.command, "hyperframes");
+  assert.deepEqual(result.args, ["init", "project with spaces", "--non-interactive"]);
   assert.deepEqual(result.env, {
     PATH: "/bin",
     HYPERFRAMES_SKIP_SKILLS: "1",
     HYPERFRAMES_SKILL_PKG_VERSION: "1.2.3",
     HYPERFRAMES_PLUGIN_VERSION: "1.2.3",
-    HYPERFRAMES_NO_UPDATE_CHECK: "1",
   });
+  assert.equal(
+    invocation(["render"], { version: "1.2.3", env: { HYPERFRAMES_BINARY: "/opt/hf" } }).command,
+    "/opt/hf",
+  );
   assert.throws(() => invocation(["skills", "update"], { version: "1.2.3" }), /plugin manager/);
 });
 
-test("Windows launches npx through Node without shell argument interpretation", () => {
-  const result = invocation(["render", "a & b"], {
-    version: "1.2.3",
-    platform: "win32",
-    node: String.raw`C:\Program Files\nodejs\node.exe`,
-    env: { npm_execpath: String.raw`C:\Program Files\nodejs\node_modules\npm\bin\npm-cli.js` },
-    pathExists: (p) => p === String.raw`C:\Program Files\nodejs\node_modules\npm\bin\npx-cli.js`,
-  });
-  assert.equal(result.command, String.raw`C:\Program Files\nodejs\node.exe`);
-  assert.deepEqual(result.args, [
-    String.raw`C:\Program Files\nodejs\node_modules\npm\bin\npx-cli.js`,
-    "--yes",
-    "hyperframes@1.2.3",
-    "render",
-    "a & b",
-  ]);
-  assert.throws(
-    () => invocation([], { version: "1.2.3", platform: "win32", env: {}, pathExists: () => false }),
-    /Cannot find npx/,
+test("warns once when the installed binary is another release", () => {
+  assert.equal(versionWarning("1.2.3", "1.2.3"), null);
+  assert.match(
+    versionWarning("1.2.0", "1.2.3"),
+    /plugin 1\.2\.3 runs with CLI 1\.2\.0.*HYPERFRAMES_VERSION=1\.2\.3 .*install\.sh/,
   );
 });
+
+test(
+  "installed launcher runs the binary on PATH with the release environment",
+  { skip: process.platform === "win32" },
+  (t) => {
+    const { root, launcher } = fixture(t);
+    const bin = join(root, "bin");
+    mkdirSync(bin);
+    writeFileSync(
+      join(bin, "hyperframes"),
+      `#!${process.execPath}\nif (process.argv[2] === "--version") { console.log("1.2.3"); process.exit(0); }\nconsole.log(JSON.stringify({ args: process.argv.slice(2), version: process.env.HYPERFRAMES_PLUGIN_VERSION })); process.exit(5);`,
+      { mode: 0o755 },
+    );
+    const result = spawnSync(process.execPath, [launcher, "render", "a & b"], {
+      encoding: "utf8",
+      env: { ...process.env, PATH: `${bin}:${process.env.PATH}`, HYPERFRAMES_BINARY: "" },
+    });
+    assert.equal(result.status, 5, result.stderr);
+    assert.equal(result.stderr, "");
+    assert.deepEqual(JSON.parse(result.stdout), { args: ["render", "a & b"], version: "1.2.3" });
+  },
+);
 
 test("installed helper keeps cwd, arguments, release environment and exit code", (t) => {
   const { root, launcher } = fixture(t);

@@ -11,7 +11,6 @@ import {
   type LadderResult,
   type LadderStep,
 } from "@hyperframes/core/audio-analysis";
-import { apiProvider } from "./providers/api.js";
 import { appleMuProvider, appleSoundProvider } from "./providers/apple.js";
 import { beatThisProvider } from "./providers/beatThis.js";
 import { shiftedTimes } from "./fileTime.js";
@@ -28,10 +27,10 @@ export const DEFAULT_CAPABILITIES: readonly AudioCapability[] = [
 
 /**
  * Every provider the CLI knows, in default ladder order: each capability tries the ones that offer it in this order.
- * beats, downbeats: api, apple-mu, beat-this, signal. sections: api, apple-mu, signal. describe: api, apple-sound.
+ * beats, downbeats: apple-mu, beat-this, signal. sections: apple-mu, signal. describe: apple-sound.
  */
 function audioAnalysisProviders(): AudioAnalysisProvider<AudioSignal>[] {
-  return [apiProvider, appleMuProvider, beatThisProvider, appleSoundProvider, signalProvider];
+  return [appleMuProvider, beatThisProvider, appleSoundProvider, signalProvider];
 }
 
 export interface AnalyzeOptions {

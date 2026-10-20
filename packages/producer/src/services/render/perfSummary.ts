@@ -67,12 +67,12 @@ export function pushWorkerDedupPerfs(
  */
 /**
  * Round a dB value to 1 decimal and clamp at 999 (an `Infinity` PSNR — a
- * bit-exact frame match — must not ship literally to telemetry). Single
+ * bit-exact frame match — must not be serialized literally). Single
  * source of truth for every dB field crossing into `RenderPerfSummary` or
- * `RenderCaptureObservability` — both must agree byte-for-byte so PostHog
- * consumers joining `render_complete` against the crash-survival
- * `render_error` mirror never see the same underlying score reported at two
- * different precisions (review finding).
+ * `RenderCaptureObservability` — both must agree byte-for-byte so consumers
+ * joining the perf summary against the crash-survival observability mirror
+ * never see the same underlying score reported at two different precisions
+ * (review finding).
  */
 export function roundDb(value: number | undefined): number | undefined {
   return value === undefined ? undefined : Math.round(Math.min(value, 999) * 10) / 10;
@@ -94,8 +94,6 @@ export interface DrawElementPerfInput {
   compositionElementTags?: Readonly<Record<string, number>>;
   /** `<video data-aroll="true">` count from the same static scan; only set when compositionElementCountSource is "static". */
   arollVideoCount?: number;
-  /** `<video data-media-source="heygen">` count from the same static scan; only set when compositionElementCountSource is "static". */
-  heygenVideoCount?: number;
   /** Runtime adapters exercised (live+static union); always set (possibly empty). */
   adaptersUsed?: readonly string[];
   /** Audio/image/sub-comp/color-grading counts, same static scan; only set when the source above is "static". */
@@ -161,7 +159,6 @@ function aggregateDrawElement(
     compositionElementCountSource: de.compositionElementCountSource,
     compositionElementTags: de.compositionElementTags,
     arollVideoCount: de.arollVideoCount,
-    heygenVideoCount: de.heygenVideoCount,
     adaptersUsed: de.adaptersUsed,
     audioCount: de.audioCount,
     imageCount: de.imageCount,

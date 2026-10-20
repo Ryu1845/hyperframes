@@ -44,12 +44,10 @@ import {
   type TemplateOption,
 } from "../templates/generators.js";
 import { fetchRemoteTemplate } from "../templates/remote.js";
-import { trackInitTemplate } from "../telemetry/events.js";
 import { DEFAULT_MODEL, hasFFmpeg } from "../whisper/manager.js";
 import { TRANSCRIPT_FILE } from "../whisper/transcriptFile.js";
 import { initialModelForLanguage } from "../whisper/transcribe.js";
 import { findFFmpeg, findFFprobe, getFFmpegInstallHint } from "../browser/ffmpeg.js";
-import { VERSION } from "../version.js";
 import {
   CANVAS_DIMENSIONS,
   normalizeResolutionFlag,
@@ -280,20 +278,12 @@ function toPackageName(projectName: string): string {
   return normalized || "hyperframes-project";
 }
 
-function getHyperframesPackageSpecifier(): string {
-  return VERSION === "0.0.0-dev" ? "hyperframes" : `hyperframes@${VERSION}`;
-}
-
-function hyperframesScript(command: string): string {
-  return `npx --yes ${getHyperframesPackageSpecifier()} ${command}`;
-}
-
+// The CLI is a standalone binary on PATH, so the scripts call it directly.
 function buildPackageScripts(): Record<string, string> {
   return {
-    dev: hyperframesScript("preview"),
-    check: hyperframesScript("check"),
-    render: hyperframesScript("render"),
-    publish: hyperframesScript("publish"),
+    dev: "hyperframes preview",
+    check: "hyperframes check",
+    render: "hyperframes render",
   };
 }
 
@@ -566,7 +556,6 @@ async function scaffoldProject(
   media: InitMediaOptions,
   tailwind = false,
   resolution?: CanvasResolution,
-  authoringSkill?: string,
 ): Promise<void> {
   mkdirSync(destDir, { recursive: true });
 
@@ -599,17 +588,10 @@ async function scaffoldProject(
 
   // Write hyperframes.json so `hyperframes add` knows which registry to use
   // and where to drop block/component files. Overwritten only if absent.
-  // When the scaffolding workflow declared itself via --skill, stamp the owning
-  // skill here so every later render of this project is attributed to it.
   if (!existsSync(resolve(destDir, "hyperframes.json"))) {
     const { createProjectConfig, DEFAULT_PROJECT_CONFIG } =
       await import("../utils/projectConfig.js");
-    const { normalizeSkillSlug } = await import("../telemetry/skill.js");
-    const skill = normalizeSkillSlug(authoringSkill);
-    createProjectConfig(
-      destDir,
-      skill ? { ...DEFAULT_PROJECT_CONFIG, authoringSkill: skill } : DEFAULT_PROJECT_CONFIG,
-    );
+    createProjectConfig(destDir, DEFAULT_PROJECT_CONFIG);
   }
 
   writeDefaultPackageJson(destDir, name);
@@ -655,7 +637,7 @@ async function keepSkillsCurrent(destDir: string): Promise<void> {
       // "up to date"; the engine already reported what it could verify or
       // blind-install. Point at the recovery command instead.
       console.log(
-        c.dim("Skills freshness unverified — run `npx hyperframes skills update` when online."),
+        c.dim("Skills freshness unverified — run `hyperframes skills update` when online."),
       );
     } else if (result.installed.length === 0) {
       console.log(c.success("AI coding skills are already up to date."));
@@ -755,13 +737,6 @@ export default defineCommand({
       description:
         "Canvas resolution preset: landscape (1920x1080), portrait (1080x1920), landscape-4k (3840x2160), portrait-4k (2160x3840), square (1080x1080), square-4k (2160x2160). Aliases: 1080p, 4k, uhd, 1080p-square, square-1080p, 4k-square. Default: keep template dimensions (typically 1920x1080).",
     },
-    skill: {
-      type: "string",
-      description:
-        "Owning authoring workflow slug (e.g. product-launch-video). Stamped into " +
-        "hyperframes.json so every render of this project is attributed to it on " +
-        "anonymous telemetry, without re-passing --skill on each render. Ignored unless it is a slug.",
-    },
   },
   async run({ args }) {
     if (args.template !== undefined) {
@@ -769,7 +744,7 @@ export default defineCommand({
       // command copy-pasteable.
       console.error(
         c.error(
-          `The --template flag was renamed to --example. Example:\n  npx hyperframes init ${args.name ?? "my-video"} --example "${args.template}"`,
+          `The --template flag was renamed to --example. Example:\n  hyperframes init ${args.name ?? "my-video"} --example "${args.template}"`,
         ),
       );
       failCommand();
@@ -777,7 +752,7 @@ export default defineCommand({
     if (args["video-legacy"] !== undefined) {
       console.error(
         c.error(
-          `The -V short flag no longer maps to --video. Use --video (or -v). Example:\n  npx hyperframes init ${args.name ?? "my-video"} --video "${args["video-legacy"]}"`,
+          `The -V short flag no longer maps to --video. Use --video (or -v). Example:\n  hyperframes init ${args.name ?? "my-video"} --video "${args["video-legacy"]}"`,
         ),
       );
       failCommand();
@@ -792,8 +767,8 @@ export default defineCommand({
     // NOT dodge the GitHub skills freshness check. The "don't pass --skip-skills"
     // guidance lives in SKILL.md, which ships through the same laggy skills.sh
     // channel and can't be relied on to reach the agent — so the guarantee has to
-    // live in the CLI, the one channel that updates promptly (`npx
-    // hyperframes@latest`). CI and unit tests still opt out via the
+    // live in the CLI, the one channel that updates promptly (re-running
+    // install.sh). CI and unit tests still opt out via the
     // HYPERFRAMES_SKIP_SKILLS=1 env var, which the agent/user CLI path never sets.
     // Revert to `args["skip-skills"] === true` once skills.sh catches up.
     const skipSkills = process.env.HYPERFRAMES_SKIP_SKILLS === "1";
@@ -933,7 +908,6 @@ export default defineCommand({
           media,
           tailwind,
           resolutionPreset,
-          args.skill,
         );
       } catch (err) {
         console.error(
@@ -944,7 +918,6 @@ export default defineCommand({
         console.error(c.dim("Use --example blank for offline use."));
         failCommand();
       }
-      trackInitTemplate(templateId, { tailwind });
       const transcriptFile = resolve(destDir, TRANSCRIPT_FILE);
       if (existsSync(transcriptFile)) {
         await patchTranscript(destDir, transcriptFile);
@@ -966,7 +939,7 @@ export default defineCommand({
         console.log(
           `  ${c.accent("1.")} Use your HyperFrames plugin, or install standalone skills:`,
         );
-        console.log(`     ${c.accent("npx hyperframes skills update")}`);
+        console.log(`     ${c.accent("hyperframes skills update")}`);
       } else {
         console.log(
           `  ${c.accent("1.")} Restart your AI agent (new session) so it loads the skills.`,
@@ -982,7 +955,9 @@ export default defineCommand({
       console.log(
         `     ${c.dim('"Using /hyperframes, create a 15-second intro about [your topic]"')}`,
       );
-      console.log(`     ${c.dim("More patterns: hyperframes.heygen.com/prompting/overview")}`);
+      console.log(
+        `     ${c.dim("More patterns: https://github.com/ryu1845/hyperframes/blob/main/docs/prompting/overview.mdx")}`,
+      );
       console.log();
       console.log(`  ${c.accent("4.")} Preview in the browser:`);
       console.log(`     ${c.accent(`cd ${name}`)} && ${c.accent("npm run dev")}`);
@@ -993,7 +968,7 @@ export default defineCommand({
       console.log(`  ${c.accent("6.")} Render to MP4 when ready:`);
       console.log(`     ${c.accent(`cd ${name}`)} && ${c.accent("npm run render")}`);
       console.log();
-      console.log(`  ${c.dim("Full docs: hyperframes.heygen.com")}`);
+      console.log(`  ${c.dim("Full docs: https://github.com/ryu1845/hyperframes")}`);
       return;
     }
 
@@ -1158,15 +1133,7 @@ export default defineCommand({
         audio: audioFlag ? { filename: basename(audioFlag) } : undefined,
         durationSeconds: videoDuration,
       };
-      await scaffoldProject(
-        destDir,
-        name,
-        templateId,
-        media,
-        tailwind,
-        resolutionPreset,
-        args.skill,
-      );
+      await scaffoldProject(destDir, name, templateId, media, tailwind, resolutionPreset);
       if (!isBundled) {
         spin.stop(c.success(`Downloaded ${templateId}`));
       }
@@ -1179,8 +1146,6 @@ export default defineCommand({
       );
       failCommand();
     }
-    trackInitTemplate(templateId, { tailwind });
-
     // 4b. Patch captions with transcript if available
     const transcriptFile = resolve(destDir, TRANSCRIPT_FILE);
     if (existsSync(transcriptFile)) {

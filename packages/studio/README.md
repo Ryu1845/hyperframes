@@ -38,7 +38,7 @@ bun run typecheck  # Type-check
 
 ## Documentation
 
-Full documentation: [hyperframes.heygen.com/packages/studio](https://hyperframes.heygen.com/packages/studio)
+Full documentation: [`docs/packages/studio.mdx`](../../docs/packages/studio.mdx)
 
 ## Related packages
 

@@ -7,17 +7,17 @@ import { fileURLToPath } from "node:url";
 import { test } from "node:test";
 
 test(
-  "plugin resolver uses the release CLI without a repository checkout",
+  "plugin resolver hands off to the installed binary without a repository checkout",
   { skip: process.platform === "win32" },
   (t) => {
     const dir = mkdtempSync(join(tmpdir(), "hf-resolve-plugin-"));
     t.after(() => rmSync(dir, { recursive: true, force: true }));
     mkdirSync(join(dir, "lib"));
-    for (const file of ["resolve.mjs", "lib/npx-sync.mjs"]) {
+    for (const file of ["resolve.mjs", "lib/cli-invocation.mjs"]) {
       copyFileSync(fileURLToPath(new URL(file, import.meta.url)), join(dir, file));
     }
     writeFileSync(
-      join(dir, "npx"),
+      join(dir, "hyperframes"),
       `#!${process.execPath}\nconsole.log(JSON.stringify({args:process.argv.slice(2),skip:process.env.HYPERFRAMES_SKIP_SKILLS}));process.exit(7);`,
       { mode: 0o755 },
     );
@@ -28,12 +28,13 @@ test(
         ...process.env,
         PATH: `${dir}${delimiter}${process.env.PATH}`,
         HYPERFRAMES_PLUGIN_VERSION: "1.2.3",
+        HYPERFRAMES_BINARY: "",
         HYPERFRAMES_SKIP_SKILLS: "1",
       },
     });
     assert.equal(result.status, 7, result.stderr);
     assert.deepEqual(JSON.parse(result.stdout), {
-      args: ["--yes", "hyperframes@1.2.3", "media-use", "resolve", "--intent", "a & b"],
+      args: ["media-use", "resolve", "--intent", "a & b"],
       skip: "1",
     });
   },
@@ -45,7 +46,7 @@ test("helper package override keeps a contributor's local CLI", (t) => {
   const scripts = join(root, "skills/media-use/scripts");
   mkdirSync(join(scripts, "lib"), { recursive: true });
   mkdirSync(join(root, "packages/cli/dist"), { recursive: true });
-  for (const file of ["resolve.mjs", "lib/npx-sync.mjs"]) {
+  for (const file of ["resolve.mjs", "lib/cli-invocation.mjs"]) {
     copyFileSync(fileURLToPath(new URL(file, import.meta.url)), join(scripts, file));
   }
   writeFileSync(join(root, "packages/cli/dist/cli.js"), 'console.log("local-cli");');

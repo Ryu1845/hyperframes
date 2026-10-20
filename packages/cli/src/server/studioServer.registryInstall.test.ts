@@ -11,16 +11,15 @@ import {
 } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { trackRegistryItemAdded } from "../telemetry/events.js";
 import { createStudioServer, type StudioServer } from "./studioServer.js";
 
-vi.mock("../telemetry/events.js", () => ({ trackRegistryItemAdded: vi.fn() }));
 vi.mock("node:fs", async (importOriginal) => {
   const actual = await importOriginal<typeof import("node:fs")>();
   return { ...actual, writeFileSync: vi.fn(actual.writeFileSync) };
 });
 
-const SCHEMA = "https://hyperframes.heygen.com/schema/registry-item.json";
+const SCHEMA =
+  "https://raw.githubusercontent.com/ryu1845/hyperframes/main/docs/schema/registry-item.json";
 // Names no other test uses: the registry cache is shared by every test in a run.
 const block = (name: string, dependencies?: string[]) => ({
   $schema: SCHEMA,
@@ -83,7 +82,8 @@ function projectWithRegistry(onItemFetch?: () => void): {
       if (!url.startsWith(registry)) return new Response("not found", { status: 404 });
       if (url.endsWith("/registry.json")) {
         const items = ITEMS.map(({ name, type }) => ({ name, type }));
-        const $schema = "https://hyperframes.heygen.com/schema/registry.json";
+        const $schema =
+          "https://raw.githubusercontent.com/ryu1845/hyperframes/main/docs/schema/registry.json";
         return new Response(
           JSON.stringify({ $schema, name: "t", homepage: "https://example.com", items }),
         );
@@ -155,25 +155,15 @@ describe("Studio catalog install", () => {
     expect(existsSync(real)).toBe(false);
   });
 
-  it("installs through add: honours the project's block folder and records the item", async () => {
+  it("installs through add: honours the project's block folder", async () => {
     const { link, real } = projectWithRegistry();
 
     const result = await installer(link)("studio-drop-block");
 
     expect(result.written).toEqual(["scenes/studio-drop-block.html"]);
     expect(result.block.name).toBe("studio-drop-block");
-    expect(trackRegistryItemAdded).toHaveBeenCalledWith(
-      expect.objectContaining({ item: "studio-drop-block", source: "studio" }),
-    );
+    expect(existsSync(join(real, "scenes/studio-drop-block.html"))).toBe(true);
     expect(existsSync(join(real, "compositions/studio-drop-block.html"))).toBe(false);
-    const config = JSON.parse(readFileSync(join(real, "hyperframes.json"), "utf-8"));
-    expect(config.registryItems).toEqual([
-      {
-        name: "studio-drop-block",
-        type: "hyperframes:block",
-        target: "scenes/studio-drop-block.html",
-      },
-    ]);
   });
 
   it("lists the catalog from the registry install uses", async () => {

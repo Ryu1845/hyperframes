@@ -21,10 +21,9 @@ const SKILL = join(
   "media-use",
 );
 
-test("weakness: audio-only → media-use resolves image + icon", () => {
-  for (const t of ["image", "icon"]) {
-    assert.ok(getProviders(t).length > 0, `no provider for ${t}`);
-  }
+test("weakness: audio-only → media-use generates images; icons are authored and ingested", () => {
+  assert.ok(getProviders("image").length > 0, "no provider for image");
+  assert.ok(listTypes().includes("icon"), "icon type missing (needed for --from ingest)");
 });
 
 test("weakness: no third-party brand logos → media-use resolves logo", () => {
@@ -95,10 +94,9 @@ test("weakness: no cross-project memory → global cache + ingest entrypoints ex
   assert.equal(typeof freeze.isDirectMediaUrl, "function", "ingest URL guard missing");
 });
 
-// Wenbo (06-29): heygen free-usage is the default; local models are the opt-out
-// fallback ("if user no, then local"). We still assert the fallback table is
-// populated so the opt-out path stays real.
-test("weakness: weak local defaults → local models exist as the opt-out fallback (tts/asr/upscale)", () => {
+// Local models are the default (free, private) path; assert the table is
+// populated so it stays real.
+test("weakness: weak local defaults → local models exist (tts/asr/upscale)", () => {
   for (const cap of ["tts", "asr", "upscale"]) {
     assert.ok(CAPABILITIES.includes(cap), `capability ${cap} missing`);
     assert.ok(listModels(cap).length > 0, `no local models for ${cap}`);
@@ -121,16 +119,19 @@ test("weakness: no image generation → local mflux (RAM-graded) + codex upsell"
   assert.equal(typeof lm.describeModelLadder, "function", "agent-facing ladder missing");
 });
 
-test("weakness: no video generation → local videogen ladder + heygen avatar upsell", async () => {
+test("weakness: no video generation → local videogen ladder", async () => {
   const lm = await import("./local-models.mjs");
   assert.ok(lm.CAPABILITIES.includes("videogen"), "videogen capability missing");
   assert.ok(lm.listModels("videogen").length >= 2, "videogen ladder too small");
-  const ops = existsSync(join(SKILL, "references", "operations.md"));
-  assert.ok(ops, "operations.md (avatar-upsell recipe) missing");
+  assert.ok(getProviders("video").length > 0, "no video provider");
 });
 
-test("every resolve type has at least one enabled provider", () => {
+// bgm and icon have no catalog: the audio engine generates music, and icons are
+// authored. Every other type keeps a provider.
+const INGEST_ONLY_TYPES = ["bgm", "icon"];
+test("every resolve type except the ingest-only ones has at least one enabled provider", () => {
   for (const t of listTypes()) {
-    assert.ok(getProviders(t).length > 0, `type ${t} has no enabled provider`);
+    if (INGEST_ONLY_TYPES.includes(t)) assert.equal(getProviders(t).length, 0, t);
+    else assert.ok(getProviders(t).length > 0, `type ${t} has no enabled provider`);
   }
 });

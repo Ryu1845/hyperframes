@@ -87,7 +87,7 @@
   --color-code-comment: light-dark(oklch(0.48 0.009 279), oklch(0.806 0.03 262));
   --color-code-string: light-dark(oklch(0.468 0.142 143), oklch(0.793 0.11 133));
 
-  /* The two stops of the HeyGen brand gradient, worn by the header logo. Fixed brand values
+  /* The two stops of the HyperFrames brand gradient, worn by the header logo. Fixed brand values
    * rather than roles, so they are not reachable as a background or text colour by mistake. */
   --color-brand-gradient-from: #06e3fa;
   --color-brand-gradient-to: #4fdb5e;
@@ -436,9 +436,6 @@
   --color-violet-400: oklch(70.2% 0.183 293.541);
   --color-violet-500: oklch(60.6% 0.25 292.717);
   --color-white: #fff;
-  /* Framey, the desktop app's cursor mascot (hyperframes-internal packages/nib): the same in both themes. */
-  --color-framey: #3ce6ac;
-  --color-framey-ink: #16121a;
 }
 
 /* The colour-scheme picks each token's light or dark half: dark unless the document element

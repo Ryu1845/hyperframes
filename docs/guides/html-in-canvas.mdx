@@ -3,28 +3,16 @@ title: "HTML in Canvas"
 description: "Use live DOM content as a texture for WebGL and canvas effects."
 ---
 
-import { DocsVideo } from "/snippets/docs-video.jsx";
-
 HTML in Canvas uses Chrome's experimental `drawElementImage()` API to copy rendered DOM content into a canvas. That canvas can become a Three.js texture or the input to a shader effect.
 
 Use it when the visual treatment depends on both real HTML and GPU effects—for example, an interface inside a 3D device or a DOM scene passing through a distortion shader. It is an advanced, browser-dependent technique.
-
-<DocsVideo
-  title="Your dashboard, drawn as a live WebGL texture while its numbers keep updating"
-  src="https://static.heygen.ai/hyperframes-oss/docs/images/showcase/html-in-canvas-demo-v2.mp4"
-  poster="https://static.heygen.ai/hyperframes-oss/docs/images/showcase/html-in-canvas-demo-v2.jpg"
-/>
-
-The left panel is ordinary HTML and CSS. The right is the same pixels inside a
-WebGL scene — bent and lit by a shader, while the DOM underneath keeps changing
-and the texture re-captures every frame.
 
 ## Start with a proven block
 
 The fastest path is to install a Catalog block that already handles capability detection and fallback behavior:
 
 ```bash
-npx hyperframes add vfx-iphone-device
+hyperframes add vfx-iphone-device
 ```
 
 Other relevant examples include [Portal](/catalog/blocks/vfx-portal), [Shatter](/catalog/blocks/vfx-shatter), and [Liquid Glass Notification](/catalog/blocks/liquid-glass-notification).
@@ -32,7 +20,7 @@ Other relevant examples include [Portal](/catalog/blocks/vfx-portal), [Shatter](
 Install every block tagged `html-in-canvas` only when you want to compare the full set:
 
 ```bash
-npx hyperframes add html-in-canvas
+hyperframes add html-in-canvas
 ```
 
 ## Browser support
@@ -44,7 +32,7 @@ HyperFrames enables `CanvasDrawElement` when it launches Chrome and checks wheth
 To refresh the browser used by the CLI:
 
 ```bash
-npx hyperframes browser ensure --force
+hyperframes browser ensure --force
 ```
 
 For a normal browser preview, enable `chrome://flags/#canvas-draw-element` in a compatible Chrome or Brave build and restart it. Keep a visual fallback because collaborators may open the composition in a browser without the feature.
@@ -97,9 +85,9 @@ The browser's paint-record path does not reproduce every compositor effect. Filt
 That fallback protects the final result, but it also means HTML in Canvas is not a promise of universal CSS support or faster rendering. Test the actual composition:
 
 ```bash
-npx hyperframes lint
-npx hyperframes check
-npx hyperframes render --output html-in-canvas.mp4
+hyperframes lint
+hyperframes check
+hyperframes render --output html-in-canvas.mp4
 ```
 
 Review transition frames and effects in the rendered file, not only in a live preview.

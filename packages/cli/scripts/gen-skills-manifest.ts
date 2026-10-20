@@ -47,7 +47,7 @@ function reportDrift(fresh: SkillsManifest, committed: SkillsManifest | null): v
   }
 }
 
-const fresh = buildManifest(skillsRoot, { source: "heygen-com/hyperframes" });
+const fresh = buildManifest(skillsRoot, { source: "ryu1845/hyperframes" });
 
 // Read the committed manifest directly (no existsSync precheck) so there's no
 // check-then-write race on outPath — a missing or unreadable file just means

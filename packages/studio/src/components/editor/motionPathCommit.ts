@@ -1,5 +1,4 @@
 import type { CommitMutationOptions } from "../../hooks/gsapScriptCommitTypes";
-import { trackPreviewFeatureUsed, type PreviewMethod } from "../../utils/previewFeatureUsage";
 /**
  * Commit helpers for the motion-path overlay. Each maps a canvas gesture to a
  * GSAP source mutation routed through the (selection-bound) commit facade, which
@@ -12,7 +11,6 @@ import { readGsapPositionFromIframe } from "../../hooks/gsapPositionDetection";
 import { commitValueAtPlayhead } from "../../hooks/gsapValueAtPlayhead";
 import { commitWholePropertyOffset } from "../../hooks/gsapWholePropertyOffsetCommit";
 import { usePlayerStore } from "../../player/store/playerStore";
-import { trackPreviewEditResult } from "../../utils/previewFeatureUsage";
 import type { DomEditSelection } from "./domEditing";
 import type { MotionNodeRef } from "./motionPathGeometry";
 import { selectorFor } from "./motionPathSelection";
@@ -24,14 +22,8 @@ export type CommitFn = (
 
 const NEW_PATH_DURATION = 1.5;
 
-function motionPathCommitOptions(label: string, method: PreviewMethod): CommitMutationOptions {
-  return {
-    label,
-    softReload: true,
-    onResult: (result) => {
-      if (result.ok && result.changed === true) trackPreviewFeatureUsed("motion_path", method);
-    },
-  };
+function motionPathCommitOptions(label: string): CommitMutationOptions {
+  return { label, softReload: true };
 }
 
 export function commitNode(
@@ -47,7 +39,7 @@ export function commitNode(
       : { type: "update-motion-path-point", animationId, pointIndex: ref.index, x, y };
   return commit(
     mutation,
-    motionPathCommitOptions(ref.type === "keyframe" ? "Move keyframe" : "Move waypoint", "drag"),
+    motionPathCommitOptions(ref.type === "keyframe" ? "Move keyframe" : "Move waypoint"),
   );
 }
 
@@ -61,7 +53,7 @@ type NodeDrop = {
   commitMutation: CommitFn;
 };
 
-/** What a node drop does, for its undo entry and its failure report. */
+/** What a node drop does, for its undo entry. */
 export function nodeDropLabel(ref: MotionNodeRef): string {
   if (ref.type !== "keyframe") return "Move waypoint";
   return usePlayerStore.getState().autoKeyframeEnabled ? "Move keyframe" : "Move animation path";
@@ -96,7 +88,7 @@ export function commitNodeDrop(drop: NodeDrop): Promise<void> {
     const label = nodeDropLabel(ref);
     done = commitWholePropertyOffset(selection, anim, at, pct, iframe, callbacks, label);
   }
-  return done.then(() => trackPreviewEditResult("motion_path", "drag", writes.finish()));
+  return done.then(() => undefined);
 }
 
 export function commitAddWaypoint(
@@ -108,7 +100,7 @@ export function commitAddWaypoint(
 ): Promise<void> {
   return commit(
     { type: "add-motion-path-point", animationId, index, x, y },
-    motionPathCommitOptions("Add waypoint", "button"),
+    motionPathCommitOptions("Add waypoint"),
   );
 }
 
@@ -124,7 +116,7 @@ export function commitAddKeyframe(
   // at that pct) and converts a flat tween to keyframes form when needed.
   return commit(
     { type: "add-keyframe", animationId, percentage, properties: { x, y } },
-    motionPathCommitOptions("Add keyframe", "button"),
+    motionPathCommitOptions("Add keyframe"),
   );
 }
 
@@ -135,7 +127,7 @@ export function commitRemoveWaypoint(
 ): Promise<void> {
   return commit(
     { type: "remove-motion-path-point", animationId, index },
-    motionPathCommitOptions("Remove waypoint", "button"),
+    motionPathCommitOptions("Remove waypoint"),
   );
 }
 
@@ -148,6 +140,6 @@ export function commitCreatePath(
 ): Promise<void> {
   return commit(
     { type: "add-motion-path", targetSelector, position, duration: NEW_PATH_DURATION, x, y },
-    motionPathCommitOptions("Create motion path", "button"),
+    motionPathCommitOptions("Create motion path"),
   );
 }

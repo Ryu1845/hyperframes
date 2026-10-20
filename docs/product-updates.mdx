@@ -38,10 +38,11 @@ Lint and validation now catch more animation problems involving seek order, hidd
 
 ## Keep your project current
 
-Scaffolded projects can pin a HyperFrames version for reproducibility. Ask your agent to check the project before render-affecting work, or run:
+The CLI is a standalone binary. Re-run the installer to move to the latest release, then check the project before render-affecting work:
 
 ```bash
-npx hyperframes@latest upgrade --project . --check
+curl -fsSL https://raw.githubusercontent.com/ryu1845/hyperframes/main/install.sh | sh
+hyperframes check
 ```
 
 Read the [release archive](/changelog) before upgrading a production workflow with custom integrations.

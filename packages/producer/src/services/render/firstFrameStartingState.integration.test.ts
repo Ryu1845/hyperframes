@@ -79,7 +79,7 @@ describe.skipIf(!HAS_FFMPEG)(
       copyFileSync(
         resolve(
           import.meta.dirname,
-          "../../../tests/heygen-promo-preview-assets/src/TT_Norms_Pro_Medium.woff2",
+          "../../../../../registry/blocks/chatgpt-exchange/assets/fonts/inter-latin-500-normal.woff2",
         ),
         join(root, "assets/fixture.woff2"),
       );

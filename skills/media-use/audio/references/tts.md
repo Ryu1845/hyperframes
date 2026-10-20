@@ -1,15 +1,16 @@
 # Text To Speech
 
-`npx hyperframes tts` synthesizes locally with Kokoro. It does not accept a
-`--provider` or `--words` flag. For HeyGen audio plus word timestamps, use the
-bundled `heygen-tts.mjs` script below.
+`hyperframes tts` synthesizes locally with Kokoro. It does not accept a
+`--provider` or `--words` flag. For ElevenLabs or Gemini, and for word timings
+in the same step, use the shared audio engine (`scripts/audio.mjs`, see
+[Engine voiceover](#engine-voiceover) below).
 
-> **Run the Preflight first — no credential is not a green light to silently use the local voice.** Before generating a voiceover, complete the sign-in **Preflight** (see `../../SKILL.md` → Preflight): run `npx hyperframes auth status`, recommend signing in, and **STOP for the user's choice** (sign in for HeyGen voices, or continue offline with local Kokoro). This applies to a one-off "generate a voiceover" request just as much as inside a full workflow.
+> **Say which voice engine will run — a missing key is not a green light to silently use the local voice.** With `$ELEVENLABS_API_KEY` set (and `pip install elevenlabs`) the engine uses ElevenLabs; otherwise it falls back to local Kokoro. Tell the user which one will run before generating, and if they want a cloud voice, ask them to set the key rather than substituting Kokoro. This applies to a one-off "generate a voiceover" request just as much as inside a full workflow.
 
 ## Narrating a HyperFrames docs video
 
-Anything that will sit on hyperframes.heygen.com uses one narrator, so the site
-does not sound like two products.
+Anything that will sit on the HyperFrames docs site uses one narrator, so the
+site does not sound like two products.
 
 |                |                                                |
 | -------------- | ---------------------------------------------- |
@@ -37,76 +38,49 @@ Use another voice only for a documented reason, and write the reason down.
 ## Available routes
 
 Gemini is an explicit alternative to the automatic provider order below. A
-request to use Gemini already chooses the provider; do not redirect that user
-to HeyGen sign-in. Read the Gemini section for its credential requirement.
+request to use Gemini already chooses the provider. Read the Gemini section for
+its credential requirement.
 
-| Order | Provider          | Env trigger                                                          | Voice IDs                                                                                  | Word timestamps                           | Audio format         |
-| ----- | ----------------- | -------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ | ----------------------------------------- | -------------------- |
-| 1     | HeyGen (Starfish) | `$HEYGEN_ACCESS_TOKEN` / `$HEYGEN_API_KEY` / `~/.heygen/credentials` | UUIDs from `GET /v3/voices?engine=starfish`, or your cloned voice ids (`heygen-voice.mjs`) | **Yes** (`word_timestamps[]` in response) | mp3 → wav via ffmpeg |
-| 2     | ElevenLabs        | `$ELEVENLABS_API_KEY`                                                | UUIDs from elevenlabs.io dashboard                                                         | No                                        | mp3 → wav via ffmpeg |
-| 3     | Kokoro-82M        | always (local fallback)                                              | `am_michael`, `af_heart`, … (54 voices)                                                    | No                                        | wav direct           |
+| Order | Provider   | Env trigger                                      | Voice IDs                                                                                | Word timestamps    | Audio format |
+| ----- | ---------- | ------------------------------------------------ | ---------------------------------------------------------------------------------------- | ------------------ | ------------ |
+| 1     | ElevenLabs | `$ELEVENLABS_API_KEY` + `pip install elevenlabs` | ids from the elevenlabs.io voice library (engine default Rachel, `21m00Tcm4TlvDq8ikWAM`) | No (transcription) | mp3          |
+| 2     | Kokoro-82M | always (local fallback)                          | `am_michael` (engine default), `af_heart`, … (54 voices)                                 | No (transcription) | wav direct   |
 
 ```bash
 # Local Kokoro CLI
-npx hyperframes tts "Welcome to HyperFrames" -o narration.wav
+hyperframes tts "Welcome to HyperFrames" -o narration.wav
 ```
 
-## Self-contained HeyGen (no CLI) — `scripts/heygen-tts.mjs`
+## Engine voiceover
 
-The published `hyperframes tts` CLI synthesizes locally with Kokoro only. When you
-want HeyGen specifically — best quality **plus** word timestamps in one call — use
-the skill's bundled script, which calls the HeyGen v3 REST API directly and needs
-no CLI provider plumbing:
+The engine reads `audio_request.json`, synthesizes every line with the chosen
+provider, transcribes each take for word timings, and writes `audio_meta.json`.
+Provider keys may live in the shell or a project `.env` (auto-loaded, walks up
+≤5 dirs; the shell wins). Save this as `audio_request.json`:
 
-The script resolves a HeyGen credential the same way the CLI does — first source
-wins: a host-injected OAuth `$HEYGEN_ACCESS_TOKEN` → `$HEYGEN_API_KEY` →
-`$HYPERFRAMES_API_KEY` → a project `.env` (auto-loaded,
-walks up ≤5 dirs) → `~/.heygen/credentials` (shared with heygen-cli;
-`$HEYGEN_CONFIG_DIR` overrides the dir). An OAuth login is sent as
-`Authorization: Bearer`; an API key as `X-Api-Key`; both include
-`X-HeyGen-Source: cli`. OAuth CLI users can consume the web-plan free allowance
-(10 min/month) before paid usage; API keys follow normal API billing. If the
-only credential is an expired OAuth token it stops with a hint to run
-`npx hyperframes auth refresh`.
+```json
+{
+  "provider": "elevenlabs",
+  "voice": "SAz9YHcvj6GT2YYXdXww",
+  "lines": [{ "id": "narration", "text": "Welcome to HyperFrames." }],
+  "bgm": { "mode": "none" }
+}
+```
 
 ```bash
-# Only needed if you haven't run `npx hyperframes auth login`:
-export HEYGEN_API_KEY=...   # or put it in a project .env
-
-# Synthesize + capture word timestamps in one call (skips a Whisper pass)
-node skills/media-use/audio/scripts/heygen-tts.mjs \
-  "Welcome to HyperFrames." -o narration.wav --words narration.words.json
-
-node skills/media-use/audio/scripts/heygen-tts.mjs ./script.txt -o narration.wav
-node skills/media-use/audio/scripts/heygen-tts.mjs --list   # public starfish voices
+node <SKILL_DIR>/audio/scripts/audio.mjs \
+  --request ./audio_request.json --hyperframes . --out ./audio_meta.json --only tts
 ```
 
-- **Voice:** `--voice <id>` must be a **starfish** voice_id (`--list`, or `GET /v3/voices?engine=starfish`) or one of your cloned voice ids (below). v2-catalog ids are rejected with HTTP 400. Omit `--voice` (English) and it defaults to **Marcia** (`05f19352e8f74b0392a8f411eba40de1`, a fixed default so the choice is deterministic). Non-English with no `--voice` falls back to the first matching catalog voice.
-- **Output:** `.wav` → transcoded to 44.1k mono via ffmpeg; `.mp3` → raw bytes (no ffmpeg needed).
-- **Words:** `--words <path>` writes the flat `[{id,text,start,end}]` shape below, drop-in for the captions pipeline. HeyGen's `<start>`/`<end>` boundary sentinels are filtered out and ids are re-contiguous.
-- **Non-English:** `--lang <code>` (anything but `en`) is sent as the request `language`.
-
-## Cloned voices — `scripts/heygen-voice.mjs`
-
-Clone a voice from an mp3 or wav recording, then pass the printed id to
-`heygen-tts.mjs --voice`. Same credential resolution as above. Any API refusal
-(clone limit reached, plan upgrade required, voice not found) prints HeyGen's own
-message to stderr and exits 1.
-
-```bash
-node skills/media-use/audio/scripts/heygen-voice.mjs clone take.mp3 --name "My voice"  # → {"voice_id":"..."}
-node skills/media-use/audio/scripts/heygen-voice.mjs list --prefix "My"   # → [{"voice_id","name","created_at"}]
-node skills/media-use/audio/scripts/heygen-voice.mjs delete <voice_id>
-```
-
-`clone` waits up to 120 s for the clone to finish. `list` reads
-`GET /v3/voices?type=private`.
+- **Provider:** `auto` (or omitted) takes the order above; `elevenlabs`, `kokoro` and `gemini` pin one. `--provider` on the command line overrides the request.
+- **Voice:** `voice` (or `--voice`) must be an id of the chosen provider. Omitted, each provider uses its fixed default; Kokoro has no default off English, so pass a voice for `lang` other than `en`.
+- **Output:** `assets/voice/<id>.wav` per line (the next free name when a file of yours already has it); `voices[].path` says which.
+- **Words:** `voices[].words` holds the flat `[{id,text,start,end}]` shape below, drop-in for the captions pipeline.
 
 ## When to use which provider
 
 | Goal                                                      | Use                                                       |
 | --------------------------------------------------------- | --------------------------------------------------------- |
-| Best voice quality + word timestamps in one call          | **HeyGen**                                                |
 | Drop-in cloud TTS, big voice catalog                      | **ElevenLabs**                                            |
 | Offline, no API key, fast iteration                       | **Kokoro**                                                |
 | Directed delivery with Gemini prebuilt or custom voices   | **Gemini** (explicit selection; transcription for timing) |
@@ -187,11 +161,10 @@ API contract: [Google's speech generation guide](https://ai.google.dev/gemini-ap
 
 ## ffmpeg requirement
 
-HeyGen + ElevenLabs return mp3. The bundled HeyGen helper transcodes to wav
-when `--output` ends in `.wav` (the default and what downstream `ffprobe` +
-Whisper expect). If you'd rather skip the transcode, pass `-o file.mp3`.
-Without `ffmpeg` on PATH, wav output from cloud providers fails; the local
-Kokoro CLI writes wav directly.
+The engine measures every take with `ffprobe` (falling back to `ffmpeg`) and
+transcribes it before it lands in `audio_meta.json`; without either on PATH a
+take is dropped as having a bad duration. The local Kokoro CLI writes wav
+directly.
 
 ## Voice selection (Kokoro)
 
@@ -205,7 +178,7 @@ Default `af_heart`. Curated picks:
 | Documentation     | `bf_emma`, `bm_george` |
 | Casual / social   | `af_heart`, `af_sky`   |
 
-Run `npx hyperframes tts --list` for the bundled set.
+Run `hyperframes tts --list` for the bundled set.
 
 ## Multilingual (Kokoro voice prefix → language)
 
@@ -224,8 +197,8 @@ The first letter of a Kokoro voice ID picks the phonemizer language; `--lang` ov
 | `z`    | Mandarin             |
 
 ```bash
-npx hyperframes tts "La reunión empieza a las nueve" --voice ef_dora
-npx hyperframes tts "Today is a nice day" --voice af_heart
+hyperframes tts "La reunión empieza a las nueve" --voice ef_dora
+hyperframes tts "Today is a nice day" --voice af_heart
 ```
 
 Valid `--lang` codes (only needed to override the voice's auto-detected language): `en-us`, `en-gb`, `es`, `fr-fr`, `hi`, `it`, `pt-br`, `ja`, `zh`.
@@ -246,9 +219,9 @@ helpers document their own pacing controls.
 
 Past a few paragraphs, write the text to a `.txt` file and pass the path. Inputs over ~5 minutes of speech may benefit from splitting into segments.
 
-## HeyGen word-timestamp shape
+## Word-timestamp shape
 
-When `--words <path>` is passed to a HeyGen call, the file is written in the same flat shape `transcribe` produces — drop-in compatible with the captions pipeline:
+The engine writes `voices[].words` in the same flat shape `transcribe` produces — drop-in compatible with the captions pipeline:
 
 ```json
 [
@@ -257,4 +230,4 @@ When `--words <path>` is passed to a HeyGen call, the file is written in the sam
 ]
 ```
 
-For ElevenLabs / Kokoro, run `npx hyperframes transcribe narration.wav --model small.en` to get the same shape.
+For ElevenLabs / Kokoro, run `hyperframes transcribe narration.wav --model small.en` to get the same shape.

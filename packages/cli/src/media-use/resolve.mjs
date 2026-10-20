@@ -19,23 +19,15 @@ import {
 } from "./lib/manifest.mjs";
 import { regenerateIndex } from "./lib/index-gen.mjs";
 import { cacheGet, cacheGetByEntity, importFromCache, cachePut } from "./lib/cache.mjs";
-import {
-  runCapability,
-  listTypes,
-  providerMatches,
-  providerNamesFor,
-  providerTierFor,
-} from "./lib/registry.mjs";
+import { runCapability, listTypes, providerMatches, providerNamesFor } from "./lib/registry.mjs";
 import { freezeUrl, freezeLocalFile, isDirectMediaUrl } from "./lib/freeze.mjs";
 import { findExistingAsset } from "./lib/adopt.mjs";
 import { probe as probeMedia } from "./lib/probe.mjs";
-import { track } from "./lib/telemetry.mjs";
 import { recordMiss } from "./lib/misses.mjs";
 import { buildStats } from "./lib/stats.mjs";
 import { typesMatch } from "./lib/match.mjs";
 import { listCandidates, formatCandidates, CANDIDATE_CAP } from "./lib/candidates.mjs";
 import { findGlobalBySha } from "./lib/cache.mjs";
-import { heygenAuthMethod } from "../audio/scripts/lib/heygen.mjs";
 import { buildCube, paramsFromIntent } from "./lib/cube-build.mjs";
 import { validateCubeFile } from "./lib/cube-validate.mjs";
 import { analyzeMediaGrade, formatMeasuredNote } from "./lib/grade-analyzer.mjs";
@@ -45,17 +37,7 @@ import {
   isLibraryLutOfflineMiss,
   matchColorLook,
 } from "./lib/lut-preset-provider.mjs";
-import {
-  HEYGEN_AUTH_COMMAND,
-  HEYGEN_INSTALL_COMMAND,
-  HEYGEN_MIN_VERSION,
-  HEYGEN_UPDATE_COMMAND,
-  consumeHeygenRemediation,
-  heygenMiss,
-  firstSemver,
-  flushHeygenFailureTracking,
-  versionLessThan,
-} from "./lib/heygen-cli.mjs";
+import { versionLessThan } from "./lib/semver.mjs";
 import { BundledSfxAssetsError, inspectBundledSfxAssets } from "./lib/bundled-sfx-provider.mjs";
 import { OPENVERSE_SFX_PROVIDER } from "./lib/sfx-provider.mjs";
 import { writeSfxCredit } from "./lib/openverse.mjs";
@@ -104,7 +86,6 @@ const { values: args } = parseArgs({
     analyze: { type: "boolean", default: false },
     "local-only": { type: "boolean", default: false },
     provider: { type: "string" },
-    "avatar-id": { type: "string" },
     "voice-id": { type: "string" },
     json: { type: "boolean", default: false },
     help: { type: "boolean", short: "h", default: false },
@@ -142,9 +123,8 @@ Options:
                   suggestions (grade only)
   --analyze       Return --for grade evidence without recording a candidate
   --local-only    Offline: skip every network provider
-  --provider      Force one generator (e.g. codex, mflux, kokoro, heygen)
-  --avatar-id     Override the default avatar for heygen.video generation
-  --voice-id      Override the default voice for voice/heygen.video generation
+  --provider      Force one generator (e.g. codex, mflux, kokoro, ltx)
+  --voice-id      Kokoro voice for --type voice (e.g. am_michael, af_heart)
   --json          Output JSON instead of one-line result
   --help, -h      Show this help`);
   process.exit(0);
@@ -184,15 +164,6 @@ if (args.candidates || args["dry-run"]) {
 
 if (args.doctor) {
   const doctor = runDoctor();
-  const failed = doctor.checks.filter((check) => !check.ok);
-  // Non-PII: instrument the exact question the feature exists to answer — how
-  // often is --doctor run and which check fails most. Awaited so a short-lived
-  // run flushes before exit.
-  await track("media_use_doctor_run", {
-    ok: doctor.ok,
-    checks_failed: failed.length,
-    failed: failed.map((check) => check.name),
-  });
   if (args.json) {
     console.log(JSON.stringify({ ok: doctor.ok, checks: doctor.checks }));
   } else {
@@ -314,24 +285,32 @@ if (!listTypes().includes(args.type)) {
 // resolve`). Match rule mirrors runProviders (full name or dotted prefix).
 if (args.provider && !providerMatches(args.type, args.provider)) {
   console.error(
-    `error: unknown provider "${args.provider}" for type ${args.type} (available: ${providerNamesFor(args.type).join(", ")})`,
+    `error: unknown provider "${args.provider}" for type ${args.type} (available: ${providerNamesFor(args.type).join(", ") || "none"})`,
   );
   process.exit(2);
 }
+
+// Types with no catalog or generator: a fresh resolve can only miss, so the
+// miss says how to make the file and record it with --from.
+const NO_PROVIDER_MISS = {
+  bgm: {
+    code: "no_bgm_provider",
+    fix: "node <MEDIA_DIR>/audio/scripts/audio.mjs (bgm mode generate), then resolve --from <file> --type bgm --source generated",
+    error:
+      "bgm has no catalog provider: use your host app's own music tool if it has one, or generate a track with the audio engine (Lyria with GEMINI_API_KEY, else local MusicGen) and record it with --from.",
+  },
+  icon: {
+    code: "no_icon_provider",
+    fix: "author an SVG (or resolve --type image), then resolve --from <file> --type icon --source generated",
+    error:
+      "icon has no catalog provider: author the icon as an SVG, or generate one with --type image, and record it with --from.",
+  },
+};
 
 function recordAvailable(projectDir, record) {
   if (!record) return false;
   if (record.path) return existsSync(join(projectDir, record.path));
   return record.type === "grade" && record.grading;
-}
-
-// Sparse `{ authMethod }` for a heygen-family provider name (e.g. "heygen.tts"),
-// else `{}` — keeps auth_method telemetry absent for every non-heygen resolve
-// instead of implying an auth method that doesn't apply.
-function heygenAuthMethodFor(provider) {
-  if (!provider || !provider.startsWith("heygen.")) return {};
-  const authMethod = heygenAuthMethod();
-  return authMethod ? { authMethod } : {};
 }
 
 function localizeImportedRecord(record, localPath) {
@@ -425,8 +404,7 @@ async function run() {
     projectDir,
     localOnly,
     provider: args.provider,
-    avatarId: args["avatar-id"],
-    voiceId: args["voice-id"],
+    voice: args["voice-id"],
   };
 
   // Suggest candidates before a new fetch.
@@ -454,7 +432,7 @@ async function run() {
     if (!searchResult && type === "sfx" && !args.provider && !localOnly) {
       const registry =
         process.env.HYPERFRAMES_REGISTRY ||
-        "https://raw.githubusercontent.com/heygen-com/hyperframes/main/registry";
+        "https://raw.githubusercontent.com/ryu1845/hyperframes/main/registry";
       try {
         await fetchMediaVectors(registry);
         const ranked = await rankMediaRowsWithVectors(
@@ -504,15 +482,7 @@ async function run() {
     }
   }
 
-  // Flush provider failure telemetry before the process can exit.
-  await flushHeygenFailureTracking();
-
   if (!searchResult) {
-    await track("media_use_resolve_miss", {
-      type,
-      local_only: !!localOnly,
-      provider_override: !!args.provider,
-    });
     recordMiss({
       type,
       intent,
@@ -524,8 +494,7 @@ async function run() {
     const ownFailure =
       providerFailure instanceof BundledSfxAssetsError ||
       providerFailure instanceof FfBinarySettingError;
-    const heygen = consumeHeygenRemediation();
-    const miss = heygen && !ownFailure ? heygenMiss(type, heygen) : null;
+    const miss = !ownFailure && !args.provider ? NO_PROVIDER_MISS[type] : null;
     const typed = providerFailure instanceof BundledSfxAssetsError ? providerFailure : miss;
     const msg = ownFailure
       ? providerFailure.message
@@ -586,8 +555,6 @@ async function run() {
     provenance: {
       provider: searchResult.metadata?.provider || "unknown",
       prompt: intent,
-      // Keep auth method sparse for non-HeyGen providers.
-      ...heygenAuthMethodFor(searchResult.metadata?.provider),
       ...searchResult.metadata?.provenance,
     },
   };
@@ -720,11 +687,6 @@ async function finalizeColorRecord(record, source, fullPath = null) {
 }
 
 async function colorMiss(type, intent) {
-  await track("media_use_resolve_miss", {
-    type,
-    local_only: !!args["local-only"],
-    provider_override: !!args.provider,
-  });
   recordMiss({
     type,
     intent,
@@ -997,49 +959,11 @@ async function showCandidates() {
     intent,
     cap: CANDIDATE_CAP,
   });
-  await track("media_use_candidates", {
-    type,
-    project_n: total.project,
-    global_n: total.global,
-    local_only: !!args["local-only"],
-  });
   if (args.json) {
     console.log(JSON.stringify({ ok: true, candidates, truncated, total, similar }));
   } else {
     console.log(formatCandidates(candidates, { truncated, total }));
   }
-}
-
-// Best-effort latest stable CLI tag from the CDN (the install script's source of
-// truth). null on any failure (offline, no curl) — treated as "unknown", never fatal.
-function latestHeygenStable() {
-  const probe = runCommand("curl", [
-    "-fsSL",
-    "--max-time",
-    "4",
-    "https://static.heygen.ai/cli/stable",
-  ]);
-  return probe.status === 0 ? firstSemver(commandText(probe)) : null;
-}
-
-function heygenAuthCheck() {
-  // heygen auth status emits JSON by default; parse that output directly.
-  const authProbe = runCommand("heygen", ["auth", "status"]);
-  // spawnSync sets .error/.signal on a timeout or spawn failure (status then
-  // null). A stalled auth endpoint (transient network/DNS) must not be reported
-  // as an authoritative "not authenticated" with a re-login fix.
-  const timedOut = authProbe.error?.code === "ETIMEDOUT" || authProbe.signal != null;
-  const email = authProbe.status === 0 ? emailFromAuthStatus(commandText(authProbe)) : null;
-  return {
-    name: "heygen authenticated",
-    ok: !!email,
-    detail: email
-      ? `heygen authenticated as ${email}`
-      : timedOut
-        ? "heygen auth status timed out — possible network issue, not proof of sign-out"
-        : "heygen not authenticated",
-    fix: email ? "" : timedOut ? "check network, then re-run --doctor" : HEYGEN_AUTH_COMMAND,
-  };
 }
 
 function runDoctor() {
@@ -1051,74 +975,6 @@ function runDoctor() {
     detail: bundledSfx.detail,
     fix: bundledSfx.fix,
   });
-  const heygenVersionProbe = runCommand("heygen", ["--version"]);
-  const heygenOnPath = heygenVersionProbe.status === 0;
-  const heygenVersionText = commandText(heygenVersionProbe);
-  const heygenVersion = firstSemver(heygenVersionText);
-
-  checks.push({
-    name: "heygen on PATH",
-    ok: heygenOnPath,
-    // Just "is the binary here" — the version row below owns the version string,
-    // so this row must not also render `heygen v0.3.0` (two byte-identical lines).
-    detail: heygenOnPath ? "heygen found on PATH" : "heygen not found",
-    fix: heygenOnPath ? "" : HEYGEN_INSTALL_COMMAND,
-  });
-
-  if (!heygenOnPath) {
-    checks.push({
-      name: "heygen version",
-      ok: false,
-      detail: "heygen version unavailable",
-      fix: HEYGEN_INSTALL_COMMAND,
-    });
-    checks.push({
-      name: "heygen authenticated",
-      ok: false,
-      detail: "heygen auth status unavailable",
-      fix: HEYGEN_INSTALL_COMMAND,
-    });
-  } else if (heygenVersion) {
-    const versionOk = !versionLessThan(heygenVersion, HEYGEN_MIN_VERSION);
-    // Keep it latest: even when the installed version clears the floor, nudge
-    // `heygen update` if a newer stable exists. Best-effort — silently skipped
-    // when the CDN is unreachable, so it never blocks the check.
-    const latest = versionOk ? latestHeygenStable() : null;
-    const behind = latest && versionLessThan(heygenVersion, latest);
-    checks.push({
-      name: "heygen version",
-      ok: versionOk,
-      detail: versionOk
-        ? `heygen v${heygenVersion}${behind ? ` (latest v${latest} available)` : ""}`
-        : `heygen v${heygenVersion} (need >= v${HEYGEN_MIN_VERSION})`,
-      fix: versionOk ? (behind ? HEYGEN_UPDATE_COMMAND : "") : HEYGEN_UPDATE_COMMAND,
-    });
-
-    // Older CLI versions cannot provide the auth status used here.
-    checks.push(
-      versionOk
-        ? heygenAuthCheck()
-        : {
-            name: "heygen authenticated",
-            ok: false,
-            detail: "skipped — update heygen first",
-            fix: HEYGEN_UPDATE_COMMAND,
-          },
-    );
-  } else {
-    // Fail-open: heygen ran but printed no semver (dev/stripped build). We can't
-    // verify the version, so we don't block on it — but say so rather than a bare
-    // green check that implies a real version comparison happened.
-    checks.push({
-      name: "heygen version",
-      ok: true,
-      detail: "heygen present; version unverifiable (no semver in --version output)",
-      fix: "",
-    });
-
-    checks.push(heygenAuthCheck());
-  }
-
   checks.push(ffDoctorCheck("ffmpeg", ffmpegBinary), ffDoctorCheck("ffprobe", ffprobeBinary));
 
   const nodeOk = !versionLessThan(process.versions.node, MIN_NODE_VERSION);
@@ -1138,14 +994,10 @@ function runDoctor() {
 }
 
 function printDoctor(checks) {
-  const heygenChecks = new Set(["heygen on PATH", "heygen version", "heygen authenticated"]);
   for (const check of checks) {
     const prefix = check.ok ? "✓" : "✗";
-    const freePath = heygenChecks.has(check.name)
-      ? " — free-usage path: bgm/image/voice/avatar-video"
-      : "";
     const fix = check.ok || !check.fix ? "" : ` — fix: ${check.fix}`;
-    console.log(`${prefix} ${check.detail}${freePath}${fix}`);
+    console.log(`${prefix} ${check.detail}${fix}`);
   }
 }
 
@@ -1214,30 +1066,12 @@ function runCommand(bin, argv) {
   });
 }
 
-function commandText(result) {
-  return [result.stdout, result.stderr].filter(Boolean).join("\n").trim();
-}
-
 function firstLine(text) {
   return (
     String(text || "")
       .trim()
       .split(/\r?\n/)[0] || ""
   );
-}
-
-function emailFromAuthStatus(text) {
-  // JSON only (auth status emits JSON by default). No prose regex fallback: a
-  // human-format body like "Session expired. Contact support@heygen.ai" would
-  // otherwise report the user as authenticated as support@heygen.ai.
-  const trimmed = String(text || "").trim();
-  if (!trimmed.startsWith("{")) return null;
-  try {
-    const parsed = JSON.parse(trimmed);
-    return parsed?.data?.email || parsed?.email || null;
-  } catch {
-    return null;
-  }
 }
 
 async function reuseGlobal(shaArg) {
@@ -1294,25 +1128,6 @@ async function result(record, source) {
         sourceUrl,
       }),
     );
-  // Non-PII usage event: which media type, how it resolved, which provider won.
-  // Never the intent text or paths. Awaited so a short-lived run flushes it.
-  await track("media_use_resolve", {
-    type: record.type,
-    source,
-    provider: record.provenance?.provider,
-    // How a library LUT resolved: "url" (CDN), "params-fallback" (CDN failed →
-    // parametric), or "params" (offline). Surfaces silent CDN→params downgrades
-    // in prod, which --doctor can't (it only answers "reachable now?").
-    via: record.provenance?.via,
-    // OAuth vs. API-key HeyGen paths are sparse for non-HeyGen providers.
-    // signal about the fetch that actually consumed a heygen credit, not
-    // about the (free, no-credential) act of copying a cached file.
-    auth_method: record.provenance?.authMethod,
-    // Provider tiers stay sparse and follow the registry's A/N/P declaration.
-    provider_tier: providerTierFor(record.provenance?.provider),
-    local_only: !!args["local-only"],
-    provider_override: !!args.provider,
-  });
   if (args.json) {
     const grading = record.type === "grade" && record.grading ? record.grading : null;
     console.log(

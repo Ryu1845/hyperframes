@@ -29,7 +29,7 @@ import {
 } from "@hyperframes/core";
 
 export const DEFAULT_REGISTRY_URL =
-  "https://raw.githubusercontent.com/heygen-com/hyperframes/main/registry";
+  "https://raw.githubusercontent.com/ryu1845/hyperframes/main/registry";
 
 const FETCH_TIMEOUT_MS = 10_000;
 const MAX_MANIFEST_BYTES = 10 * 1024 * 1024;

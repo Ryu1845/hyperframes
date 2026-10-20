@@ -3,8 +3,6 @@ title: Design systems and brand
 description: "Point the agent at a source of brand truth — a design spec, a site, or a Figma file — instead of asking for 'on-brand', and let it compose the frame."
 ---
 
-import { DocsVideo } from "/snippets/docs-video.jsx";
-
 Everything so far was one scene at a time. This level is about videos as systems. Design that persists across scenes. Edits that don't regress. Output that ships. It starts with the most systemic thing a video has: its brand.
 
 "Make it on-brand" is the vaguest thing you can ask. The agent has no way to know what your brand *is*, so it invents one.
@@ -121,18 +119,11 @@ Restyling scene by scene afterward pulls threads out of a design that was balanc
 </CardGroup>
 
 <Note>
-**Capstone thread** — the entire [Level 7 film](/prompting/capstone) obeys a supplied `frame.md`: the real HyperFrames brand. The closing lockup is where the system shows most. ABC Solar Display carries the display type, and the mint→cyan CTA gradient makes its single sanctioned appearance (cut from the film, below).
+**Capstone thread** — the entire [Level 7 film](/prompting/capstone) obeys a supplied `frame.md`: the real HyperFrames brand. The closing lockup is where the system shows most. ABC Solar Display carries the display type, and the mint→cyan CTA gradient makes its single sanctioned appearance.
 </Note>
 
 This is the clause in the [full capstone prompt](/prompting/capstone#the-prompt-word-for-word) that buys the piece. It's prompt language you can lift for your own video:
 
-> **Design system: the provided `frame.md` is the single source of brand truth — read it first and obey it exactly.** It is the real HyperFrames brand (by HeyGen), dark-first: flat near-black ground […] **mint `#3CE6AC` used sparingly as the single accent — mint means go / primary / active**. The mint→cyan gradient (`#3CE6AC → #00E3FF`) appears in exactly one place in the whole film: the final CTA lockup.
-
-<DocsVideo
-  title="HyperFrames video: Capstone Region Render"
-  src="https://static.heygen.ai/hyperframes-oss/docs/images/prompting/capstone-region-render.mp4#t=0.1"
-  loop
-/>
-*That clause paying off, rendered. The closing lockup is where the brand file's display face and its one sanctioned gradient finally appear together.*
+> **Design system: the provided `frame.md` is the single source of brand truth — read it first and obey it exactly.** It is the real HyperFrames brand, dark-first: flat near-black ground […] **mint `#3CE6AC` used sparingly as the single accent — mint means go / primary / active**. The mint→cyan gradient (`#3CE6AC → #00E3FF`) appears in exactly one place in the whole film: the final CTA lockup.
 
 *Next: [Variables and templating](/prompting/variables-and-templating) — turn the brand tokens that repeat across a series into named slots you fill per render.*

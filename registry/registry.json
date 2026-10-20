@@ -1,7 +1,7 @@
 {
-  "$schema": "https://hyperframes.heygen.com/schema/registry.json",
+  "$schema": "https://raw.githubusercontent.com/ryu1845/hyperframes/main/docs/schema/registry.json",
   "name": "hyperframes",
-  "homepage": "https://hyperframes.heygen.com",
+  "homepage": "https://github.com/ryu1845/hyperframes",
   "items": [
     {
       "name": "decision-tree",
@@ -369,10 +369,6 @@
     },
     {
       "name": "heatmap",
-      "type": "hyperframes:block"
-    },
-    {
-      "name": "heygen-avatar-promo-card",
       "type": "hyperframes:block"
     },
     {
@@ -1825,6 +1821,6 @@
     }
   ],
   "catalogArtifact": {
-    "revision": "23c72deda09b01ac3f1fb8904cc03e3fdf2ca08d660c6cd7499d289f927b74e2"
+    "revision": "606d02005e771686a4b531e5fac1d74901f891f4ccb46bffbc21db67d11a7fcf"
   }
 }

@@ -1,6 +1,7 @@
 import { spawn, type ChildProcess, type SpawnOptions } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { terminateProcessTree } from "./processTree.js";
+import { scriptRunEnv } from "./selfRuntime.js";
 import { renderSetupFailureFrom, renderSetupResultFrom } from "../renderSetupWorkerLifecycle.js";
 
 export interface CancellableProcessResult {
@@ -210,11 +211,11 @@ export async function runRenderSetupWorker<T>(
       [...execArgv, fileURLToPath(workerUrl), mode],
       {
         ...options,
-        env: {
+        env: scriptRunEnv({
           ...process.env,
           ...options.env,
           HYPERFRAMES_RENDER_SETUP_INPUT: JSON.stringify(input),
-        },
+        }),
       },
     );
   } catch (error) {
