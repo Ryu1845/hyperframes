@@ -54,7 +54,7 @@ unpacks_once() {
 
 rendered() {
   hyperframes render -o "$WORK/out.mp4" &&
-    awk "BEGIN { exit !($(ffprobe -v error -show_entries format=duration -of csv=p=0 "$WORK/out.mp4") > 0) }"
+    awk "BEGIN { exit !($(ffprobe -v error -show_entries format=duration -of csv=p=0 -- "$WORK/out.mp4") > 0) }"
 }
 
 preview_round_trip() {
