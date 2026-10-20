@@ -5,10 +5,11 @@
 // optional native packages pinned beside it so nothing installs on first use.
 // src/binary/launcher.ts unpacks it once and runs the CLI from disk.
 //
-// Run after `bun run build`, on the platform being built (native addons and
-// esbuild's binary come from the host's install):
-//   bun packages/cli/scripts/build-binary.ts
-// Output: packages/cli/.binary/hyperframes-<target> and its .sha256.
+// Run after `bun run build`:
+//   bun packages/cli/scripts/build-binary.ts [--target <os>-<arch>]
+// The target defaults to the host. Another target installs that platform's
+// native packages (bun install --os/--cpu), so it builds but cannot be smoke-tested
+// here. Output: packages/cli/.binary/hyperframes-<target> and its .sha256.
 
 import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
@@ -82,8 +83,11 @@ function pruneOnnxruntime(platform: string, arch: string): void {
   const bin = join(ROOT, "node_modules", "onnxruntime-node", "bin", "napi-v3");
   if (!existsSync(bin)) return;
   for (const os of readdirSync(bin)) {
-    for (const cpu of readdirSync(join(bin, os))) {
-      if (os !== platform || cpu !== arch) rmSync(join(bin, os, cpu), { recursive: true });
+    if (os !== platform) rmSync(join(bin, os), { recursive: true });
+    else {
+      for (const cpu of readdirSync(join(bin, os))) {
+        if (cpu !== arch) rmSync(join(bin, os, cpu), { recursive: true });
+      }
     }
   }
   walk(bin, (path) => {
@@ -110,14 +114,20 @@ function prune(target: string): void {
   });
 }
 
-function main(): void {
-  const target = `${process.platform}-${process.arch}`;
+/** `--target <os>-<arch>`, or the host, with its Bun compile target. */
+function resolveTarget(argv: string[]): { target: string; bunTarget: string } {
+  const flag = argv.indexOf("--target");
+  const target = flag === -1 ? `${process.platform}-${process.arch}` : (argv[flag + 1] ?? "");
   const bunTarget = BUN_TARGETS[target];
-  if (!bunTarget) {
-    throw new Error(
-      `No standalone binary target for ${target}; supported: ${Object.keys(BUN_TARGETS).join(", ")}`,
-    );
-  }
+  if (bunTarget) return { target, bunTarget };
+  throw new Error(
+    `No standalone binary target for ${target}; supported: ${Object.keys(BUN_TARGETS).join(", ")}`,
+  );
+}
+
+function main(): void {
+  const { target, bunTarget } = resolveTarget(process.argv);
+  const [os = "", cpu = ""] = target.split("-");
   if (!existsSync(join(CLI_ROOT, "dist", "cli.js"))) {
     throw new Error("packages/cli/dist is missing; run `bun run build` first");
   }
@@ -136,7 +146,7 @@ function main(): void {
   const overrides = Object.fromEntries(
     Object.keys(cliManifest.dependencies).map((name) => [name, workspaceVersion(name)]),
   );
-  const [sherpaNative, sherpaNativeVersion] = splitSpec(sherpaPlatformPackage());
+  const [sherpaNative, sherpaNativeVersion] = splitSpec(sherpaPlatformPackage(os, cpu));
   writeFileSync(
     join(ROOT, "package.json"),
     `${JSON.stringify(
@@ -155,7 +165,15 @@ function main(): void {
   );
   run(
     "bun",
-    ["install", "--production", "--linker=hoisted", "--ignore-scripts", "--no-progress"],
+    [
+      "install",
+      "--production",
+      "--linker=hoisted",
+      "--ignore-scripts",
+      "--no-progress",
+      `--os=${os}`,
+      `--cpu=${cpu}`,
+    ],
     ROOT,
     { ...process.env, ONNXRUNTIME_NODE_INSTALL_CUDA: "skip" },
   );
