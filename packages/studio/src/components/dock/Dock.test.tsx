@@ -107,8 +107,9 @@ afterEach(() => {
 // The default Edit layout tabs [compositions|assets|code|catalog] into one
 // group and [design|layers|renders|variables] into another; dockview shows
 // only the active tab's content per group. `slideshow` is never part of the
-// default build — StudioRightPanels opens it itself when the file is one.
-const DEFAULT_OPEN = PANEL_IDS.filter((id) => id !== "slideshow");
+// default build — StudioRightPanels opens it itself when the file is one — and
+// `agent` opens from the header's Agent button.
+const DEFAULT_OPEN = PANEL_IDS.filter((id) => id !== "slideshow" && id !== "agent");
 const DEFAULT_VISIBLE = ["preview", "timeline", "compositions", "design"];
 
 describe("Dock on React 19", () => {

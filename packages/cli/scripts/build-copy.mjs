@@ -1,7 +1,7 @@
 // Cross-platform replacement for the previous `mkdir -p … && cp -r …` shell
 // chain, which failed on Windows because `cp` doesn't accept `-r` there.
 
-import { cpSync, existsSync, mkdirSync, readdirSync, rmSync } from "node:fs";
+import { copyFileSync, cpSync, existsSync, mkdirSync, readdirSync, rmSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { setTimeout as sleep } from "node:timers/promises";
@@ -95,6 +95,17 @@ async function main() {
     const destination = join(DIST, "skills", skill);
     rmSync(destination, { recursive: true, force: true });
     copyDir(src, destination);
+  }
+
+  // The Studio agent's system prompt quotes these skills (src/server/agentRoutes.ts AGENT_PROMPT_SKILLS).
+  for (const skill of ["hyperframes-core", "hyperframes-studio"]) {
+    const src = join(REPO_ROOT, "skills", skill, "SKILL.md");
+    if (!existsSync(src)) {
+      console.warn(`[build-copy] agent prompt skill not found, skipping: skills/${skill}`);
+      continue;
+    }
+    mkdirSync(join(DIST, "agent-prompt"), { recursive: true });
+    copyFileSync(src, join(DIST, "agent-prompt", `${skill}.md`));
   }
 
   // The media-use engine lives with the CLI source, but keeps its published

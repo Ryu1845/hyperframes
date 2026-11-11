@@ -2,6 +2,7 @@ import { useCallback, useSyncExternalStore } from "react";
 import {
   BracketsCurly,
   ChartBarHorizontal,
+  ChatCircleText,
   Code,
   FilmSlate,
   Image,
@@ -24,6 +25,7 @@ const TAB_ICONS: Record<PanelId, Icon> = {
   assets: Image,
   code: Code,
   catalog: SquaresFour,
+  agent: ChatCircleText,
   design: SlidersHorizontal,
   layers: Stack,
   renders: FilmSlate,

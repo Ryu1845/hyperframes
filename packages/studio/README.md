@@ -16,6 +16,7 @@ The studio is a React application with:
 - **Code editor** — edit HTML and GSAP scripts with CodeMirror (syntax highlighting, autocomplete)
 - **Live preview** — see changes in real time as you edit
 - **Composition inspector** — view and modify element properties
+- **Agent panel** — describe a change and an OpenRouter model edits the project (needs `OPENROUTER_API_KEY`; see the [Studio agent guide](../../docs/studio/agent.mdx))
 
 ## Development
 

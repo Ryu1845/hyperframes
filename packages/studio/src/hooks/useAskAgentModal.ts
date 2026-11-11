@@ -8,8 +8,12 @@ import { liveMarkupWithoutPreviewMarks } from "../utils/authoredSource";
 import { buildElementAgentPrompt, type DomEditSelection } from "../components/editor/domEditing";
 import { usePlayerStore } from "../player";
 import { studioApiFetch } from "../utils/studioApiFetch";
+import { useAgentComposerStore } from "../agent/agentComposerStore";
+import { useDockLayoutStore } from "../components/dock/dockLayoutStore";
 
 // ── Types ──
+
+type AgentPromptDestination = "clipboard" | "agent";
 
 export interface UseAskAgentModalParams {
   projectId: string | null;
@@ -87,7 +91,7 @@ export function useAskAgentModal({
   }, [domEditSelection, preloadAgentPromptSnippet]);
 
   const handleAgentModalSubmit = useCallback(
-    async (userInstruction: string) => {
+    async (userInstruction: string, destination: AgentPromptDestination = "clipboard") => {
       if (!domEditSelection) return;
 
       const targetPath = domEditSelection.sourceFile || activeCompPath || "index.html";
@@ -100,8 +104,19 @@ export function useAskAgentModal({
         tagSnippet,
         selectionContext: agentPromptSelectionContext,
         userInstruction,
-        sourceFilePath: toProjectAbsolutePath(projectDir, targetPath),
+        // The Studio agent's file tools take project-relative paths; an outside agent needs the absolute one.
+        sourceFilePath:
+          destination === "agent" ? targetPath : toProjectAbsolutePath(projectDir, targetPath),
       });
+
+      if (destination === "agent") {
+        useAgentComposerStore.getState().setDraft(prompt);
+        useDockLayoutStore.getState().activatePanel("agent");
+        setAgentModalOpen(false);
+        setAgentPromptSelectionContext(undefined);
+        setAgentModalAnchorPoint(null);
+        return;
+      }
 
       const copied = await copyTextToClipboard(prompt);
       if (!copied) {

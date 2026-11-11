@@ -29,7 +29,7 @@ export interface AskAgentModalProps {
   selectionLabel: string;
   contextPreview?: string;
   anchorPoint?: AgentModalAnchorPoint | null;
-  onSubmit: (instruction: string) => void;
+  onSubmit: (instruction: string, destination?: "clipboard" | "agent") => void;
   onClose: () => void;
 }
 
@@ -57,9 +57,9 @@ export function AskAgentModal({
     requestAnimationFrame(() => inputRef.current?.focus());
   });
 
-  const handleSubmit = () => {
+  const handleSubmit = (destination: "clipboard" | "agent" = "clipboard") => {
     if (!value.trim()) return;
-    onSubmit(value.trim());
+    onSubmit(value.trim(), destination);
   };
 
   return (
@@ -137,13 +137,22 @@ export function AskAgentModal({
           <span className="text-[11px] text-neutral-600">
             {navigator.platform.includes("Mac") ? "⌘" : "Ctrl"}+Enter to copy
           </span>
-          <button
-            className="px-4 py-1.5 rounded-lg bg-accent text-xs font-medium text-on-accent hover:bg-accent-hover disabled:opacity-40 disabled:cursor-not-allowed"
-            disabled={!value.trim()}
-            onClick={handleSubmit}
-          >
-            Copy prompt
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              className="px-3 py-1.5 rounded-lg border border-neutral-800 text-xs font-medium text-neutral-300 hover:bg-neutral-800/50 disabled:opacity-40 disabled:cursor-not-allowed"
+              disabled={!value.trim()}
+              onClick={() => handleSubmit("agent")}
+            >
+              Send to agent
+            </button>
+            <button
+              className="px-4 py-1.5 rounded-lg bg-accent text-xs font-medium text-on-accent hover:bg-accent-hover disabled:opacity-40 disabled:cursor-not-allowed"
+              disabled={!value.trim()}
+              onClick={() => handleSubmit()}
+            >
+              Copy prompt
+            </button>
+          </div>
         </div>
       </div>
     </div>

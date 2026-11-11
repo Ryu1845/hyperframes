@@ -208,7 +208,8 @@
               "studio/canvas",
               "studio/timeline",
               "studio/animation",
-              "studio/captions"
+              "studio/captions",
+              "studio/agent"
             ]
           },
           {
